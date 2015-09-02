@@ -2,6 +2,7 @@ AllCops:
   Exclude:
     - vendor/bundle/**/*
     - Gemfile
+    - Rakefile
 
 Style/AlignParameters:
   Enabled: false
