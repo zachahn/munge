@@ -1,0 +1,19 @@
+AllCops:
+  Exclude:
+    - vendor/bundle/**/*
+    - Gemfile
+
+Style/AlignParameters:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
