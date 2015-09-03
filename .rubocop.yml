@@ -3,6 +3,7 @@ AllCops:
     - vendor/bundle/**/*
     - Gemfile
     - Rakefile
+    - munge.gemspec
 
 Style/AlignParameters:
   Enabled: false
