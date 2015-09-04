@@ -1,7 +1,7 @@
 require "pathname"
 
 module Munge
-  class Item
+  module Attribute
     class Path
       def initialize(source_path, file_path)
         @relative = resolve_relative(source_path, file_path).freeze

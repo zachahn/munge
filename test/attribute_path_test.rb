@@ -1,12 +1,12 @@
 require "test_helper"
-require "munge/item/path"
+require "munge/attribute/path"
 
-class ItemPathTest < Minitest::Test
+class AttributePathTest < Minitest::Test
   def setup
     sources = "/absolute/path"
     file = "/absolute/path/to/file.html.css.coffee.erb"
 
-    @path = Munge::Item::Path.new(sources, file)
+    @path = Munge::Attribute::Path.new(sources, file)
   end
 
   def test_relative_path_is_correct
