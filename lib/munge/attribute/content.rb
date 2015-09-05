@@ -1,5 +1,3 @@
-require "yaml"
-
 module Munge
   module Attribute
     class Content

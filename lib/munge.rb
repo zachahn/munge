@@ -1,3 +1,6 @@
+require "pathname"
+require "yaml"
+
 require "munge/version"
 require "munge/source"
 require "munge/item"

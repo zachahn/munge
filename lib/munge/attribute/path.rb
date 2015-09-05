@@ -1,5 +1,3 @@
-require "pathname"
-
 module Munge
   module Attribute
     class Path
