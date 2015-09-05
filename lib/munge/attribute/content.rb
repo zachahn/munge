@@ -6,7 +6,7 @@ module Munge
           # Start of string
           \A
           # Begin frontmatter
-          (?:^---\s*[\n\r]+)   
+          (?:^---\s*[\n\r]+)
           # Capture frontmatter
           (.*)
           # End frontmatter
