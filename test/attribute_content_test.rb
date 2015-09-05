@@ -1,5 +1,4 @@
 require "test_helper"
-require "munge/attribute/content"
 
 class AttributeContentTest < Minitest::Test
   def test_content_parser_reads_frontmatter

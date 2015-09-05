@@ -1,5 +1,4 @@
 require "test_helper"
-require "munge/attribute/path"
 
 class AttributePathTest < Minitest::Test
   def setup

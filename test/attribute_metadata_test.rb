@@ -1,5 +1,4 @@
 require "test_helper"
-require "munge/attribute/metadata"
 
 class AttributeMetadataTest < Minitest::Test
   def setup
