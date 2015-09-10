@@ -6,9 +6,10 @@ module Munge
         @absolute = file_path.dup.freeze
         @basename = resolve_basename(file_path).freeze
         @extnames = resolve_extnames(file_path).freeze
+        @dirname  = resolve_dirname(@relative).freeze
       end
 
-      attr_reader :relative, :absolute, :basename, :extnames
+      attr_reader :relative, :absolute, :basename, :extnames, :dirname
 
       private
 
@@ -31,6 +32,12 @@ module Munge
         file_name_parts = file_name.split(".")
 
         file_name_parts[1..-1]
+      end
+
+      def resolve_dirname(relpath)
+        relpath_with_prefix_slash = File.join("/", relpath)
+        dirname = File.dirname(relpath_with_prefix_slash)
+        File.join(dirname[1..-1], "/")
       end
     end
   end
