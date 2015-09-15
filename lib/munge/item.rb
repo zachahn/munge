@@ -30,5 +30,12 @@ module Munge
     def info
       @content.frontmatter
     end
+
+    def render
+      Tilt.templates_for(@path.relative).each do |engine|
+        renderer = engine.new { self.content }
+        self.content = renderer.render(nil, self.info)
+      end
+    end
   end
 end
