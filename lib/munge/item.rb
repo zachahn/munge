@@ -16,7 +16,19 @@ module Munge
       @layout   = nil
     end
 
-    attr_reader :path, :content, :metadata
+    attr_reader :path, :metadata
     attr_accessor :route, :layout
+
+    def content
+      @content.content
+    end
+
+    def content=(new_content)
+      @content.content = new_content
+    end
+
+    def info
+      @content.frontmatter
+    end
   end
 end
