@@ -31,11 +31,13 @@ module Munge
       @content.frontmatter
     end
 
-    def render
-      Tilt.templates_for(@path.relative).each do |engine|
-        renderer = engine.new { self.content }
-        self.content = renderer.render(nil, self.info)
-      end
+    def rendered_content
+      Tilt
+        .templates_for(@path.relative)
+        .inject(self.content) do |content, engine|
+          renderer = engine.new { content }
+          renderer.render(nil, info)
+        end
     end
   end
 end

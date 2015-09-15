@@ -17,7 +17,7 @@ module Munge
         .reject { |item| item.route.nil? }
         .map    { |item| [item, resolve_write_path(item)] }
         .each   { |_, dest_path| FileUtils.mkdir_p(File.dirname(dest_path)) }
-        .each   { |item, dest_path| File.write(dest_path, item.content) }
+        .each   { |item, dest_path| File.write(dest_path, item.rendered_content) }
     end
 
     private
