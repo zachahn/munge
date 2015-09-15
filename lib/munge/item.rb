@@ -39,5 +39,9 @@ module Munge
           renderer.render(nil, info)
         end
     end
+
+    def rendered_output
+      rendered_content
+    end
   end
 end
