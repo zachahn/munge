@@ -1,5 +1,5 @@
 require "test_helper"
-require "tilt/erubis"
+require "tilt/erb"
 require "tilt/plain"
 
 class ItemTest < Minitest::Test
