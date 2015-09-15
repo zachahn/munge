@@ -34,7 +34,7 @@ module Munge
     def rendered_content
       Tilt
         .templates_for(@path.relative)
-        .inject(self.content) do |content, engine|
+        .inject(content) do |content, engine|
           renderer = engine.new { content }
           renderer.render(nil, info)
         end
