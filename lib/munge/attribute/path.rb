@@ -2,11 +2,11 @@ module Munge
   module Attribute
     class Path
       def initialize(source_path, file_path)
-        @relative = resolve_relative(source_path, file_path).freeze
-        @absolute = file_path.dup.freeze
-        @basename = resolve_basename(file_path).freeze
-        @extnames = resolve_extnames(file_path).freeze
-        @dirname  = resolve_dirname(@relative).freeze
+        @relative = resolve_relative(source_path, file_path)
+        @absolute = file_path
+        @basename = resolve_basename(file_path)
+        @extnames = resolve_extnames(file_path)
+        @dirname  = resolve_dirname(@relative)
       end
 
       attr_reader :relative, :absolute, :basename, :extnames, :dirname
