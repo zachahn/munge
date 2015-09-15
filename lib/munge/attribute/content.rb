@@ -47,7 +47,7 @@ module Munge
         @frontmatter, @content = self.class.parse(string)
       end
 
-      attr_reader :frontmatter, :content
+      attr_accessor :frontmatter, :content
     end
   end
 end
