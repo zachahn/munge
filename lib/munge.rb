@@ -2,6 +2,8 @@ require "fileutils"
 require "pathname"
 require "yaml"
 
+require "tilt"
+
 require "munge/version"
 require "munge/source"
 require "munge/attribute/content"

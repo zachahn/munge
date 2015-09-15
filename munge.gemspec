@@ -31,4 +31,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "minitest"
   spec.add_development_dependency "rubocop", "~> 0.32.1"
+
+  spec.add_runtime_dependency "tilt", "~> 2.0.1"
 end
