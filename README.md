@@ -1,5 +1,9 @@
 # Munge
 
+[![Build Status](https://travis-ci.org/zachahn/munge.svg?branch=master)](https://travis-ci.org/zachahn/munge)
+[![Code Climate](https://codeclimate.com/github/zachahn/munge/badges/gpa.svg)](https://codeclimate.com/github/zachahn/munge)
+[![Test Coverage](https://codeclimate.com/github/zachahn/munge/badges/coverage.svg)](https://codeclimate.com/github/zachahn/munge/coverage)
+
 Munge is a static site generator aiming to simplify complex build rules.
 
 SemVer will be followed once 1.0.0 is released.
