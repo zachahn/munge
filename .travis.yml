@@ -2,6 +2,9 @@ language: ruby
 rvm:
   - 2.2.2
 before_install: gem install bundler -v 1.10.5
+script: ./script/test
+addons:
+  code_climate:
+    repo_token: b8fc4a1660d2067059476e3e579080fb6820daedbdb5e56cd9028f5dcc058fc8
 notifications:
   email: false
-script: ./script/test
