@@ -4,6 +4,14 @@ AllCops:
     - Gemfile
     - Rakefile
 
+Metrics/AbcSize:
+  Exclude:
+    - test/**/*
+
+Metrics/MethodLength:
+  Exclude:
+    - test/**/*
+
 Style/AlignParameters:
   Enabled: false
 
