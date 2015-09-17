@@ -45,6 +45,9 @@ module Munge
 
       def initialize(string)
         @frontmatter, @content = self.class.parse(string)
+      rescue ArgumentError
+        @frontmatter = {}
+        @content     = string
       end
 
       attr_accessor :frontmatter, :content
