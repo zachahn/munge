@@ -11,6 +11,7 @@ require "munge/attribute/metadata"
 require "munge/attribute/path"
 require "munge/item"
 require "munge/item/base"
+require "munge/item/binary"
 require "munge/item/text"
 require "munge/application"
 
