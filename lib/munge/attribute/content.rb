@@ -43,10 +43,14 @@ module Munge
         end
       end
 
-      def initialize(string)
+      def initialize(string, frontmatter = nil)
         @frontmatter, @content = self.class.parse(string)
+
+        if frontmatter
+          @frontmatter = @frontmatter.merge(frontmatter)
+        end
       rescue ArgumentError
-        @frontmatter = {}
+        @frontmatter = frontmatter || {}
         @content     = string
       end
 
