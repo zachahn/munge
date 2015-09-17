@@ -14,6 +14,7 @@ require "munge/item/base"
 require "munge/item/binary"
 require "munge/item/text"
 require "munge/item/virtual"
+require "munge/item_factory"
 require "munge/application"
 
 module Munge
