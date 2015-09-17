@@ -6,7 +6,7 @@ class ItemFactoryTest < Minitest::Test
 
     binary_extensions = %w(gif png)
 
-    @item_factory = Munge::ItemFactory.new(binary_extensions, @fixtures)
+    @item_factory = Munge::ItemFactory.new(@fixtures, binary_extensions)
   end
 
   def test_item_makes_binaries

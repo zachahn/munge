@@ -1,8 +1,8 @@
 module Munge
   class ItemFactory
-    def initialize(binary_extensions, sourcepath)
-      @binary_extensions = binary_extensions
+    def initialize(sourcepath, binary_extensions)
       @sourcepath        = sourcepath
+      @binary_extensions = binary_extensions
     end
 
     def create(filepath)
