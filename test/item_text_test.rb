@@ -1,6 +1,4 @@
 require "test_helper"
-require "tilt/erb"
-require "tilt/plain"
 
 class ItemTextTest < Minitest::Test
   def setup
