@@ -7,7 +7,7 @@ module Munge
       @source_dir = File.expand_path(@config["source"], @root)
       @output_dir   = File.expand_path(@config["dest"], @root)
 
-      @source = Source.new(@source_dir)
+      @source = Source.new(@source_dir, @config["binary_extensions"])
     end
 
     attr_reader :source
