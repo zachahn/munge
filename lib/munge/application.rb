@@ -5,7 +5,7 @@ module Munge
       @root   = File.dirname(File.expand_path(config_path))
 
       @source_dir = File.expand_path(@config["source"], @root)
-      @output_dir   = File.expand_path(@config["dest"], @root)
+      @output_dir = File.expand_path(@config["dest"], @root)
 
       @source = Source.new(@source_dir, @config["binary_extensions"])
     end
