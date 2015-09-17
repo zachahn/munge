@@ -10,6 +10,11 @@ require "munge/attribute/content"
 require "munge/attribute/metadata"
 require "munge/attribute/path"
 require "munge/item"
+require "munge/item/base"
+require "munge/item/binary"
+require "munge/item/text"
+require "munge/item/virtual"
+require "munge/item_factory"
 require "munge/application"
 
 module Munge

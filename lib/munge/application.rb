@@ -5,9 +5,9 @@ module Munge
       @root   = File.dirname(File.expand_path(config_path))
 
       @source_dir = File.expand_path(@config["source"], @root)
-      @dest_dir   = File.expand_path(@config["dest"], @root)
+      @output_dir = File.expand_path(@config["dest"], @root)
 
-      @source = Source.new(@source_dir)
+      @source = Source.new(@source_dir, @config["binary_extensions"])
     end
 
     attr_reader :source
@@ -25,9 +25,9 @@ module Munge
 
     def resolve_write_path(item)
       if item.route[-1] == "/"
-        File.join(@dest_dir, item.route, @config["index"])
+        File.join(@output_dir, item.route, @config["index"])
       else
-        File.join(@dest_dir, item.route)
+        File.join(@output_dir, item.route)
       end
     end
   end
