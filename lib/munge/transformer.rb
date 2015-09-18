@@ -6,7 +6,7 @@ module Munge
         transformer.call(*args)
       end
 
-      def initialize(item, scope, data)
+      def initialize(item, scope = nil, data = nil)
         @item  = item
         @scope = scope
         @data  = data
