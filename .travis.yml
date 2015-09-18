@@ -8,6 +8,3 @@ addons:
     repo_token: b8fc4a1660d2067059476e3e579080fb6820daedbdb5e56cd9028f5dcc058fc8
 notifications:
   email: false
-branches:
-  only:
-    - master
