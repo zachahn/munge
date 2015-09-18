@@ -1,8 +1,8 @@
 module Munge
   module Transformer
     class Base
-      def self.call(item, scope = nil, info = nil, *args)
-        transformer = new(item, scope, info)
+      def self.call(item, scope = nil, data = nil, *args)
+        transformer = new(item, scope, data)
         transformer.call(*args)
       end
 
