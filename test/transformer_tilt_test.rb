@@ -13,12 +13,14 @@ class TransformerTiltTest < Minitest::Test
   end
 
   def test_auto_transform
-    output = Munge::Transformer::Tilt.call(@item, nil, {})
+    output = Munge::Transformer::Tilt.call(@item, @item.content, nil, {})
     assert_equal "Guess he wants to play, a love game\n", output
   end
 
   def test_manual_transform
-    output = Munge::Transformer::Tilt.call(@item, nil, {}, "erb")
+    t = Munge::Transformer::Tilt.new(@item, nil)
+    output = t.call(@item.content, "erb")
+
     assert_equal "Guess he wants to play, a love game\n", output
   end
 end
