@@ -16,6 +16,7 @@ require "munge/item/text"
 require "munge/item/virtual"
 require "munge/item_factory"
 require "munge/transformer"
+require "munge/transformer/base"
 require "munge/transformer/tilt"
 require "munge/application"
 
