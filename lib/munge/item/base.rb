@@ -65,8 +65,8 @@ module Munge
         false
       end
 
-      def transform(transformer = :tilt, opts = nil)
-        @transforms.push([transformer, opts])
+      def transform(transformer = :tilt, *args)
+        @transforms.push([transformer, args])
       end
     end
   end
