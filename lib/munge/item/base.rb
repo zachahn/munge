@@ -2,13 +2,15 @@ module Munge
   module Item
     class Base
       def initialize(path = nil, content = nil, info = nil)
-        @path    = path
-        @content = content
-        @info    = info
-        @layout  = nil
-        @route   = nil
+        @path       = path
+        @content    = content
+        @info       = info
+        @layout     = nil
+        @route      = nil
+        @transforms = []
       end
 
+      attr_reader :transforms
       attr_accessor :route, :layout
 
       def id
@@ -61,6 +63,10 @@ module Munge
 
       def text?
         false
+      end
+
+      def transform(transformer = :tilt, opts = nil)
+        @transforms.push([transformer, opts])
       end
     end
   end
