@@ -8,3 +8,4 @@ require "minitest/autorun"
 
 require "tilt/erb"
 require "tilt/plain"
+require "tilt/redcarpet"
