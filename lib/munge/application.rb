@@ -1,5 +1,6 @@
 module Munge
   class Application
+    # rubocop:disable Metrics/AbcSize
     def initialize(config_path)
       config = YAML.load_file(File.expand_path(config_path))
 
@@ -7,9 +8,14 @@ module Munge
       source_dir = File.expand_path(config["source"], root_dir)
       output_dir = File.expand_path(config["output"], root_dir)
 
-      @source = Munge::Source.new(source_dir, config["binary_extensions"])
-      @writer = Munge::Utility::Write.new(output_dir, config["index"])
+      data  = YAML.load_file(File.expand_path(config["data"], root_dir))
+      scope = Munge::Helper.load(Object.new)
+
+      @transform = Munge::Utility::Transform.new(scope, data)
+      @source    = Munge::Source.new(source_dir, config["binary_extensions"])
+      @writer    = Munge::Utility::Write.new(output_dir, config["index"])
     end
+    # rubocop:enable Metrics/AbcSize
 
     attr_reader :source
 
