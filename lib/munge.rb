@@ -17,6 +17,7 @@ require "munge/transformer/base"
 require "munge/transformer/tilt"
 require "munge/utility/item_factory"
 require "munge/utility/transform"
+require "munge/utility/write"
 require "munge/application"
 
 module Munge

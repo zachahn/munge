@@ -5,9 +5,11 @@ module Munge
       @root   = File.dirname(File.expand_path(config_path))
 
       @source_dir = File.expand_path(@config["source"], @root)
-      @output_dir = File.expand_path(@config["dest"], @root)
+      @output_dir = File.expand_path(@config["output"], @root)
 
       @source = Source.new(@source_dir, @config["binary_extensions"])
+
+      @writer = Munge::Utility::Write.new(@output_dir, @config["index"])
     end
 
     attr_reader :source
@@ -15,20 +17,7 @@ module Munge
     def write
       @source
         .reject { |item| item.route.nil? }
-        .map    { |item| [item, resolve_write_path(item)] }
-        .each   { |_, dest_path| FileUtils.mkdir_p(File.dirname(dest_path)) }
-        .map    { |item, dest_path| [item.rendered_output, dest_path] }
-        .each   { |content, dest_path| File.write(dest_path, content) }
-    end
-
-    private
-
-    def resolve_write_path(item)
-      if item.route[-1] == "/"
-        File.join(@output_dir, item.route, @config["index"])
-      else
-        File.join(@output_dir, item.route)
-      end
+        .each   { |item| @writer.write(item.route, item.content) }
     end
   end
 end
