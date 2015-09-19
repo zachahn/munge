@@ -1,15 +1,14 @@
 module Munge
   class Application
     def initialize(config_path)
-      @config = YAML.load_file(File.expand_path(config_path))
-      @root   = File.dirname(File.expand_path(config_path))
+      config = YAML.load_file(File.expand_path(config_path))
 
-      @source_dir = File.expand_path(@config["source"], @root)
-      @output_dir = File.expand_path(@config["output"], @root)
+      root_dir   = File.dirname(File.expand_path(config_path))
+      source_dir = File.expand_path(config["source"], root_dir)
+      output_dir = File.expand_path(config["output"], root_dir)
 
-      @source = Source.new(@source_dir, @config["binary_extensions"])
-
-      @writer = Munge::Utility::Write.new(@output_dir, @config["index"])
+      @source = Munge::Source.new(source_dir, config["binary_extensions"])
+      @writer = Munge::Utility::Write.new(output_dir, config["index"])
     end
 
     attr_reader :source
