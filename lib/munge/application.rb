@@ -16,7 +16,13 @@ module Munge
     def write
       @source
         .reject { |item| item.route.nil? }
-        .each   { |item| @writer.write(item.route, item.content) }
+        .each   { |item| render_and_write(item) }
+    end
+
+    private
+
+    def render_and_write(item)
+      @writer.write(item.route, @transform.call(item.content))
     end
   end
 end
