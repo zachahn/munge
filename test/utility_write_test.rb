@@ -5,7 +5,6 @@ class UtilityWriteTest < Minitest::Test
     FakeFS.activate!
 
     @output_dir = "/abspath/to/output"
-    @file = "relpath/to/file.html"
 
     FileUtils.mkdir_p(@output_dir)
 
@@ -17,9 +16,19 @@ class UtilityWriteTest < Minitest::Test
   end
 
   def test_works
-    @writer.write(@file, "<3\n")
+    filepath = "relpath/to/file.html"
 
-    assert_equal true, File.exist?("#{@output_dir}/#{@file}")
-    assert_equal "<3\n", File.read("#{@output_dir}/#{@file}")
+    @writer.write(filepath, "<3\n")
+
+    assert_equal true, File.exist?("#{@output_dir}/#{filepath}")
+    assert_equal "<3\n", File.read("#{@output_dir}/#{filepath}")
+  end
+
+  def test_write_path_directory_index
+    filepath = "relpath/to/directory"
+
+    @writer.write(filepath, "<3\n")
+
+    assert_equal true, File.exist?("#{@output_dir}/#{filepath}/index.html")
   end
 end
