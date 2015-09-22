@@ -19,6 +19,7 @@ require "munge/utility/item_factory"
 require "munge/utility/transform"
 require "munge/utility/write"
 require "munge/helper"
+require "munge/tilt_item_renderer"
 require "munge/application"
 
 module Munge
