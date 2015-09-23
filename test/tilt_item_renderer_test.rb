@@ -6,7 +6,7 @@ class TiltItemRendererTest < Minitest::Test
     @source  = File.join(@example, "src")
     @layouts = File.join(@example, "layouts")
 
-    @renderer = Munge::Transformer::Tilt::TiltItemRenderer.new(
+    @renderer = Munge::Transformer::Tilt::Scope.new(
       @layouts, title: "cool"
     )
   end

@@ -2,7 +2,7 @@ module Munge
   module Transformer
     class Tilt
       def initialize(_source_path, layouts_dir, global_data)
-        @scope = TiltItemRenderer.new(layouts_dir, global_data)
+        @scope = Scope.new(layouts_dir, global_data)
       end
 
       def call(item, content = nil, renderer = nil)
