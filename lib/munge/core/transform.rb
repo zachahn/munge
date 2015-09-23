@@ -1,5 +1,5 @@
 module Munge
-  module Utility
+  module Core
     class Transform
       def initialize(source_path, layouts_path, global_data = {})
         @source_path  = source_path

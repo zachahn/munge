@@ -1,5 +1,5 @@
 module Munge
-  module Utility
+  module Core
     class Write
       def initialize(output, index)
         @output = output

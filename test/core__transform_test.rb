@@ -1,12 +1,12 @@
 require "test_helper"
 
-class UtilityTransformTest < Minitest::Test
+class CoreTransformTest < Minitest::Test
   def setup
     @example = File.absolute_path(File.expand_path("../example", __FILE__))
     @source  = File.join(@example, "src")
     @layouts = File.join(@example, "layouts")
 
-    @allspark = Munge::Utility::Transform.new(
+    @allspark = Munge::Core::Transform.new(
       @source,
       @layouts,
       global: "data"
