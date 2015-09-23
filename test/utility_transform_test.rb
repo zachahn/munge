@@ -6,7 +6,7 @@ class UtilityTransformTest < Minitest::Test
     @source  = File.join(@example, "src")
     @layouts = File.join(@example, "layouts")
 
-    @allspark = Munge::Utility::Transform.new(
+    @allspark = Munge::Core::Transform.new(
       @source,
       @layouts,
       global: "data"

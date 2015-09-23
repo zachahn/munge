@@ -6,13 +6,13 @@ class MungeSourceTest < Minitest::Test
   end
 
   def test_each_returns_enumerator
-    source = Munge::Source.new(@path_to_test_files)
+    source = Munge::Core::Source.new(@path_to_test_files)
 
     assert_kind_of(Enumerator, source.each)
   end
 
   def test_enumerator_is_not_empty
-    source = Munge::Source.new(@path_to_test_files)
+    source = Munge::Core::Source.new(@path_to_test_files)
 
     refute_nil(source.each.to_a)
   end
