@@ -11,9 +11,9 @@ module Munge
 
       data = YAML.load_file(File.expand_path(config["data"], root_dir))
 
-      @transform = Munge::Core::Transform.new(source_dir, layouts_dir, data)
-      @source    = Munge::Core::Source.new(source_dir, config["binary_extensions"])
-      @writer    = Munge::Core::Write.new(output_dir, config["index"])
+      @transform = Core::Transform.new(source_dir, layouts_dir, data)
+      @source    = Core::Source.new(source_dir, config["binary_extensions"])
+      @writer    = Core::Write.new(output_dir, config["index"])
     end
     # rubocop:enable Metrics/AbcSize
 
