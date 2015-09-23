@@ -6,19 +6,8 @@ module Munge
     end
 
     def render(item, manual_renderer = nil, **additional_data, &content_block)
-      content =
-        if block_given?
-          content_block.call
-        else
-          item.content
-        end
-
-      renderers =
-        if manual_renderer.nil?
-          ::Tilt.templates_for(item.relpath)
-        else
-          [::Tilt[manual_renderer]].compact
-        end
+      content   = resolve_render_content(item, &content_block)
+      renderers = resolve_render_renderer(item, manual_renderer)
 
       renderers
         .inject(content) do |output, engine|
@@ -79,6 +68,22 @@ module Munge
       template = Tilt.new(actual_layout)
       template.render(self, merged_data(additional_data)) do
         block.call
+      end
+    end
+
+    def resolve_render_content(item, &content_block)
+      if block_given?
+        content_block.call
+      else
+        item.content
+      end
+    end
+
+    def resolve_render_renderer(item, manual_renderer)
+      if manual_renderer.nil?
+        ::Tilt.templates_for(item.relpath)
+      else
+        [::Tilt[manual_renderer]].compact
       end
     end
   end
