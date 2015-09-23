@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ItemFactoryTest < Minitest::Test
+class CoreSourceItemFactoryTest < Minitest::Test
   def setup
     @fixtures = File.absolute_path(File.expand_path("../fixtures", __FILE__))
 

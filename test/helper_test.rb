@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AttributePathTest < Minitest::Test
+class HelperTest < Minitest::Test
   module Container
     module Example1
       def one

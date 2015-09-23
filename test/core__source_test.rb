@@ -1,6 +1,6 @@
 require "test_helper"
 
-class MungeSourceTest < Minitest::Test
+class CoreSourceTest < Minitest::Test
   def setup
     @path_to_test_files = File.expand_path(File.dirname(__FILE__))
   end

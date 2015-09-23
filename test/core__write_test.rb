@@ -1,6 +1,6 @@
 require "test_helper"
 
-class UtilityWriteTest < Minitest::Test
+class CoreWriteTest < Minitest::Test
   def setup
     FakeFS.activate!
 
