@@ -51,4 +51,18 @@ class TiltItemRendererTest < Minitest::Test
     output = @renderer.render_with_layout(index)
     assert_equal "<body>coolhi</body>\n", output
   end
+
+  def test_render__specified_renderers
+    output = @renderer.render(new_item("about.html.md.erb"), "erb")
+
+    assert_equal "# about me\n", output
+  end
+
+  def test_render__custom_text
+    output = @renderer.render(new_item("about.html.md.erb")) do
+      "**boom <%= who %>**"
+    end
+
+    assert_equal "<p><strong>boom me</strong></p>\n", output
+  end
 end

@@ -5,9 +5,23 @@ module Munge
       @layouts_path = layouts_path
     end
 
-    def render(item, **additional_data)
-      ::Tilt.templates_for(item.relpath)
-        .inject(item.content) do |output, engine|
+    def render(item, manual_renderer = nil, **additional_data, &content_block)
+      content =
+        if block_given?
+          content_block.call
+        else
+          item.content
+        end
+
+      renderers =
+        if manual_renderer.nil?
+          ::Tilt.templates_for(item.relpath)
+        else
+          [::Tilt[manual_renderer]].compact
+        end
+
+      renderers
+        .inject(content) do |output, engine|
           template = engine.new { output }
           template.render(self, merged_data(item.frontmatter, additional_data))
         end
