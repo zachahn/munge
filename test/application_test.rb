@@ -6,4 +6,7 @@ class ApplicationTest < Minitest::Test
 
     @application = Munge::Application.new("#{example}/config.yml")
   end
+
+  def test_setup
+  end
 end
