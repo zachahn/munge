@@ -7,14 +7,15 @@ module Munge
           @layouts_path = layouts_path
         end
 
-        def render(item, manual_renderer = nil, **additional_data, &content_block)
+        def render(item, manual_engine = nil, **additional_data, &content_block)
           content   = resolve_render_content(item, &content_block)
-          renderers = resolve_render_renderer(item, manual_renderer)
+          renderers = resolve_render_renderer(item, manual_engine)
+          data      = merged_data(item.frontmatter, additional_data)
 
           renderers
             .inject(content) do |output, engine|
               template = engine.new { output }
-              template.render(self, merged_data(item.frontmatter, additional_data))
+              template.render(self, data)
             end
         end
 
@@ -81,11 +82,11 @@ module Munge
           end
         end
 
-        def resolve_render_renderer(item, manual_renderer)
-          if manual_renderer.nil?
+        def resolve_render_renderer(item, manual_engine)
+          if manual_engine.nil?
             ::Tilt.templates_for(item.relpath)
           else
-            [::Tilt[manual_renderer]].compact
+            [::Tilt[manual_engine]].compact
           end
         end
       end
