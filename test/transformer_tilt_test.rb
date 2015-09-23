@@ -2,24 +2,37 @@ require "test_helper"
 
 class TransformerTiltTest < Minitest::Test
   def setup
-    fixtures = File.absolute_path(File.expand_path("../fixtures", __FILE__))
-    file     = "#{fixtures}/test-item-interface.html.erb"
+    @example = File.absolute_path(File.expand_path("../example", __FILE__))
+    @source  = File.join(@example, "src")
+    @layouts = File.join(@example, "layouts")
 
-    @item = Munge::Item::Base.new(
-      Munge::Attribute::Path.new(fixtures, file),
+    @tilt_transformer = Munge::Transformer::Tilt.new(
+      @source,
+      @layouts,
+      {}
+    )
+  end
+
+  def new_item(item_path)
+    file = "#{@source}/#{item_path}"
+
+    Munge::Item::Text.new(
+      Munge::Attribute::Path.new(@source, file),
       Munge::Attribute::Content.new(File.read(file)),
       Munge::Attribute::Metadata.new(file)
     )
   end
 
   def test_auto_transform
-    output = Munge::Transformer::Tilt.call(@item, @item.content, nil, {})
-    assert_equal "Guess he wants to play, a love game\n", output
+    item   = new_item("calls_layout.html.erb")
+    output = @tilt_transformer.call(item)
+
+    assert_equal "<body><b>boom</b></body>\n", output
   end
 
   def test_manual_transform
-    t = Munge::Transformer::Tilt.new(@item, nil)
-    output = t.call(@item.content, "erb")
+    item   = new_item("frontmatter.html.erb")
+    output = @tilt_transformer.call(item, nil, "erb")
 
     assert_equal "Guess he wants to play, a love game\n", output
   end

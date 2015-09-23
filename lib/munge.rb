@@ -13,11 +13,12 @@ require "munge/item/base"
 require "munge/item/binary"
 require "munge/item/text"
 require "munge/item/virtual"
-require "munge/transformer/base"
 require "munge/transformer/tilt"
 require "munge/utility/item_factory"
 require "munge/utility/transform"
 require "munge/utility/write"
+require "munge/helper"
+require "munge/tilt_item_renderer"
 require "munge/application"
 
 module Munge
