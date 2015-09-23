@@ -1,3 +1,5 @@
+require_relative "source/item_factory"
+
 module Munge
   module Core
     class Source
