@@ -5,7 +5,7 @@ require "yaml"
 require "tilt"
 
 require "munge/version"
-require "munge/source"
+require "munge/core/source"
 require "munge/attribute/content"
 require "munge/attribute/metadata"
 require "munge/attribute/path"
