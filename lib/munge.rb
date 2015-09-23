@@ -18,7 +18,7 @@ require "munge/core/source/item_factory"
 require "munge/core/transform"
 require "munge/core/write"
 require "munge/helper"
-require "munge/tilt_item_renderer"
+require "munge/transformer/tilt/tilt_item_renderer"
 require "munge/application"
 
 module Munge
