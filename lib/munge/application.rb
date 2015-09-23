@@ -4,14 +4,14 @@ module Munge
     def initialize(config_path)
       config = YAML.load_file(File.expand_path(config_path))
 
-      root_dir   = File.dirname(File.expand_path(config_path))
-      source_dir = File.expand_path(config["source"], root_dir)
-      output_dir = File.expand_path(config["output"], root_dir)
+      root_dir    = File.dirname(File.expand_path(config_path))
+      source_dir  = File.expand_path(config["source"], root_dir)
+      layouts_dir = File.expand_path(config["layouts"], root_dir)
+      output_dir  = File.expand_path(config["output"], root_dir)
 
-      data  = YAML.load_file(File.expand_path(config["data"], root_dir))
-      scope = Munge::Helper.load(Object.new)
+      data = YAML.load_file(File.expand_path(config["data"], root_dir))
 
-      @transform = Munge::Utility::Transform.new(scope, data)
+      @transform = Munge::Utility::Transform.new(source_dir, layouts_dir, data)
       @source    = Munge::Source.new(source_dir, config["binary_extensions"])
       @writer    = Munge::Utility::Write.new(output_dir, config["index"])
     end
