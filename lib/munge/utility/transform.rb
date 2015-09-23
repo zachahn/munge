@@ -1,18 +1,21 @@
 module Munge
   module Utility
     class Transform
-      def initialize(scope = nil, data = {})
-        @scope = scope
-        @data  = data
+      def initialize(source_path, layouts_path, global_data = {})
+        @source_path  = source_path
+        @layouts_path = layouts_path
+        @global_data  = global_data
       end
 
       def call(item)
         item.transforms
           .map { |name, args| [resolve_transformer(name), args] }
           .inject(item.content) do |content, params|
-            t, args = params
+            transformer, args = params
 
-            t.call(item, content, @scope, @data, *args)
+            t = transformer.new(@source_path, @layouts_path, @global_data)
+
+            t.call(item, content, *args)
           end
       end
 
