@@ -27,7 +27,7 @@ class TiltItemRendererTest < Minitest::Test
 
   def test_layout
     inside = @renderer.render(new_item("about.html.md.erb"))
-    output = @renderer.layout("basic") { inside }
+    output = @renderer.layout("req_global_data") { inside }
 
     assert_equal "<body>cool<h1>about me</h1>\n</body>\n", output
   end
@@ -46,7 +46,7 @@ class TiltItemRendererTest < Minitest::Test
 
   def test_render_with_layout
     index = new_item("index.html.erb")
-    index.layout = "basic"
+    index.layout = "req_global_data"
 
     output = @renderer.render_with_layout(index)
     assert_equal "<body>coolhi</body>\n", output
