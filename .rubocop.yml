@@ -3,6 +3,7 @@ AllCops:
     - vendor/bundle/**/*
     - Gemfile
     - Rakefile
+    - seeds/**/*
 
 Metrics/AbcSize:
   Exclude:

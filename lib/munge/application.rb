@@ -8,8 +8,9 @@ module Munge
       source_dir  = File.expand_path(config["source"], root_dir)
       layouts_dir = File.expand_path(config["layouts"], root_dir)
       output_dir  = File.expand_path(config["output"], root_dir)
+      data_path   = File.expand_path(config["data"], root_dir)
 
-      data = YAML.load_file(File.expand_path(config["data"], root_dir))
+      data = YAML.load_file(data_path) || {}
 
       @transform = Core::Transform.new(source_dir, layouts_dir, data)
       @source    = Core::Source.new(source_dir, config["binary_extensions"])
@@ -28,7 +29,7 @@ module Munge
     private
 
     def render_and_write(item)
-      @writer.write(item.route, @transform.call(item.content))
+      @writer.write(item.route, @transform.call(item))
     end
   end
 end

@@ -11,52 +11,6 @@ Until then,
 the API should be considered experimental.
 
 
-## Usage
-
-**Directory structure**
-
-```
-dest/
-src/
-  layouts/
-    layout.html
-  index.html
-application.rb
-config.yml
-Gemfile
-```
-
-**`application.rb`**
-
-```ruby
-require "munge"
-
-app = Munge::Application.new("./config.yml")
-
-app.source
-  .reject { |item| item.path.relative =~ %r(^layouts/) }
-  .each   { |item| item.route = item.path.dirname }
-  .map    { |item| item.path.dirname }
-
-app.write
-```
-
-**`config.yml`**
-
-```yaml
----
-source: src
-dest: dest
-binary_extensions:
-  - jpg
-  - jpeg
-  - png
-  - gif
-  - ico
-index: index.html
-```
-
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -72,6 +26,17 @@ And then execute:
 Or install it yourself as:
 
     $ gem install munge
+
+
+## Usage
+
+After installing your gem, you can start a project using the command line client.
+
+```
+munge init path/to/project
+```
+
+The three main files of your application are `config.yml`, `data.yml`, and `rules.rb`.
 
 
 ## Contributing
