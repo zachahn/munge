@@ -28,7 +28,7 @@ module Munge
     private
 
     def render_and_write(item)
-      @writer.write(item.route, @transform.call(item.content))
+      @writer.write(item.route, @transform.call(item))
     end
   end
 end
