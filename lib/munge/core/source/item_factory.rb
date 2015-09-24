@@ -7,7 +7,7 @@ module Munge
 
     def create(filepath)
       path    = Munge::Attribute::Path.new(@sourcepath, filepath)
-      content = Munge::Attribute::Content.new(path.absolute)
+      content = Munge::Attribute::Content.new(File.read(path.absolute))
       stat    = Munge::Attribute::Metadata.new(filepath)
 
       if binary_extension?(filepath)
