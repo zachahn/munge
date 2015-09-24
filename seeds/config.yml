@@ -1,0 +1,9 @@
+source: src
+output: dest
+data: data.yml
+layouts: layouts
+index: index.html
+binary_extensions:
+  - png
+  - gif
+  - jpg
