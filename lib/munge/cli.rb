@@ -11,8 +11,6 @@ module Munge
 
     desc "init PATH", "Create new site at PATH"
     def init(path)
-      return unless yes?("initialize into `#{destination_root}/#{path}`?")
-
       directory ".", path
     end
 
