@@ -4,17 +4,17 @@ module Munge
     def initialize(config_path)
       config = YAML.load_file(File.expand_path(config_path))
 
-      root_dir    = File.dirname(File.expand_path(config_path))
-      source_dir  = File.expand_path(config["source"], root_dir)
-      layouts_dir = File.expand_path(config["layouts"], root_dir)
-      output_dir  = File.expand_path(config["output"], root_dir)
-      data_path   = File.expand_path(config["data"], root_dir)
+      root_path    = File.dirname(File.expand_path(config_path))
+      source_path  = File.expand_path(config["source"], root_path)
+      layouts_path = File.expand_path(config["layouts"], root_path)
+      output_path  = File.expand_path(config["output"], root_path)
+      data_path    = File.expand_path(config["data"], root_path)
 
       data = YAML.load_file(data_path) || {}
 
-      @transform = Core::Transform.new(source_dir, layouts_dir, data)
-      @source    = Core::Source.new(source_dir, config["binary_extensions"])
-      @writer    = Core::Write.new(output_dir, config["index"])
+      @transform = Core::Transform.new(source_path, layouts_path, data)
+      @source    = Core::Source.new(source_path, config["binary_extensions"])
+      @writer    = Core::Write.new(output_path, config["index"])
     end
     # rubocop:enable Metrics/AbcSize
 
