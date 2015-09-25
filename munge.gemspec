@@ -29,6 +29,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop", "~> 0.32"
   spec.add_development_dependency "codeclimate-test-reporter", "~> 0.4"
 
+  spec.add_runtime_dependency "image_optim", "~> 0.21"
+  spec.add_runtime_dependency "image_optim_pack", "~> 0.2"
   spec.add_runtime_dependency "thor", "~> 0.19"
   spec.add_runtime_dependency "tilt", "~> 2.0"
 end
