@@ -29,9 +29,13 @@ module Munge
           end
         end
 
-        def render_with_layout(item, **additional_data)
-          layout(item.layout, additional_data) do
-            render(item, additional_data)
+        def render_with_layout(item, manual_engine = nil, **additional_data)
+          if item.layout.nil?
+            render(item, manual_engine, additional_data)
+          else
+            layout(item.layout, additional_data) do
+              render(item, manual_engine, additional_data)
+            end
           end
         end
 
