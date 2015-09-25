@@ -3,8 +3,8 @@ require_relative "tilt/scope"
 module Munge
   module Transformer
     class Tilt
-      def initialize(_source_path, layouts_path, global_data)
-        @scope = Scope.new(layouts_path, global_data)
+      def initialize(scope_factory)
+        @scope = scope_factory.create
       end
 
       def call(item, content = nil, renderer = nil)

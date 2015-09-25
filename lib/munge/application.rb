@@ -1,6 +1,6 @@
 module Munge
   class Application
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     def initialize(config_path)
       config = YAML.load_file(File.expand_path(config_path))
 
@@ -12,11 +12,18 @@ module Munge
 
       global_data = YAML.load_file(data_path) || {}
 
-      @transform = Core::Transform.new(source_path, layouts_path, global_data)
-      @source    = Core::Source.new(source_path, config["binary_extensions"])
+      @source = Core::Source.new(source_path, config["binary_extensions"])
+      @scope_factory = Core::TransformScopeFactory.new(
+        source_path,
+        layouts_path,
+        global_data,
+        @source,
+        Munge::Helper
+      )
+      @transform = Core::Transform.new(@scope_factory)
       @writer    = Core::Write.new(output_path, config["index"])
     end
-    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
     attr_reader :source
 

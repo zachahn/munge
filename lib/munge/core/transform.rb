@@ -1,10 +1,8 @@
 module Munge
   module Core
     class Transform
-      def initialize(source_path, layouts_path, global_data)
-        @source_path  = source_path
-        @layouts_path = layouts_path
-        @global_data  = global_data
+      def initialize(scope_factory)
+        @scope_factory = scope_factory
       end
 
       def call(item)
@@ -13,7 +11,7 @@ module Munge
           .inject(item.content) do |content, params|
             transformer, args = params
 
-            t = transformer.new(@source_path, @layouts_path, @global_data)
+            t = transformer.new(@scope_factory)
 
             t.call(item, content, *args)
           end
