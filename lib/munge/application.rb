@@ -10,9 +10,9 @@ module Munge
       output_path  = File.expand_path(config["output"], root_path)
       data_path    = File.expand_path(config["data"], root_path)
 
-      data = YAML.load_file(data_path) || {}
+      global_data = YAML.load_file(data_path) || {}
 
-      @transform = Core::Transform.new(source_path, layouts_path, data)
+      @transform = Core::Transform.new(source_path, layouts_path, global_data)
       @source    = Core::Source.new(source_path, config["binary_extensions"])
       @writer    = Core::Write.new(output_path, config["index"])
     end
