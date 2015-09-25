@@ -9,9 +9,9 @@ module Munge
 
       def call(item, content = nil, renderer = nil)
         if content.nil?
-          @scope.render(item, renderer)
+          @scope.render_with_layout(item, renderer)
         else
-          @scope.render(item, renderer) do
+          @scope.render_with_layout(item, renderer) do
             content
           end
         end
