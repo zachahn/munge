@@ -20,6 +20,7 @@ require "munge/core/transform"
 require "munge/core/transform_scope_factory"
 require "munge/core/write"
 require "munge/application"
+require "munge/runner"
 
 module Munge
   # Your code goes here...

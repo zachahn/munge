@@ -1,5 +1,4 @@
 require "thor"
-require "munge/runner"
 
 module Munge
   class CLI < Thor
