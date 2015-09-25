@@ -13,16 +13,6 @@ class CoreTransformTest < Minitest::Test
     )
   end
 
-  def new_item(item_path)
-    file = "#{@source}/#{item_path}"
-
-    Munge::Item::Text.new(
-      Munge::Attribute::Path.new(@source, file),
-      Munge::Attribute::Content.new(File.read(file)),
-      Munge::Attribute::Metadata.new(file)
-    )
-  end
-
   def test_resolver
     assert_equal Munge::Transformer::Tilt, @allspark.resolve_transformer(:Tilt)
     assert_equal Munge::Transformer::Tilt, @allspark.resolve_transformer(:tilt)

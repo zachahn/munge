@@ -11,16 +11,6 @@ class TransformerTiltScopeTest < Minitest::Test
     )
   end
 
-  def new_item(item_path)
-    file = "#{@source}/#{item_path}"
-
-    Munge::Item::Text.new(
-      Munge::Attribute::Path.new(@source, file),
-      Munge::Attribute::Content.new(File.read(file)),
-      Munge::Attribute::Metadata.new(file)
-    )
-  end
-
   def test_render
     output = @renderer.render(new_item("about.html.md.erb"))
 

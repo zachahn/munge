@@ -13,16 +13,6 @@ class TransformerTiltTest < Minitest::Test
     )
   end
 
-  def new_item(item_path)
-    file = "#{@source}/#{item_path}"
-
-    Munge::Item::Text.new(
-      Munge::Attribute::Path.new(@source, file),
-      Munge::Attribute::Content.new(File.read(file)),
-      Munge::Attribute::Metadata.new(file)
-    )
-  end
-
   def test_auto_transform
     item   = new_item("calls_layout.html.erb")
     output = @tilt_transformer.call(item)
