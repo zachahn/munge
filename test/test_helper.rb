@@ -34,4 +34,40 @@ class Minitest::Test
       Munge::Attribute::Metadata.new(file)
     )
   end
+
+  def new_source
+    Munge::Core::Source.new(source_path)
+  end
+
+  def new_core_transformer(source)
+    Munge::Core::Transform.new(
+      source_path,
+      layouts_path,
+      { global: "data" },
+      source
+    )
+  end
+
+  def new_scope_factory(global_data)
+    Munge::Core::TransformScopeFactory.new(
+      source_path,
+      layouts_path,
+      global_data,
+      new_source,
+      Munge::Helper
+    )
+  end
+
+  def new_tilt_scope(global_data, source)
+    Munge::Transformer::Tilt::Scope.new(
+      source_path,
+      layouts_path,
+      global_data,
+      source
+    )
+  end
+
+  def new_tilt_transformer(global_data)
+    Munge::Transformer::Tilt.new(new_scope_factory(global_data))
+  end
 end

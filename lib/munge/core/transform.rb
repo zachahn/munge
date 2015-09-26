@@ -1,8 +1,17 @@
 module Munge
   module Core
     class Transform
-      def initialize(scope_factory)
-        @scope_factory = scope_factory
+      def initialize(source_path,
+                     layouts_path,
+                     global_data,
+                     source)
+        @scope_factory = Core::TransformScopeFactory.new(
+          source_path,
+          layouts_path,
+          global_data,
+          source,
+          Munge::Helper
+        )
       end
 
       def call(item)

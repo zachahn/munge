@@ -31,7 +31,7 @@ module Munge
       private
 
       def extend_with_helpers(scope)
-        @helper_container.constants
+        Munge::Helper.constants
           .map  { |sym| @helper_container.const_get(sym) }
           .each { |helper| scope.extend(helper) }
 

@@ -6,11 +6,7 @@ class TransformerTiltTest < Minitest::Test
     @source  = File.join(@example, "src")
     @layouts = File.join(@example, "layouts")
 
-    @tilt_transformer = Munge::Transformer::Tilt.new(
-      @source,
-      @layouts,
-      {}
-    )
+    @tilt_transformer = new_tilt_transformer({})
   end
 
   def test_auto_transform

@@ -6,9 +6,7 @@ class TransformerTiltScopeTest < Minitest::Test
     @source  = File.join(@example, "src")
     @layouts = File.join(@example, "layouts")
 
-    @renderer = Munge::Transformer::Tilt::Scope.new(
-      @layouts, title: "cool"
-    )
+    @renderer = new_tilt_scope({ title: "cool" }, new_source)
   end
 
   def test_render

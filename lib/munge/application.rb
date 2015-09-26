@@ -13,14 +13,12 @@ module Munge
       global_data = YAML.load_file(data_path) || {}
 
       @source = Core::Source.new(source_path, config["binary_extensions"])
-      @scope_factory = Core::TransformScopeFactory.new(
+      @transform = Core::Transform.new(
         source_path,
         layouts_path,
         global_data,
-        @source,
-        Munge::Helper
+        @source
       )
-      @transform = Core::Transform.new(@scope_factory)
       @writer    = Core::Write.new(output_path, config["index"])
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
