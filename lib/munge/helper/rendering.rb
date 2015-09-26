@@ -24,19 +24,18 @@ module Munge
       end
 
       def render_with_layout(item, manual_engine = nil, **additional_data, &content_block)
-        if item.layout.nil?
+        inner =
           if block_given?
             render(item, manual_engine, additional_data, &content_block)
           else
             render(item, manual_engine, additional_data)
           end
+
+        if item.layout.nil?
+          inner
         else
           layout(item.layout, additional_data) do
-            if block_given?
-              render(item, manual_engine, additional_data, &content_block)
-            else
-              render(item, manual_engine, additional_data)
-            end
+            inner
           end
         end
       end
