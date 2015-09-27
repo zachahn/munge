@@ -22,7 +22,9 @@ module Munge
     end
 
     def write
-      @app.write
+      @app.write do |item|
+        puts "#{item.route}"
+      end
     end
   end
 end
