@@ -20,6 +20,10 @@ module Munge
         true
       end
 
+      def text?
+        true
+      end
+
       def content=(new_content)
         @content.content = new_content
       end
