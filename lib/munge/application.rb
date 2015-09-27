@@ -25,16 +25,19 @@ module Munge
 
     attr_reader :source
 
-    def write
+    def write(&block)
       @source
         .reject { |item| item.route.nil? }
-        .each   { |item| render_and_write(item) }
+        .each   { |item| render_and_write(item, &block) }
     end
 
     private
 
-    def render_and_write(item)
+    def render_and_write(item, &block)
       @writer.write(item.route, @transform.call(item))
+      if block_given?
+        block.call(item)
+      end
     end
   end
 end
