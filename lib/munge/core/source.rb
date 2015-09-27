@@ -21,6 +21,10 @@ module Munge
           yield item
         end
       end
+
+      def push(virtual_item)
+        @items.push(virtual_item)
+      end
     end
   end
 end

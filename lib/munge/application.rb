@@ -31,6 +31,16 @@ module Munge
         .each   { |item| render_and_write(item, &block) }
     end
 
+    def new_virtual_item(*args)
+      Munge::Item::Virtual.new(*args)
+    end
+
+    def create(*args, &block)
+      item = new_virtual_item(*args)
+      yield item if block_given?
+      @source.push(item)
+    end
+
     private
 
     def render_and_write(item, &block)
