@@ -12,9 +12,12 @@ module Munge
 
         FileUtils.mkdir_p(File.dirname(abspath))
 
-        return if File.exist?(abspath) && File.read(abspath) == content
-
-        File.write(abspath, content)
+        if File.exist?(abspath) && File.read(abspath) == content
+          return false
+        else
+          File.write(abspath, content)
+          true
+        end
       end
 
       def resolve_filepath(preferred_filename)

@@ -44,9 +44,9 @@ module Munge
     private
 
     def render_and_write(item, &block)
-      @writer.write(item.route, @transform.call(item))
+      did_write = @writer.write(item.route, @transform.call(item))
       if block_given?
-        block.call(item)
+        block.call(item, did_write)
       end
     end
   end
