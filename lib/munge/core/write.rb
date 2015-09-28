@@ -12,6 +12,8 @@ module Munge
 
         FileUtils.mkdir_p(File.dirname(abspath))
 
+        return if File.exist?(abspath) && File.read(abspath) == content
+
         File.write(abspath, content)
       end
 
