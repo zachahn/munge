@@ -16,25 +16,32 @@ module Munge
       def layout(path, **additional_data, &block)
         actual_layout = find_layout(path)
 
-        if block.binding.local_variable_defined?(:_erbout)
-          layout_within_template(actual_layout, additional_data, &block)
+        if block_given?
+          if block.binding.local_variable_defined?(:_erbout)
+            layout_within_template(actual_layout, additional_data, &block)
+          else
+            layout_outside_template(actual_layout, additional_data, &block)
+          end
         else
-          layout_outside_template(actual_layout, additional_data, &block)
+          layout_without_block(actual_layout, additional_data)
         end
       end
 
       def render_with_layout(item, manual_engine = nil, **additional_data, &content_block)
+        data =
+          merged_data(item.frontmatter, additional_data)
+
         inner =
           if block_given?
-            render(item, manual_engine, additional_data, &content_block)
+            render(item, manual_engine, data, &content_block)
           else
-            render(item, manual_engine, additional_data)
+            render(item, manual_engine, data)
           end
 
         if item.layout.nil?
           inner
         else
-          layout(item.layout, additional_data) do
+          layout(item.layout, data) do
             inner
           end
         end
@@ -77,6 +84,11 @@ module Munge
         template.render(self, merged_data(additional_data)) do
           block.call
         end
+      end
+
+      def layout_without_block(actual_layout, additional_data)
+        template = ::Tilt.new(actual_layout)
+        template.render(self, merged_data(additional_data))
       end
 
       def resolve_render_content(item, &content_block)
