@@ -1,5 +1,16 @@
-require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start
+if ENV["CODECLIMATE_REPO_TOKEN"]
+  require "codeclimate-test-reporter"
+  CodeClimate::TestReporter.start
+end
+
+if ENV["COVERAGE"]
+  require "simplecov"
+  SimpleCov.start do
+    add_filter do |src|
+      src.filename =~ %r(^#{SimpleCov.root}/test)
+    end
+  end
+end
 
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "munge"
