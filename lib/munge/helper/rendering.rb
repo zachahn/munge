@@ -33,9 +33,9 @@ module Munge
 
         inner =
           if block_given?
-            render(item, manual_engine, data, &content_block)
+            render(item, manual_engine, **data, &content_block)
           else
-            render(item, manual_engine, data)
+            render(item, manual_engine, **data)
           end
 
         if item.layout.nil?
@@ -50,9 +50,15 @@ module Munge
       private
 
       def merged_data(*data)
-        data.inject(@global_data) do |merged, datum|
-          merged.merge(datum)
-        end
+        hash_with_string_and_symbol_keys =
+          data.inject(@global_data) do |merged, datum|
+            merged.merge(datum)
+          end
+
+        hash_with_string_and_symbol_keys
+          .each_with_object({}) do |(key, value), memo|
+            memo[key.to_sym] = value
+          end
       end
 
       def find_layout(path)
