@@ -38,6 +38,38 @@ munge init path/to/project
 
 The three main files of your application are `config.yml`, `data.yml`, and `rules.rb`.
 
+Here's an example `rules.rb` for a blog.
+
+```ruby
+# home page
+app.source
+  .select { |item| item.id == "home" }      # looks for items where path is "src/home.*"
+  .each   { |item| item.route = "" }        # sets output file to "/index.html"
+  .each   { |item| item.layout = "default"} # sets layout to "layouts/default.*"
+  .each   { |item| item[:title] = "home" }  # sets additional frontmatter variables
+  .each   { |item| item.transform(:tilt) }  # have Tilt compile this file
+
+# blog posts
+app.source
+  .select { |item| item.relpath =~ %r(^posts/) }          # looks for items in "src/posts/**/*"
+  .each   { |item| item.route = "blog/#{item.basename}" } # sets output file to "/blog/#{basename}/index.html"
+  .each   { |item| item.layout = "post" }
+  .each   { |item| item.transform }                       # sets transform to Tilt (default)
+
+# blog index
+posts_for_index =
+  app.source
+    .find_all { |item| item.route =~ %r(^blog/) }
+    .sort_by  { |item| item.route }
+    .reverse
+
+app.create("blog/index.html.erb", "", posts: posts_for_index) do |item|
+  item.route  = "blog" # sets output file to "/blog/index.html"
+  item.layout = "list"
+  item.transform
+end
+```
+
 
 ## Contributing
 
