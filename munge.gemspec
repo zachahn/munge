@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "redcarpet", "~> 3.3"
   spec.add_development_dependency "rubocop", "~> 0.32"
   spec.add_development_dependency "codeclimate-test-reporter", "~> 0.4"
+  spec.add_development_dependency "simplecov", "~> 0.10"
 
   spec.add_runtime_dependency "image_optim", "~> 0.21"
   spec.add_runtime_dependency "image_optim_pack", "~> 0.2"
