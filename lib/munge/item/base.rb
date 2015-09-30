@@ -68,6 +68,14 @@ module Munge
       def transform(transformer = :tilt, *args)
         @transforms.push([transformer, args])
       end
+
+      def [](key)
+        frontmatter[key]
+      end
+
+      def []=(key, value)
+        frontmatter[key] = value
+      end
     end
   end
 end
