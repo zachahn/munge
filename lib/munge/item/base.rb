@@ -76,6 +76,10 @@ module Munge
       def []=(key, value)
         frontmatter[key] = value
       end
+
+      def to_s
+        "#{super} #{relpath} #{route}"
+      end
     end
   end
 end
