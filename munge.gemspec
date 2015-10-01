@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Zach Ahn"]
   spec.email         = ["zach.ahn@gmail.com"]
 
-  spec.summary       = "A piping-inspired static site generator"
+  spec.summary       = "Static site generator aiming to simplify complex build rules"
   spec.homepage      = "https://github.com/zachahn/munge"
   spec.license       = "MIT"
 
