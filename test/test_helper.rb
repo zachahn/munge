@@ -37,13 +37,8 @@ class Minitest::Test
   end
 
   def new_item(item_path)
-    file = "#{source_path}/#{item_path}"
-
-    Munge::Item::Text.new(
-      Munge::Attribute::Path.new(source_path, file),
-      Munge::Attribute::Content.new(File.read(file)),
-      Munge::Attribute::Metadata.new(file)
-    )
+    abspath = File.join(source_path, item_path)
+    new_item_factory.read(abspath)
   end
 
   def new_source
@@ -56,6 +51,15 @@ class Minitest::Test
       layouts_path,
       { global: "data" },
       source
+    )
+  end
+
+  def new_item_factory
+    Munge::ItemFactory.new(
+      source_path,
+      %w(jpg png gif),
+      :fs_memory,
+      %w(index)
     )
   end
 
