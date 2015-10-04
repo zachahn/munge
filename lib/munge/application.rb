@@ -12,7 +12,12 @@ module Munge
 
       global_data = YAML.load_file(data_path) || {}
 
-      @source = Core::Source.new(source_path, config["binary_extensions"])
+      @source = Core::Source.new(
+        source_path,
+        config["binary_extensions"],
+        :fs_memory,
+        config["ignored_basenames"]
+      )
       @transform = Core::Transform.new(
         source_path,
         layouts_path,

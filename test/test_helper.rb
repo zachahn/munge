@@ -47,7 +47,7 @@ class Minitest::Test
   end
 
   def new_source
-    Munge::Core::Source.new(source_path)
+    Munge::Core::Source.new(source_path, [], :fs_memory, [])
   end
 
   def new_core_transformer(source)
