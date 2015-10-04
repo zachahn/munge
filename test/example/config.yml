@@ -6,3 +6,5 @@ index: index.html
 binary_extensions:
   - png
   - gif
+ignored_basenames:
+  - index
