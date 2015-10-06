@@ -124,4 +124,19 @@ class ItemTest < Minitest::Test
     assert_equal [:Asdf, ["gh", j: "kl"]], item.transforms[0]
     assert_equal [:qwer, ["ty", "uiop"]], item.transforms[1]
   end
+
+  def test_layout=
+    item = new_real_item("index.html.erb")
+
+    assert_equal nil, item.layout
+
+    item.layout = "foo"
+    assert_equal "foo", item.layout
+
+    item.layout = "/bar/"
+    assert_equal "bar", item.layout
+
+    item.layout = "/////baz/"
+    assert_equal "baz", item.layout
+  end
 end

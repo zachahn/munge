@@ -54,10 +54,7 @@ module Munge
     end
 
     def route=(new_route)
-      @route =
-        new_route
-          .sub(%r(^/+), "")
-          .sub(%r(/+$), "")
+      @route = remove_surrounding_slashes(new_route)
     end
 
     def route
@@ -77,6 +74,10 @@ module Munge
       regexp === @route
     end
 
+    def layout=(new_layout)
+      @layout = remove_surrounding_slashes(new_layout)
+    end
+
     def transform(transformer = :Tilt, *args)
       @transforms.push([transformer, args])
     end
@@ -86,6 +87,12 @@ module Munge
     def generate_regex(pattern_list)
       joined_pattern = pattern_list.join("/")
       Regexp.new("^#{joined_pattern}")
+    end
+
+    def remove_surrounding_slashes(string)
+      string
+        .sub(%r(^/+), "")
+        .sub(%r(/+$), "")
     end
   end
 end
