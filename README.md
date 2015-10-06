@@ -11,6 +11,20 @@ Until then,
 the API should be considered experimental.
 
 
+## Features
+
+- No metaprogramming
+- Suitable for large, complex sites (e.g., multiple blogs with different templates, a single blog with multiple data sources)
+- Concise rule definition
+- Rules defined by iterating through arrays and modifying objects
+
+
+## Caveats
+
+- Not optimized (Pull requests welcome, gradual optimizations preferred)
+- Rules can seem pretty dense (because of its conciseness)
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
