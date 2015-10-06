@@ -27,7 +27,7 @@ module Munge
     attr_reader :content, :frontmatter
     attr_reader :stat
 
-    attr_accessor :layout, :transforms
+    attr_reader :layout, :transforms
 
     def dirname
       if File.dirname(@relpath) == "."
