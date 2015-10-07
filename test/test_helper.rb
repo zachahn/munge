@@ -28,6 +28,10 @@ class Minitest::Test
     File.absolute_path(File.expand_path("../example", __FILE__))
   end
 
+  def old_fixtures_path
+    File.absolute_path(File.expand_path("../fixtures", __FILE__))
+  end
+
   def source_path
     File.join(example_path, "src")
   end
