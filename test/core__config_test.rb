@@ -15,4 +15,10 @@ class CoreConfigTest < Minitest::Test
 
     assert_equal nil, config[:source]
   end
+
+  def test_expanding_of_paths
+    config = Munge::Core::Config.new(File.join("test", "example", "config.yml"))
+
+    assert_equal "src", config[:source]
+  end
 end

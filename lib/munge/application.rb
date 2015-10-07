@@ -2,7 +2,7 @@ module Munge
   class Application
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     def initialize(config_path)
-      config = Core::Config.new(File.expand_path(config_path))
+      config = Core::Config.new(config_path)
 
       root_path    = File.dirname(File.expand_path(config_path))
       source_path  = File.expand_path(config[:source], root_path)

@@ -1,7 +1,8 @@
 module Munge
   module Core
     class Config
-      def initialize(abspath)
+      def initialize(path)
+        abspath = File.expand_path(path)
         @datastore =
           read_yaml(abspath)
             .map { |key, value| [key.to_sym, value] }
