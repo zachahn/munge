@@ -15,15 +15,43 @@ module Munge
 
     desc "build", "Build in current directory"
     def build
-      config_path = File.join(destination_root, "config.yml")
-      rules_path  = File.join(destination_root, "rules.rb")
-
       Munge::Runner.write(config_path, rules_path)
+    end
+
+    desc "view", "View built files"
+    method_option :port, aliases: "-p", desc: "Set port", default: 3000, type: :numeric
+    method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
+    def view
+      config    = Munge::Core::Config.new(config_path)
+      handler   = Rack::Handler::WEBrick
+      rack_opts = { Host: options[:host], Port: options[:port] }
+
+      app =
+        Rack::Builder.new do
+          use Rack::CommonLogger
+          use Rack::ShowExceptions
+          use Rack::Lint
+          use Rack::Head
+          use Adsf::Rack::IndexFileFinder, root: config[:output]
+          run Rack::File.new(config[:output])
+        end
+
+      Rack::Handler::WEBrick.run(app, rack_opts)
     end
 
     desc "version", "Print version"
     def version
       puts "munge #{Munge::VERSION}"
+    end
+
+    private
+
+    def config_path
+      File.join(destination_root, "config.yml")
+    end
+
+    def rules_path
+      File.join(destination_root, "rules.rb")
     end
   end
 end
