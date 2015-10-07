@@ -2,6 +2,8 @@ require "fileutils"
 require "pathname"
 require "yaml"
 
+require "adsf"
+require "rack"
 require "tilt"
 
 require "munge/version"

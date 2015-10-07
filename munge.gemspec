@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "codeclimate-test-reporter", "~> 0.4"
   spec.add_development_dependency "simplecov", "~> 0.10"
 
+  spec.add_runtime_dependency "adsf", "~> 1.2"
   spec.add_runtime_dependency "image_optim", "~> 0.21"
   spec.add_runtime_dependency "image_optim_pack", "~> 0.2"
   spec.add_runtime_dependency "thor", "~> 0.19"
