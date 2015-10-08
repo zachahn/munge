@@ -7,4 +7,8 @@ class ApplicationTest < Minitest::Test
 
   def test_setup
   end
+
+  def test_new_virtual_item
+    @application.new_virtual_item
+  end
 end
