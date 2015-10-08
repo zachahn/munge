@@ -17,6 +17,10 @@ module Munge
             .to_h
       end
 
+      def build_virtual_item(*args)
+        @item_factory.build_virtual(*args)
+      end
+
       def each
         return enum_for(:each) unless block_given?
 

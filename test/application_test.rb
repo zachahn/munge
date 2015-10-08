@@ -8,7 +8,13 @@ class ApplicationTest < Minitest::Test
   def test_setup
   end
 
-  def test_new_virtual_item
-    @application.new_virtual_item
+  def test_create
+    count = @application.source.count
+    
+    @application.create("foo/bar.html", "x", {}, type: :binary)
+    
+    new_count = @application.source.count
+
+    assert_equal count + 1, new_count
   end
 end
