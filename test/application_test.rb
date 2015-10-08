@@ -5,9 +5,6 @@ class ApplicationTest < Minitest::Test
     @application = Munge::Application.new("#{example_path}/config.yml")
   end
 
-  def test_setup
-  end
-
   def test_create
     count = @application.source.count
     
