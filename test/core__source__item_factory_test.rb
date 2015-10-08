@@ -33,4 +33,24 @@ class CoreSourceItemFactoryTest < Minitest::Test
     item = @item_factory.read(File.join(source_path, "in/sub/dir.html.erb"))
     assert_equal "in/sub", item.id
   end
+
+  def test_build_virtual_text
+    item = @item_factory.build_virtual("probable/relpath.html.erb", "testing", {})
+
+    assert_equal "probable/relpath", item.id
+    assert_equal nil, item.abspath
+    assert_equal "testing", item.content
+    assert_equal Hash.new, item.frontmatter
+    assert_equal :text, item.type
+  end
+
+  def test_build_virtual_binary
+    item = @item_factory.build_virtual("probable/relpath.jpg", "testing", {}, type: :binary)
+
+    assert_equal "probable/relpath", item.id
+    assert_equal nil, item.abspath
+    assert_equal "testing", item.content
+    assert_equal Hash.new, item.frontmatter
+    assert_equal :binary, item.type
+  end
 end

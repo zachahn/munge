@@ -24,18 +24,18 @@ module Munge
       )
     end
 
-    # def imaginate(type, relpath, content, frontmatter)
-    #   Munge::Item.new(
-    #     type: type,
-    #     location: :virtual,
-    #     abspath: nil,
-    #     relpath: relpath,
-    #     id: compute_id(relpath),
-    #     content: content,
-    #     frontmatter: frontmatter,
-    #     stat: nil
-    #   )
-    # end
+    def build_virtual(relpath, content, frontmatter, type: :text)
+      Munge::Item.new(
+        type: type,
+        location: :virtual,
+        abspath: nil,
+        relpath: relpath,
+        id: compute_id(relpath),
+        content: content,
+        frontmatter: frontmatter,
+        stat: nil
+      )
+    end
 
     private
 
