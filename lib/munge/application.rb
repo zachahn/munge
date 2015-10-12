@@ -12,7 +12,12 @@ module Munge
 
       global_data = YAML.load_file(data_path) || {}
 
-      @source = Core::Source.new(source_path, config[:binary_extensions])
+      @source = Core::Source.new(
+        source_path,
+        config[:binary_extensions],
+        :fs_memory,
+        config[:ignored_basenames]
+      )
       @transform = Core::Transform.new(
         source_path,
         layouts_path,
@@ -31,12 +36,12 @@ module Munge
         .each   { |item| render_and_write(item, &block) }
     end
 
-    def new_virtual_item(*args)
-      Munge::Item::Virtual.new(*args)
+    def build_virtual_item(*args)
+      @source.build_virtual_item(*args)
     end
 
     def create(*args, &block)
-      item = new_virtual_item(*args)
+      item = build_virtual_item(*args)
       yield item if block_given?
       @source.push(item)
     end
