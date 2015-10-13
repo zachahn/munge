@@ -20,6 +20,7 @@ module Munge
       @route      = nil
       @layout     = nil
       @transforms = []
+      @index      = false
     end
 
     attr_reader :type, :location
@@ -80,6 +81,14 @@ module Munge
 
     def transform(transformer = :Tilt, *args)
       @transforms.push([transformer, args])
+    end
+
+    def index!
+      @index = true
+    end
+
+    def directory_index?
+      @index
     end
 
     private
