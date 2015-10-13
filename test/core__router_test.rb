@@ -39,4 +39,11 @@ class CoreRouterTest < Minitest::Test
 
     assert_equal "t.gif", @router.filepath(item)
   end
+
+  def test_route_gif
+    item = new_item("transparent.gif")
+    item.route = "t"
+
+    assert_equal "/t.gif", @router.route(item)
+  end
 end

@@ -9,18 +9,21 @@ module Munge
       def route(item)
         fail "item has no route" unless item.route
 
-        item.route
+        if keep_extension?(item)
+          "/#{filepath(item)}"
+        else
+          item.route
+        end
       end
 
       def filepath(item)
         fail "item has no route" unless item.route
 
-        relroute       = relativeize(item.route)
-        main_extension = item.extensions.first
+        relroute = relativeize(item.route)
 
         path =
-          if keep_extension?(main_extension)
-            "#{relroute}.#{main_extension}"
+          if keep_extension?(item)
+            "#{relroute}.#{main_extension(item)}"
           else
             "#{relroute}/#{@index}"
           end
@@ -38,8 +41,12 @@ module Munge
         path
       end
 
-      def keep_extension?(extension)
-        @keep_extensions.include?(extension)
+      def keep_extension?(item)
+        @keep_extensions.include?(main_extension(item))
+      end
+
+      def main_extension(item)
+        item.extensions.first
       end
     end
   end
