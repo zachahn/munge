@@ -5,7 +5,10 @@ module Munge
     class Source
       include Enumerable
 
-      def initialize(source_abspath, binary_extensions, location, ignored_basenames)
+      def initialize(source_abspath:,
+                     binary_extensions:,
+                     location:,
+                     ignored_basenames:)
         @item_factory =
           ItemFactory.new(
             source_path:       source_abspath,
