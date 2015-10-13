@@ -63,7 +63,8 @@ class Minitest::Test
       source_path,
       layouts_path,
       { global: "data" },
-      source
+      source,
+      new_router
     )
   end
 
