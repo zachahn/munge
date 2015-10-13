@@ -46,6 +46,10 @@ module Munge
       filename.split(".").first
     end
 
+    def extensions
+      filename.split(".")[1..-1]
+    end
+
     def [](key)
       @frontmatter[key]
     end

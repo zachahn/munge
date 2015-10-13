@@ -58,6 +58,14 @@ class ItemTest < Minitest::Test
     assert_equal "dir", item.basename
   end
 
+  def test_extensions
+    item = new_real_item("index.html.erb")
+    assert_equal %w(html erb), item.extensions
+
+    item = new_real_item("md_no_ext")
+    assert_equal [], item.extensions
+  end
+
   def test_route_set_get
     item = new_real_item("index.html.erb")
 
