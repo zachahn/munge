@@ -58,13 +58,15 @@ class Minitest::Test
     Munge::Core::Source.new(source_path, [], :fs_memory, [])
   end
 
-  def new_core_transformer(source)
+  def new_core_transformer(source: nil)
+    source ||= new_source
+
     Munge::Core::Transform.new(
-      source_path,
-      layouts_path,
-      new_global_data,
-      source,
-      new_router
+      source_path:  source_path,
+      layouts_path: layouts_path,
+      global_data:  new_global_data,
+      source:       source,
+      router:       new_router
     )
   end
 

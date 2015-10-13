@@ -23,11 +23,11 @@ module Munge
         keep_extensions: config[:keep_extensions]
       )
       @transform = Core::Transform.new(
-        source_path,
-        layouts_path,
-        global_data,
-        @source,
-        @router
+        source_path:  source_path,
+        layouts_path: layouts_path,
+        global_data:  global_data,
+        source:       @source,
+        router:       @router
       )
       @writer    = Core::Write.new(output_path, config[:index])
     end

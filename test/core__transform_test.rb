@@ -2,7 +2,7 @@ require "test_helper"
 
 class CoreTransformTest < Minitest::Test
   def setup
-    @allspark = new_core_transformer(new_source)
+    @allspark = new_core_transformer(source: new_source)
   end
 
   def test_resolver
