@@ -1,7 +1,7 @@
 module Munge
   module Core
     class Write
-      def initialize(output)
+      def initialize(output:)
         @output = output
       end
 
