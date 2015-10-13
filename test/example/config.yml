@@ -4,14 +4,18 @@ data: data.yml
 layouts: layouts
 index: index.html
 binary_extensions:
-  - png
   - gif
+  - ico
+  - jpg
+  - jpeg
+  - png
 ignored_basenames:
   - index
 keep_extensions:
-  - jpg
-  - png
   - gif
   - ico
+  - jpg
+  - jpeg
+  - png
   - css
   - js
