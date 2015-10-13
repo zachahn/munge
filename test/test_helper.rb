@@ -89,12 +89,12 @@ class Minitest::Test
     global_data ||= new_global_data
 
     Munge::Core::TransformScopeFactory.new(
-      source_path: source_path,
-      layouts_path: layouts_path,
-      global_data: global_data,
-      source: new_source,
+      source_path:      source_path,
+      layouts_path:     layouts_path,
+      global_data:      global_data,
+      source:           new_source,
       helper_container: Munge::Helper,
-      router: new_router
+      router:           new_router
     )
   end
 
@@ -118,7 +118,7 @@ class Minitest::Test
     config = new_config
 
     Munge::Core::Router.new(
-      index: config[:index],
+      index:           config[:index],
       keep_extensions: config[:keep_extensions]
     )
   end
