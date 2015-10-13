@@ -78,11 +78,12 @@ class Minitest::Test
 
   def new_scope_factory(global_data)
     Munge::Core::TransformScopeFactory.new(
-      source_path,
-      layouts_path,
-      global_data,
-      new_source,
-      Munge::Helper
+      source_path: source_path,
+      layouts_path: layouts_path,
+      global_data: global_data,
+      source: new_source,
+      helper_container: Munge::Helper,
+      router: new_router
     )
   end
 
