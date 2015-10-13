@@ -29,7 +29,7 @@ module Munge
         source:       @source,
         router:       @router
       )
-      @writer    = Core::Write.new(output_path, config[:index])
+      @writer    = Core::Write.new(output_path)
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
