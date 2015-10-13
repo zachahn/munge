@@ -89,4 +89,17 @@ class Minitest::Test
   def new_tilt_transformer(global_data)
     Munge::Transformer::Tilt.new(new_scope_factory(global_data))
   end
+
+  def new_config
+    Munge::Core::Config.new(File.join(example_path, "config.yml"))
+  end
+
+  def new_router(index_extensions: nil, index_basename: nil)
+    config = new_config
+
+    Munge::Core::Router.new(
+      config[:index],
+      config[:keep_extensions]
+    )
+  end
 end

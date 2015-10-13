@@ -8,3 +8,10 @@ binary_extensions:
   - gif
 ignored_basenames:
   - index
+keep_extensions:
+  - jpg
+  - png
+  - gif
+  - ico
+  - css
+  - js
