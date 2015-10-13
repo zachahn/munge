@@ -1,6 +1,9 @@
 module Munge
   class ItemFactory
-    def initialize(source_path, binary_extensions, location, ignored_basenames)
+    def initialize(source_path:,
+                   binary_extensions:,
+                   location:,
+                   ignored_basenames:)
       @source_path       = source_path
       @binary_extensions = Set.new(binary_extensions)
       @location          = location

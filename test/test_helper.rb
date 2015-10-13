@@ -51,7 +51,7 @@ class Minitest::Test
 
   def new_fixture_item(item_path)
     abspath = File.join(old_fixtures_path, item_path)
-    new_item_factory(old_fixtures_path).read(abspath)
+    new_item_factory(path: old_fixtures_path).read(abspath)
   end
 
   def new_source
@@ -62,18 +62,24 @@ class Minitest::Test
     Munge::Core::Transform.new(
       source_path,
       layouts_path,
-      { global: "data" },
+      new_global_data,
       source,
       new_router
     )
   end
 
-  def new_item_factory(path = source_path)
+  def new_item_factory(path: nil, ignored_basenames: nil)
+    config              = new_config
+
+    path              ||= source_path
+    binary_extensions ||= config[:binary_extensions]
+    ignored_basenames ||= config[:ignored_basenames]
+
     Munge::ItemFactory.new(
-      path,
-      %w(jpg png gif),
-      :fs_memory,
-      %w(index)
+      source_path:       path,
+      binary_extensions: binary_extensions,
+      location:          :fs_memory,
+      ignored_basenames: ignored_basenames
     )
   end
 
@@ -98,6 +104,10 @@ class Minitest::Test
 
   def new_config
     Munge::Core::Config.new(File.join(example_path, "config.yml"))
+  end
+
+  def new_global_data
+    YAML.load_file(File.join(example_path, "data.yml"))
   end
 
   def new_router(index_extensions: nil, index_basename: nil)

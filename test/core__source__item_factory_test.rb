@@ -2,10 +2,7 @@ require "test_helper"
 
 class CoreSourceItemFactoryTest < Minitest::Test
   def setup
-    binary_extensions = %w(gif png)
-    ignored_basenames = %w(index dir)
-
-    @item_factory = Munge::ItemFactory.new(source_path, binary_extensions, :fs_memory, ignored_basenames)
+    @item_factory = new_item_factory(ignored_basenames: %w(index dir))
   end
 
   def test_item_read
