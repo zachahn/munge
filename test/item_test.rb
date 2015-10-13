@@ -147,12 +147,4 @@ class ItemTest < Minitest::Test
     item.layout = "/////baz/"
     assert_equal "baz", item.layout
   end
-
-  def test_index!
-    item = new_real_item("in/sub/dir.html.erb")
-    assert_equal false, item.directory_index?
-
-    item.index!
-    assert_equal true, item.directory_index?
-  end
 end
