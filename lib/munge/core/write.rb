@@ -1,9 +1,8 @@
 module Munge
   module Core
     class Write
-      def initialize(output, index)
+      def initialize(output:)
         @output = output
-        @index  = index
       end
 
       def write(relpath, content)

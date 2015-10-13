@@ -12,24 +12,33 @@ module Munge
 
       global_data = YAML.load_file(data_path) || {}
 
-      @source = Core::Source.new(
-        source_path,
-        config[:binary_extensions],
-        :fs_memory,
-        config[:ignored_basenames]
-      )
-      @router    = Core::Router.new(
-        index: config[:index],
-        keep_extensions: config[:keep_extensions]
-      )
-      @transform = Core::Transform.new(
-        source_path,
-        layouts_path,
-        global_data,
-        @source,
-        @router
-      )
-      @writer    = Core::Write.new(output_path, config[:index])
+      @source =
+        Core::Source.new(
+          source_abspath:    source_path,
+          binary_extensions: config[:binary_extensions],
+          location:          :fs_memory,
+          ignored_basenames: config[:ignored_basenames]
+        )
+
+      @router =
+        Core::Router.new(
+          index:           config[:index],
+          keep_extensions: config[:keep_extensions]
+        )
+
+      @transform =
+        Core::Transform.new(
+          source_path:  source_path,
+          layouts_path: layouts_path,
+          global_data:  global_data,
+          source:       @source,
+          router:       @router
+        )
+
+      @writer =
+        Core::Write.new(
+          output: output_path
+        )
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 

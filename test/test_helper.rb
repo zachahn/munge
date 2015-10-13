@@ -51,45 +51,60 @@ class Minitest::Test
 
   def new_fixture_item(item_path)
     abspath = File.join(old_fixtures_path, item_path)
-    new_item_factory(old_fixtures_path).read(abspath)
+    new_item_factory(path: old_fixtures_path).read(abspath)
   end
 
   def new_source
-    Munge::Core::Source.new(source_path, [], :fs_memory, [])
+    Munge::Core::Source.new(
+      source_abspath:    source_path,
+      binary_extensions: [],
+      location:          :fs_memory,
+      ignored_basenames: []
+    )
   end
 
-  def new_core_transformer(source)
+  def new_core_transformer(source: nil)
+    source ||= new_source
+
     Munge::Core::Transform.new(
-      source_path,
-      layouts_path,
-      { global: "data" },
-      source,
-      new_router
-    )
-  end
-
-  def new_item_factory(path = source_path)
-    Munge::ItemFactory.new(
-      path,
-      %w(jpg png gif),
-      :fs_memory,
-      %w(index)
-    )
-  end
-
-  def new_scope_factory(global_data)
-    Munge::Core::TransformScopeFactory.new(
-      source_path: source_path,
+      source_path:  source_path,
       layouts_path: layouts_path,
-      global_data: global_data,
-      source: new_source,
+      global_data:  new_global_data,
+      source:       source,
+      router:       new_router
+    )
+  end
+
+  def new_item_factory(path: nil, ignored_basenames: nil)
+    config              = new_config
+
+    path              ||= source_path
+    binary_extensions ||= config[:binary_extensions]
+    ignored_basenames ||= config[:ignored_basenames]
+
+    Munge::ItemFactory.new(
+      source_path:       path,
+      binary_extensions: binary_extensions,
+      location:          :fs_memory,
+      ignored_basenames: ignored_basenames
+    )
+  end
+
+  def new_scope_factory(global_data: nil)
+    global_data ||= new_global_data
+
+    Munge::Core::TransformScopeFactory.new(
+      source_path:      source_path,
+      layouts_path:     layouts_path,
+      global_data:      global_data,
+      source:           new_source,
       helper_container: Munge::Helper,
-      router: new_router
+      router:           new_router
     )
   end
 
   def new_tilt_scope(global_data, source)
-    new_scope_factory(global_data).create
+    new_scope_factory(global_data: global_data).create
   end
 
   def new_tilt_transformer(global_data)
@@ -100,11 +115,15 @@ class Minitest::Test
     Munge::Core::Config.new(File.join(example_path, "config.yml"))
   end
 
+  def new_global_data
+    YAML.load_file(File.join(example_path, "data.yml"))
+  end
+
   def new_router(index_extensions: nil, index_basename: nil)
     config = new_config
 
     Munge::Core::Router.new(
-      index: config[:index],
+      index:           config[:index],
       keep_extensions: config[:keep_extensions]
     )
   end

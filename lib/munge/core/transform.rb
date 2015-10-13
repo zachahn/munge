@@ -1,11 +1,11 @@
 module Munge
   module Core
     class Transform
-      def initialize(source_path,
-                     layouts_path,
-                     global_data,
-                     source,
-                     router)
+      def initialize(source_path:,
+                     layouts_path:,
+                     global_data:,
+                     source:,
+                     router:)
         @scope_factory = Core::TransformScopeFactory.new(
           source_path: source_path,
           layouts_path: layouts_path,

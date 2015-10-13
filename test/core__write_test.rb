@@ -8,7 +8,7 @@ class CoreWriteTest < Minitest::Test
 
     FileUtils.mkdir_p(@output_dir)
 
-    @writer = Munge::Core::Write.new(@output_dir, "index.html")
+    @writer = Munge::Core::Write.new(output: @output_dir)
   end
 
   def teardown

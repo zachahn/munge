@@ -5,8 +5,17 @@ module Munge
     class Source
       include Enumerable
 
-      def initialize(source_abspath, binary_extensions, location, ignored_basenames)
-        @item_factory = ItemFactory.new(source_abspath, binary_extensions, location, ignored_basenames)
+      def initialize(source_abspath:,
+                     binary_extensions:,
+                     location:,
+                     ignored_basenames:)
+        @item_factory =
+          ItemFactory.new(
+            source_path:       source_abspath,
+            binary_extensions: binary_extensions,
+            location:          location,
+            ignored_basenames: ignored_basenames
+          )
         pattern       = File.join(source_abspath, "**", "*")
 
         @items =

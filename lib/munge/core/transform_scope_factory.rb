@@ -17,11 +17,11 @@ module Munge
 
       def create(load_helpers = true)
         scope = Munge::Transformer::Tilt::Scope.new(
-          @source_path,
-          @layouts_path,
-          @global_data,
-          @source,
-          @router
+          source_path:  @source_path,
+          layouts_path: @layouts_path,
+          global_data:  @global_data,
+          source:       @source,
+          router:       @router
         )
 
         if load_helpers
