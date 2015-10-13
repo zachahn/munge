@@ -36,6 +36,10 @@ class Minitest::Test
     File.join(example_path, "src")
   end
 
+  def output_path
+    File.join(example_path, "dest")
+  end
+
   def layouts_path
     File.join(example_path, "layouts")
   end
