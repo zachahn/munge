@@ -85,7 +85,9 @@ class Minitest::Test
     )
   end
 
-  def new_scope_factory(global_data)
+  def new_scope_factory(global_data: nil)
+    global_data ||= new_global_data
+
     Munge::Core::TransformScopeFactory.new(
       source_path: source_path,
       layouts_path: layouts_path,
@@ -97,7 +99,7 @@ class Minitest::Test
   end
 
   def new_tilt_scope(global_data, source)
-    new_scope_factory(global_data).create
+    new_scope_factory(global_data: global_data).create
   end
 
   def new_tilt_transformer(global_data)
