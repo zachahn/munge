@@ -27,8 +27,8 @@ class CoreSourceItemFactoryTest < Minitest::Test
     item = @item_factory.read(File.join(source_path, "index.html.erb"))
     assert_equal "", item.id
 
-    item = @item_factory.read(File.join(source_path, "render.html.erb"))
-    assert_equal "render", item.id
+    item = @item_factory.read(File.join(source_path, "frontmatter.html.erb"))
+    assert_equal "frontmatter", item.id
 
     item = @item_factory.read(File.join(source_path, "in/sub/dir.html.erb"))
     assert_equal "in/sub", item.id

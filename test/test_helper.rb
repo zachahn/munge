@@ -45,6 +45,11 @@ class Minitest::Test
     new_item_factory.read(abspath)
   end
 
+  def new_fixture_item(item_path)
+    abspath = File.join(old_fixtures_path, item_path)
+    new_item_factory(old_fixtures_path).read(abspath)
+  end
+
   def new_source
     Munge::Core::Source.new(source_path, [], :fs_memory, [])
   end
@@ -58,9 +63,9 @@ class Minitest::Test
     )
   end
 
-  def new_item_factory
+  def new_item_factory(path = source_path)
     Munge::ItemFactory.new(
-      source_path,
+      path,
       %w(jpg png gif),
       :fs_memory,
       %w(index)

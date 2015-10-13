@@ -24,7 +24,7 @@ class TransformerTiltScopeTest < Minitest::Test
 
   def test_render_in_item
     about  = new_item("about.html.md.erb")
-    output = @renderer.render(new_item("render.html.erb"), item: about)
+    output = @renderer.render(new_fixture_item("render.html.erb"), item: about)
 
     expected = "<p>testing</p>\n" \
                "<body>cool  <b>testing</b><h1>about me</h1>\n\n" \
