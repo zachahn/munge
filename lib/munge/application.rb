@@ -24,6 +24,10 @@ module Munge
         global_data,
         @source
       )
+      @router    = Core::Router.new(
+        index: config[:index],
+        keep_extensions: config[:keep_extensions]
+      )
       @writer    = Core::Write.new(output_path, config[:index])
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -49,9 +53,12 @@ module Munge
     private
 
     def render_and_write(item, &block)
-      did_write = @writer.write(item.route, @transform.call(item))
+      relpath = @router.filepath(item)
+
+      write_status = @writer.write(relpath, @transform.call(item))
+
       if block_given?
-        block.call(item, did_write)
+        block.call(item, write_status)
       end
     end
   end
