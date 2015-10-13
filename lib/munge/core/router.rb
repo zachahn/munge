@@ -1,9 +1,9 @@
 module Munge
   module Core
     class Router
-      def initialize(index, keep_extension)
+      def initialize(index:, keep_extensions:)
         @index          = index
-        @keep_extension = keep_extension
+        @keep_extensions = keep_extensions
       end
 
       def route(item)
@@ -39,7 +39,7 @@ module Munge
       end
 
       def keep_extension?(extension)
-        @keep_extension.include?(extension)
+        @keep_extensions.include?(extension)
       end
     end
   end

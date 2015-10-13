@@ -98,8 +98,8 @@ class Minitest::Test
     config = new_config
 
     Munge::Core::Router.new(
-      config[:index],
-      config[:keep_extensions]
+      index: config[:index],
+      keep_extensions: config[:keep_extensions]
     )
   end
 end
