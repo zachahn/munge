@@ -18,15 +18,16 @@ module Munge
         :fs_memory,
         config[:ignored_basenames]
       )
+      @router    = Core::Router.new(
+        index: config[:index],
+        keep_extensions: config[:keep_extensions]
+      )
       @transform = Core::Transform.new(
         source_path,
         layouts_path,
         global_data,
-        @source
-      )
-      @router    = Core::Router.new(
-        index: config[:index],
-        keep_extensions: config[:keep_extensions]
+        @source,
+        @router
       )
       @writer    = Core::Write.new(output_path, config[:index])
     end
