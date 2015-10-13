@@ -24,7 +24,7 @@ class TransformerTiltScopeTest < Minitest::Test
 
   def test_render_in_item
     about  = new_item("about.html.md.erb")
-    output = @renderer.render(new_item("render.html.erb"), item: about)
+    output = @renderer.render(new_fixture_item("render.html.erb"), item: about)
 
     expected = "<p>testing</p>\n" \
                "<body>cool  <b>testing</b><h1>about me</h1>\n\n" \
@@ -54,5 +54,29 @@ class TransformerTiltScopeTest < Minitest::Test
     end
 
     assert_equal "<p><strong>boom me</strong></p>\n", output
+  end
+
+  def test_url_for
+    item = new_item("index.html.erb")
+
+    item.route = ""
+    url        = @renderer.url_for(item)
+    assert_equal "/", url
+
+    item.route = "index.html"
+    url        = @renderer.url_for(item)
+    assert_equal "/index.html", url
+  end
+
+  def test_link_to
+    item = new_item("index.html.erb")
+
+    item.route = ""
+    url        = @renderer.link_to(item, "home")
+    assert_equal %(<a href="/">home</a>), url
+
+    item.route = "index.html"
+    url        = @renderer.link_to(item, "index page", class: "test")
+    assert_equal %(<a href="/index.html" class="test">index page</a>), url
   end
 end

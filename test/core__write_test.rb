@@ -23,12 +23,4 @@ class CoreWriteTest < Minitest::Test
     assert_equal true, File.exist?("#{@output_dir}/#{filepath}")
     assert_equal "<3\n", File.read("#{@output_dir}/#{filepath}")
   end
-
-  def test_write_path_directory_index
-    filepath = "relpath/to/directory"
-
-    @writer.write(filepath, "<3\n")
-
-    assert_equal true, File.exist?("#{@output_dir}/#{filepath}/index.html")
-  end
 end

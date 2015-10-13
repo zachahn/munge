@@ -2,16 +2,16 @@ module Munge
   module Transformer
     class Tilt
       class Scope
-        include Munge::Helper::Rendering
-
         def initialize(source_path,
                        layouts_path,
                        global_data,
-                       source)
+                       source,
+                       router)
           @source_path      = source_path
           @layouts_path     = layouts_path
           @global_data      = global_data
           @source           = source
+          @router           = router
         end
       end
     end

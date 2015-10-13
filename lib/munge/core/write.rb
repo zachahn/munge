@@ -6,8 +6,7 @@ module Munge
         @index  = index
       end
 
-      def write(route, content)
-        relpath = resolve_filepath(route)
+      def write(relpath, content)
         abspath = File.join(@output, relpath)
 
         FileUtils.mkdir_p(File.dirname(abspath))
@@ -17,16 +16,6 @@ module Munge
         else
           File.write(abspath, content)
           true
-        end
-      end
-
-      def resolve_filepath(preferred_filename)
-        basename = File.basename(preferred_filename)
-
-        if basename.include?(".")
-          preferred_filename
-        else
-          "#{preferred_filename}/#{@index}"
         end
       end
     end

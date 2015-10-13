@@ -4,13 +4,15 @@ module Munge
       def initialize(source_path,
                      layouts_path,
                      global_data,
-                     source)
+                     source,
+                     router)
         @scope_factory = Core::TransformScopeFactory.new(
-          source_path,
-          layouts_path,
-          global_data,
-          source,
-          Munge::Helper
+          source_path: source_path,
+          layouts_path: layouts_path,
+          global_data: global_data,
+          source: source,
+          helper_container: Munge::Helper,
+          router: router
         )
       end
 

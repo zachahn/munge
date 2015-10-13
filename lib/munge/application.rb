@@ -18,11 +18,16 @@ module Munge
         :fs_memory,
         config[:ignored_basenames]
       )
+      @router    = Core::Router.new(
+        index: config[:index],
+        keep_extensions: config[:keep_extensions]
+      )
       @transform = Core::Transform.new(
         source_path,
         layouts_path,
         global_data,
-        @source
+        @source,
+        @router
       )
       @writer    = Core::Write.new(output_path, config[:index])
     end
@@ -49,9 +54,12 @@ module Munge
     private
 
     def render_and_write(item, &block)
-      did_write = @writer.write(item.route, @transform.call(item))
+      relpath = @router.filepath(item)
+
+      write_status = @writer.write(relpath, @transform.call(item))
+
       if block_given?
-        block.call(item, did_write)
+        block.call(item, write_status)
       end
     end
   end

@@ -36,6 +36,10 @@ class Minitest::Test
     File.join(example_path, "src")
   end
 
+  def output_path
+    File.join(example_path, "dest")
+  end
+
   def layouts_path
     File.join(example_path, "layouts")
   end
@@ -43,6 +47,11 @@ class Minitest::Test
   def new_item(item_path)
     abspath = File.join(source_path, item_path)
     new_item_factory.read(abspath)
+  end
+
+  def new_fixture_item(item_path)
+    abspath = File.join(old_fixtures_path, item_path)
+    new_item_factory(old_fixtures_path).read(abspath)
   end
 
   def new_source
@@ -54,13 +63,14 @@ class Minitest::Test
       source_path,
       layouts_path,
       { global: "data" },
-      source
+      source,
+      new_router
     )
   end
 
-  def new_item_factory
+  def new_item_factory(path = source_path)
     Munge::ItemFactory.new(
-      source_path,
+      path,
       %w(jpg png gif),
       :fs_memory,
       %w(index)
@@ -69,24 +79,33 @@ class Minitest::Test
 
   def new_scope_factory(global_data)
     Munge::Core::TransformScopeFactory.new(
-      source_path,
-      layouts_path,
-      global_data,
-      new_source,
-      Munge::Helper
+      source_path: source_path,
+      layouts_path: layouts_path,
+      global_data: global_data,
+      source: new_source,
+      helper_container: Munge::Helper,
+      router: new_router
     )
   end
 
   def new_tilt_scope(global_data, source)
-    Munge::Transformer::Tilt::Scope.new(
-      source_path,
-      layouts_path,
-      global_data,
-      source
-    )
+    new_scope_factory(global_data).create
   end
 
   def new_tilt_transformer(global_data)
     Munge::Transformer::Tilt.new(new_scope_factory(global_data))
+  end
+
+  def new_config
+    Munge::Core::Config.new(File.join(example_path, "config.yml"))
+  end
+
+  def new_router(index_extensions: nil, index_basename: nil)
+    config = new_config
+
+    Munge::Core::Router.new(
+      index: config[:index],
+      keep_extensions: config[:keep_extensions]
+    )
   end
 end

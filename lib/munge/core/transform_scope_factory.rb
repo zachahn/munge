@@ -1,16 +1,18 @@
 module Munge
   module Core
     class TransformScopeFactory
-      def initialize(source_path,
-                     layouts_path,
-                     global_data,
-                     source,
-                     helper_container)
+      def initialize(source_path:,
+                     layouts_path:,
+                     global_data:,
+                     source:,
+                     helper_container:,
+                     router:)
         @source_path      = source_path
         @layouts_path     = layouts_path
         @global_data      = global_data
         @source           = source
         @helper_container = helper_container
+        @router           = router
       end
 
       def create(load_helpers = true)
@@ -18,7 +20,8 @@ module Munge
           @source_path,
           @layouts_path,
           @global_data,
-          @source
+          @source,
+          @router
         )
 
         if load_helpers
