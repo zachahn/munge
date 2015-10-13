@@ -55,4 +55,28 @@ class TransformerTiltScopeTest < Minitest::Test
 
     assert_equal "<p><strong>boom me</strong></p>\n", output
   end
+
+  def test_url_for
+    item = new_item("index.html.erb")
+
+    item.route = ""
+    url        = @renderer.url_for(item)
+    assert_equal "/", url
+
+    item.route = "index.html"
+    url        = @renderer.url_for(item)
+    assert_equal "/index.html", url
+  end
+
+  def test_link_to
+    item = new_item("index.html.erb")
+
+    item.route = ""
+    url        = @renderer.link_to(item, "home")
+    assert_equal %(<a href="/">home</a>), url
+
+    item.route = "index.html"
+    url        = @renderer.link_to(item, "index page", class: "test")
+    assert_equal %(<a href="/index.html" class="test">index page</a>), url
+  end
 end
