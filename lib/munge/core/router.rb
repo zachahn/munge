@@ -22,7 +22,9 @@ module Munge
         relroute = relativeize(item.route)
 
         path =
-          if keep_extension?(item)
+          if route_has_extension?(item)
+            "#{relroute}"
+          elsif keep_extension?(item)
             "#{relroute}.#{main_extension(item)}"
           else
             "#{relroute}/#{@index}"
@@ -41,12 +43,20 @@ module Munge
         path
       end
 
+      def route_has_extension?(item)
+        route_basename(item) =~ /\./
+      end
+
       def keep_extension?(item)
         @keep_extensions.include?(main_extension(item))
       end
 
       def main_extension(item)
         item.extensions.first
+      end
+
+      def route_basename(item)
+        File.basename(item.route)
       end
     end
   end
