@@ -87,12 +87,7 @@ class Minitest::Test
   end
 
   def new_tilt_scope(global_data, source)
-    Munge::Transformer::Tilt::Scope.new(
-      source_path,
-      layouts_path,
-      global_data,
-      source
-    )
+    new_scope_factory(global_data).create
   end
 
   def new_tilt_transformer(global_data)
