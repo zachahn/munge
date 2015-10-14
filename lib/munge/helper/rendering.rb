@@ -4,53 +4,37 @@ module Munge
       def render(item, engines: nil, data: {}, content_override: nil)
         content   = content_override || item.content
         renderers = tilt_renderer_list(item, engines)
-        data      = merged_data(item.frontmatter, data)
+        mdata     = merged_data(item.frontmatter, data)
 
-        manual_render(content, data, renderers)
+        manual_render(content, mdata, renderers)
       end
 
-      def layout(item_or_string, **additional_data, &block)
-        data =
-          if item_or_string.is_a?(String)
-            merged_data(additional_data)
-          else
-            merged_data(item_or_string.frontmatter, additional_data)
-          end
-
-        layout_item =
-          if item_or_string.is_a?(String)
-            find_layout(item_or_string)
-          else
-            item_or_string
-          end
+      def layout(item_or_string, data: {}, &block)
+        layout_item = resolve_layout(item_or_string)
+        mdata       = merged_data(layout_item.frontmatter, data)
 
         if block_given?
           if block.binding.local_variable_defined?(:_erbout)
-            layout_within_template(layout_item, data, &block)
+            layout_within_template(layout_item, mdata, &block)
           else
-            layout_outside_template(layout_item, data, &block)
+            layout_outside_template(layout_item, mdata, &block)
           end
         else
-          layout_without_block(layout_item, data)
+          layout_without_block(layout_item, mdata)
         end
       end
 
-      def render_with_layout(item, manual_engine = nil, **additional_data, &content_block)
-        data = merged_data(item.frontmatter, additional_data)
+      def render_with_layout(item, content_engines: nil, data: {}, content_override: nil)
+        mdata = merged_data(item.frontmatter, data)
 
-        inner =
-          if block_given?
-            render(item, engines: manual_engine, data: data, content_override: content_block.call)
-          else
-            render(item, engines: manual_engine, data: data)
-          end
+        inner = render(item, engines: content_engines, data: mdata, content_override: content_override)
 
-        if item.layout.nil?
-          inner
-        else
-          layout(item.layout, data) do
+        if item.layout
+          layout(item.layout, data: mdata) do
             inner
           end
+        else
+          inner
         end
       end
 
@@ -68,21 +52,28 @@ module Munge
           end
       end
 
+      def resolve_layout(item_or_string)
+        if item_or_string.is_a?(String)
+          find_layout(item_or_string)
+        else
+          item_or_string
+        end
+      end
+
       def find_layout(path)
         @layouts[path]
       end
 
-      def layout_within_template(layout_item, additional_data, &block)
+      def layout_within_template(layout_item, mdata, &block)
         original_erbout = block.binding.local_variable_get(:_erbout)
 
         block.binding.local_variable_set(:_erbout, "")
 
         inside = block.call
 
-        data        = merged_data(additional_data)
         engine_list = tilt_renderer_list(layout_item, nil)
 
-        result = manual_render(layout_item.content, data, engine_list) { inside }
+        result = manual_render(layout_item.content, mdata, engine_list) { inside }
 
         final = original_erbout + result
 
@@ -91,15 +82,15 @@ module Munge
         ""
       end
 
-      def layout_outside_template(layout_item, additional_data, &block)
+      def layout_outside_template(layout_item, mdata, &block)
         engine_list = tilt_renderer_list(layout_item, nil)
 
-        manual_render(layout_item.content, additional_data, engine_list, &block)
+        manual_render(layout_item.content, mdata, engine_list, &block)
       end
 
-      def layout_without_block(actual_layout, additional_data)
+      def layout_without_block(actual_layout, mdata)
         template = ::Tilt.new(actual_layout)
-        template.render(self, merged_data(additional_data))
+        template.render(self, merged_data(mdata))
       end
 
       def resolve_render_content(item, &content_block)
