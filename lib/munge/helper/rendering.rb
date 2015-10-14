@@ -54,32 +54,10 @@ module Munge
 
       def resolve_layout(item_or_string)
         if item_or_string.is_a?(String)
-          find_layout(item_or_string)
+          @layouts[item_or_string]
         else
           item_or_string
         end
-      end
-
-      def find_layout(path)
-        @layouts[path]
-      end
-
-      def layout_within_template(layout_item, mdata, &block)
-        original_erbout = block.binding.local_variable_get(:_erbout)
-
-        block.binding.local_variable_set(:_erbout, "")
-
-        inside = block.call
-
-        engine_list = tilt_renderer_list(layout_item, nil)
-
-        result = manual_render(layout_item.content, mdata, engine_list) { inside }
-
-        final = original_erbout + result
-
-        block.binding.local_variable_set(:_erbout, final)
-
-        ""
       end
 
       def layout_outside_template(layout_item, mdata, &block)
@@ -88,25 +66,24 @@ module Munge
         manual_render(layout_item.content, mdata, engine_list, &block)
       end
 
-      def layout_without_block(actual_layout, mdata)
-        template = ::Tilt.new(actual_layout)
-        template.render(self, merged_data(mdata))
+      def layout_within_template(layout_item, mdata, &block)
+        original_erbout = block.binding.local_variable_get(:_erbout)
+
+        block.binding.local_variable_set(:_erbout, "")
+
+        result = layout_outside_template(layout_item, mdata) { block.call }
+
+        final = original_erbout + result
+
+        block.binding.local_variable_set(:_erbout, final)
+
+        ""
       end
 
-      def resolve_render_content(item, &content_block)
-        if block_given?
-          content_block.call
-        else
-          item.content
-        end
-      end
+      def layout_without_block(layout_item, mdata)
+        engine_list = tilt_renderer_list(layout_item, nil)
 
-      def resolve_render_renderer(item, manual_engine)
-        if manual_engine.nil?
-          ::Tilt.templates_for(item.relpath)
-        else
-          [::Tilt[manual_engine]].compact
-        end
+        manual_render(layout_item.content, mdata, engine_list)
       end
 
       def tilt_renderer_list(item, preferred_engine)
