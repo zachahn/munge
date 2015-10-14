@@ -11,6 +11,20 @@ Until then,
 the API should be considered experimental.
 
 
+## Features
+
+- No metaprogramming
+- Suitable for large, complex sites (e.g., multiple blogs with different templates, a single blog with multiple data sources)
+- Concise rule definition
+- Rules defined by iterating through arrays and modifying objects
+
+
+## Caveats
+
+- Not optimized (Pull requests welcome, gradual optimizations preferred)
+- Rules can seem pretty dense (because of its conciseness)
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -32,8 +46,11 @@ Or install it yourself as:
 
 After installing your gem, you can start a project using the command line client.
 
-```
-munge init path/to/project
+```bash
+munge init path/to/project  # create a barebones project
+cd path/to/project
+munge build                 # compiles your project
+munge view                  # open http://localhost:3000/ to see output
 ```
 
 The three main files of your application are `config.yml`, `data.yml`, and `rules.rb`.
@@ -51,7 +68,7 @@ app.source
 
 # blog posts
 app.source
-  .select { |item| item.relpath =~ %r(^posts/) }          # looks for items in "src/posts/**/*"
+  .select { |item| item.relpath?("posts") }               # looks for items in "src/posts/**/*"
   .each   { |item| item.route = "blog/#{item.basename}" } # sets output file to "/blog/#{basename}/index.html"
   .each   { |item| item.layout = "post" }
   .each   { |item| item.transform }                       # sets transform to Tilt (default)
@@ -59,8 +76,8 @@ app.source
 # blog index
 posts_for_index =
   app.source
-    .find_all { |item| item.route =~ %r(^blog/) }
-    .sort_by  { |item| item.route }
+    .select  { |item| item.route?("blog") }
+    .sort_by { |item| item.route }
     .reverse
 
 app.create("blog/index.html.erb", "", posts: posts_for_index) do |item|
