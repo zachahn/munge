@@ -13,23 +13,36 @@ module Munge
           end
       end
 
-      def layout(path, **additional_data, &block)
-        actual_layout = find_layout(path)
+      def layout(item_or_string, **additional_data, &block)
+        data =
+          if item_or_string.is_a?(String)
+            merged_data(additional_data)
+          else
+            merged_data(item_or_string.frontmatter, additional_data)
+          end
+
+        layout_item =
+          if item_or_string.is_a?(String)
+            find_layout(item_or_string)
+          else
+            item_or_string
+          end
+
+        actual_layout = layout_item
 
         if block_given?
           if block.binding.local_variable_defined?(:_erbout)
-            layout_within_template(actual_layout, additional_data, &block)
+            layout_within_template(actual_layout, data, &block)
           else
-            layout_outside_template(actual_layout, additional_data, &block)
+            layout_outside_template(actual_layout, data, &block)
           end
         else
-          layout_without_block(actual_layout, additional_data)
+          layout_without_block(actual_layout, data)
         end
       end
 
       def render_with_layout(item, manual_engine = nil, **additional_data, &content_block)
-        data =
-          merged_data(item.frontmatter, additional_data)
+        data = merged_data(item.frontmatter, additional_data)
 
         inner =
           if block_given?
@@ -62,8 +75,7 @@ module Munge
       end
 
       def find_layout(path)
-        pattern = File.join(@layouts_path, path)
-        Dir["#{pattern}*"].first
+        @layouts[path]
       end
 
       def layout_within_template(actual_layout, additional_data, &block)
@@ -73,7 +85,7 @@ module Munge
 
         inside = block.call
 
-        template = ::Tilt.new(actual_layout)
+        template = ::Tilt.new { actual_layout.content }
         result = template.render(self, merged_data(additional_data)) do
           inside
         end
@@ -85,11 +97,10 @@ module Munge
         ""
       end
 
-      def layout_outside_template(actual_layout, additional_data, &block)
-        template = ::Tilt.new(actual_layout)
-        template.render(self, merged_data(additional_data)) do
-          block.call
-        end
+      def layout_outside_template(layout_item, additional_data, &block)
+        engine_list = tilt_renderer_list(layout_item, nil)
+
+        manual_render(layout_item.content, additional_data, engine_list, &block)
       end
 
       def layout_without_block(actual_layout, additional_data)
@@ -111,6 +122,49 @@ module Munge
         else
           [::Tilt[manual_engine]].compact
         end
+      end
+
+      def tilt_renderer_list(item, preferred_engine)
+        if preferred_engine
+          tilt_renderers_from_preferred(preferred_engine)
+        else
+          tilt_renderers_from_path(item.relpath)
+        end
+      end
+
+      def tilt_renderers_from_path(path)
+        ::Tilt.templates_for(path)
+      end
+
+      def tilt_renderers_from_preferred(preferred_engines)
+        preferred =
+          if preferred_engines.is_a?(Array)
+            preferred_engines.flatten.join(".")
+          else
+            preferred_engines
+          end
+
+        ::Tilt.templates_for(preferred)
+      end
+
+      def manual_render(content, data, engine_list)
+        inner =
+          if block_given?
+            yield
+          else
+            nil
+          end
+
+        engine_list
+          .inject(content) do |output, engine|
+            template = engine.new { output }
+
+            if inner
+              template.render(self, data) { inner }
+            else
+              template.render(self, data)
+            end
+          end
       end
     end
   end
