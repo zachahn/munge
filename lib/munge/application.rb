@@ -20,6 +20,14 @@ module Munge
           ignored_basenames: config[:ignored_basenames]
         )
 
+      @layouts =
+        Core::Source.new(
+          source_abspath:    layouts_path,
+          binary_extensions: [],
+          location:          :fs_memory,
+          ignored_basenames: []
+        )
+
       @router =
         Core::Router.new(
           index:           config[:index],
@@ -28,9 +36,8 @@ module Munge
 
       @transform =
         Core::Transform.new(
-          source_path:  source_path,
-          layouts_path: layouts_path,
           global_data:  global_data,
+          layouts:      @layouts,
           source:       @source,
           router:       @router
         )

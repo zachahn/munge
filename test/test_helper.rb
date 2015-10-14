@@ -65,15 +65,23 @@ class Minitest::Test
     )
   end
 
+  def new_layouts(path: layouts_path)
+    Munge::Core::Source.new(
+      source_abspath:    path,
+      binary_extensions: [],
+      location:          :fs_memory,
+      ignored_basenames: []
+    )
+  end
+
   def new_core_transformer(source: nil)
     source ||= new_source
 
     Munge::Core::Transform.new(
-      source_path:  source_path,
-      layouts_path: layouts_path,
-      global_data:  new_global_data,
-      source:       source,
-      router:       new_router
+      layouts:     new_layouts,
+      global_data: new_global_data,
+      source:      source,
+      router:      new_router
     )
   end
 
