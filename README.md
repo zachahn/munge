@@ -68,7 +68,7 @@ app.source
 
 # blog posts
 app.source
-  .select { |item| item.relpath =~ %r(^posts/) }          # looks for items in "src/posts/**/*"
+  .select { |item| item.relpath?("posts") }               # looks for items in "src/posts/**/*"
   .each   { |item| item.route = "blog/#{item.basename}" } # sets output file to "/blog/#{basename}/index.html"
   .each   { |item| item.layout = "post" }
   .each   { |item| item.transform }                       # sets transform to Tilt (default)
@@ -76,8 +76,8 @@ app.source
 # blog index
 posts_for_index =
   app.source
-    .find_all { |item| item.route =~ %r(^blog/) }
-    .sort_by  { |item| item.route }
+    .select  { |item| item.route?("blog") }
+    .sort_by { |item| item.route }
     .reverse
 
 app.create("blog/index.html.erb", "", posts: posts_for_index) do |item|
