@@ -1,16 +1,12 @@
 module Munge
   module Helper
     module Rendering
-      def render(item, manual_engine = nil, **additional_data, &content_block)
-        content   = resolve_render_content(item, &content_block)
-        renderers = resolve_render_renderer(item, manual_engine)
-        data      = merged_data(item.frontmatter, additional_data)
+      def render(item, engines: nil, data: {}, content_override: nil)
+        content   = content_override || item.content
+        renderers = tilt_renderer_list(item, engines)
+        data      = merged_data(item.frontmatter, data)
 
-        renderers
-          .inject(content) do |output, engine|
-            template = engine.new { output }
-            template.render(self, data)
-          end
+        manual_render(content, data, renderers)
       end
 
       def layout(item_or_string, **additional_data, &block)
@@ -44,9 +40,9 @@ module Munge
 
         inner =
           if block_given?
-            render(item, manual_engine, **data, &content_block)
+            render(item, engines: manual_engine, data: data, content_override: content_block.call)
           else
-            render(item, manual_engine, **data)
+            render(item, engines: manual_engine, data: data)
           end
 
         if item.layout.nil?

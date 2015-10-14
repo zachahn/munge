@@ -24,7 +24,7 @@ class TransformerTiltScopeTest < Minitest::Test
 
   def test_render_in_item
     about  = new_item("about.html.md.erb")
-    output = @renderer.render(new_fixture_item("render.html.erb"), item: about)
+    output = @renderer.render(new_fixture_item("render.html.erb"), data: { item: about })
 
     expected = "<p>testing</p>\n" \
                "<body>cool  <b>testing</b><h1>about me</h1>\n\n" \
@@ -43,15 +43,13 @@ class TransformerTiltScopeTest < Minitest::Test
   end
 
   def test_render__specified_renderers
-    output = @renderer.render(new_item("about.html.md.erb"), "erb")
+    output = @renderer.render(new_item("about.html.md.erb"), engines: "erb")
 
     assert_equal "# about me\n", output
   end
 
   def test_render__custom_text
-    output = @renderer.render(new_item("about.html.md.erb")) do
-      "**boom <%= who %>**"
-    end
+    output = @renderer.render(new_item("about.html.md.erb"), content_override: "**boom <%= who %>**")
 
     assert_equal "<p><strong>boom me</strong></p>\n", output
   end
