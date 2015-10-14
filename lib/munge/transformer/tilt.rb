@@ -8,13 +8,7 @@ module Munge
       end
 
       def call(item, content = nil, renderer = nil)
-        if content.nil?
-          @scope.render_with_layout(item, renderer)
-        else
-          @scope.render_with_layout(item, renderer) do
-            content
-          end
-        end
+        @scope.render_with_layout(item, content_engines: renderer, content_override: content)
       end
     end
   end
