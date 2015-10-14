@@ -1,14 +1,12 @@
 module Munge
   module Core
     class TransformScopeFactory
-      def initialize(source_path:,
-                     layouts_path:,
+      def initialize(layouts:,
                      global_data:,
                      source:,
                      helper_container:,
                      router:)
-        @source_path      = source_path
-        @layouts_path     = layouts_path
+        @layouts          = layouts
         @global_data      = global_data
         @source           = source
         @helper_container = helper_container
@@ -17,11 +15,10 @@ module Munge
 
       def create(load_helpers = true)
         scope = Munge::Transformer::Tilt::Scope.new(
-          source_path:  @source_path,
-          layouts_path: @layouts_path,
-          global_data:  @global_data,
-          source:       @source,
-          router:       @router
+          layouts:     @layouts,
+          global_data: @global_data,
+          source:      @source,
+          router:      @router
         )
 
         if load_helpers

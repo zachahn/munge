@@ -54,12 +54,14 @@ class Minitest::Test
     new_item_factory(path: old_fixtures_path).read(abspath)
   end
 
-  def new_source
+  def new_source(path: source_path,
+                 binary_extensions: [],
+                 ignored_basenames: [])
     Munge::Core::Source.new(
-      source_abspath:    source_path,
-      binary_extensions: [],
+      source_abspath:    path,
+      binary_extensions: binary_extensions,
       location:          :fs_memory,
-      ignored_basenames: []
+      ignored_basenames: ignored_basenames
     )
   end
 
@@ -94,8 +96,7 @@ class Minitest::Test
     global_data ||= new_global_data
 
     Munge::Core::TransformScopeFactory.new(
-      source_path:      source_path,
-      layouts_path:     layouts_path,
+      layouts:          new_source(path: layouts_path),
       global_data:      global_data,
       source:           new_source,
       helper_container: Munge::Helper,
