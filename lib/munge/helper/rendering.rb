@@ -28,16 +28,14 @@ module Munge
             item_or_string
           end
 
-        actual_layout = layout_item
-
         if block_given?
           if block.binding.local_variable_defined?(:_erbout)
-            layout_within_template(actual_layout, data, &block)
+            layout_within_template(layout_item, data, &block)
           else
-            layout_outside_template(actual_layout, data, &block)
+            layout_outside_template(layout_item, data, &block)
           end
         else
-          layout_without_block(actual_layout, data)
+          layout_without_block(layout_item, data)
         end
       end
 
@@ -78,17 +76,17 @@ module Munge
         @layouts[path]
       end
 
-      def layout_within_template(actual_layout, additional_data, &block)
+      def layout_within_template(layout_item, additional_data, &block)
         original_erbout = block.binding.local_variable_get(:_erbout)
 
         block.binding.local_variable_set(:_erbout, "")
 
         inside = block.call
 
-        template = ::Tilt.new { actual_layout.content }
-        result = template.render(self, merged_data(additional_data)) do
-          inside
-        end
+        data        = merged_data(additional_data)
+        engine_list = tilt_renderer_list(layout_item, nil)
+
+        result = manual_render(layout_item.content, data, engine_list) { inside }
 
         final = original_erbout + result
 
@@ -147,10 +145,10 @@ module Munge
         ::Tilt.templates_for(preferred)
       end
 
-      def manual_render(content, data, engine_list)
+      def manual_render(content, data, engine_list, &block)
         inner =
           if block_given?
-            yield
+            block.call
           else
             nil
           end
