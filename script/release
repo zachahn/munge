@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+load "lib/munge/version.rb"
+
+# 01 -- build gem
+puts "==> building gem"
+`gem build munge.gemspec`
+puts "==> building gem... done"
+
+
+# 02 -- create tags
+puts "==> creating tag `v#{Munge::VERSION}`"
+`git tag -a v#{Munge::VERSION} -m 'v#{Munge::VERSION}'`
+puts "==> creating tag `v#{Munge::VERSION}`... done"
+
+
+# 03 -- finishing instructions
+gemfile = Dir["munge-*.gem"].first
+puts "==> final steps"
+puts "    git push --tags && gem push #{gemfile}"
+
