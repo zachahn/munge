@@ -19,19 +19,20 @@ class ApplicationTest < Minitest::Test
 
       app = Munge::Application.new("#{example_path}/config.yml")
 
-      app.source
-        .select { |item| item.extensions.include?("html") }
-        .each   { |item| item.route = item.id }
-        .each   { |item| item.transform }
+      about_item = app.source["about"]
+      about_item.route = about_item.id
+      about_item.transform
 
-      app.source
-        .select { |item| item.type == :binary }
-        .each   { |item| item.route = item.id }
+      home_item = app.source[""]
+      home_item.route = home_item.id
+      home_item.transform
 
-      app.source
-        .select { |item| item.id == "md_no_ext" }
-        .each   { |item| item.route = item.id }
-        .each   { |item| item.transform(:tilt, "md") }
+      tgif_item = app.source["transparent"]
+      tgif_item.route = tgif_item.id
+
+      md_no_ext_item = app.source["md_no_ext"]
+      md_no_ext_item.route = md_no_ext_item.id
+      md_no_ext_item.transform(:tilt, "md")
 
       app.write
 
