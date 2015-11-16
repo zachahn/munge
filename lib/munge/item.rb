@@ -1,16 +1,12 @@
 module Munge
   class Item
     def initialize(type:,
-                   location:,
-                   abspath:,
                    relpath:,
                    id:,
                    content: nil,
                    frontmatter: {},
                    stat: nil)
       @type        = type
-      @location    = location
-      @abspath     = abspath
       @relpath     = relpath
       @id          = id
       @content     = content
@@ -22,8 +18,8 @@ module Munge
       @transforms = []
     end
 
-    attr_reader :type, :location
-    attr_reader :abspath, :relpath, :id
+    attr_reader :type
+    attr_reader :relpath, :id
     attr_reader :content, :frontmatter
     attr_reader :stat
 
