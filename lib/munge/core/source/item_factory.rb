@@ -1,42 +1,31 @@
 module Munge
   class ItemFactory
-    def initialize(source_path:,
-                   binary_extensions:,
-                   location:,
+    def initialize(text_extensions:,
                    ignored_basenames:)
-      @source_path       = source_path
-      @binary_extensions = Set.new(binary_extensions)
-      @location          = location
+      @text_extensions = Set.new(text_extensions)
       @ignored_basenames = ignored_basenames
     end
 
-    def read(abspath)
-      content, frontmatter = compute_content_and_frontmatter(abspath)
+    def build(relpath:,
+              content:,
+              frontmatter: {},
+              stat: nil)
+      type = compute_file_type(relpath)
 
-      relpath = compute_relpath(abspath)
+      id =
+        if type == :text
+          compute_id(relpath)
+        else
+          relpath
+        end
 
       Munge::Item.new(
-        type: compute_file_type(abspath),
-        location: @location,
-        abspath: abspath,
         relpath: relpath,
-        id: compute_id(relpath),
         content: content,
         frontmatter: frontmatter,
-        stat: compute_stat(abspath)
-      )
-    end
-
-    def build_virtual(relpath, content, frontmatter, type: :text)
-      Munge::Item.new(
+        stat: stat,
         type: type,
-        location: :virtual,
-        abspath: nil,
-        relpath: relpath,
-        id: compute_id(relpath),
-        content: content,
-        frontmatter: frontmatter,
-        stat: nil
+        id: id
       )
     end
 
@@ -62,10 +51,10 @@ module Munge
     def compute_file_type(abspath)
       exts = file_extensions(abspath)
 
-      if exts.intersect?(@binary_extensions)
-        :binary
-      else
+      if exts.intersect?(@text_extensions)
         :text
+      else
+        :binary
       end
     end
 
