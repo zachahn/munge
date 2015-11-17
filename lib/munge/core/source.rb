@@ -5,29 +5,20 @@ module Munge
     class Source
       include Enumerable
 
-      def initialize(source_abspath:,
-                     binary_extensions:,
-                     location:,
-                     ignored_basenames:)
-        @item_factory =
-          ItemFactory.new(
-            source_path:       source_abspath,
-            binary_extensions: binary_extensions,
-            location:          location,
-            ignored_basenames: ignored_basenames
-          )
-        pattern       = File.join(source_abspath, "**", "*")
+      def initialize(item_factory:,
+                     items:)
+        @item_factory = item_factory
 
         @items =
-          Dir.glob(pattern)
-            .reject { |item_path| File.directory?(item_path) }
-            .map    { |item_path| @item_factory.read(item_path) }
-            .map    { |item| [item.id, item] }
+          items
+            .map { |item| build(**item) }
+            .map { |item| [item.id, item] }
             .to_h
       end
 
-      def build_virtual_item(*args)
-        @item_factory.build_virtual(*args)
+      def build(**args)
+        pruned_args = args.select { |k, v| %i(relpath content frontmatter stat).include?(k) }
+        @item_factory.build(**pruned_args)
       end
 
       def each
