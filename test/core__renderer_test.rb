@@ -6,7 +6,6 @@ class CoreRendererTest < Minitest::Test
   end
 
   def test_render_string
-    
     content = "<%= hi %>"
     data    = { hi: "hello" }
     engines = [Tilt::ERBTemplate]
