@@ -6,28 +6,30 @@ module Munge
         renderers = tilt_renderer_list(item, engines)
         mdata     = merged_data(item.frontmatter, data)
 
-        manual_render(content, mdata, renderers)
+        @renderer.render_string(content, data: mdata, engines: renderers)
       end
 
       def layout(item_or_string, data: {}, &block)
         layout_item = resolve_layout(item_or_string)
+        renderers   = tilt_renderer_list(layout_item, nil)
         mdata       = merged_data(layout_item.frontmatter, data)
 
-        if block_given?
-          if block.binding.local_variable_defined?(:_erbout)
-            layout_within_template(layout_item, mdata, &block)
-          else
-            layout_outside_template(layout_item, mdata, &block)
-          end
-        else
-          layout_without_block(layout_item, mdata)
-        end
+        @renderer.render_string(layout_item.content, data: mdata, engines: renderers, &block)
+
+        # if block_given?
+        #   if block.binding.local_variable_defined?(:_erbout)
+        #     layout_within_template(layout_item, mdata, &block)
+        #   else
+        #     layout_outside_template(layout_item, mdata, &block)
+        #   end
+        # else
+        #   layout_without_block(layout_item, mdata)
+        # end
       end
 
       def render_with_layout(item, content_engines: nil, data: {}, content_override: nil)
+        inner = render(item, engines: content_engines, data: data, content_override: content_override)
         mdata = merged_data(item.frontmatter, data)
-
-        inner = render(item, engines: content_engines, data: mdata, content_override: content_override)
 
         if item.layout
           layout(item.layout, data: mdata) do
