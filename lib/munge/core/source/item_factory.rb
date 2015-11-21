@@ -29,6 +29,30 @@ module Munge
       )
     end
 
+    def parse(relpath:,
+              content:,
+              stat: nil)
+      type = compute_file_type(relpath)
+
+      if type == :text
+        parsed = Munge::Attribute::Content.new(content)
+
+        build(
+          relpath: relpath,
+          content: parsed.content,
+          frontmatter: parsed.frontmatter,
+          stat: nil
+        )
+      else
+        build(
+          relpath: relpath,
+          content: content,
+          frontmatter: {},
+          stat: stat
+        )
+      end
+    end
+
     private
 
     def compute_content_and_frontmatter(abspath)

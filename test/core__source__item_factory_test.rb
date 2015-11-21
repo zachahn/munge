@@ -58,4 +58,15 @@ class CoreSourceItemFactoryTest < Minitest::Test
     bin = @item_factory.build(relpath: "transparent.gif", content: "")
     assert_equal :binary, bin.type
   end
+
+  def test_parse
+    content_with_frontmatter = "---\nhas: frontmatter\n---\n\nmain content"
+    txt = @item_factory.parse(relpath: "index.html", content: content_with_frontmatter)
+    assert_equal "main content", txt.content
+    assert_equal "frontmatter", txt.frontmatter["has"]
+
+    bin = @item_factory.parse(relpath: "transparent.gif", content: content_with_frontmatter)
+    assert_equal content_with_frontmatter, bin.content
+    assert_equal Hash.new, bin.frontmatter
+  end
 end
