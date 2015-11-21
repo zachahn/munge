@@ -41,7 +41,7 @@ module Munge
           relpath: relpath,
           content: parsed.content,
           frontmatter: parsed.frontmatter,
-          stat: nil
+          stat: stat
         )
       else
         build(
