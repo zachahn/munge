@@ -15,8 +15,7 @@ module Munge
       end
 
       def build(**args)
-        pruned_args = args.select { |k, v| %i(relpath content frontmatter stat).include?(k) }
-        @item_factory.build(**pruned_args)
+        @item_factory.build(**prune_args(args))
       end
 
       def each
@@ -34,6 +33,12 @@ module Munge
 
       def [](id)
         @items[id]
+      end
+
+      private
+
+      def prune_args(args)
+        args.select { |k, v| %i(relpath content frontmatter stat).include?(k) }
       end
     end
   end
