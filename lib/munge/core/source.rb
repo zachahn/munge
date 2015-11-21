@@ -9,13 +9,17 @@ module Munge
 
         @items =
           items
-            .map { |item| build(**item) }
+            .map { |item| parse(**item) }
             .map { |item| [item.id, item] }
             .to_h
       end
 
       def build(**args)
         @item_factory.build(**prune_args(args))
+      end
+
+      def parse(**args)
+        @item_factory.parse(**prune_args(args))
       end
 
       def each

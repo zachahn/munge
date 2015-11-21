@@ -12,11 +12,17 @@ class CoreSourceTest < Minitest::Test
       args
     end
 
+    def @item_factory.parse(**args)
+      args[:frontmatter] = {}
+      args[:frontmatter][:super] = "cool"
+      build(**args)
+    end
+
     @source = Munge::Core::Source.new(
       item_factory: @item_factory,
       items: [
-        { relpath: "lol.html", content: "cool", frontmatter: {} },
-        { relpath: "doge.html", content: "", frontmatter: { much: "cool" } }
+        { relpath: "lol.html", content: "cool" },
+        { relpath: "doge.html", content: "" }
       ]
     )
   end
@@ -24,7 +30,7 @@ class CoreSourceTest < Minitest::Test
   def test_hashlike_access
     item = @source["id doge.html"]
 
-    assert_equal "cool", item[:frontmatter][:much]
+    assert_equal "cool", item[:frontmatter][:super]
   end
 
   def test_each_returns_enumerator
@@ -32,8 +38,8 @@ class CoreSourceTest < Minitest::Test
   end
 
   def test_enumerator_includes_correct_items
-    item1 = { relpath: "lol.html", content: "cool", frontmatter: {} }
-    item2 = { relpath: "doge.html", content: "", frontmatter: { much: "cool" } }
+    item1 = { relpath: "lol.html", content: "cool", frontmatter: { super: "cool" } }
+    item2 = { relpath: "doge.html", content: "", frontmatter: { super: "cool" } }
 
     assert_includes @source.each.to_a, item1
     assert_includes @source.each.to_a, item2
