@@ -23,6 +23,8 @@ require "tilt/erb"
 require "tilt/plain"
 require "tilt/redcarpet"
 
+require "ostruct"
+
 class Minitest::Test
   def example_path
     File.absolute_path(File.expand_path("../example", __FILE__))
