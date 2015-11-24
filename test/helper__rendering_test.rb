@@ -5,7 +5,6 @@ class HelperRenderingTest < Minitest::Test
   def setup
     @renderer = Object.new
     @renderer.instance_variable_set(:@global_data, {})
-    @renderer.instance_variable_set(:@renderer, Munge::Transformer::Tilt::Renderer.new)
     @renderer.extend(Munge::Helper::Rendering)
   end
 

@@ -1,11 +1,8 @@
-require_relative "tilt/renderer"
-
 module Munge
   module Transformer
     class Tilt
       def initialize(scope)
         @pristine_scope = scope
-        @renderer       = Munge::Transformer::Tilt::Renderer.new
       end
 
       def name
