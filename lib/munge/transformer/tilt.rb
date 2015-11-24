@@ -1,5 +1,3 @@
-require_relative "tilt/scope"
-
 module Munge
   module Transformer
     class Tilt
