@@ -68,4 +68,32 @@ class HelperRenderingTest < Minitest::Test
 
     assert_equal %(<h1><%= "hi" %></h1>), output
   end
+
+  def test_layout_in_render
+    layout = OpenStruct.new
+    layout.content = %(<h1><%= yield %></h1>)
+    layout.frontmatter = {}
+    layout.relpath = "layout.erb"
+    layout.class = Munge::Item
+    layout.id = "identifier"
+
+    outer = OpenStruct.new
+    outer.content = %(<div><%= layout("identifier") { render(@source["inner"]) } %></div>)
+    outer.frontmatter = {}
+    outer.relpath = "outer.erb"
+    outer.id = "outer"
+
+    inner = OpenStruct.new
+    inner.content = %(<%= "hi" %>)
+    inner.frontmatter = {}
+    inner.relpath = "inner.erb"
+    inner.id = "inner"
+
+    @renderer.instance_variable_set(:@layouts, { layout.id => layout })
+    @renderer.instance_variable_set(:@source, { inner.id => inner, outer.id => outer })
+
+    output = @renderer.render(outer)
+
+    assert_equal "<div><h1>hi</h1></div>", output
+  end
 end
