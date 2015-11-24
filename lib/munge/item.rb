@@ -78,7 +78,7 @@ module Munge
       @layout = remove_surrounding_slashes(new_layout)
     end
 
-    def transform(transformer = :Tilt, *args)
+    def transform(transformer = :tilt, *args)
       @transforms.push([transformer, args])
     end
 
