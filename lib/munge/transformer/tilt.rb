@@ -1,8 +1,11 @@
+require_relative "tilt/renderer"
+
 module Munge
   module Transformer
     class Tilt
       def initialize(scope)
         @pristine_scope = scope
+        @renderer       = Munge::Transformer::Tilt::Renderer.new
       end
 
       def name
@@ -11,6 +14,7 @@ module Munge
 
       def call(item, content = nil, renderer = nil)
         scope = @pristine_scope.dup
+        scope.instance_variable_set :@renderer, @renderer
         dirty_scope = extend_with_helpers(scope)
         dirty_scope.render_with_layout(item, content_engines: renderer, content_override: content)
       end

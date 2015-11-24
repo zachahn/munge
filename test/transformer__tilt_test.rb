@@ -6,7 +6,6 @@ class TransformerTiltTest < Minitest::Test
       Class.new do
         def initialize
           @global_data = {}
-          @renderer = Munge::Core::Renderer.new
         end
       end
 

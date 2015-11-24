@@ -2,7 +2,7 @@ require "test_helper"
 
 class CoreRendererTest < Minitest::Test
   def setup
-    @renderer = Munge::Core::Renderer.new
+    @renderer = Munge::Transformer::Tilt::Renderer.new
   end
 
   def test_render_string

@@ -30,9 +30,6 @@ module Munge
           items: Reader::Filesystem.new(layouts_path)
         )
 
-      @renderer =
-        Core::Renderer.new
-
       @router =
         Core::Router.new(
           index:           config[:index],
