@@ -6,7 +6,7 @@ module Munge
         renderers = tilt_renderer_list(item, engines)
         mdata     = merged_data(item.frontmatter, data)
 
-        @renderer.render_string(content, data: mdata, engines: renderers)
+        render_string(content, data: mdata, engines: renderers)
       end
 
       def layout(item_or_string, data: {}, &block)
@@ -14,7 +14,7 @@ module Munge
         renderers   = tilt_renderer_list(layout_item, nil)
         mdata       = merged_data(layout_item.frontmatter, data)
 
-        @renderer.render_string(layout_item.content, data: mdata, engines: renderers, &block)
+        render_string(layout_item.content, data: mdata, engines: renderers, &block)
 
         # if block_given?
         #   if block.binding.local_variable_defined?(:_erbout)
@@ -25,6 +25,26 @@ module Munge
         # else
         #   layout_without_block(layout_item, mdata)
         # end
+      end
+
+      def render_string(content, data: {}, engines: [])
+        inner =
+          if block_given?
+            yield
+          else
+            nil
+          end
+
+        engines
+          .inject(content) do |output, engine|
+            template = engine.new { output }
+
+            if inner
+              template.render(self, data) { inner }
+            else
+              template.render(self, data)
+            end
+          end
       end
 
       def render_with_layout(item, content_engines: nil, data: {}, content_override: nil)
