@@ -25,7 +25,3 @@ require "munge/core/write"
 require "munge/core/alterant"
 require "munge/application"
 require "munge/runner"
-
-module Munge
-  # Your code goes here...
-end
