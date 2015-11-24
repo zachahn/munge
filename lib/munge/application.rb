@@ -39,14 +39,6 @@ module Munge
           keep_extensions: config[:keep_extensions]
         )
 
-      @transform =
-        Core::Transform.new(
-          global_data:  @global_data,
-          layouts:      @layouts,
-          source:       @source,
-          router:       @router
-        )
-
       @alterant =
         Core::Alterant.new(scope: self)
 
