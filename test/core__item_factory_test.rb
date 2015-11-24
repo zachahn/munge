@@ -3,7 +3,7 @@ require "test_helper"
 class CoreSourceItemFactoryTest < Minitest::Test
   def setup
     # @item_factory = new_item_factory(ignored_basenames: %w(index dir))
-    @item_factory = Munge::ItemFactory.new(
+    @item_factory = Munge::Core::ItemFactory.new(
       text_extensions: %w(txt md html),
       ignored_basenames: %w(index dir)
     )
