@@ -19,13 +19,13 @@ module Munge
         )
 
       @source =
-        Core::Source.new(
+        Core::Collection.new(
           item_factory: @item_factory,
           items: Reader::Filesystem.new(source_path)
         )
 
       @layouts =
-        Core::Source.new(
+        Core::Collection.new(
           item_factory: @item_factory,
           items: Reader::Filesystem.new(layouts_path)
         )

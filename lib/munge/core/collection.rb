@@ -1,6 +1,6 @@
 module Munge
   module Core
-    class Source
+    class Collection
       include Enumerable
 
       def initialize(item_factory:,

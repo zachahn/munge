@@ -1,6 +1,6 @@
 require "test_helper"
 
-class CoreSourceTest < Minitest::Test
+class CoreCollectionTest < Minitest::Test
   def setup
     @item_factory = Object.new
 
@@ -18,7 +18,7 @@ class CoreSourceTest < Minitest::Test
       build(**args)
     end
 
-    @source = Munge::Core::Source.new(
+    @source = Munge::Core::Collection.new(
       item_factory: @item_factory,
       items: [
         { relpath: "lol.html", content: "cool" },
