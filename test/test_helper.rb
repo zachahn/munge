@@ -38,10 +38,6 @@ class Minitest::Test
     File.join(example_path, "dest")
   end
 
-  def new_tilt_scope(global_data, source)
-    new_scope_factory(global_data: global_data).create
-  end
-
   def new_config
     Munge::Core::Config.new(File.join(example_path, "config.yml"))
   end
