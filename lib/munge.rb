@@ -26,6 +26,7 @@ require "munge/core/source"
 require "munge/core/transform"
 require "munge/core/transform_scope_factory"
 require "munge/core/write"
+require "munge/core/alterant"
 require "munge/application"
 require "munge/runner"
 
