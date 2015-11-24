@@ -9,8 +9,6 @@ require "tilt"
 
 require "munge/version"
 require "munge/attribute/content"
-require "munge/attribute/metadata"
-require "munge/attribute/path"
 require "munge/item"
 require "munge/helper"
 require "munge/helper/find"
