@@ -122,7 +122,7 @@ class ItemTest < Minitest::Test
   def test_transformations
     item = new_item
     item.transform
-    assert_equal [[:Tilt, []]], item.transforms
+    assert_equal [[:tilt, []]], item.transforms
 
     item = new_item
     item.transform(:Asdf, "gh", j: "kl")
