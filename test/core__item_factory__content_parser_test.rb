@@ -2,7 +2,7 @@ require "test_helper"
 
 class AttributeContentTest < Minitest::Test
   def test_content_parser_reads_frontmatter
-    match = Munge::Attribute::Content.new(
+    match = Munge::Core::ItemFactory::ContentParser.new(
       %(---
 this: is
 yaml: frontmatter
@@ -16,7 +16,7 @@ but this is not yay
   end
 
   def test_content_parser_reads_nonfrontmatter
-    match = Munge::Attribute::Content.new(
+    match = Munge::Core::ItemFactory::ContentParser.new(
       "yay this is cool lol"
     )
 
@@ -25,7 +25,7 @@ but this is not yay
   end
 
   def test_content_parser_reads_nonfrontmatter_with_weird_dashes
-    match = Munge::Attribute::Content.new(
+    match = Munge::Core::ItemFactory::ContentParser.new(
       %(baa baa
 
 ---

@@ -36,7 +36,7 @@ module Munge
         type = compute_file_type(relpath)
 
         if type == :text
-          parsed = Munge::Attribute::Content.new(content)
+          parsed = Munge::Core::ItemFactory::ContentParser.new(content)
 
           build(
             relpath: relpath,
