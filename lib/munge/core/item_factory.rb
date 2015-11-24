@@ -1,3 +1,5 @@
+require_relative "item_factory/content_parser"
+
 module Munge
   module Core
     class ItemFactory
