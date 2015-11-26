@@ -1,6 +1,10 @@
 require "test_helper"
 
 class ApplicationTest < Minitest::Test
+  def output_path
+    File.join(example_path, "dest")
+  end
+
   def test_create
     application = Munge::Application.new("#{example_path}/config.yml")
 
