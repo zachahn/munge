@@ -10,22 +10,24 @@ module Munge
       output_path  = File.expand_path(config[:output], root_path)
       data_path    = File.expand_path(config[:data], root_path)
 
-      global_data = YAML.load_file(data_path) || {}
+      @global_data = YAML.load_file(data_path) || {}
 
-      @source =
-        Core::Source.new(
-          source_abspath:    source_path,
-          binary_extensions: config[:binary_extensions],
-          location:          :fs_memory,
+      @item_factory =
+        Core::ItemFactory.new(
+          text_extensions: config[:text_extensions],
           ignored_basenames: config[:ignored_basenames]
         )
 
+      @source =
+        Core::Collection.new(
+          item_factory: @item_factory,
+          items: Reader::Filesystem.new(source_path)
+        )
+
       @layouts =
-        Core::Source.new(
-          source_abspath:    layouts_path,
-          binary_extensions: [],
-          location:          :fs_memory,
-          ignored_basenames: []
+        Core::Collection.new(
+          item_factory: @item_factory,
+          items: Reader::Filesystem.new(layouts_path)
         )
 
       @router =
@@ -34,18 +36,15 @@ module Munge
           keep_extensions: config[:keep_extensions]
         )
 
-      @transform =
-        Core::Transform.new(
-          global_data:  global_data,
-          layouts:      @layouts,
-          source:       @source,
-          router:       @router
-        )
+      @alterant =
+        Core::Alterant.new(scope: self)
 
       @writer =
         Core::Write.new(
           output: output_path
         )
+
+      @alterant.register(Transformer::Tilt.new(self))
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
@@ -58,7 +57,7 @@ module Munge
     end
 
     def build_virtual_item(*args)
-      @source.build_virtual_item(*args)
+      @source.build(*args)
     end
 
     def create(*args, &block)
@@ -72,7 +71,7 @@ module Munge
     def render_and_write(item, &block)
       relpath = @router.filepath(item)
 
-      write_status = @writer.write(relpath, @transform.call(item))
+      write_status = @writer.write(relpath, @alterant.transform(item))
 
       if block_given?
         block.call(item, write_status)

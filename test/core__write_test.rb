@@ -4,7 +4,7 @@ class CoreWriteTest < Minitest::Test
   def setup
     FakeFS.activate!
 
-    @output_dir = "/abspath/to/output"
+    @output_dir = "/#{SecureRandom.hex(10)}"
 
     FileUtils.mkdir_p(@output_dir)
 

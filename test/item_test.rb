@@ -5,69 +5,67 @@ class ItemTest < Minitest::Test
     relpath
   end
 
-  def new_real_item(relpath)
-    abspath = File.join(source_path, relpath)
-    content = File.read(abspath)
-
+  def new_item(type:        :text,
+               relpath:     "path/to/index.html.erb",
+               id:          "path/to",
+               content:     %(<%= "hi" %>\n),
+               frontmatter: {},
+               stat:        nil)
     Munge::Item.new(
-      type: :text,
-      location: :fs_memory,
-      abspath: File.join(source_path, relpath),
-      relpath: relpath,
-      id: relpath_to_id(relpath),
-      content: content,
-      frontmatter: {},
-      stat: File.stat(abspath)
+      type:        type,
+      relpath:     relpath,
+      id:          id,
+      content:     content,
+      frontmatter: frontmatter,
+      stat:        stat
     )
   end
 
   def test_accessors
-    item = new_real_item("index.html.erb")
+    item = new_item
 
     assert_equal :text, item.type
-    assert_equal :fs_memory, item.location
-    assert_equal File.join(source_path, item.relpath), item.abspath
-    assert_equal "index.html.erb", item.relpath
-    # id
+    assert_equal "path/to/index.html.erb", item.relpath
+    assert_equal "path/to", item.id
     assert_equal %(<%= "hi" %>\n), item.content
     assert_equal Hash.new, item.frontmatter
-    assert_kind_of File::Stat, item.stat
+    assert_equal nil, item.stat
   end
 
   def test_dirname
-    item = new_real_item("index.html.erb")
+    item = new_item(relpath: "index.html")
     assert_equal "", item.dirname
 
-    item = new_real_item("in/sub/dir.html.erb")
+    item = new_item(relpath: "in/sub/dir.html.erb")
     assert_equal "in/sub", item.dirname
   end
 
   def test_filename
-    item = new_real_item("index.html.erb")
+    item = new_item(relpath: "index.html.erb")
     assert_equal "index.html.erb", item.filename
 
-    item = new_real_item("in/sub/dir.html.erb")
+    item = new_item(relpath: "in/sub/dir.html.erb")
     assert_equal "dir.html.erb", item.filename
   end
 
   def test_basename
-    item = new_real_item("index.html.erb")
+    item = new_item(relpath: "index.html.erb")
     assert_equal "index", item.basename
 
-    item = new_real_item("in/sub/dir.html.erb")
+    item = new_item(relpath: "in/sub/dir.html.erb")
     assert_equal "dir", item.basename
   end
 
   def test_extensions
-    item = new_real_item("index.html.erb")
+    item = new_item(relpath: "index.html.erb")
     assert_equal %w(html erb), item.extensions
 
-    item = new_real_item("md_no_ext")
+    item = new_item(relpath: "lol")
     assert_equal [], item.extensions
   end
 
   def test_route_set_get
-    item = new_real_item("index.html.erb")
+    item = new_item(relpath: "index.html.erb")
 
     assert_equal nil, item.route
 
@@ -82,7 +80,7 @@ class ItemTest < Minitest::Test
   end
 
   def test_route?
-    item = new_real_item("index.html.erb")
+    item = new_item
 
     assert_equal false, item.route?("test")
 
@@ -92,11 +90,11 @@ class ItemTest < Minitest::Test
   end
 
   def test_relpath?
-    item = new_real_item("index.html.erb")
+    item = new_item
     assert_equal true, item.relpath?("")
     assert_equal false, item.relpath?("test")
 
-    item = new_real_item("in/sub/dir.html.erb")
+    item = new_item(relpath: "in/sub/dir.html.erb")
 
     assert_equal true, item.relpath?("in")
     assert_equal true, item.relpath?("in", "sub")
@@ -109,7 +107,7 @@ class ItemTest < Minitest::Test
   end
 
   def test_frontmatter
-    item = new_real_item("index.html.erb")
+    item = new_item
 
     assert_equal nil, item.frontmatter[:foo]
 
@@ -122,11 +120,11 @@ class ItemTest < Minitest::Test
   end
 
   def test_transformations
-    item = new_real_item("index.html.erb")
+    item = new_item
     item.transform
-    assert_equal [[:Tilt, []]], item.transforms
+    assert_equal [[:tilt, []]], item.transforms
 
-    item = new_real_item("index.html.erb")
+    item = new_item
     item.transform(:Asdf, "gh", j: "kl")
     item.transform(:qwer, "ty", "uiop")
     assert_equal [:Asdf, ["gh", j: "kl"]], item.transforms[0]
@@ -134,7 +132,7 @@ class ItemTest < Minitest::Test
   end
 
   def test_layout=
-    item = new_real_item("index.html.erb")
+    item = new_item
 
     assert_equal nil, item.layout
 

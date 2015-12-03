@@ -3,12 +3,9 @@ output: dest
 data: data.yml
 layouts: layouts
 index: index.html
-binary_extensions:
-  - gif
-  - ico
-  - jpg
-  - jpeg
-  - png
+text_extensions:
+  - html
+  - htm
 ignored_basenames:
   - index
 keep_extensions:

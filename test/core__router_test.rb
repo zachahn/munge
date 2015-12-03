@@ -5,6 +5,24 @@ class CoreRouterTest < Minitest::Test
     @router = new_router
   end
 
+  def new_item(relpath, type: :text, id: nil)
+    Munge::Item.new(
+      type: :text,
+      relpath: relpath,
+      id: id || relpath.split(".").first,
+      content: ""
+    )
+  end
+
+  def new_router(index_extensions: nil, index_basename: nil)
+    config = Munge::Core::Config.new(File.join(example_path, "config.yml"))
+
+    Munge::Core::Router.new(
+      index:           config[:index],
+      keep_extensions: config[:keep_extensions]
+    )
+  end
+
   def test_route_index_html_page
     item       = new_item("index.html.erb")
     item.route = ""

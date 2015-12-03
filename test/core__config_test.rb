@@ -1,6 +1,10 @@
 require "test_helper"
 
 class CoreConfigTest < Minitest::Test
+  def old_fixtures_path
+    File.absolute_path(File.expand_path("../fixtures", __FILE__))
+  end
+
   def test_config
     config = Munge::Core::Config.new(File.join(example_path, "config.yml"))
 

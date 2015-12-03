@@ -1,16 +1,12 @@
 module Munge
   class Item
     def initialize(type:,
-                   location:,
-                   abspath:,
                    relpath:,
                    id:,
                    content: nil,
                    frontmatter: {},
                    stat: nil)
       @type        = type
-      @location    = location
-      @abspath     = abspath
       @relpath     = relpath
       @id          = id
       @content     = content
@@ -22,8 +18,8 @@ module Munge
       @transforms = []
     end
 
-    attr_reader :type, :location
-    attr_reader :abspath, :relpath, :id
+    attr_reader :type
+    attr_reader :relpath, :id
     attr_reader :content, :frontmatter
     attr_reader :stat
 
@@ -82,7 +78,7 @@ module Munge
       @layout = remove_surrounding_slashes(new_layout)
     end
 
-    def transform(transformer = :Tilt, *args)
+    def transform(transformer = :tilt, *args)
       @transforms.push([transformer, args])
     end
 

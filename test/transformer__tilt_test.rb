@@ -2,24 +2,33 @@ require "test_helper"
 
 class TransformerTiltTest < Minitest::Test
   def setup
-    @example = File.absolute_path(File.expand_path("../example", __FILE__))
-    @source  = File.join(@example, "src")
-    @layouts = File.join(@example, "layouts")
+    fake_scope_class =
+      Class.new do
+        def initialize
+          @global_data = {}
+        end
+      end
 
-    @tilt_transformer = new_tilt_transformer({})
+    @tilt_transformer = Munge::Transformer::Tilt.new(fake_scope_class.new)
   end
 
   def test_auto_transform
-    item   = new_item("calls_layout.html.erb")
+    item = OpenStruct.new
+    item.relpath = "foo.erb"
+    item.frontmatter = {}
+    item.content = %(<%= "hi" %>)
     output = @tilt_transformer.call(item)
 
-    assert_equal "<body><b>boom</b></body>\n", output
+    assert_equal "hi", output
   end
 
   def test_manual_transform
-    item   = new_item("frontmatter.html.erb")
+    item = OpenStruct.new
+    item.relpath = "foo.txt"
+    item.frontmatter = {}
+    item.content = %(<%= "hi" %>)
     output = @tilt_transformer.call(item, nil, "erb")
 
-    assert_equal "Guess he wants to play, a love game\n", output
+    assert_equal "hi", output
   end
 end

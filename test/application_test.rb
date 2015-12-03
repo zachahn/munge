@@ -1,12 +1,20 @@
 require "test_helper"
 
 class ApplicationTest < Minitest::Test
+  def output_path
+    File.join(example_path, "dest")
+  end
+
   def test_create
     application = Munge::Application.new("#{example_path}/config.yml")
 
     count = application.source.count
 
-    application.create("foo/bar.html", "x", {}, type: :binary)
+    application.create(
+      relpath: "foo/bar.html",
+      content: "x",
+      frontmatter: {}
+    )
 
     new_count = application.source.count
 
@@ -28,7 +36,7 @@ class ApplicationTest < Minitest::Test
       home_item.transform
       home_item.layout = "basic"
 
-      tgif_item = app.source["transparent"]
+      tgif_item = app.source["transparent.gif"]
       tgif_item.route = tgif_item.id
 
       md_no_ext_item = app.source["md_no_ext"]

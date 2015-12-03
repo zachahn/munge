@@ -6,28 +6,40 @@ module Munge
         renderers = tilt_renderer_list(item, engines)
         mdata     = merged_data(item.frontmatter, data)
 
-        manual_render(content, mdata, renderers)
+        render_string(content, data: mdata, engines: renderers)
       end
 
       def layout(item_or_string, data: {}, &block)
         layout_item = resolve_layout(item_or_string)
+        renderers   = tilt_renderer_list(layout_item, nil)
         mdata       = merged_data(layout_item.frontmatter, data)
 
-        if block_given?
-          if block.binding.local_variable_defined?(:_erbout)
-            layout_within_template(layout_item, mdata, &block)
+        render_string(layout_item.content, data: mdata, engines: renderers, &block)
+      end
+
+      def render_string(content, data: {}, engines: [])
+        inner =
+          if block_given?
+            yield
           else
-            layout_outside_template(layout_item, mdata, &block)
+            nil
           end
-        else
-          layout_without_block(layout_item, mdata)
-        end
+
+        engines
+          .inject(content) do |output, engine|
+            template = engine.new { output }
+
+            if inner
+              template.render(self, data) { inner }
+            else
+              template.render(self, data)
+            end
+          end
       end
 
       def render_with_layout(item, content_engines: nil, data: {}, content_override: nil)
+        inner = render(item, engines: content_engines, data: data, content_override: content_override)
         mdata = merged_data(item.frontmatter, data)
-
-        inner = render(item, engines: content_engines, data: mdata, content_override: content_override)
 
         if item.layout
           layout(item.layout, data: mdata) do
@@ -60,32 +72,6 @@ module Munge
         end
       end
 
-      def layout_outside_template(layout_item, mdata, &block)
-        engine_list = tilt_renderer_list(layout_item, nil)
-
-        manual_render(layout_item.content, mdata, engine_list, &block)
-      end
-
-      def layout_within_template(layout_item, mdata, &block)
-        original_erbout = block.binding.local_variable_get(:_erbout)
-
-        block.binding.local_variable_set(:_erbout, "")
-
-        result = layout_outside_template(layout_item, mdata) { block.call }
-
-        final = original_erbout + result
-
-        block.binding.local_variable_set(:_erbout, final)
-
-        ""
-      end
-
-      def layout_without_block(layout_item, mdata)
-        engine_list = tilt_renderer_list(layout_item, nil)
-
-        manual_render(layout_item.content, mdata, engine_list)
-      end
-
       def tilt_renderer_list(item, preferred_engine)
         if preferred_engine
           tilt_renderers_from_preferred(preferred_engine)
@@ -107,26 +93,6 @@ module Munge
           end
 
         ::Tilt.templates_for(preferred)
-      end
-
-      def manual_render(content, data, engine_list, &block)
-        inner =
-          if block_given?
-            block.call
-          else
-            nil
-          end
-
-        engine_list
-          .inject(content) do |output, engine|
-            template = engine.new { output }
-
-            if inner
-              template.render(self, data) { inner }
-            else
-              template.render(self, data)
-            end
-          end
       end
     end
   end
