@@ -41,6 +41,17 @@ class HelperRenderingTest < Minitest::Test
     assert_equal %(<h1><%= "hi" %></h1>), output
   end
 
+  def test_render_with_array_engine_override
+    item = OpenStruct.new
+    item.content = %(<h1><%= "hi" %></h1>)
+    item.frontmatter = {}
+    item.relpath = "text.erb"
+
+    output = @renderer.render(item, engines: ["html", "erb"])
+
+    assert_equal %(<h1>hi</h1>), output
+  end
+
   def test_layout_when_item_is_passed
     layout = OpenStruct.new
     layout.content = %(<h1><%= yield %></h1>)
