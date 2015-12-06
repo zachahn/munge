@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AttributeContentTest < Minitest::Test
+class CoreItemFactoryContentParserTest < Minitest::Test
   def test_content_parser_reads_frontmatter
     match = Munge::Core::ItemFactory::ContentParser.new(
       %(---
