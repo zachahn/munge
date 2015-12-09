@@ -1,21 +1,21 @@
-.PHONY: all coverage opencoverage test release
+.PHONY: all test testc openc release
 
 all:
 	@echo "usage:"
 	@echo
-	@echo "make coverage		runs test and logs coverage"
-	@echo "make opencoverage	starts webserver in coverage directory"
-	@echo "make test		runs tests"
-	@echo "make release		releases gem (dangerous)"
-
-coverage:
-	COVERAGE=1 script/test
-
-opencoverage:
-	cd coverage && adsf
+	@echo "make test	runs tests"
+	@echo "make testc	runs tests and logs coverage"
+	@echo "make openc	starts webserver in coverage directory"
+	@echo "make release	releases gem (dangerous)"
 
 test:
 	script/test
+
+testc:
+	COVERAGE=1 script/test
+
+openc:
+	cd coverage && adsf
 
 release:
 	bundle exec rake release
