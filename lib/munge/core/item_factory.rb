@@ -58,18 +58,6 @@ module Munge
 
       private
 
-      def compute_content_and_frontmatter(abspath)
-        case @location
-        when :fs_memory
-          content = Munge::Attribute::Content.new(File.read(abspath))
-          [content.content, content.frontmatter]
-        when :fs, :virtual
-          ["", {}]
-        else
-          fail "invalid @location `#{@location}`"
-        end
-      end
-
       def file_extensions(filepath)
         extensions = File.basename(filepath).split(".")[1..-1]
         Set.new(extensions)
@@ -83,17 +71,6 @@ module Munge
         else
           :binary
         end
-      end
-
-      def compute_relpath(abspath)
-        folder = Pathname.new(@source_path)
-        file   = Pathname.new(abspath)
-
-        file.relative_path_from(folder).to_s
-      end
-
-      def compute_stat(abspath)
-        File.stat(abspath)
       end
 
       def compute_id(relpath)

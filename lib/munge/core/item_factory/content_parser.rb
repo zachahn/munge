@@ -29,7 +29,7 @@ module Munge
 
           parsed_frontmatter = YAML.load(matchdata[1])
 
-          if parsed_frontmatter
+          if parsed_frontmatter.is_a?(Hash)
             parsed_frontmatter
           else
             {}
@@ -46,13 +46,6 @@ module Munge
 
         def initialize(string, frontmatter = nil)
           @frontmatter, @content = self.class.parse(string)
-
-          if frontmatter
-            @frontmatter = @frontmatter.merge(frontmatter)
-          end
-        rescue ArgumentError
-          @frontmatter = frontmatter || {}
-          @content     = string
         end
 
         attr_accessor :frontmatter, :content

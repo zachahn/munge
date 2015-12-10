@@ -5,8 +5,13 @@ module Munge
         @router.route(item)
       end
 
-      def link_to(item, text = nil, **opts)
+      def link_to(item, text = nil, opts = {})
         link = url_for(item)
+
+        if text.is_a?(Hash)
+          opts = text
+          text = nil
+        end
 
         optstr = opts.map { |key, val| %(#{key}="#{val}") }
 
