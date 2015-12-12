@@ -22,11 +22,11 @@ module Munge
       end
 
       def route(initial_route, content, _item)
-        Util::Path.ensure_abspath(generate_link(initial_route, content))
+        generate_link(initial_route, content)
       end
 
       def filepath(initial_route, content, _item)
-        Util::Path.ensure_relpath(generate_link(initial_route, content))
+        generate_link(initial_route, content)
       end
 
       private

@@ -40,14 +40,14 @@ class RouterFingerprintTest < Minitest::Test
   def test_fingerprinted_route_and_filepath
     item = new_fake_item
 
-    assert_equal "/transparent--d41d8cd98f00b204e9800998ecf8427e.gif", @fingerprint.route("transparent.gif", "", item)
+    assert_equal "transparent--d41d8cd98f00b204e9800998ecf8427e.gif", @fingerprint.route("transparent.gif", "", item)
     assert_equal "transparent--d41d8cd98f00b204e9800998ecf8427e.gif", @fingerprint.filepath("transparent.gif", "", item)
   end
 
   def test_fingerprinted_route_and_filepath_with_no_extension
     item = new_fake_item
 
-    assert_equal "/transparent--d41d8cd98f00b204e9800998ecf8427e", @fingerprint.route("transparent", "", item)
+    assert_equal "transparent--d41d8cd98f00b204e9800998ecf8427e", @fingerprint.route("transparent", "", item)
     assert_equal "transparent--d41d8cd98f00b204e9800998ecf8427e", @fingerprint.filepath("transparent", "", item)
   end
 
@@ -55,7 +55,7 @@ class RouterFingerprintTest < Minitest::Test
     item = new_fake_item
     item.route = "transparent"
 
-    assert_equal "/foo--d41d8cd98f00b204e9800998ecf8427e", @fingerprint.route("foo", "", item)
+    assert_equal "foo--d41d8cd98f00b204e9800998ecf8427e", @fingerprint.route("foo", "", item)
     assert_equal "bar--d41d8cd98f00b204e9800998ecf8427e.gif", @fingerprint.filepath("bar.gif", "", item)
   end
 end
