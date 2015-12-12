@@ -22,11 +22,11 @@ module Munge
       end
 
       def route(initial_route, content, _item)
-        generate_link(initial_route, content)
+        Util::Path.ensure_abspath(generate_link(initial_route, content))
       end
 
       def filepath(initial_route, content, _item)
-        generate_link(initial_route, content)
+        Util::Path.ensure_relpath(generate_link(initial_route, content))
       end
 
       private
@@ -35,7 +35,11 @@ module Munge
         pre, extension = disassemble(initial_route)
         asset_hash     = hash(content)
 
-        "#{pre}#{@separator}#{asset_hash}.#{extension}"
+        if extension == ""
+          "#{pre}#{@separator}#{asset_hash}"
+        else
+          "#{pre}#{@separator}#{asset_hash}.#{extension}"
+        end
       end
 
       def hash(content)
@@ -43,14 +47,11 @@ module Munge
       end
 
       def disassemble(path)
-        dirname         = File.dirname(path)
-        basename        = File.basename(path)
-        split_basename  = basename.split(".")
-        basename_no_ext = split_basename[0..-2]
-        extension       = split_basename[-1]
+        extension              = Util::Path.extname(path)
+        path_without_extension = Util::Path.path_no_extension(path)
 
         [
-          File.join(dirname, basename_no_ext),
+          path_without_extension,
           extension
         ]
       end

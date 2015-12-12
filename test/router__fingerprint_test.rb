@@ -2,52 +2,60 @@ require "test_helper"
 
 class RouterFingerprintTest < Minitest::Test
   def setup
-    @router = Munge::Core::Router.new(alterant: new_dummy_alterant)
-
-    @router.register(Munge::Router::Fingerprint.new(extensions: %w(gif)))
+    @fingerprint = Munge::Router::Fingerprint.new(extensions: %w(gif))
   end
 
-  def new_item(relpath, type: :text, id: nil)
-    Munge::Item.new(
-      type: :text,
-      relpath: relpath,
-      id: id || relpath.split(".").first,
-      content: ""
-    )
+  def new_fake_item
+    OpenStruct.new(frontmatter: {})
   end
 
-  def new_dummy_alterant
-    alterant = Object.new
-
-    def alterant.transform(item)
-      "dummy transformed text"
-    end
-
-    alterant
-  end
-
-  def test_route_without_hashing_because_of_extension
-    item       = new_item("index.html.erb")
-    item.route = "index.html"
-
-    assert_equal "/index.html", @router.route(item)
-    assert_equal "index.html", @router.filepath(item)
-  end
-
-  def test_route_with_hashing
-    item = new_item("transparent.gif")
-    item.route = item.relpath
-
-    assert_equal "/transparent--521ffffcb84d29ac6fc19f869eee5057.gif", @router.route(item)
-    assert_equal "transparent--521ffffcb84d29ac6fc19f869eee5057.gif", @router.filepath(item)
-  end
-
-  def test_fingerprintable_route_but_is_unfingerprinted
-    item = new_item("transparent.gif")
-    item.route = item.relpath
+  def test_match_false_because_frontmatter
+    item = new_fake_item
     item.frontmatter[:fingerprint_asset] = false
 
-    assert_equal "/transparent.gif", @router.route(item)
-    assert_equal "transparent.gif", @router.filepath(item)
+    assert_equal false, @fingerprint.match?("cool", "", item)
+  end
+
+  def test_match_true_because_frontmatter
+    item = new_fake_item
+    item.frontmatter[:fingerprint_asset] = true
+
+    assert_equal true, @fingerprint.match?("cool", "", item)
+  end
+
+  def test_match_because_extension
+    gif_item = new_fake_item
+    gif_item.extensions = %w(gif)
+
+    assert_equal true, @fingerprint.match?("cool", "", gif_item)
+  end
+
+  def test_match_false_because_extension
+    txt_item = new_fake_item
+    txt_item.extensions = %w(txt)
+
+    assert_equal false, @fingerprint.match?("cool", "", txt_item)
+  end
+
+  def test_fingerprinted_route_and_filepath
+    item = new_fake_item
+
+    assert_equal "/transparent--d41d8cd98f00b204e9800998ecf8427e.gif", @fingerprint.route("transparent.gif", "", item)
+    assert_equal "transparent--d41d8cd98f00b204e9800998ecf8427e.gif", @fingerprint.filepath("transparent.gif", "", item)
+  end
+
+  def test_fingerprinted_route_and_filepath_with_no_extension
+    item = new_fake_item
+
+    assert_equal "/transparent--d41d8cd98f00b204e9800998ecf8427e", @fingerprint.route("transparent", "", item)
+    assert_equal "transparent--d41d8cd98f00b204e9800998ecf8427e", @fingerprint.filepath("transparent", "", item)
+  end
+
+  def test_independence_of_route_and_filepath_and_itemroute
+    item = new_fake_item
+    item.route = "transparent"
+
+    assert_equal "/foo--d41d8cd98f00b204e9800998ecf8427e", @fingerprint.route("foo", "", item)
+    assert_equal "bar--d41d8cd98f00b204e9800998ecf8427e.gif", @fingerprint.filepath("bar.gif", "", item)
   end
 end
