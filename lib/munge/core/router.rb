@@ -1,62 +1,43 @@
 module Munge
   module Core
     class Router
-      def initialize(index:, keep_extensions:)
-        @index          = index
-        @keep_extensions = keep_extensions
+      def initialize(alterant:)
+        @registry = []
+        @alterant = alterant
+      end
+
+      def register(router)
+        @registry.push(router)
       end
 
       def route(item)
-        fail "item has no route" unless item.route
-
-        if keep_extension?(item)
-          "/#{filepath(item)}"
-        else
-          item.route
-        end
+        route_mapper(item, :route)
       end
 
       def filepath(item)
-        fail "item has no route" unless item.route
-
-        relroute = relativeize(item.route)
-
-        path =
-          if route_has_extension?(item)
-            "#{relroute}"
-          elsif keep_extension?(item)
-            "#{relroute}.#{main_extension(item)}"
-          else
-            "#{relroute}/#{@index}"
-          end
-
-        relativeize(path)
+        path = route_mapper(item, :filepath)
+        remove_opening_slash(path)
       end
 
       private
 
-      def relativeize(path)
-        while path[0] == "/"
-          path = path[1..-1]
+      def route_mapper(item, method_name)
+        fail "item has no route" unless item.route
+        fail "no routers are registered" if @registry.empty?
+
+        content = @alterant.transform(item)
+
+        @registry.inject(item.route) do |route, router|
+          if router.match?(route, content, item)
+            router.public_send(method_name, route, content, item)
+          else
+            route
+          end
         end
-
-        path
       end
 
-      def route_has_extension?(item)
-        route_basename(item) =~ /\./
-      end
-
-      def keep_extension?(item)
-        @keep_extensions.include?(main_extension(item))
-      end
-
-      def main_extension(item)
-        item.extensions.first
-      end
-
-      def route_basename(item)
-        File.basename(item.route)
+      def remove_opening_slash(path)
+        path.slice(%r([^\/]+.*))
       end
     end
   end

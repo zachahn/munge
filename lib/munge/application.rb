@@ -30,14 +30,13 @@ module Munge
           items: Reader::Filesystem.new(layouts_path)
         )
 
-      @router =
-        Core::Router.new(
-          index:           config[:index],
-          keep_extensions: config[:keep_extensions]
-        )
-
       @alterant =
         Core::Alterant.new(scope: self)
+
+      @router =
+        Core::Router.new(
+          alterant: @alterant
+        )
 
       @writer =
         Core::Write.new(

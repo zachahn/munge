@@ -2,7 +2,9 @@ require "test_helper"
 
 class CoreRouterTest < Minitest::Test
   def setup
-    @router = new_router
+    @router = Munge::Core::Router.new(alterant: new_dummy_alterant)
+
+    register_dummy_router!
   end
 
   def new_item(relpath, type: :text, id: nil)
@@ -14,61 +16,81 @@ class CoreRouterTest < Minitest::Test
     )
   end
 
-  def new_router(index_extensions: nil, index_basename: nil)
-    config = Munge::Core::Config.new(File.join(example_path, "config.yml"))
+  def register_dummy_router!
+    @dummy_router = Object.new
 
-    Munge::Core::Router.new(
-      index:           config[:index],
-      keep_extensions: config[:keep_extensions]
-    )
+    def @dummy_router.match?(*)
+      true
+    end
+
+    def @dummy_router.route(*)
+      "/dummy/route"
+    end
+
+    def @dummy_router.filepath(*)
+      "dummy/route/index.html"
+    end
+
+    @router.register(@dummy_router)
   end
 
-  def test_route_index_html_page
+  def register_dummy_rot13_router!
+    @rot13_router = Object.new
+
+    def @rot13_router.match?(*)
+      true
+    end
+
+    def @rot13_router.route(route, *)
+      route.tr("a-z", "n-za-m")
+    end
+
+    def @rot13_router.filepath(route, *)
+      route.tr("a-z", "n-za-m")
+    end
+
+    @router.register(@rot13_router)
+  end
+
+  def new_dummy_alterant
+    alterant = Object.new
+
+    def alterant.transform(*)
+      "dummy transformed text"
+    end
+
+    alterant
+  end
+
+  def test_route_single_router
     item       = new_item("index.html.erb")
     item.route = ""
 
-    assert_equal "/", @router.route(item)
+    assert_equal "/dummy/route", @router.route(item)
   end
 
-  def test_route_about_html_page
-    item       = new_item("about.html.md.erb")
-    item.route = "about"
-
-    assert_equal "/about", @router.route(item)
-  end
-
-  def test_relpath_index_html_page
+  def test_filepath_single_router
     item       = new_item("index.html.erb")
     item.route = ""
 
-    assert_equal "index.html", @router.filepath(item)
+    assert_equal "dummy/route/index.html", @router.filepath(item)
   end
 
-  def test_relpath_about_html_page
+  def test_route_multiple_routers
+    register_dummy_rot13_router!
+
     item       = new_item("index.html.erb")
-    item.route = "about"
+    item.route = ""
 
-    assert_equal "about/index.html", @router.filepath(item)
+    assert_equal "/qhzzl/ebhgr", @router.route(item)
   end
 
-  def test_relpath_gif
-    item = new_item("transparent.gif")
-    item.route = "t"
+  def test_filepath_multiple_routers
+    register_dummy_rot13_router!
 
-    assert_equal "t.gif", @router.filepath(item)
-  end
+    item       = new_item("index.html.erb")
+    item.route = ""
 
-  def test_route_gif
-    item = new_item("transparent.gif")
-    item.route = "t"
-
-    assert_equal "/t.gif", @router.route(item)
-  end
-
-  def test_set_route_with_relpath
-    item = new_item("transparent.gif")
-    item.route = item.relpath
-
-    assert_equal "/transparent.gif", @router.route(item)
+    assert_equal "qhzzl/ebhgr/vaqrk.ugzy", @router.filepath(item)
   end
 end
