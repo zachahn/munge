@@ -25,6 +25,14 @@ require "tilt/redcarpet"
 
 require "ostruct"
 
+class QuickDummy
+  def initialize(**args)
+    args.each do |method_name, definition|
+      define_singleton_method(method_name, definition)
+    end
+  end
+end
+
 class Minitest::Test
   def seeds_path
     File.absolute_path(File.expand_path("../../seeds", __FILE__))
