@@ -52,6 +52,20 @@ class CoreRouterTest < Minitest::Test
     @router.register(@rot13_router)
   end
 
+  def register_dummy_duplicate_only_route_router!
+    @duplicate_router = Object.new
+
+    def @duplicate_router.match?(*)
+      true
+    end
+
+    def @duplicate_router.filepath(route, *)
+      route + route
+    end
+
+    @router.register(@duplicate_router)
+  end
+
   def new_dummy_alterant
     alterant = Object.new
 
@@ -92,5 +106,15 @@ class CoreRouterTest < Minitest::Test
     item.route = ""
 
     assert_equal "qhzzl/ebhgr/vaqrk.ugzy", @router.filepath(item)
+  end
+
+  def test_only_run_routers_with_appropriate_method
+    register_dummy_duplicate_only_route_router!
+
+    item       = new_item("index.html.erb")
+    item.route = ""
+
+    assert_equal "/dummy/route", @router.route(item)
+    assert_equal "dummy/route/index.htmldummy/route/index.html", @router.filepath(item)
   end
 end

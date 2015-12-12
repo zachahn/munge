@@ -27,13 +27,15 @@ module Munge
 
         content = @alterant.transform(item)
 
-        @registry.inject(item.route) do |route, router|
-          if router.match?(route, content, item)
-            router.public_send(method_name, route, content, item)
-          else
-            route
+        @registry
+          .select { |router| router.public_methods(false).include?(method_name) }
+          .inject(item.route) do |route, router|
+            if router.match?(route, content, item)
+              router.public_send(method_name, route, content, item)
+            else
+              route
+            end
           end
-        end
       end
 
       def remove_opening_slash(path)
