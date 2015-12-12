@@ -11,12 +11,13 @@ module Munge
       end
 
       def route(item)
-        route_mapper(item, :route)
+        path = route_mapper(item, :route)
+        Util::Path.ensure_abspath(path)
       end
 
       def filepath(item)
         path = route_mapper(item, :filepath)
-        remove_opening_slash(path)
+        Util::Path.ensure_relpath(path)
       end
 
       private
@@ -36,10 +37,6 @@ module Munge
               route
             end
           end
-      end
-
-      def remove_opening_slash(path)
-        path.slice(%r([^\/]+.*))
       end
     end
   end
