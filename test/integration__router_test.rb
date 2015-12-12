@@ -4,6 +4,7 @@ class IntegrationRouterTest < Minitest::Test
   def setup
     fingerprint = Munge::Router::Fingerprint.new(extensions: %w(gif))
     index_html = Munge::Router::IndexHtml.new(html_extensions: %w(html), index: "index.html")
+    auto_add_extension = Munge::Router::AutoAddExtension.new(keep_extensions: %w(gif))
 
     alterant = QuickDummy.new(transform: -> (item) { "transformed" })
 
@@ -11,6 +12,7 @@ class IntegrationRouterTest < Minitest::Test
 
     @router.register(fingerprint)
     @router.register(index_html)
+    @router.register(auto_add_extension)
   end
 
   def new_item(relpath, type: :text, id: nil)
@@ -31,10 +33,18 @@ class IntegrationRouterTest < Minitest::Test
   end
 
   def test_gif_when_route_has_extension
-    item = new_item("transparent.gif")
-    item.route = "transparent.gif"
+    item = new_item("t.gif")
+    item.route = "t.gif"
 
-    assert_equal "/transparent--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.route(item)
-    assert_equal "transparent--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.filepath(item)
+    assert_equal "/t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.route(item)
+    assert_equal "t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.filepath(item)
+  end
+
+  def test_gif_when_route_has_no_extension
+    item = new_item("t.gif")
+    item.route = "t"
+
+    assert_equal "/t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.route(item)
+    assert_equal "t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.filepath(item)
   end
 end
