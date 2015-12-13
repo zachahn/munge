@@ -6,7 +6,10 @@ class ApplicationTest < Minitest::Test
   end
 
   def test_create
-    application = Munge::Application.new("#{example_path}/config.yml")
+    config = Munge::Core::Config.new("#{example_path}/config.yml")
+    system = Munge::System.new(example_path, config)
+
+    application = Munge::Application.new(system)
 
     count = application.source.count
 
@@ -25,7 +28,10 @@ class ApplicationTest < Minitest::Test
     FakeFS do
       FakeFS::FileSystem.clone(example_path)
 
-      app = Munge::Application.new("#{example_path}/config.yml")
+      config = Munge::Core::Config.new("#{example_path}/config.yml")
+      system = Munge::System.new(example_path, config)
+
+      app = Munge::Application.new(system)
 
       about_item = app.source["about"]
       about_item.route = about_item.id

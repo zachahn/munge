@@ -1,80 +1,41 @@
 module Munge
   class Application
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    def initialize(config_path)
-      config = Core::Config.new(config_path)
+    def initialize(system)
+      @system = system
 
-      root_path    = File.dirname(File.expand_path(config_path))
-      source_path  = File.expand_path(config[:source], root_path)
-      layouts_path = File.expand_path(config[:layouts], root_path)
-      output_path  = File.expand_path(config[:output], root_path)
-      data_path    = File.expand_path(config[:data], root_path)
+      @system.alterant.register(Transformer::Tilt.new(@system))
 
-      @global_data = YAML.load_file(data_path) || {}
-
-      @item_factory =
-        Core::ItemFactory.new(
-          text_extensions: config[:text_extensions],
-          ignored_basenames: config[:ignored_basenames]
-        )
-
-      @source =
-        Core::Collection.new(
-          item_factory: @item_factory,
-          items: Reader::Filesystem.new(source_path)
-        )
-
-      @layouts =
-        Core::Collection.new(
-          item_factory: @item_factory,
-          items: Reader::Filesystem.new(layouts_path)
-        )
-
-      @alterant =
-        Core::Alterant.new(scope: self)
-
-      @router =
-        Core::Router.new(
-          alterant: @alterant
-        )
-
-      @writer =
-        Core::Write.new(
-          output: output_path
-        )
-
-      @alterant.register(Transformer::Tilt.new(self))
-
-      @router.register(Router::AutoAddExtension.new(keep_extensions: config[:keep_extensions]))
-      @router.register(Router::Fingerprint.new(extensions: config[:keep_extensions]))
-      @router.register(Router::IndexHtml.new(html_extensions: config[:text_extensions], index: config[:index]))
+      @system.router.register(Router::AutoAddExtension.new(keep_extensions: system.config[:keep_extensions]))
+      @system.router.register(Router::Fingerprint.new(extensions: system.config[:keep_extensions]))
+      @system.router.register(Router::IndexHtml.new(html_extensions: system.config[:text_extensions], index: system.config[:index]))
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-    attr_reader :source
+    def source
+      @system.source
+    end
 
     def write(&block)
-      @source
+      @system.source
         .reject { |item| item.route.nil? }
         .each   { |item| render_and_write(item, &block) }
     end
 
     def build_virtual_item(*args)
-      @source.build(*args)
+      @system.source.build(*args)
     end
 
     def create(*args, &block)
       item = build_virtual_item(*args)
       yield item if block_given?
-      @source.push(item)
+      @system.source.push(item)
     end
 
     private
 
     def render_and_write(item, &block)
-      relpath = @router.filepath(item)
+      relpath = @system.router.filepath(item)
 
-      write_status = @writer.write(relpath, @alterant.transform(item))
+      write_status = @system.writer.write(relpath, @system.alterant.transform(item))
 
       if block_given?
         block.call(item, write_status)
