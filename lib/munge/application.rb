@@ -44,6 +44,10 @@ module Munge
         )
 
       @alterant.register(Transformer::Tilt.new(self))
+
+      @router.register(Router::AutoAddExtension.new(keep_extensions: config[:keep_extensions]))
+      @router.register(Router::Fingerprint.new(extensions: config[:keep_extensions]))
+      @router.register(Router::IndexHtml.new(html_extensions: config[:text_extensions], index: config[:index]))
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
