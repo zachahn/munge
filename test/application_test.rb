@@ -39,10 +39,6 @@ class ApplicationTest < Minitest::Test
       tgif_item = app.source["transparent.gif"]
       tgif_item.route = tgif_item.id
 
-      md_no_ext_item = app.source["md_no_ext"]
-      md_no_ext_item.route = md_no_ext_item.id
-      md_no_ext_item.transform(:tilt, "md")
-
       cant_find_item = app.source["frontmatter_and_markdown"]
       cant_find_item.route = "justdance.html"
       cant_find_item.transform
@@ -53,16 +49,14 @@ class ApplicationTest < Minitest::Test
       # puts Dir["#{output_path}/**/*"].join("\n")
 
       @about       = File.read("#{output_path}/about/index.html")
-      @transparent = File.read("#{output_path}/transparent.gif")
+      @transparent = File.read("#{output_path}/transparent--3eacd0132310ea44cad756b378a3bc07.gif")
       @index       = File.read("#{output_path}/index.html")
-      @md_no_ext   = File.read("#{output_path}/md_no_ext/index.html")
       @justdance   = File.read("#{output_path}/justdance.html")
     end
 
     assert_equal "<h1>about me</h1>\n", @about
     assert_equal 37, @transparent.size
     assert_equal "<body>hi</body>\n", @index
-    assert_equal "<h1>hi</h1>\n", @md_no_ext
     assert_equal "<body>this is a test<p><strong>cant find</strong> my drink or man</p>\n</body>\n", @justdance
   end
 end
