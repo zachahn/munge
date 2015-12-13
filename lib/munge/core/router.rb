@@ -1,62 +1,42 @@
 module Munge
   module Core
     class Router
-      def initialize(index:, keep_extensions:)
-        @index          = index
-        @keep_extensions = keep_extensions
+      def initialize(alterant:)
+        @registry = []
+        @alterant = alterant
+      end
+
+      def register(router)
+        @registry.push(router)
       end
 
       def route(item)
-        fail "item has no route" unless item.route
-
-        if keep_extension?(item)
-          "/#{filepath(item)}"
-        else
-          item.route
-        end
+        path = route_mapper(item, :route)
+        Util::Path.ensure_abspath(path)
       end
 
       def filepath(item)
-        fail "item has no route" unless item.route
-
-        relroute = relativeize(item.route)
-
-        path =
-          if route_has_extension?(item)
-            "#{relroute}"
-          elsif keep_extension?(item)
-            "#{relroute}.#{main_extension(item)}"
-          else
-            "#{relroute}/#{@index}"
-          end
-
-        relativeize(path)
+        path = route_mapper(item, :filepath)
+        Util::Path.ensure_relpath(path)
       end
 
       private
 
-      def relativeize(path)
-        while path[0] == "/"
-          path = path[1..-1]
-        end
+      def route_mapper(item, method_name)
+        fail "item has no route" unless item.route
+        fail "no routers are registered" if @registry.empty?
 
-        path
-      end
+        content = @alterant.transform(item)
 
-      def route_has_extension?(item)
-        route_basename(item) =~ /\./
-      end
-
-      def keep_extension?(item)
-        @keep_extensions.include?(main_extension(item))
-      end
-
-      def main_extension(item)
-        item.extensions.first
-      end
-
-      def route_basename(item)
-        File.basename(item.route)
+        @registry
+          .select { |router| router.public_methods(false).include?(method_name) }
+          .inject(item.route) do |route, router|
+            if router.match?(route, content, item)
+              router.public_send(method_name, route, content, item)
+            else
+              route
+            end
+          end
       end
     end
   end

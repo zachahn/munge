@@ -30,14 +30,13 @@ module Munge
           items: Reader::Filesystem.new(layouts_path)
         )
 
-      @router =
-        Core::Router.new(
-          index:           config[:index],
-          keep_extensions: config[:keep_extensions]
-        )
-
       @alterant =
         Core::Alterant.new(scope: self)
+
+      @router =
+        Core::Router.new(
+          alterant: @alterant
+        )
 
       @writer =
         Core::Write.new(
@@ -45,6 +44,10 @@ module Munge
         )
 
       @alterant.register(Transformer::Tilt.new(self))
+
+      @router.register(Router::AutoAddExtension.new(keep_extensions: config[:keep_extensions]))
+      @router.register(Router::Fingerprint.new(extensions: config[:keep_extensions]))
+      @router.register(Router::IndexHtml.new(html_extensions: config[:text_extensions], index: config[:index]))
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
