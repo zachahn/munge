@@ -2,11 +2,6 @@ require "test_helper"
 
 class RouterIndexHtmlTest < Minitest::Test
   def setup
-    alterant =
-      QuickDummy.new(
-        transform: -> (item) { "dummy transformed text" }
-      )
-
     @index_html =
       Munge::Router::IndexHtml.new(
         html_extensions: %w(html htm md),
