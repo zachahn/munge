@@ -1,3 +1,6 @@
+require "adsf"
+require "rack"
+
 module Munge
   class Commands
     class View

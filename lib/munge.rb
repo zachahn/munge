@@ -3,8 +3,6 @@ require "pathname"
 require "set"
 require "yaml"
 
-require "adsf"
-require "rack"
 require "tilt"
 
 require "munge/version"
