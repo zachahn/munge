@@ -1,5 +1,7 @@
 require "thor"
 
+require_relative "commands/view"
+
 module Munge
   class CLI < Thor
     include Thor::Actions
@@ -22,21 +24,7 @@ module Munge
     method_option :port, aliases: "-p", desc: "Set port", default: 3000, type: :numeric
     method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
     def view
-      config    = Munge::Core::Config.new(config_path)
-      handler   = Rack::Handler::WEBrick
-      rack_opts = { Host: options[:host], Port: options[:port] }
-
-      app =
-        Rack::Builder.new do
-          use Rack::CommonLogger
-          use Rack::ShowExceptions
-          use Rack::Lint
-          use Rack::Head
-          use Adsf::Rack::IndexFileFinder, root: config[:output]
-          run Rack::File.new(config[:output])
-        end
-
-      Rack::Handler::WEBrick.run(app, rack_opts)
+      Munge::Commands::View.new(options, config_path)
     end
 
     desc "version", "Print version"
