@@ -13,7 +13,8 @@ class RunnerTest < Minitest::Test
       @out, @err = capture_io { Munge::Runner.write(seeds_path) }
     end
 
-    assert_match "wrote /\n", @out
+    assert_respond_to Munge::Runner, :write
+    refute_respond_to Munge::Runner, :this_method_probably_doesnt_exist
   end
 
   def test_write
