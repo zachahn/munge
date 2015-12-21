@@ -1,8 +1,8 @@
 module Munge
   class Runner
     class << self
-      def method_missing(method, config_path, rules_path, *args)
-        runner = new(config_path, rules_path)
+      def method_missing(method, root_path, *args)
+        runner = new(application(root_path))
         runner.public_send(method, *args)
       end
 
@@ -13,12 +13,16 @@ module Munge
           super
         end
       end
+
+      def application(root_path)
+        bootstrap = Munge::Bootstrap.new_from_dir(root_path: root_path)
+
+        bootstrap.app
+      end
     end
 
-    def initialize(config_path, rules_path)
-      @app = app = Munge::Application.new(config_path)
-
-      binding.eval(File.read(rules_path), rules_path)
+    def initialize(application)
+      @app = application
     end
 
     def write
