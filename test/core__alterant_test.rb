@@ -63,4 +63,12 @@ class CoreAlterantTest < Minitest::Test
 
     assert_equal "uryyburyyb", output
   end
+
+  def test_missing_transformer
+    item = OpenStruct.new
+    item.transforms = [[:dne], [:rot13]]
+    item.content = %(hello)
+
+    assert_raises(RuntimeError) { @alterant.transform(item) }
+  end
 end
