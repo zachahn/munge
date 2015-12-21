@@ -17,7 +17,7 @@ module Munge
 
     desc "build", "Build in current directory"
     def build
-      Munge::Runner.write(config_path, rules_path)
+      Munge::Runner.write(destination_root)
     end
 
     desc "view", "View built files"
