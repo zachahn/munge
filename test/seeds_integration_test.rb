@@ -13,7 +13,10 @@ class SeedsIntegrationTest < Minitest::Test
     FakeFS do
       FakeFS::FileSystem.clone(seeds_path)
 
-      app = Munge::Application.new("#{seeds_path}/config.yml")
+      config = Munge::Core::Config.new("#{seeds_path}/config.yml")
+      system = Munge::System.new(seeds_path, config)
+
+      app = Munge::Application.new(system)
 
       binding.eval(File.read(rules_path), rules_path)
 
