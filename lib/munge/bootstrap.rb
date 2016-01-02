@@ -49,12 +49,12 @@ module Munge
                    rules_string:,
                    setup_path:,
                    rules_path:)
-      @app =
-        Munge::Application.new(
-          Munge::System.new(root_path, config)
-        )
+      system = Munge::System.new(root_path, config)
 
       binding.eval(setup_string, setup_path)
+
+      @app = Munge::Application.new(system)
+
       binding.eval(rules_string, rules_path)
     end
 
