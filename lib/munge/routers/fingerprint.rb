@@ -7,8 +7,8 @@ module Munge
         @separator  = separator
       end
 
-      def match?(initial_route, content, item)
-        if item.frontmatter.has_key?(:fingerprint_asset)
+      def match?(_initial_route, _content, item)
+        if item.frontmatter.key?(:fingerprint_asset)
           return item.frontmatter[:fingerprint_asset]
         end
 

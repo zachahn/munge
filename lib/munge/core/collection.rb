@@ -42,7 +42,7 @@ module Munge
       private
 
       def prune_args(args)
-        args.select { |k, v| %i(relpath content frontmatter stat).include?(k) }
+        args.select { |k, _| %i(relpath content frontmatter stat).include?(k) }
       end
     end
   end

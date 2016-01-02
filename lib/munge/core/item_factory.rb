@@ -91,7 +91,7 @@ module Munge
       end
 
       def compute_dirname(relpath)
-        dirname = File.dirname(relpath)
+        File.dirname(relpath)
       end
 
       def compute_basename(relpath)

@@ -21,8 +21,6 @@ module Munge
         inner =
           if block_given?
             yield
-          else
-            nil
           end
 
         engines

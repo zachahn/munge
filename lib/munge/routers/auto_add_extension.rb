@@ -5,7 +5,7 @@ module Munge
         @keep_extensions = keep_extensions
       end
 
-      def match?(initial_route, content, item)
+      def match?(initial_route, _content, item)
         item_should_have_extension?(item) && route_doesnt_have_extension?(initial_route)
       end
 

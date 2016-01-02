@@ -7,7 +7,7 @@ if ENV["COVERAGE"]
   require "simplecov"
   SimpleCov.start do
     add_filter do |src|
-      src.filename =~ %r(^#{SimpleCov.root}/test)
+      src.filename =~ %r{^#{SimpleCov.root}/test}
     end
   end
 end

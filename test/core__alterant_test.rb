@@ -12,7 +12,7 @@ class CoreAlterantTest < Minitest::Test
       :rot13
     end
 
-    def @rot13.call(item, content, *)
+    def @rot13.call(_item, content, *)
       content.tr("a-z", "n-za-m")
     end
 
@@ -26,7 +26,7 @@ class CoreAlterantTest < Minitest::Test
       :double
     end
 
-    def @double.call(item, content, *)
+    def @double.call(_item, content, *)
       content + content
     end
 

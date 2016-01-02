@@ -6,7 +6,7 @@ module Munge
         @index           = index
       end
 
-      def match?(initial_route, content, item)
+      def match?(initial_route, _content, item)
         item_is_html?(item) && route_needs_extension?(initial_route)
       end
 
@@ -19,13 +19,13 @@ module Munge
       def item_is_html?(item)
         intersection = item.extensions & @html_extensions
 
-        return intersection.length > 0
+        intersection.length > 0
       end
 
       def route_needs_extension?(route)
         basename = File.basename(route)
 
-        return !basename.include?(".")
+        !basename.include?(".")
       end
     end
   end

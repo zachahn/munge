@@ -43,7 +43,7 @@ class CoreCollectionTest < Minitest::Test
 
     assert_includes @source.each.to_a, item1
     assert_includes @source.each.to_a, item2
-    assert_equal 2, @source.each.to_a.count
+    assert_equal 2, @source.each.to_a.size
   end
 
   def test_build
@@ -57,7 +57,7 @@ class CoreCollectionTest < Minitest::Test
     assert_equal "id foo/bar.jpg", item.id
     assert_equal "foo/bar.jpg", item[:relpath]
     assert_equal "binary content lol", item[:content]
-    assert_equal Hash.new, item[:frontmatter]
+    assert_equal({}, item[:frontmatter])
   end
 
   def test_build_does_not_use_extraneous_params
@@ -73,17 +73,18 @@ class CoreCollectionTest < Minitest::Test
   end
 
   def test_push_inserts_into_collection
-    item =
-      @source.build(
-        relpath: "foo/bar.jpg",
-        content: "binary content lol",
-        frontmatter: {}
-      )
+    item_params = {
+      relpath: "foo/bar.jpg",
+      content: "binary content lol",
+      frontmatter: {}
+    }
+
+    item = @source.build(**item_params)
 
     @source.push(item)
 
-    assert_equal 3, @source.each.to_a.count
-    assert_includes @source.each.to_a, { relpath: "foo/bar.jpg", content: "binary content lol", frontmatter: {} }
+    assert_equal 3, @source.each.to_a.size
+    assert_includes @source.each.to_a, item_params
     assert_equal "binary content lol", @source["id foo/bar.jpg"][:content]
   end
 end
