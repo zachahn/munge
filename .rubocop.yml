@@ -28,5 +28,8 @@ Style/GuardClause:
 Style/IfUnlessModifier:
   Enabled: false
 
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
