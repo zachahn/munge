@@ -1,6 +1,6 @@
 require "test_helper"
 
-class CoreSourceItemFactoryTest < Minitest::Test
+class CoreItemFactoryTest < Minitest::Test
   def setup
     # @item_factory = new_item_factory(ignored_basenames: %w(index dir))
     @item_factory = Munge::Core::ItemFactory.new(
@@ -63,7 +63,7 @@ class CoreSourceItemFactoryTest < Minitest::Test
     content_with_frontmatter = "---\nhas: frontmatter\n---\n\nmain content"
     txt = @item_factory.parse(relpath: "index.html", content: content_with_frontmatter)
     assert_equal "main content", txt.content
-    assert_equal "frontmatter", txt.frontmatter["has"]
+    assert_equal "frontmatter", txt.frontmatter[:has]
 
     bin = @item_factory.parse(relpath: "transparent.gif", content: content_with_frontmatter)
     assert_equal content_with_frontmatter, bin.content

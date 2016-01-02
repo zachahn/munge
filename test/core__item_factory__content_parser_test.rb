@@ -11,7 +11,7 @@ but this is not yay
 )
     )
 
-    assert_equal({ "this" => "is", "yaml" => "frontmatter" }, match.frontmatter)
+    assert_equal({ this: "is", yaml: "frontmatter" }, match.frontmatter)
     assert_equal("but this is not yay\n", match.content)
   end
 
