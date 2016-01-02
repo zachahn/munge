@@ -47,7 +47,7 @@ class HelperRenderingTest < Minitest::Test
     item.frontmatter = {}
     item.relpath = "text.erb"
 
-    output = @renderer.render(item, engines: ["html", "erb"])
+    output = @renderer.render(item, engines: %w(html erb))
 
     assert_equal %(<h1>hi</h1>), output
   end
@@ -72,7 +72,7 @@ class HelperRenderingTest < Minitest::Test
     layout.class = Munge::Item
     layout.id = "identifier"
 
-    @renderer.instance_variable_set(:@layouts, { layout.id => layout })
+    @renderer.instance_variable_set(:@layouts, layout.id => layout)
 
     output = @renderer.layout("identifier") { %(<%= "hi" %>) }
 
@@ -99,8 +99,8 @@ class HelperRenderingTest < Minitest::Test
     inner.relpath = "inner.erb"
     inner.id = "inner"
 
-    @renderer.instance_variable_set(:@layouts, { layout.id => layout })
-    @renderer.instance_variable_set(:@source, { inner.id => inner, outer.id => outer })
+    @renderer.instance_variable_set(:@layouts, layout.id => layout)
+    @renderer.instance_variable_set(:@source, inner.id => inner, outer.id => outer)
 
     output = @renderer.render(outer)
 

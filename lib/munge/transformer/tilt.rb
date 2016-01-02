@@ -20,8 +20,8 @@ module Munge
 
       def extend_with_helpers(scope)
         Munge::Helper.constants
-          .map  { |sym| Munge::Helper.const_get(sym) }
-          .inject(scope) { |scope, helper| scope.extend(helper) }
+          .map           { |sym| Munge::Helper.const_get(sym) }
+          .inject(scope) { |a, e| a.extend(e) }
       end
     end
   end

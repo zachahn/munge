@@ -44,7 +44,7 @@ module Munge
           end
         end
 
-        def initialize(string, frontmatter = nil)
+        def initialize(string)
           @frontmatter, @content = self.class.parse(string)
         end
 

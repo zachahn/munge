@@ -67,6 +67,6 @@ class CoreSourceItemFactoryTest < Minitest::Test
 
     bin = @item_factory.parse(relpath: "transparent.gif", content: content_with_frontmatter)
     assert_equal content_with_frontmatter, bin.content
-    assert_equal Hash.new, bin.frontmatter
+    assert_equal({}, bin.frontmatter)
   end
 end

@@ -6,7 +6,7 @@ class IntegrationRouterTest < Minitest::Test
     index_html = Munge::Router::IndexHtml.new(html_extensions: %w(html), index: "index.html")
     auto_add_extension = Munge::Router::AutoAddExtension.new(keep_extensions: %w(gif))
 
-    alterant = QuickDummy.new(transform: -> (item) { "transformed" })
+    alterant = QuickDummy.new(transform: -> (_item) { "transformed" })
 
     @router = Munge::Core::Router.new(alterant: alterant)
 
@@ -17,7 +17,7 @@ class IntegrationRouterTest < Minitest::Test
 
   def new_item(relpath, type: :text, id: nil)
     Munge::Item.new(
-      type: :text,
+      type: type,
       relpath: relpath,
       id: id || relpath.split(".").first,
       content: ""

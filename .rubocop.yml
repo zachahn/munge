@@ -22,8 +22,14 @@ Style/Documentation:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Style/GuardClause:
+  Enabled: false
+
 Style/IfUnlessModifier:
   Enabled: false
+
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

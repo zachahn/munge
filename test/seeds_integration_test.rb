@@ -25,7 +25,7 @@ class SeedsIntegrationTest < Minitest::Test
       @index = File.read(File.join(output_path, "index.html"))
     end
 
-    assert_match %r(<title>Munge</title>), @index, "output is missing layout"
-    assert_match %r(<h1>Welcome</h1>), @index, "output is missing content"
+    assert_match %r{<title>Munge</title>}, @index, "output is missing layout"
+    assert_match %r{<h1>Welcome</h1>}, @index, "output is missing content"
   end
 end

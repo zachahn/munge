@@ -24,12 +24,12 @@ class ItemTest < Minitest::Test
   def test_accessors
     item = new_item
 
-    assert_equal :text, item.type
-    assert_equal "path/to/index.html.erb", item.relpath
-    assert_equal "path/to", item.id
-    assert_equal %(<%= "hi" %>\n), item.content
-    assert_equal Hash.new, item.frontmatter
-    assert_equal nil, item.stat
+    assert_equal(:text, item.type)
+    assert_equal("path/to/index.html.erb", item.relpath)
+    assert_equal("path/to", item.id)
+    assert_equal(%(<%= "hi" %>\n), item.content)
+    assert_equal({}, item.frontmatter)
+    assert_equal(nil, item.stat)
   end
 
   def test_dirname
@@ -128,7 +128,7 @@ class ItemTest < Minitest::Test
     item.transform(:Asdf, "gh", j: "kl")
     item.transform(:qwer, "ty", "uiop")
     assert_equal [:Asdf, ["gh", j: "kl"]], item.transforms[0]
-    assert_equal [:qwer, ["ty", "uiop"]], item.transforms[1]
+    assert_equal [:qwer, %w(ty uiop)], item.transforms[1]
   end
 
   def test_layout=

@@ -24,7 +24,7 @@ module Munge
       @system.source.build(*args)
     end
 
-    def create(*args, &block)
+    def create(*args)
       item = build_virtual_item(*args)
       yield item if block_given?
       @system.source.push(item)

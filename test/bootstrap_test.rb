@@ -31,31 +31,31 @@ class BootstrapTest < Minitest::Test
   end
 
   def test_reading_setup
-    err = assert_raises {
+    err = assert_raises do
       Munge::Bootstrap.new(
         **root_and_config_args,
         **rules_args,
         setup_string: %(fail "setup fail"),
         setup_path: "fake setup path"
       )
-    }
+    end
 
     assert_equal "setup fail", err.message
-    assert_match /fake setup path/, err.backtrace[0]
+    assert_match(/fake setup path/, err.backtrace[0])
   end
 
   def test_reading_rules
-    err = assert_raises {
+    err = assert_raises do
       Munge::Bootstrap.new(
         **root_and_config_args,
         **setup_args,
         rules_string: %(fail "rules fail"),
         rules_path: "fake rules path"
       )
-    }
+    end
 
-    assert_equal "rules fail", err.message
-    assert_match /fake rules path/, err.backtrace[0]
+    assert_equal("rules fail", err.message)
+    assert_match(/fake rules path/, err.backtrace[0])
   end
 
   private

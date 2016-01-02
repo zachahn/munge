@@ -9,7 +9,7 @@ class CoreRouterTest < Minitest::Test
 
   def new_item(relpath, type: :text, id: nil)
     Munge::Item.new(
-      type: :text,
+      type: type,
       relpath: relpath,
       id: id || relpath.split(".").first,
       content: ""

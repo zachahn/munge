@@ -91,8 +91,8 @@ module Munge
 
     def remove_surrounding_slashes(string)
       string
-        .sub(%r(^/+), "")
-        .sub(%r(/+$), "")
+        .sub(%r{^/+}, "")
+        .sub(%r{/+$}, "")
     end
   end
 end
