@@ -29,11 +29,14 @@ module Munge
 
           parsed_frontmatter = YAML.load(matchdata[1])
 
-          if parsed_frontmatter.is_a?(Hash)
-            parsed_frontmatter
-          else
-            {}
-          end
+          frontmatter_hash =
+            if parsed_frontmatter.is_a?(Hash)
+              parsed_frontmatter
+            else
+              {}
+            end
+
+          Munge::Util::SymbolHash.deep_convert(frontmatter_hash)
         end
 
         def self.parse_content(matchdata, string)
