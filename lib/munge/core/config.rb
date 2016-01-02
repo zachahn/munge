@@ -1,22 +1,18 @@
 module Munge
   module Core
     class Config
-      def initialize(path)
-        abspath = File.expand_path(path)
-        @datastore =
-          read_yaml(abspath)
-            .map { |key, value| [key.to_sym, value] }
-            .to_h
-      end
+      class << self
+        def read(path)
+          abspath = File.expand_path(path)
 
-      def [](key)
-        @datastore[key]
-      end
+          Munge::Util::SymbolHash.deep_convert(read_yaml(abspath))
+        end
 
-      private
+        private
 
-      def read_yaml(abspath)
-        YAML.load_file(abspath) || {}
+        def read_yaml(abspath)
+          YAML.load_file(abspath) || {}
+        end
       end
     end
   end

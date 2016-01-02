@@ -6,7 +6,7 @@ class ApplicationTest < Minitest::Test
   end
 
   def test_create
-    config = Munge::Core::Config.new("#{example_path}/config.yml")
+    config = Munge::Core::Config.read("#{example_path}/config.yml")
     system = Munge::System.new(example_path, config)
 
     application = Munge::Application.new(system)
@@ -28,7 +28,7 @@ class ApplicationTest < Minitest::Test
     FakeFS do
       FakeFS::FileSystem.clone(example_path)
 
-      config = Munge::Core::Config.new("#{example_path}/config.yml")
+      config = Munge::Core::Config.read("#{example_path}/config.yml")
       system = Munge::System.new(example_path, config)
 
       app = Munge::Application.new(system)

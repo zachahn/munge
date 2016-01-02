@@ -6,7 +6,7 @@ class CoreConfigTest < Minitest::Test
   end
 
   def test_config
-    config = Munge::Core::Config.new(File.join(example_path, "config.yml"))
+    config = Munge::Core::Config.read(File.join(example_path, "config.yml"))
 
     assert_equal "src", config[:source]
     assert_equal "dest", config[:output]
@@ -15,13 +15,13 @@ class CoreConfigTest < Minitest::Test
   end
 
   def test_empty_config
-    config = Munge::Core::Config.new(File.join(old_fixtures_path, "empty.yml"))
+    config = Munge::Core::Config.read(File.join(old_fixtures_path, "empty.yml"))
 
     assert_equal nil, config[:source]
   end
 
   def test_expanding_of_paths
-    config = Munge::Core::Config.new(File.join("test", "example", "config.yml"))
+    config = Munge::Core::Config.read(File.join("test", "example", "config.yml"))
 
     assert_equal "src", config[:source]
   end

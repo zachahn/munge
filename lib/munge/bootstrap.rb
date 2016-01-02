@@ -27,7 +27,7 @@ module Munge
       private
 
       def read_config(config_path)
-        Munge::Core::Config.new(config_path)
+        Munge::Core::Config.read(config_path)
       end
 
       def config_path(root_path)

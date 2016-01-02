@@ -63,7 +63,7 @@ class BootstrapTest < Minitest::Test
   def root_and_config_args
     {
       root_path: seeds_path,
-      config: Munge::Core::Config.new(File.join(seeds_path, "config.yml"))
+      config: Munge::Core::Config.read(File.join(seeds_path, "config.yml"))
     }
   end
 
