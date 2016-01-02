@@ -2,14 +2,10 @@ require "test_helper"
 
 class TransformerTiltTest < Minitest::Test
   def setup
-    fake_scope_class =
-      Class.new do
-        def initialize
-          @global_data = {}
-        end
-      end
+    fake_scope = Object.new
+    fake_scope.instance_variable_set(:@global_data, {})
 
-    @tilt_transformer = Munge::Transformer::Tilt.new(fake_scope_class.new)
+    @tilt_transformer = Munge::Transformer::Tilt.new(fake_scope)
   end
 
   def test_auto_transform
