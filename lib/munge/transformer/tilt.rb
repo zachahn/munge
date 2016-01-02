@@ -3,6 +3,7 @@ module Munge
     class Tilt
       def initialize(scope)
         @pristine_scope = scope
+        @registry = []
       end
 
       def name
@@ -16,11 +17,14 @@ module Munge
         dirty_scope.render_with_layout(item, content_engines: renderer, content_override: content)
       end
 
+      def register(helper)
+        @registry.push(helper)
+      end
+
       private
 
       def extend_with_helpers(scope)
-        Munge::Helper.constants
-          .map           { |sym| Munge::Helper.const_get(sym) }
+        @registry
           .inject(scope) { |a, e| a.extend(e) }
       end
     end
