@@ -1,6 +1,6 @@
 require "test_helper"
 
-class CoreSourceItemFactoryTest < Minitest::Test
+class CoreItemFactoryTest < Minitest::Test
   def setup
     # @item_factory = new_item_factory(ignored_basenames: %w(index dir))
     @item_factory = Munge::Core::ItemFactory.new(
