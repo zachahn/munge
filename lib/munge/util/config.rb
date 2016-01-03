@@ -1,5 +1,5 @@
 module Munge
-  module Core
+  module Util
     class Config
       class << self
         def read(path)

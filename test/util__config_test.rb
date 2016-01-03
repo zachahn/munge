@@ -1,8 +1,8 @@
 require "test_helper"
 
-class CoreConfigTest < Minitest::Test
+class UtilConfigTest < Minitest::Test
   def test_config
-    config = Munge::Core::Config.read(File.join(seeds_path, "config.yml"))
+    config = Munge::Util::Config.read(File.join(seeds_path, "config.yml"))
 
     assert_equal "src", config[:source]
     assert_equal "dest", config[:output]
@@ -13,7 +13,7 @@ class CoreConfigTest < Minitest::Test
   def test_invalid_config
     FakeFS do
       File.write("/config.yml", "- hi\n- bye\n")
-      @config = Munge::Core::Config.read("/config.yml")
+      @config = Munge::Util::Config.read("/config.yml")
     end
 
     assert_instance_of Hash, @config
@@ -23,7 +23,7 @@ class CoreConfigTest < Minitest::Test
     assert_raises do
       FakeFS do
         File.write("/config.yml", "--- `")
-        Munge::Core::Config.read("/config.yml")
+        Munge::Util::Config.read("/config.yml")
       end
     end
   end
@@ -31,14 +31,14 @@ class CoreConfigTest < Minitest::Test
   def test_empty_yaml
     FakeFS do
       File.write("/config.yml", "")
-      @config = Munge::Core::Config.read("/config.yml")
+      @config = Munge::Util::Config.read("/config.yml")
     end
 
     assert_instance_of Hash, @config
   end
 
   def test_expanding_of_paths
-    config = Munge::Core::Config.read(File.join("seeds", "config.yml"))
+    config = Munge::Util::Config.read(File.join("seeds", "config.yml"))
 
     assert_equal "src", config[:source]
   end
