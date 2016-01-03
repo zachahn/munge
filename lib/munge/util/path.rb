@@ -12,6 +12,13 @@ module Munge
         end
       end
 
+      def self.basename_no_extension(path)
+        basename = File.basename(path)
+        basename_parts = basename.split(".")
+
+        basename_parts[0] || ""
+      end
+
       def self.path_no_extension(path)
         extension = extname(path)
 
