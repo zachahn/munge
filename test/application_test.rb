@@ -27,7 +27,7 @@ class ApplicationTest < Minitest::Test
 
     application = Munge::Application.new(system)
 
-    application.write do |yielded_item, write_status|
+    application.write do |_yielded_item, write_status|
       assert_equal true, write_status
     end
 
@@ -63,5 +63,4 @@ class ApplicationTest < Minitest::Test
 
     system.source.verify
   end
-
 end
