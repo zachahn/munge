@@ -19,6 +19,15 @@ class CoreConfigTest < Minitest::Test
     assert_instance_of Hash, @config
   end
 
+  def test_invalid_yaml
+    assert_raises do
+      FakeFS do
+        File.write("/config.yml", "--- `")
+        Munge::Core::Config.read("/config.yml")
+      end
+    end
+  end
+
   def test_empty_yaml
     FakeFS do
       File.write("/config.yml", "")
