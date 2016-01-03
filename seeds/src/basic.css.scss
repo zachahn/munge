@@ -1,0 +1,41 @@
+@import "vars";
+
+body {
+  background-color: $color-bg;
+  color: $color-fg;
+  font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-size: 16px;
+  line-height: $golden * 1em;
+  margin: $golden * 1em;
+}
+
+h1 {
+  font-size: $golden * $golden * 1em;
+  font-weight: normal;
+  line-height: $golden * 1em;
+  margin: 0;
+}
+
+h2 {
+  font-size: $golden * 1em;
+  font-weight: normal;
+  line-height: $golden;
+  margin: 0;
+}
+
+p {
+  margin: $golden * 0.5em 0;
+}
+
+code {
+  font-family: "Courier New", Courier, monospace;
+}
+
+ul {
+  margin: $golden * 0.5em 0;
+}
+
+.layout {
+  width: $layout-width;
+  margin: 0 auto;
+}
