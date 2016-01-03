@@ -1,10 +1,6 @@
 require "test_helper"
 
 class ItemTest < Minitest::Test
-  def relpath_to_id(relpath)
-    relpath
-  end
-
   def new_item(type:        :text,
                relpath:     "path/to/index.html.erb",
                id:          "path/to",
