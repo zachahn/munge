@@ -1,10 +1,6 @@
 require "test_helper"
 
 class CoreConfigTest < Minitest::Test
-  def old_fixtures_path
-    File.absolute_path(File.expand_path("../fixtures", __FILE__))
-  end
-
   def test_config
     config = Munge::Core::Config.read(File.join(seeds_path, "config.yml"))
 
@@ -14,10 +10,13 @@ class CoreConfigTest < Minitest::Test
     assert_equal nil, config[:this_doesnt_exist]
   end
 
-  def test_empty_config
-    config = Munge::Core::Config.read(File.join(old_fixtures_path, "empty.yml"))
+  def test_empty_yaml
+    FakeFS do
+      File.write("/config.yml", "")
+      @config = Munge::Core::Config.read("/config.yml")
+    end
 
-    assert_equal nil, config[:source]
+    assert_instance_of Hash, @config
   end
 
   def test_expanding_of_paths
