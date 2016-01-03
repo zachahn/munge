@@ -6,29 +6,21 @@ class CoreAlterantTest < Minitest::Test
   end
 
   def register_rot13!
-    @rot13 = Object.new
-
-    def @rot13.name
-      :rot13
-    end
-
-    def @rot13.call(_item, content, *)
-      content.tr("a-z", "n-za-m")
-    end
+    @rot13 =
+      QuickDummy.new(
+        name: -> { :rot13 },
+        call: -> (_item, content, *) { content.tr("a-z", "n-za-m") }
+      )
 
     @alterant.register(@rot13)
   end
 
   def retister_double!
-    @double = Object.new
-
-    def @double.name
-      :double
-    end
-
-    def @double.call(_item, content, *)
-      content + content
-    end
+    @double =
+      QuickDummy.new(
+        name: -> { :double },
+        call: -> (_item, content, *) { content + content }
+      )
 
     @alterant.register(@double)
   end

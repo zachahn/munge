@@ -9,15 +9,6 @@ class RouterIndexHtmlTest < Minitest::Test
       )
   end
 
-  def new_item(relpath, type: :text, id: nil)
-    Munge::Item.new(
-      type: type,
-      relpath: relpath,
-      id: id || relpath.split(".").first,
-      content: ""
-    )
-  end
-
   def test_match_html
     item = OpenStruct.new
     item.extensions = %w(html erb)

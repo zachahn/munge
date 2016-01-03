@@ -1,68 +1,66 @@
 require "test_helper"
 
 class ApplicationTest < Minitest::Test
-  def output_path
-    File.join(example_path, "dest")
-  end
-
-  def test_create
-    config = Munge::Core::Config.read("#{example_path}/config.yml")
-    system = Munge::System.new(example_path, config)
+  def test_source
+    system = Minitest::Mock.new
+    system.expect(:source, nil, [])
 
     application = Munge::Application.new(system)
 
-    count = application.source.count
+    application.source
 
-    application.create(
-      relpath: "foo/bar.html",
-      content: "x",
-      frontmatter: {}
-    )
-
-    new_count = application.source.count
-
-    assert_equal count + 1, new_count
+    system.verify
   end
 
-  def test_integration
-    FakeFS do
-      FakeFS::FileSystem.clone(example_path)
+  def test_write
+    item = Minitest::Mock.new
+    item.expect(:route, "index")
 
-      config = Munge::Core::Config.read("#{example_path}/config.yml")
-      system = Munge::System.new(example_path, config)
+    system = OpenStruct.new
+    system.source = [item]
+    system.router = Minitest::Mock.new
+    system.router.expect(:filepath, "/path/to/index", [item])
+    system.alterant = Minitest::Mock.new
+    system.alterant.expect(:transform, "lipstique", [item])
+    system.writer = Minitest::Mock.new
+    system.writer.expect(:write, true, ["/path/to/index", "lipstique"])
 
-      app = Munge::Application.new(system)
+    application = Munge::Application.new(system)
 
-      about_item = app.source["about"]
-      about_item.route = about_item.id
-      about_item.transform
-
-      home_item = app.source[""]
-      home_item.route = home_item.id
-      home_item.transform
-      home_item.layout = "basic"
-
-      tgif_item = app.source["transparent.gif"]
-      tgif_item.route = tgif_item.id
-
-      cant_find_item = app.source["frontmatter_and_markdown"]
-      cant_find_item.route = "justdance.html"
-      cant_find_item.transform
-      cant_find_item.layout = "req_global_data"
-
-      app.write
-
-      # puts Dir["#{output_path}/**/*"].join("\n")
-
-      @about       = File.read("#{output_path}/about/index.html")
-      @transparent = File.read("#{output_path}/transparent--3eacd0132310ea44cad756b378a3bc07.gif")
-      @index       = File.read("#{output_path}/index.html")
-      @justdance   = File.read("#{output_path}/justdance.html")
+    application.write do |_yielded_item, write_status|
+      assert_equal true, write_status
     end
 
-    assert_equal "<h1>about me</h1>\n", @about
-    assert_equal 37, @transparent.size
-    assert_equal "<body>hi</body>\n", @index
-    assert_equal "<body>this is a test<p><strong>cant find</strong> my drink or man</p>\n</body>\n", @justdance
+    item.verify
+    system.router.verify
+    system.alterant.verify
+    system.writer.verify
+  end
+
+  def test_build_virtual_item
+    system = OpenStruct.new
+    system.source = Minitest::Mock.new
+    system.source.expect(:build, "built item", ["args"])
+
+    application = Munge::Application.new(system)
+
+    application.build_virtual_item("args")
+
+    system.source.verify
+  end
+
+  def test_create
+    system = OpenStruct.new
+    system.source = Minitest::Mock.new
+    system.source.expect(:build, "built item", ["args"])
+    system.source.expect(:push, nil, ["built item"])
+
+    application = Munge::Application.new(system)
+
+    application.create("args") do |item|
+      assert_equal "built item", item
+    end
+
+    system.source.verify
   end
 end

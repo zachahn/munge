@@ -9,7 +9,7 @@ class HelperFindTest < Minitest::Test
     @renderer.extend(Munge::Helper::Find)
   end
 
-  def test_url_for
+  def test_find
     item = @renderer.items[:id]
 
     assert_equal "item", item

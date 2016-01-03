@@ -1,10 +1,6 @@
 require "test_helper"
 
-class SeedsIntegrationTest < Minitest::Test
-  def rules_path
-    File.join(seeds_path, "rules.rb")
-  end
-
+class IntegrationSeedsTest < Minitest::Test
   def output_path
     File.join(seeds_path, "dest")
   end
@@ -13,14 +9,9 @@ class SeedsIntegrationTest < Minitest::Test
     FakeFS do
       FakeFS::FileSystem.clone(seeds_path)
 
-      config = Munge::Core::Config.read("#{seeds_path}/config.yml")
-      system = Munge::System.new(seeds_path, config)
-
-      app = Munge::Application.new(system)
-
-      binding.eval(File.read(rules_path), rules_path)
-
-      app.write
+      @out, @err = capture_io do
+        Munge::Runner.write(seeds_path)
+      end
 
       @index = File.read(File.join(output_path, "index.html"))
     end
