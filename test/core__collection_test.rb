@@ -2,21 +2,18 @@ require "test_helper"
 
 class CoreCollectionTest < Minitest::Test
   def setup
-    @item_factory = Object.new
-
-    def @item_factory.build(**args)
-      def args.id
-        "id #{self[:relpath]}"
-      end
-
-      args
-    end
-
-    def @item_factory.parse(**args)
-      args[:frontmatter] = {}
-      args[:frontmatter][:super] = "cool"
-      build(**args)
-    end
+    @item_factory =
+      QuickDummy.new(
+        build: -> (args) {
+          args.define_singleton_method(:id) { "id #{self[:relpath]}" }
+          args
+        },
+        parse: -> (**args) {
+          args[:frontmatter] = {}
+          args[:frontmatter][:super] = "cool"
+          build(args)
+        }
+      )
 
     @source = Munge::Core::Collection.new(
       item_factory: @item_factory,
