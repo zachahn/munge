@@ -37,8 +37,4 @@ class Minitest::Test
   def seeds_path
     File.absolute_path(File.expand_path("../../seeds", __FILE__))
   end
-
-  def example_path
-    File.absolute_path(File.expand_path("../example", __FILE__))
-  end
 end
