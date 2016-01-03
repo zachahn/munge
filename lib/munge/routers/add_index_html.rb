@@ -1,6 +1,6 @@
 module Munge
   module Router
-    class IndexHtml
+    class AddIndexHtml
       def initialize(html_extensions:, index:)
         @html_extensions = html_extensions
         @index           = index

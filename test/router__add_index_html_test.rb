@@ -1,9 +1,9 @@
 require "test_helper"
 
-class RouterIndexHtmlTest < Minitest::Test
+class RouterAddIndexHtmlTest < Minitest::Test
   def setup
     @index_html =
-      Munge::Router::IndexHtml.new(
+      Munge::Router::AddIndexHtml.new(
         html_extensions: %w(html htm md),
         index: "index.html"
       )
