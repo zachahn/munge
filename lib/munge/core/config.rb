@@ -5,13 +5,22 @@ module Munge
         def read(path)
           abspath = File.expand_path(path)
 
-          Munge::Util::SymbolHash.deep_convert(read_yaml(abspath))
+          yaml = read_yaml(abspath)
+
+          config =
+            if yaml.is_a?(Hash)
+              yaml
+            else
+              {}
+            end
+
+          Munge::Util::SymbolHash.deep_convert(config)
         end
 
         private
 
         def read_yaml(abspath)
-          YAML.load_file(abspath) || {}
+          YAML.load_file(abspath)
         end
       end
     end
