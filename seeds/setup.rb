@@ -1,3 +1,6 @@
+require "sass"
+Sass.load_paths << File.expand_path(system.config[:source])
+
 tilt_transformer = Transformer::Tilt.new(system)
 tilt_transformer.register(Munge::Helper::Find)
 tilt_transformer.register(Munge::Helper::Link)
