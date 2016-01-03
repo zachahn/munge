@@ -34,4 +34,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "adsf", "~> 1.2"
   spec.add_runtime_dependency "thor", "~> 0.19"
   spec.add_runtime_dependency "tilt", "~> 2.0"
+  spec.add_runtime_dependency "sass", "~> 3.4"
 end
