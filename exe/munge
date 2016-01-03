@@ -1,4 +1,10 @@
 #!/usr/bin/env ruby
+
+if File.exist?(File.expand_path('../../.git', __FILE__))
+  lib = File.expand_path("../../lib", __FILE__)
+  $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+end
+
 require "munge"
 require "munge/cli"
 
