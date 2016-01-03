@@ -28,7 +28,7 @@ module Munge
   class Commands
     class View
       def initialize(options, config_path)
-        config    = Munge::Util::Config.new(config_path)
+        config    = Munge::Util::Config.read(config_path)
         rack_opts = { Host: options[:host], Port: options[:port] }
 
         app =
