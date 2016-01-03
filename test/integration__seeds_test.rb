@@ -1,10 +1,6 @@
 require "test_helper"
 
-class SeedsIntegrationTest < Minitest::Test
-  def rules_path
-    File.join(seeds_path, "rules.rb")
-  end
-
+class IntegrationSeedsTest < Minitest::Test
   def output_path
     File.join(seeds_path, "dest")
   end
