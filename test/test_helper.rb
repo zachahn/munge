@@ -22,6 +22,7 @@ require "fakefs/safe"
 require "tilt/erb"
 require "tilt/plain"
 require "tilt/redcarpet"
+require "sass"
 
 require "ostruct"
 
