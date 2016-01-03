@@ -10,7 +10,7 @@ class CoreConfigTest < Minitest::Test
     assert_equal nil, config[:this_doesnt_exist]
   end
 
-  def test_invalid_yaml
+  def test_invalid_config
     FakeFS do
       File.write("/config.yml", "- hi\n- bye\n")
       @config = Munge::Core::Config.read("/config.yml")
