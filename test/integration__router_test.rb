@@ -3,7 +3,8 @@ require "test_helper"
 class IntegrationRouterTest < Minitest::Test
   def setup
     fingerprint = Munge::Router::Fingerprint.new(extensions: %w(gif))
-    index_html = Munge::Router::IndexHtml.new(html_extensions: %w(html), index: "index.html")
+    index_basename = Munge::Router::RemoveIndexBasename.new(html_extensions: %w(html), index: "index.html")
+    index_html = Munge::Router::AddIndexHtml.new(html_extensions: %w(html), index: "index.html")
     auto_add_extension = Munge::Router::AutoAddExtension.new(keep_extensions: %w(gif))
 
     alterant = QuickDummy.new(transform: -> (_item) { "transformed" })
@@ -11,6 +12,7 @@ class IntegrationRouterTest < Minitest::Test
     @router = Munge::Core::Router.new(alterant: alterant)
 
     @router.register(fingerprint)
+    @router.register(index_basename)
     @router.register(index_html)
     @router.register(auto_add_extension)
   end
@@ -46,5 +48,13 @@ class IntegrationRouterTest < Minitest::Test
 
     assert_equal "/t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.route(item)
     assert_equal "t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.filepath(item)
+  end
+
+  def test_index_thing
+    item = new_item("index.html.erb")
+    item.route = "index"
+
+    assert_equal "/", @router.route(item)
+    assert_equal "index.html", @router.filepath(item)
   end
 end
