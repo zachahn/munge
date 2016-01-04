@@ -1,6 +1,13 @@
 require "test_helper"
 
 class UtilPathTest < Minitest::Test
+  def test_dirname
+    assert_equal "ab/cd", Munge::Util::Path.dirname("ab/cd/ef")
+    assert_equal "ab", Munge::Util::Path.dirname("ab/cd")
+    assert_equal "", Munge::Util::Path.dirname("ab")
+    assert_equal "", Munge::Util::Path.dirname("")
+  end
+
   def test_extname
     assert_equal "kl", Munge::Util::Path.extname("ab.cd/ef/gh.ij.kl")
     assert_equal "", Munge::Util::Path.extname("ab.cd/ef/gh")
