@@ -1,6 +1,11 @@
 module Munge
   module Util
     class Path
+      def self.dirname(path)
+        path_parts = path.split("/")
+        path_parts[0..-2].join("/")
+      end
+
       def self.extname(path)
         basename = File.basename(path)
         basename_parts = basename.split(".")
@@ -10,6 +15,13 @@ module Munge
         else
           ""
         end
+      end
+
+      def self.basename_no_extension(path)
+        basename = File.basename(path)
+        basename_parts = basename.split(".")
+
+        basename_parts[0] || ""
       end
 
       def self.path_no_extension(path)
