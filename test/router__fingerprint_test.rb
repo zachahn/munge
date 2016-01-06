@@ -37,13 +37,13 @@ class RouterFingerprintTest < Minitest::Test
     assert_equal false, @fingerprint.match?("cool", txt_item)
   end
 
-  def test_fingerprinted_route_and_filepath
+  def test_fingerprinted_with_route_with_extension
     item = new_fake_itemish
 
     assert_equal "transparent--#{fingerprint}.gif", @fingerprint.call("transparent.gif", item)
   end
 
-  def test_fingerprinted_route_and_filepath_with_no_extension
+  def test_fingerprinted_with_route_without_extension
     item = new_fake_itemish
 
     assert_equal "transparent--#{fingerprint}", @fingerprint.call("transparent", item)
