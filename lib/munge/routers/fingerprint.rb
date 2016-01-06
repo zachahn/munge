@@ -29,10 +29,6 @@ module Munge
         generate_link(initial_route, item.compiled_content)
       end
 
-      def filepath(initial_route, item)
-        generate_link(initial_route, item.compiled_content)
-      end
-
       private
 
       def generate_link(initial_route, content)
