@@ -6,11 +6,15 @@ module Munge
         @index           = index
       end
 
-      def match?(initial_route, _content, item)
+      def type
+        :filepath
+      end
+
+      def match?(initial_route, item)
         item_is_html?(item) && route_needs_extension?(initial_route)
       end
 
-      def filepath(initial_route, _content, _item)
+      def call(initial_route, _item)
         File.join(initial_route, @index)
       end
 
