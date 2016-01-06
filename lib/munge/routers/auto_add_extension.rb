@@ -5,15 +5,15 @@ module Munge
         @keep_extensions = keep_extensions
       end
 
-      def match?(initial_route, _content, item)
+      def type
+        :route
+      end
+
+      def match?(initial_route, item)
         item_should_have_extension?(item) && route_doesnt_have_extension?(initial_route)
       end
 
-      def route(initial_route, _content, item)
-        add_extension(initial_route, item)
-      end
-
-      def filepath(initial_route, _content, item)
+      def call(initial_route, item)
         add_extension(initial_route, item)
       end
 

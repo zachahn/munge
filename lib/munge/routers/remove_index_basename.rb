@@ -7,15 +7,15 @@ module Munge
         @index_basename  = Munge::Util::Path.basename_no_extension(@index)
       end
 
-      def match?(initial_route, _content, item)
+      def type
+        :route
+      end
+
+      def match?(initial_route, item)
         item_is_html?(item) && basename_is_index?(initial_route)
       end
 
-      def route(initial_route, _content, _item)
-        Munge::Util::Path.dirname(initial_route)
-      end
-
-      def filepath(initial_route, _content, _item)
+      def call(initial_route, _item)
         Munge::Util::Path.dirname(initial_route)
       end
 

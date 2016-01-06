@@ -2,12 +2,16 @@ module Munge
   module Router
     class Fingerprint
       def initialize(extensions:,
-                     separator: "--")
+                     separator:)
         @extensions = extensions
         @separator  = separator
       end
 
-      def match?(_initial_route, _content, item)
+      def type
+        :route
+      end
+
+      def match?(_initial_route, item)
         if item.frontmatter.key?(:fingerprint_asset)
           return item.frontmatter[:fingerprint_asset]
         end
@@ -21,12 +25,8 @@ module Munge
         end
       end
 
-      def route(initial_route, content, _item)
-        generate_link(initial_route, content)
-      end
-
-      def filepath(initial_route, content, _item)
-        generate_link(initial_route, content)
+      def call(initial_route, item)
+        generate_link(initial_route, item.compiled_content)
       end
 
       private
