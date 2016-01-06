@@ -2,7 +2,7 @@ module Munge
   module Router
     class Fingerprint
       def initialize(extensions:,
-                     separator: "--")
+                     separator:)
         @extensions = extensions
         @separator  = separator
       end
