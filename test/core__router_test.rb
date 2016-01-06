@@ -3,36 +3,51 @@ require "test_helper"
 class CoreRouterTest < Minitest::Test
   def setup
     @router = Munge::Core::Router.new(alterant: new_dummy_alterant)
-
-    register_dummy_router!
   end
 
-  def new_item(relpath, type: :text, id: nil)
-    Munge::Item.new(
-      type: type,
-      relpath: relpath,
-      id: id || relpath.split(".").first,
-      content: ""
-    )
+  def new_item
+    OpenStruct.new(route: "")
   end
 
   def register_dummy_router!
     @dummy_router =
       QuickDummy.new(
-        match?: -> (*) { true },
-        route: -> (*) { "dummy/route" },
-        filepath: -> (*) { "dummy/route/index.html" },
+        type: -> { :route },
+        match?: -> (_route, _itemish) { true },
+        call: -> (_route, _itemish) { "dummy/route" }
       )
 
     @router.register(@dummy_router)
   end
 
+  def register_dummy_index_router!
+    @dummy_index_router =
+      QuickDummy.new(
+        type: -> { :filepath },
+        match?: -> (*) { true },
+        call: -> (route, _itemish) { "#{route}/index.html" }
+      )
+
+    @router.register(@dummy_index_router)
+  end
+
+  def register_dummy_rot1_router!
+    @dummy_rot1_router =
+      QuickDummy.new(
+        type: -> { :filepath },
+        match?: -> (*) { true },
+        call: -> (route, _itemish) { route.tr("a-z", "b-za") }
+      )
+
+    @router.register(@dummy_rot1_router)
+  end
+
   def register_dummy_rot13_router!
     @rot13_router =
       QuickDummy.new(
+        type: -> { :route },
         match?: -> (*) { true },
-        route: -> (route, *) { route.tr("a-z", "n-za-m") },
-        filepath: -> (route, *) { route.tr("a-z", "n-za-m") }
+        call: -> (route, *) { route.tr("a-z", "n-za-m") }
       )
 
     @router.register(@rot13_router)
@@ -41,8 +56,9 @@ class CoreRouterTest < Minitest::Test
   def register_dummy_duplicate_only_route_router!
     @duplicate_router =
       QuickDummy.new(
+        type: -> { :route },
         match?: -> (*) { true },
-        filepath: -> (route, *) { route + route }
+        call: -> (route, *) { route + route }
       )
 
     @router.register(@duplicate_router)
@@ -53,44 +69,58 @@ class CoreRouterTest < Minitest::Test
   end
 
   def test_route_single_router
-    item       = new_item("index.html.erb")
-    item.route = ""
+    item = new_item
+
+    register_dummy_router!
 
     assert_equal "/dummy/route", @router.route(item)
   end
 
   def test_filepath_single_router
-    item       = new_item("index.html.erb")
-    item.route = ""
+    item       = new_item
+    item.route = "super/cool/route"
 
-    assert_equal "dummy/route/index.html", @router.filepath(item)
+    register_dummy_index_router!
+
+    assert_equal "super/cool/route/index.html", @router.filepath(item)
   end
 
   def test_route_multiple_routers
-    register_dummy_rot13_router!
+    item = new_item
 
-    item       = new_item("index.html.erb")
-    item.route = ""
+    register_dummy_router!
+    register_dummy_rot13_router!
 
     assert_equal "/qhzzl/ebhgr", @router.route(item)
   end
 
   def test_filepath_multiple_routers
-    register_dummy_rot13_router!
+    item       = new_item
+    item.route = "super/cool/route"
 
-    item       = new_item("index.html.erb")
-    item.route = ""
+    register_dummy_index_router!
+    register_dummy_rot1_router!
 
-    assert_equal "qhzzl/ebhgr/vaqrk.ugzy", @router.filepath(item)
+    assert_equal "tvqfs/dppm/spvuf/joefy.iunm", @router.filepath(item)
   end
 
-  def test_only_run_routers_with_appropriate_method
-    register_dummy_duplicate_only_route_router!
+  def test_filepath_runs_route_first_then_runs_filepath
+    item       = new_item
+    item.route = "super/cool/route"
 
-    item       = new_item("index.html.erb")
-    item.route = ""
+    # register filepath routers first
+    register_dummy_index_router!
+    register_dummy_rot1_router!
 
-    assert_equal "/dummy/route", @router.route(item)
-    assert_equal "dummy/route/index.htmldummy/route/index.html", @router.filepath(item)
+    # register route routers second (but these should run first)
+    register_dummy_router!
+    register_dummy_rot13_router!
+
+    # Route should only be rot13
+    assert_equal "/qhzzl/ebhgr", @router.route(item)
+
+    # Filepath's dir should be rot14
+    # Filepath's basename should be: rot1
+    assert_equal "riaam/fcihs/joefy.iunm", @router.filepath(item)
   end
 end
