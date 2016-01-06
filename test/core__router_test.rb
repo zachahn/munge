@@ -17,63 +17,39 @@ class CoreRouterTest < Minitest::Test
   end
 
   def register_dummy_router!
-    @dummy_router = Object.new
-
-    def @dummy_router.match?(*)
-      true
-    end
-
-    def @dummy_router.route(*)
-      "/dummy/route"
-    end
-
-    def @dummy_router.filepath(*)
-      "dummy/route/index.html"
-    end
+    @dummy_router =
+      QuickDummy.new(
+        match?: -> (*) { true },
+        route: -> (*) { "dummy/route" },
+        filepath: -> (*) { "dummy/route/index.html" },
+      )
 
     @router.register(@dummy_router)
   end
 
   def register_dummy_rot13_router!
-    @rot13_router = Object.new
-
-    def @rot13_router.match?(*)
-      true
-    end
-
-    def @rot13_router.route(route, *)
-      route.tr("a-z", "n-za-m")
-    end
-
-    def @rot13_router.filepath(route, *)
-      route.tr("a-z", "n-za-m")
-    end
+    @rot13_router =
+      QuickDummy.new(
+        match?: -> (*) { true },
+        route: -> (route, *) { route.tr("a-z", "n-za-m") },
+        filepath: -> (route, *) { route.tr("a-z", "n-za-m") }
+      )
 
     @router.register(@rot13_router)
   end
 
   def register_dummy_duplicate_only_route_router!
-    @duplicate_router = Object.new
-
-    def @duplicate_router.match?(*)
-      true
-    end
-
-    def @duplicate_router.filepath(route, *)
-      route + route
-    end
+    @duplicate_router =
+      QuickDummy.new(
+        match?: -> (*) { true },
+        filepath: -> (route, *) { route + route }
+      )
 
     @router.register(@duplicate_router)
   end
 
   def new_dummy_alterant
-    alterant = Object.new
-
-    def alterant.transform(*)
-      "dummy transformed text"
-    end
-
-    alterant
+    QuickDummy.new(transform: -> (*) { "dummy transformed text" })
   end
 
   def test_route_single_router
