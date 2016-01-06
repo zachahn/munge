@@ -123,4 +123,28 @@ class CoreRouterTest < Minitest::Test
     # Filepath's basename should be: rot1
     assert_equal "riaam/fcihs/joefy.iunm", @router.filepath(item)
   end
+
+  def test_registering_invalid_router
+    bad_router =
+      QuickDummy.new(
+        type: -> { :invalid },
+        match?: -> (*) { true },
+        call: -> { "" }
+      )
+
+    assert_raises do
+      @router.register(bad_router)
+    end
+  end
+
+  def test_routing_item_with_no_route
+    item       = new_item
+    item.route = nil
+
+    register_dummy_router!
+
+    assert_raises do
+      @router.route(item)
+    end
+  end
 end
