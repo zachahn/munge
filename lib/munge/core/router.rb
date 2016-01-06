@@ -39,9 +39,6 @@ module Munge
 
         itemish = Itemish.new(item, @alterant)
 
-        # FIXME: There is a circular dependency. Make transforming lazy
-        content = @alterant.transform(item)
-
         @registries[method_name]
           .select { |router| router.type == method_name }
           .inject(initial_route || item.route) do |route, router|
