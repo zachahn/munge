@@ -12,29 +12,22 @@ class RouterAutoAddExtensionTest < Minitest::Test
   def test_match_gif_item
     gif_item = new_fake_item(exts: %w(gif))
 
-    assert_equal true, @auto_add_extension.match?("foo", "", gif_item)
-    assert_equal false, @auto_add_extension.match?("foo.gif", "", gif_item)
+    assert_equal true, @auto_add_extension.match?("foo", gif_item)
+    assert_equal false, @auto_add_extension.match?("foo.gif", gif_item)
   end
 
   def test_match_txt_item
     txt_item = new_fake_item(exts: %w(txt erb))
 
-    assert_equal false, @auto_add_extension.match?("foo", "", txt_item)
-    assert_equal false, @auto_add_extension.match?("foo.txt", "", txt_item)
-    assert_equal false, @auto_add_extension.match?("foo.gif", "", txt_item)
+    assert_equal false, @auto_add_extension.match?("foo", txt_item)
+    assert_equal false, @auto_add_extension.match?("foo.txt", txt_item)
+    assert_equal false, @auto_add_extension.match?("foo.gif", txt_item)
   end
 
-  def test_route
+  def test_call
     gif_item = new_fake_item(exts: %w(gif))
 
-    assert_equal "foo.gif", @auto_add_extension.route("foo", "", gif_item)
-    assert_equal "foo.txt.gif", @auto_add_extension.route("foo.txt", "", gif_item)
-  end
-
-  def test_filepath
-    gif_item = new_fake_item(exts: %w(gif))
-
-    assert_equal "foo.gif", @auto_add_extension.filepath("foo", "", gif_item)
-    assert_equal "foo.txt.gif", @auto_add_extension.filepath("foo.txt", "", gif_item)
+    assert_equal "foo.gif", @auto_add_extension.call("foo", gif_item)
+    assert_equal "foo.txt.gif", @auto_add_extension.call("foo.txt", gif_item)
   end
 end
