@@ -21,7 +21,7 @@ module Munge
     end
 
     desc "view", "View built files"
-    method_option :port, aliases: "-p", desc: "Set port", default: 3000, type: :numeric
+    method_option :port, aliases: "-p", desc: "Set port", default: 7000, type: :numeric
     method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
     def view
       Munge::Commands::View.new(options, config_path)
