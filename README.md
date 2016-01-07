@@ -50,7 +50,7 @@ After installing your gem, you can start a project using the command line client
 munge init path/to/project  # create a barebones project
 cd path/to/project
 munge build                 # compiles your project
-munge view                  # open http://localhost:3000/ to see output
+munge view                  # open http://localhost:7000/ to see output
 ```
 
 The three main files of your application are `config.yml`, `data.yml`, and `rules.rb`.
