@@ -4,15 +4,15 @@ class CoreCollectionTest < Minitest::Test
   def setup
     @item_factory =
       QuickDummy.new(
-        build: -> (args) {
+        build: lambda do |args|
           args.define_singleton_method(:id) { "id #{self[:relpath]}" }
           args
-        },
-        parse: -> (**args) {
+        end,
+        parse: lambda do |**args|
           args[:frontmatter] = {}
           args[:frontmatter][:super] = "cool"
           build(args)
-        }
+        end
       )
 
     @source = Munge::Core::Collection.new(

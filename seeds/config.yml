@@ -3,6 +3,7 @@ output: dest
 data: data.yml
 layouts: layouts
 index: index.html
+fingeprint_separator: "-"
 text_extensions:
   - html
   - htm

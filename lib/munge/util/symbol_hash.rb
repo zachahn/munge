@@ -5,6 +5,10 @@ module Munge
         def deep_convert(obj)
           if obj.is_a?(Hash)
             convert_hash(obj)
+          elsif obj.is_a?(Array)
+            obj.map do |i|
+              deep_convert(i)
+            end
           else
             obj
           end

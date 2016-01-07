@@ -20,6 +20,6 @@ class IntegrationSeedsTest < Minitest::Test
 
     assert_match %r{<title>Munge</title>}, @index, "output is missing layout"
     assert_match %r{<h1>Welcome</h1>}, @index, "output is missing content"
-    assert_match %r{background-color: ?#fff}, @style, "CSS is wrong"
+    assert_match(/background-color: ?#fff/, @style, "CSS is wrong")
   end
 end
