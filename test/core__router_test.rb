@@ -53,17 +53,6 @@ class CoreRouterTest < Minitest::Test
     @router.register(@rot13_router)
   end
 
-  def register_dummy_duplicate_only_route_router!
-    @duplicate_router =
-      QuickDummy.new(
-        type: -> { :route },
-        match?: -> (*) { true },
-        call: -> (route, *) { route + route }
-      )
-
-    @router.register(@duplicate_router)
-  end
-
   def new_dummy_alterant
     QuickDummy.new(transform: -> (*) { "dummy transformed text" })
   end
