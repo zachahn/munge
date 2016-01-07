@@ -1,24 +1,11 @@
 require "test_helper"
 
 class HelperCaptureTest < Minitest::Test
-  def setup
-    @renderer = Object.new
-    @renderer.extend(Munge::Helper::Capture)
-
-    def @renderer.capture_upcase(&block)
-      text = capture(&block)
-    end
-
-    def @renderer.get_binding
-      binding
-    end
-  end
-
   def test_find
     helpers =
       QuickDummy.new(
         get_binding: -> { binding },
-        capture_test: -> (&block) do
+        capture_test: lambda do |&block|
           inner = capture(&block).upcase
           append_to_erbout(block.binding, inner)
         end

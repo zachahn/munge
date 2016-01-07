@@ -25,7 +25,7 @@ class UtilSymbolHashTest < Minitest::Test
   def test_array_of_hashes
     pre  = { "a" => [{ "b" => "c" }] }
     post = { a: [{ b: "c" }] }
-  
+
     assert_equal(post, Munge::Util::SymbolHash.deep_convert(pre))
   end
 end
