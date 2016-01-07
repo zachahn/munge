@@ -1,3 +1,3 @@
 module Munge
-  VERSION = "0.4.0"
+  VERSION = "0.5.0.beta1"
 end
