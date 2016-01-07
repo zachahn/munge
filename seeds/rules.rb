@@ -11,3 +11,12 @@ app.source
   .reject { |item| item.basename[0] == "_" }
   .each   { |item| item.route = "/styles/#{item.basename}.css" }
   .each   { |item| item.transform }
+
+# Sitemap
+html_pages =
+  app.source
+    .reject  { |item| item.route.nil? }
+    .select  { |item| item.extensions.include?("html") }
+    .sort_by { |item| item.route }
+
+system.global_data[:sitemap_pages] = html_pages

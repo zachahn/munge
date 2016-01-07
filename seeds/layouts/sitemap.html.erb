@@ -1,0 +1,6 @@
+<h2>Sitemap</h2>
+<ul>
+  <% sitemap_pages.each do |page| %>
+    <li><%= link_to page, page[:title] %></li>
+  <% end %>
+</ul>
