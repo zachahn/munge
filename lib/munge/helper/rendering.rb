@@ -17,22 +17,29 @@ module Munge
         render_string(layout_item.content, data: mdata, engines: renderers, &block)
       end
 
-      def render_string(content, data: {}, engines: [])
+      def render_string(content, data: {}, engines: [], &block)
         inner =
           if block_given?
-            yield
+            capture(&block)
           end
 
-        engines
-          .inject(content) do |output, engine|
-            template = engine.new { output }
+        output =
+          engines
+            .inject(content) do |output, engine|
+              template = engine.new { output }
 
-            if inner
-              template.render(self, data) { inner }
-            else
-              template.render(self, data)
+              if inner
+                template.render(self, data) { inner }
+              else
+                template.render(self, data)
+              end
             end
-          end
+
+        if block_given?
+          append_to_erbout(block.binding, output)
+        end
+
+        output
       end
 
       def render_with_layout(item, content_engines: nil, data: {}, content_override: nil)
