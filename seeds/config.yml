@@ -9,8 +9,6 @@ text_extensions:
   - htm
   - txt
   - md
-ignored_basenames:
-  - index
 keep_extensions:
   - gif
   - ico

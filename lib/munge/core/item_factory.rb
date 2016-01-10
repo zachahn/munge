@@ -4,9 +4,9 @@ module Munge
   module Core
     class ItemFactory
       def initialize(text_extensions:,
-                     ignored_basenames:)
-        @text_extensions = Set.new(text_extensions)
-        @ignored_basenames = ignored_basenames
+                     ignore_extensions:)
+        @text_extensions   = Set.new(text_extensions)
+        @ignore_extensions = ignore_extensions
       end
 
       def build(relpath:,
@@ -15,12 +15,7 @@ module Munge
                 stat: nil)
         type = compute_file_type(relpath)
 
-        id =
-          if type == :text
-            compute_id(relpath)
-          else
-            relpath
-          end
+        id = compute_id(relpath)
 
         Munge::Item.new(
           relpath: relpath,
@@ -74,29 +69,23 @@ module Munge
       end
 
       def compute_id(relpath)
-        dirname  = compute_dirname(relpath)
-        basename = compute_basename(relpath)
+        dirname  = Munge::Util::Path.dirname(relpath)
+        basename =
+          if @ignore_extensions
+            Munge::Util::Path.basename_no_extension(relpath)
+          else
+            Munge::Util::Path.basename_one_extension(relpath)
+          end
 
         id = []
 
-        unless dirname == "."
+        unless dirname == ""
           id.push(dirname)
         end
 
-        unless @ignored_basenames.include?(basename)
-          id.push(basename)
-        end
+        id.push(basename)
 
         id.join("/")
-      end
-
-      def compute_dirname(relpath)
-        File.dirname(relpath)
-      end
-
-      def compute_basename(relpath)
-        filename = File.basename(relpath)
-        filename.split(".").first
       end
     end
   end

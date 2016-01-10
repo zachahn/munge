@@ -11,21 +11,27 @@ module Munge
 
       @config = config
 
-      @item_factory =
+      source_item_factory =
         Core::ItemFactory.new(
           text_extensions: config[:text_extensions],
-          ignored_basenames: config[:ignored_basenames]
+          ignore_extensions: false
+        )
+
+      layouts_item_factory =
+        Core::ItemFactory.new(
+          text_extensions: config[:text_extensions],
+          ignore_extensions: true
         )
 
       @source =
         Core::Collection.new(
-          item_factory: @item_factory,
+          item_factory: source_item_factory,
           items: Reader::Filesystem.new(source_path)
         )
 
       @layouts =
         Core::Collection.new(
-          item_factory: @item_factory,
+          item_factory: layouts_item_factory,
           items: Reader::Filesystem.new(layouts_path)
         )
 
