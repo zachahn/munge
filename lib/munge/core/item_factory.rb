@@ -15,7 +15,12 @@ module Munge
                 stat: nil)
         type = compute_file_type(relpath)
 
-        id = compute_id(relpath)
+        id =
+          if @ignore_extensions || type == :text
+            compute_id(relpath)
+          else
+            relpath
+          end
 
         Munge::Item.new(
           relpath: relpath,
