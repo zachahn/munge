@@ -1,6 +1,6 @@
 system.router.register(
   Router::Fingerprint.new(
-    extensions: config[:keep_extensions],
+    extensions: config[:bin_extensions] + config[:bintext_extensions],
     separator: config[:fingeprint_separator]
   ))
 system.router.register(
@@ -15,5 +15,5 @@ system.router.register(
   ))
 system.router.register(
   Router::AutoAddExtension.new(
-    keep_extensions: config[:keep_extensions],
+    keep_extensions: config[:bin_extensions] + config[:bintext_extensions],
   ))

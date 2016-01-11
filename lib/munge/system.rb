@@ -13,13 +13,13 @@ module Munge
 
       source_item_factory =
         Core::ItemFactory.new(
-          text_extensions: config[:text_extensions],
+          text_extensions: config[:text_extensions] + config[:bintext_extensions],
           ignore_extensions: false
         )
 
       layouts_item_factory =
         Core::ItemFactory.new(
-          text_extensions: config[:text_extensions],
+          text_extensions: config[:text_extensions] + config[:bintext_extensions],
           ignore_extensions: true
         )
 
