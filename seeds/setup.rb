@@ -1,5 +1,3 @@
-Dir.glob(File.join(config_path, "initializers", "*.rb")).each do |file_path|
-  file_abspath = File.expand_path(file_path, File.dirname(__FILE__))
-
-  binding.eval(File.read(file_abspath), file_abspath)
+Dir.glob(File.join(config_path, "*.rb")).each do |file_path|
+  binding.eval(File.read(file_path), file_path)
 end
