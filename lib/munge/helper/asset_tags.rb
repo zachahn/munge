@@ -16,15 +16,19 @@ module Munge
       end
 
       def inline_stylesheet_tag(basename, options = {})
-        rendered_stylesheet = render(items["#{stylesheets_root}/#{basename}"])
-
-        content_tag(:style, rendered_stylesheet, options)
+        inline_asset_tag_helper(stylesheets_root, basename, :style, options)
       end
 
       def inline_javascript_tag(basename, options = {})
-        rendered_javascript = render(items["#{javascripts_root}/#{basename}"])
+        inline_asset_tag_helper(javascripts_root, basename, :script, options)
+      end
 
-        content_tag(:script, rendered_javascript, options)
+      private
+
+      def inline_asset_tag_helper(root, basename, tag, options)
+        rendered_asset = render(items["#{root}/#{basename}"])
+
+        content_tag(tag, rendered_asset, options)
       end
     end
   end

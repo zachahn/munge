@@ -17,16 +17,18 @@ Sass::Script::Functions.send(:define_method, :route) do |id_ruby_string|
   quoted_string(r)
 end
 
-Sass::Script::Functions.send(:define_method, :font_route) do |basename|
+Sass::Script::Functions.send(:define_method, :asset_route_helper) do |root, basename|
   basename_string = stringify_string(basename)
 
-  route("#{fonts_root}/#{basename_string}")
+  route("#{root}/#{basename_string}")
+end
+
+Sass::Script::Functions.send(:define_method, :font_route) do |basename|
+  asset_route_helper(fonts_root, basename)
 end
 
 Sass::Script::Functions.send(:define_method, :image_route) do |basename|
-  basename_string = stringify_string(basename)
-
-  route("#{images_root}/#{basename_string}")
+  asset_route_helper(images_root, basename)
 end
 
 Sass::Script::Functions.send(:define_method, :font_url) do |basename|
