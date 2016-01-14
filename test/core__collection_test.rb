@@ -30,6 +30,10 @@ class CoreCollectionTest < Minitest::Test
     assert_equal "cool", item[:frontmatter][:super]
   end
 
+  def test_hashlike_access_not_found
+    assert_raises(RuntimeError) { @source["id notfound.html"] }
+  end
+
   def test_each_returns_enumerator
     assert_kind_of(Enumerator, @source.each)
   end

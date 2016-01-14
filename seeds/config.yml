@@ -9,13 +9,13 @@ text_extensions:
   - htm
   - txt
   - md
-ignored_basenames:
-  - index
-keep_extensions:
+bintext_extensions:
+  - js
+  - css
+  - scss
+bin_extensions:
   - gif
   - ico
   - jpg
   - jpeg
   - png
-  - css
-  - js

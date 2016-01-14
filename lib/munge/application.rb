@@ -14,8 +14,8 @@ module Munge
         .each   { |item| render_and_write(item, &block) }
     end
 
-    def build_virtual_item(*args)
-      @system.source.build(*args)
+    def build_virtual_item(relpath, content, **frontmatter)
+      @system.source.build(relpath: relpath, content: content, frontmatter: frontmatter)
     end
 
     def create(*args)

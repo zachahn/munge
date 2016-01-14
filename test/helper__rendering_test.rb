@@ -6,6 +6,7 @@ class HelperRenderingTest < Minitest::Test
     @renderer = Object.new
     @renderer.instance_variable_set(:@global_data, {})
     @renderer.extend(Munge::Helper::Rendering)
+    @renderer.extend(Munge::Helper::Capture)
   end
 
   def test_basic_render

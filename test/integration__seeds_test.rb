@@ -14,7 +14,7 @@ class IntegrationSeedsTest < Minitest::Test
       end
 
       @index = File.read(File.join(output_path, "index.html"))
-      style_path = Dir.glob(File.join(output_path, "styles", "basic*.css"))[0]
+      style_path = Dir.glob(File.join(output_path, "assets/stylesheets", "basic*.css"))[0]
       @style = File.read(style_path)
     end
 

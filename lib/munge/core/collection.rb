@@ -36,7 +36,13 @@ module Munge
       end
 
       def [](id)
-        @items[id]
+        found_item = @items[id]
+
+        if found_item.nil?
+          fail "item not found (#{id})"
+        end
+
+        found_item
       end
 
       private

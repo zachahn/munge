@@ -5,7 +5,7 @@ class CoreItemFactoryTest < Minitest::Test
     # @item_factory = new_item_factory(ignored_basenames: %w(index dir))
     @item_factory = Munge::Core::ItemFactory.new(
       text_extensions: %w(txt md html),
-      ignored_basenames: %w(index dir)
+      ignore_extensions: false
     )
   end
 
@@ -33,22 +33,34 @@ class CoreItemFactoryTest < Minitest::Test
   end
 
   def test_built_text_item_id_has_no_extensions
-    item = @item_factory.build(relpath: "index.html.erb", content: "")
-    assert_equal "", item.id
+    item_factory =
+      Munge::Core::ItemFactory.new(
+        text_extensions: %w(txt md html),
+        ignore_extensions: true
+      )
 
-    item = @item_factory.build(relpath: "frontmatter.html.erb", content: "")
-    assert_equal "frontmatter", item.id
+    item = item_factory.build(relpath: "index.html", content: "")
+    assert_equal "index", item.id
 
-    item = @item_factory.build(relpath: "in/sub/dir.html.erb", content: "")
-    assert_equal "in/sub", item.id
+    item = item_factory.build(relpath: "path/to/dir.gif", content: "")
+    assert_equal "path/to/dir", item.id
   end
 
-  def test_built_binary_item_id_has_extensions
+  def test_built_binary_item_id_has_one_extensions
     item = @item_factory.build(relpath: "index.gif", content: "")
     assert_equal "index.gif", item.id
 
     item = @item_factory.build(relpath: "path/to/dir.gif", content: "")
     assert_equal "path/to/dir.gif", item.id
+
+    item = @item_factory.build(relpath: "index.html.erb", content: "")
+    assert_equal "index.html", item.id
+
+    item = @item_factory.build(relpath: "frontmatter.html.erb", content: "")
+    assert_equal "frontmatter.html", item.id
+
+    item = @item_factory.build(relpath: "in/sub/dir.html.erb", content: "")
+    assert_equal "in/sub/dir.html", item.id
   end
 
   def test_type
