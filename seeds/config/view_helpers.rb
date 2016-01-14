@@ -4,5 +4,7 @@ tilt_transformer.register(Munge::Helper::Find)
 tilt_transformer.register(Munge::Helper::Link)
 tilt_transformer.register(Munge::Helper::Rendering)
 tilt_transformer.register(Munge::Helper::Tag)
+tilt_transformer.register(Munge::Helper::AssetUrls)
+tilt_transformer.register(Munge::Helper::AssetTags)
 
 system.alterant.register(tilt_transformer)
