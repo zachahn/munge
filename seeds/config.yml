@@ -19,3 +19,7 @@ bin_extensions:
   - jpg
   - jpeg
   - png
+  - otf
+  - ttf
+  - eot
+  - woff
