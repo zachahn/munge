@@ -1,5 +1,5 @@
 module Munge
-  module Helper
+  module Helpers
     module AssetPaths
       def image_path(basename)
         item = items["#{images_root}/#{basename}"]

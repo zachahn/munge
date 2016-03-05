@@ -12,7 +12,7 @@ class SystemReaderFilesystemTest < Minitest::Test
   end
 
   def new_filesystem_reader
-    Munge::System::Reader::Filesystem.new(@test_directory)
+    Munge::System::Readers::Filesystem.new(@test_directory)
   end
 
   def test_is_enumerable

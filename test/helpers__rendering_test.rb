@@ -1,12 +1,12 @@
 require "test_helper"
 require "ostruct"
 
-class HelperRenderingTest < Minitest::Test
+class HelpersRenderingTest < Minitest::Test
   def setup
     @renderer = Object.new
     @renderer.instance_variable_set(:@global_data, {})
-    @renderer.extend(Munge::Helper::Rendering)
-    @renderer.extend(Munge::Helper::Capture)
+    @renderer.extend(Munge::Helpers::Rendering)
+    @renderer.extend(Munge::Helpers::Capture)
   end
 
   def test_basic_render

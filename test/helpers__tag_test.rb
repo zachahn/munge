@@ -1,10 +1,10 @@
 require "test_helper"
 
-class HelperTagTest < Minitest::Test
+class HelpersTagTest < Minitest::Test
   def setup
     @renderer = Object.new
-    @renderer.extend(Munge::Helper::Tag)
-    @renderer.extend(Munge::Helper::Capture)
+    @renderer.extend(Munge::Helpers::Tag)
+    @renderer.extend(Munge::Helpers::Capture)
   end
 
   def test_empty_tag_empty

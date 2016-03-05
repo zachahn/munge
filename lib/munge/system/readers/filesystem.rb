@@ -1,6 +1,6 @@
 module Munge
   class System
-    module Reader
+    module Readers
       class Filesystem
         include Enumerable
 

@@ -1,5 +1,5 @@
 module Munge
-  module Router
+  module Routers
     class AutoAddExtension
       def initialize(keep_extensions:)
         @keep_extensions = keep_extensions

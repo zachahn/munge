@@ -1,5 +1,5 @@
 module Munge
-  module Helper
+  module Helpers
     module Link
       def url_for(item)
         @router.route(item)

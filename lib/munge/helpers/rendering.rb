@@ -1,5 +1,5 @@
 module Munge
-  module Helper
+  module Helpers
     module Rendering
       def render(item, engines: nil, data: {}, content_override: nil)
         content   = content_override || item.content

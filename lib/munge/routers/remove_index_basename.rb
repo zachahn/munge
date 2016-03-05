@@ -1,5 +1,5 @@
 module Munge
-  module Router
+  module Routers
     class RemoveIndexBasename
       def initialize(html_extensions:, index:)
         @html_extensions = html_extensions

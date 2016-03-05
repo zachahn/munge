@@ -1,5 +1,5 @@
 module Munge
-  module Helper
+  module Helpers
     module Find
       def items
         @source

@@ -1,5 +1,5 @@
 module Munge
-  module Router
+  module Routers
     class Fingerprint
       def initialize(extensions:,
                      separator:)

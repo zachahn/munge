@@ -1,8 +1,8 @@
 require "test_helper"
 
-class RouterAutoAddExtensionTest < Minitest::Test
+class RoutersAutoAddExtensionTest < Minitest::Test
   def setup
-    @auto_add_extension = Munge::Router::AutoAddExtension.new(keep_extensions: %w(gif))
+    @auto_add_extension = Munge::Routers::AutoAddExtension.new(keep_extensions: %w(gif))
   end
 
   def new_fake_item(exts: [])
