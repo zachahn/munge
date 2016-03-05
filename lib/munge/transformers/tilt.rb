@@ -1,5 +1,5 @@
 module Munge
-  module Transformer
+  module Transformers
     class Tilt
       def initialize(scope)
         @pristine_scope = scope
