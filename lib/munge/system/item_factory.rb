@@ -1,7 +1,7 @@
 require_relative "item_factory/content_parser"
 
 module Munge
-  module Core
+  class System
     class ItemFactory
       def initialize(text_extensions:,
                      ignore_extensions:)
@@ -38,7 +38,7 @@ module Munge
         type = compute_file_type(relpath)
 
         if type == :text
-          parsed = Munge::Core::ItemFactory::ContentParser.new(content)
+          parsed = Munge::System::ItemFactory::ContentParser.new(content)
 
           build(
             relpath: relpath,

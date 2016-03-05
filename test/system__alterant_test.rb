@@ -1,8 +1,8 @@
 require "test_helper"
 
-class CoreAlterantTest < Minitest::Test
+class SystemAlterantTest < Minitest::Test
   def setup
-    @alterant = Munge::Core::Alterant.new
+    @alterant = Munge::System::Alterant.new
   end
 
   def register_rot13!

@@ -9,7 +9,7 @@ class IntegrationRouterTest < Minitest::Test
 
     alterant = QuickDummy.new(transform: -> (_item) { "transformed" })
 
-    @router = Munge::Core::Router.new(alterant: alterant)
+    @router = Munge::System::Router.new(alterant: alterant)
 
     @router.register(fingerprint)
     @router.register(index_basename)

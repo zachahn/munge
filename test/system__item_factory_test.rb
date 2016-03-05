@@ -1,9 +1,9 @@
 require "test_helper"
 
-class CoreItemFactoryTest < Minitest::Test
+class SystemItemFactoryTest < Minitest::Test
   def setup
     # @item_factory = new_item_factory(ignored_basenames: %w(index dir))
-    @item_factory = Munge::Core::ItemFactory.new(
+    @item_factory = Munge::System::ItemFactory.new(
       text_extensions: %w(txt md html),
       ignore_extensions: false
     )
@@ -34,7 +34,7 @@ class CoreItemFactoryTest < Minitest::Test
 
   def test_built_text_item_id_has_no_extensions
     item_factory =
-      Munge::Core::ItemFactory.new(
+      Munge::System::ItemFactory.new(
         text_extensions: %w(txt md html),
         ignore_extensions: true
       )

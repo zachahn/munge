@@ -1,6 +1,6 @@
 require "test_helper"
 
-class CoreWriteTest < Minitest::Test
+class SystemWriteTest < Minitest::Test
   def setup
     FakeFS.activate!
 
@@ -8,7 +8,7 @@ class CoreWriteTest < Minitest::Test
 
     FileUtils.mkdir_p(@output_dir)
 
-    @writer = Munge::Core::Write.new(output: @output_dir)
+    @writer = Munge::System::Write.new(output: @output_dir)
   end
 
   def teardown

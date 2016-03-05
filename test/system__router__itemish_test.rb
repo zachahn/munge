@@ -1,13 +1,13 @@
 require "test_helper"
 
-class CoreRouterItemishTest < Minitest::Test
+class SystemRouterItemishTest < Minitest::Test
   def test_compiled_content
     item = OpenStruct.new
 
     alterant = Minitest::Mock.new
     alterant.expect(:transform, "postcompile", [item])
 
-    itemish = Munge::Core::Router::Itemish.new(item, alterant)
+    itemish = Munge::System::Router::Itemish.new(item, alterant)
     itemish.compiled_content
 
     alterant.verify
@@ -22,7 +22,7 @@ class CoreRouterItemishTest < Minitest::Test
         transform: -> (_item) { "postcompile" }
       )
 
-    itemish = Munge::Core::Router::Itemish.new(item, alterant)
+    itemish = Munge::System::Router::Itemish.new(item, alterant)
     itemish.frontmatter
 
     item.verify

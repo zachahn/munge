@@ -1,7 +1,7 @@
 require_relative "router/itemish"
 
 module Munge
-  module Core
+  class System
     class Router
       def initialize(alterant:)
         @registries = { route: [], filepath: [] }

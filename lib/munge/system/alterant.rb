@@ -1,5 +1,5 @@
 module Munge
-  module Core
+  class System
     class Alterant
       def initialize
         @registry = {}
