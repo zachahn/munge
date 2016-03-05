@@ -26,13 +26,13 @@ module Munge
       @source =
         Collection.new(
           item_factory: source_item_factory,
-          items: Reader::Filesystem.new(source_path)
+          items: Readers::Filesystem.new(source_path)
         )
 
       @layouts =
         Collection.new(
           item_factory: layouts_item_factory,
-          items: Reader::Filesystem.new(layouts_path)
+          items: Readers::Filesystem.new(layouts_path)
         )
 
       @alterant =
