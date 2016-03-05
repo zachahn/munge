@@ -1,22 +1,22 @@
 module Munge
   module Helper
-    module AssetUrls
-      def image_url(basename)
+    module AssetPaths
+      def image_path(basename)
         item = items["#{images_root}/#{basename}"]
         url_for(item)
       end
 
-      def font_url(basename)
+      def font_path(basename)
         item = items["#{fonts_root}/#{basename}"]
         url_for(item)
       end
 
-      def stylesheet_url(basename)
+      def stylesheet_path(basename)
         item = items["#{stylesheets_root}/#{basename}"]
         url_for(item)
       end
 
-      def javascript_url(basename)
+      def javascript_path(basename)
         item = items["#{javascripts_root}/#{basename}"]
         url_for(item)
       end
