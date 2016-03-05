@@ -2,10 +2,10 @@ require "test_helper"
 
 class IntegrationRouterTest < Minitest::Test
   def setup
-    fingerprint = Munge::Router::Fingerprint.new(extensions: %w(gif), separator: "--")
-    index_basename = Munge::Router::RemoveIndexBasename.new(html_extensions: %w(html), index: "index.html")
-    index_html = Munge::Router::AddIndexHtml.new(html_extensions: %w(html), index: "index.html")
-    auto_add_extension = Munge::Router::AutoAddExtension.new(keep_extensions: %w(gif))
+    fingerprint = Munge::Routers::Fingerprint.new(extensions: %w(gif), separator: "--")
+    index_basename = Munge::Routers::RemoveIndexBasename.new(html_extensions: %w(html), index: "index.html")
+    index_html = Munge::Routers::AddIndexHtml.new(html_extensions: %w(html), index: "index.html")
+    auto_add_extension = Munge::Routers::AutoAddExtension.new(keep_extensions: %w(gif))
 
     alterant = QuickDummy.new(transform: -> (_item) { "transformed" })
 

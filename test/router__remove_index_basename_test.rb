@@ -1,9 +1,9 @@
 require "test_helper"
 
-class RouterRemoveIndexBasenameTest < Minitest::Test
+class RoutersRemoveIndexBasenameTest < Minitest::Test
   def setup
     @index_remover =
-      Munge::Router::RemoveIndexBasename.new(
+      Munge::Routers::RemoveIndexBasename.new(
         html_extensions: %w(html htm md),
         index: "index.html"
       )
