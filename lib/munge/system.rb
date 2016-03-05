@@ -12,39 +12,39 @@ module Munge
       @config = config
 
       source_item_factory =
-        Core::ItemFactory.new(
+        ItemFactory.new(
           text_extensions: config[:text_extensions] + config[:bintext_extensions],
           ignore_extensions: false
         )
 
       layouts_item_factory =
-        Core::ItemFactory.new(
+        ItemFactory.new(
           text_extensions: config[:text_extensions] + config[:bintext_extensions],
           ignore_extensions: true
         )
 
       @source =
-        Core::Collection.new(
+        Collection.new(
           item_factory: source_item_factory,
           items: Reader::Filesystem.new(source_path)
         )
 
       @layouts =
-        Core::Collection.new(
+        Collection.new(
           item_factory: layouts_item_factory,
           items: Reader::Filesystem.new(layouts_path)
         )
 
       @alterant =
-        Core::Alterant.new
+        Alterant.new
 
       @router =
-        Core::Router.new(
+        Router.new(
           alterant: @alterant
         )
 
       @writer =
-        Core::Write.new(
+        Write.new(
           output: output_path
         )
     end

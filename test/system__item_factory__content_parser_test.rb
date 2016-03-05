@@ -1,8 +1,8 @@
 require "test_helper"
 
-class CoreItemFactoryContentParserTest < Minitest::Test
+class SystemItemFactoryContentParserTest < Minitest::Test
   def test_content_parser_reads_frontmatter
-    match = Munge::Core::ItemFactory::ContentParser.new(
+    match = Munge::System::ItemFactory::ContentParser.new(
       %(---
 this: is
 yaml: frontmatter
@@ -16,7 +16,7 @@ but this is not yay
   end
 
   def test_content_parser_reads_nonfrontmatter
-    match = Munge::Core::ItemFactory::ContentParser.new(
+    match = Munge::System::ItemFactory::ContentParser.new(
       "yay this is cool lol"
     )
 
@@ -25,7 +25,7 @@ but this is not yay
   end
 
   def test_content_parser_reads_nonfrontmatter_with_weird_dashes
-    match = Munge::Core::ItemFactory::ContentParser.new(
+    match = Munge::System::ItemFactory::ContentParser.new(
       %(baa baa
 
 ---
@@ -41,7 +41,7 @@ have you any wool)
   end
 
   def test_content_parser_that_looks_like_frontmatter_but_really_isnt
-    match = Munge::Core::ItemFactory::ContentParser.new(
+    match = Munge::System::ItemFactory::ContentParser.new(
       %(---
 not frontmatter
 ---

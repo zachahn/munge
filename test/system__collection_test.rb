@@ -1,6 +1,6 @@
 require "test_helper"
 
-class CoreCollectionTest < Minitest::Test
+class SystemCollectionTest < Minitest::Test
   def setup
     @item_factory =
       QuickDummy.new(
@@ -15,7 +15,7 @@ class CoreCollectionTest < Minitest::Test
         end
       )
 
-    @source = Munge::Core::Collection.new(
+    @source = Munge::System::Collection.new(
       item_factory: @item_factory,
       items: [
         { relpath: "lol.html", content: "cool" },

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ReaderFilesystemTest < Minitest::Test
+class SystemReaderFilesystemTest < Minitest::Test
   def setup
     FakeFS.activate!
     @test_directory = "/#{SecureRandom.hex(10)}"
@@ -12,7 +12,7 @@ class ReaderFilesystemTest < Minitest::Test
   end
 
   def new_filesystem_reader
-    Munge::Reader::Filesystem.new(@test_directory)
+    Munge::System::Reader::Filesystem.new(@test_directory)
   end
 
   def test_is_enumerable

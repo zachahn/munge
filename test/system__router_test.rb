@@ -1,8 +1,8 @@
 require "test_helper"
 
-class CoreRouterTest < Minitest::Test
+class SystemRouterTest < Minitest::Test
   def setup
-    @router = Munge::Core::Router.new(alterant: new_dummy_alterant)
+    @router = Munge::System::Router.new(alterant: new_dummy_alterant)
   end
 
   def new_item
