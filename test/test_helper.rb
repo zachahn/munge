@@ -25,6 +25,7 @@ require "tilt/redcarpet"
 require "sass"
 
 require "ostruct"
+require "securerandom"
 
 class QuickDummy
   def initialize(**args)
