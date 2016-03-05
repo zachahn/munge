@@ -1,5 +1,4 @@
 require "test_helper"
-require "ostruct"
 
 class HelpersRenderingTest < Minitest::Test
   def setup
