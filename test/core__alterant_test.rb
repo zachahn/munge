@@ -2,7 +2,7 @@ require "test_helper"
 
 class CoreAlterantTest < Minitest::Test
   def setup
-    @alterant = Munge::Core::Alterant.new(scope: Object.new)
+    @alterant = Munge::Core::Alterant.new
   end
 
   def register_rot13!

@@ -36,7 +36,7 @@ module Munge
         )
 
       @alterant =
-        Core::Alterant.new(scope: self)
+        Core::Alterant.new
 
       @router =
         Core::Router.new(

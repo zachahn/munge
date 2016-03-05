@@ -1,8 +1,7 @@
 module Munge
   module Core
     class Alterant
-      def initialize(scope:)
-        @scope    = scope
+      def initialize
         @registry = {}
       end
 
