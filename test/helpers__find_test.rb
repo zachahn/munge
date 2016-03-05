@@ -1,12 +1,12 @@
 require "test_helper"
 
-class HelperFindTest < Minitest::Test
+class HelpersFindTest < Minitest::Test
   def setup
     source = { id: "item" }
 
     @renderer = Object.new
     @renderer.instance_variable_set(:@source, source)
-    @renderer.extend(Munge::Helper::Find)
+    @renderer.extend(Munge::Helpers::Find)
   end
 
   def test_find

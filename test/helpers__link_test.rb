@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelperLinkTest < Minitest::Test
+class HelpersLinkTest < Minitest::Test
   def setup
     dummy_router = Object.new
 
@@ -10,7 +10,7 @@ class HelperLinkTest < Minitest::Test
 
     @renderer = Object.new
     @renderer.instance_variable_set(:@router, dummy_router)
-    @renderer.extend(Munge::Helper::Link)
+    @renderer.extend(Munge::Helpers::Link)
   end
 
   def test_url_for

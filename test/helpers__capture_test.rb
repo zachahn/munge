@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelperCaptureTest < Minitest::Test
+class HelpersCaptureTest < Minitest::Test
   def test_find
     helpers =
       QuickDummy.new(
@@ -11,7 +11,7 @@ class HelperCaptureTest < Minitest::Test
         end
       )
 
-    helpers.extend(Munge::Helper::Capture)
+    helpers.extend(Munge::Helpers::Capture)
 
     template =
       "<h1>hi</h1>\n" \

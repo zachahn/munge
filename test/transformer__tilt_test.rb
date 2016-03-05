@@ -6,7 +6,7 @@ class TransformerTiltTest < Minitest::Test
     fake_scope.instance_variable_set(:@global_data, {})
 
     @tilt_transformer = Munge::Transformer::Tilt.new(fake_scope)
-    @tilt_transformer.register(Munge::Helper::Rendering)
+    @tilt_transformer.register(Munge::Helpers::Rendering)
   end
 
   def test_auto_transform

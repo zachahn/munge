@@ -1,5 +1,5 @@
 module Munge
-  module Helper
+  module Helpers
     module AssetTags
       def stylesheet_tag(basename, options = {})
         options[:rel]  = "stylesheet"

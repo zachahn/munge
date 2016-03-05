@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelperAssetTagTest < Minitest::Test
+class HelpersAssetTagsTest < Minitest::Test
   def setup
     @renderer =
       QuickDummy.new(
@@ -11,8 +11,8 @@ class HelperAssetTagTest < Minitest::Test
         items: -> { Hash.new("item".freeze) },
         render: -> (_) { "rendered item" }
       )
-    @renderer.extend(Munge::Helper::AssetTags)
-    @renderer.extend(Munge::Helper::Tag)
+    @renderer.extend(Munge::Helpers::AssetTags)
+    @renderer.extend(Munge::Helpers::Tag)
   end
 
   def test_stylesheet_tag

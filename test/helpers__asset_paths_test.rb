@@ -1,12 +1,12 @@
 require "test_helper"
 
-class HelperAssetPathsTest < Minitest::Test
+class HelpersAssetPathsTest < Minitest::Test
   def setup
     @renderer = QuickDummy.new(
       items: -> { Hash.new { |_h, k| "#{k}_item" } },
       url_for: -> (root) { "url/for/#{root}" }
     )
-    @renderer.extend(Munge::Helper::AssetPaths)
+    @renderer.extend(Munge::Helpers::AssetPaths)
   end
 
   def test_image_path
