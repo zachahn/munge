@@ -51,14 +51,15 @@ module Munge
                    rules_path:)
       @setup_path = setup_path
       @rules_path = rules_path
+      @binding    = binding
 
       system = Munge::System.new(root_path, config)
 
-      binding.eval(setup_string, setup_path)
+      import(setup_path, setup_string)
 
       @app = Munge::Application.new(system)
 
-      binding.eval(rules_string, rules_path)
+      import(rules_path, rules_string)
     end
 
     def root_path
@@ -67,6 +68,12 @@ module Munge
 
     def config_path
       File.join(root_path, "config")
+    end
+
+    def import(file_path, file_contents = nil)
+      absolute_file_path = File.expand_path(file_path, root_path)
+      contents           = file_contents || File.read(absolute_file_path)
+      @binding.eval(contents, absolute_file_path)
     end
 
     attr_reader :app
