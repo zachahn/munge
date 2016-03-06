@@ -16,7 +16,8 @@ module Munge
 
       desc "build", "Build in current directory"
       def build
-        Munge::Runner.write(destination_root)
+        require_relative "commands/build"
+        Commands::Build.new(destination_root)
       end
 
       desc "view", "View built files"
