@@ -10,7 +10,7 @@ module Munge
     end
 
     def set_sass_system!(system)
-      Sass::Script::Functions.send(:define_method, :munge_system) do
+      Sass::Script::Functions.send(:define_method, :system) do
         system
       end
     end
