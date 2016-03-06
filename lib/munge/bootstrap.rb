@@ -55,11 +55,11 @@ module Munge
 
       system = Munge::System.new(root_path, config)
 
-      binding.eval(setup_string, setup_path)
+      import(setup_path, setup_string)
 
       @app = Munge::Application.new(system)
 
-      binding.eval(rules_string, rules_path)
+      import(rules_path, rules_string)
     end
 
     def root_path
