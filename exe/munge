@@ -6,6 +6,6 @@ if File.exist?(File.expand_path("../../.git", __FILE__))
 end
 
 require "munge"
-require "munge/cli"
+require "munge/cli/dispatch"
 
-Munge::CLI.start(ARGV)
+Munge::Cli::Dispatch.start(ARGV)
