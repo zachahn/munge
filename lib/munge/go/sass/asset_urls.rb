@@ -10,11 +10,7 @@ module Sass::Script::Functions
   def asset_route_helper(root, basename)
     basename_string = stringify_string(basename)
 
-    munge_route("#{root}/#{basename_string}")
-  end
-
-  def munge_route(id_ruby_string)
-    item = munge_system.source[id_ruby_string]
+    item = munge_system.source["#{root}/#{basename_string}"]
     r = munge_system.router.route(item)
 
     quoted_string(r)
