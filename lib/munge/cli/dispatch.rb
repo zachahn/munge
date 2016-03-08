@@ -29,6 +29,7 @@ module Munge
       end
 
       desc "version", "Print version"
+      map %w(-v --version) => "version"
       def version
         puts "munge #{Munge::VERSION}"
       end
