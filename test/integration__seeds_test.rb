@@ -10,7 +10,13 @@ class IntegrationSeedsTest < Minitest::Test
       FakeFS::FileSystem.clone(seeds_path)
 
       @out, @err = capture_io do
-        Munge::Runner.write(seeds_path)
+        bootstrap = Munge::Bootstrap.new_from_dir(root_path: seeds_path)
+
+        runner =
+          Munge::Runner.new(
+            application: bootstrap.app
+          )
+        runner.write
       end
 
       @index = File.read(File.join(output_path, "index.html"))
