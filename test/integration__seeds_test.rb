@@ -11,10 +11,15 @@ class IntegrationSeedsTest < Minitest::Test
 
       @out, @err = capture_io do
         bootstrap = Munge::Bootstrap.new_from_dir(root_path: seeds_path)
+        app = bootstrap.app
+        system = app.instance_variable_get(:@system)
 
         runner =
           Munge::Runner.new(
-            application: bootstrap.app
+            source: app.source,
+            router: system.router,
+            alterant: system.alterant,
+            writer: system.writer
           )
         runner.write
       end

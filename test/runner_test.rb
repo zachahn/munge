@@ -4,7 +4,10 @@ class RunnerTest < Minitest::Test
   def test_write
     runner =
       Munge::Runner.new(
-        application: dummy_application
+        source: dummy_source,
+        router: dummy_router,
+        alterant: dummy_alterant,
+        writer: dummy_writer
       )
 
     FakeFS do
@@ -21,14 +24,28 @@ class RunnerTest < Minitest::Test
 
   private
 
-  def dummy_application
-    app = Object.new
+  def dummy_source
+    [
+      OpenStruct.new(route: "/true-file", did_write: true),
+      OpenStruct.new(route: "/false-file", did_write: false)
+    ]
+  end
 
-    def app.write
-      yield [OpenStruct.new(route: "/true-file"), true]
-      yield [OpenStruct.new(route: "/false-file"), false]
-    end
+  def dummy_router
+    QuickDummy.new(
+      filepath: -> (item) { item.route }
+    )
+  end
 
-    app
+  def dummy_alterant
+    QuickDummy.new(
+      transform: -> (item) { item.did_write }
+    )
+  end
+
+  def dummy_writer
+    QuickDummy.new(
+      write: -> (path, content) { return content }
+    )
   end
 end
