@@ -1,5 +1,4 @@
 require "test_helper"
-require "munge/cli/commands/build"
 
 class IntegrationSeedsTest < Minitest::Test
   def output_path

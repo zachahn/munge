@@ -14,6 +14,7 @@ end
 
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "munge"
+require "munge/cli"
 
 require "fakefs/safe"
 require "minitest/autorun"
