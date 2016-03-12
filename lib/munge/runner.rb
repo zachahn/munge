@@ -1,5 +1,3 @@
-require "munge/reporters/default"
-
 module Munge
   class Runner
     def initialize(source:, router:, alterant:, writer:)

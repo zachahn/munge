@@ -16,7 +16,6 @@ module Munge
 
       desc "build", "Build in current directory"
       def build
-        require_relative "commands/build"
         Commands::Build.new(destination_root)
       end
 
@@ -24,7 +23,6 @@ module Munge
       method_option :port, aliases: "-p", desc: "Set port", default: 7000, type: :numeric
       method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
       def view
-        require_relative "commands/view"
         Commands::View.new(options, config_path)
       end
 
