@@ -12,31 +12,6 @@ class ApplicationTest < Minitest::Test
     system.verify
   end
 
-  def test_write
-    item = Minitest::Mock.new
-    item.expect(:route, "index")
-
-    system = OpenStruct.new
-    system.source = [item]
-    system.router = Minitest::Mock.new
-    system.router.expect(:filepath, "/path/to/index", [item])
-    system.alterant = Minitest::Mock.new
-    system.alterant.expect(:transform, "lipstique", [item])
-    system.writer = Minitest::Mock.new
-    system.writer.expect(:write, true, ["/path/to/index", "lipstique"])
-
-    application = Munge::Application.new(system)
-
-    application.write do |_yielded_item, write_status|
-      assert_equal true, write_status
-    end
-
-    item.verify
-    system.router.verify
-    system.alterant.verify
-    system.writer.verify
-  end
-
   def test_build_virtual_item
     system = OpenStruct.new
     system.source = Minitest::Mock.new
