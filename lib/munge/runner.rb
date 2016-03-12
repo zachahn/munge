@@ -1,3 +1,5 @@
+require "munge/reporters/default"
+
 module Munge
   class Runner
     def initialize(source:, router:, alterant:, writer:)
@@ -5,32 +7,23 @@ module Munge
       @router   = router
       @alterant = alterant
       @writer   = writer
+      @reporter = Munge::Reporters::Default.new
     end
 
     def write
-      block = lambda do |item, did_write|
-        if did_write
-          puts "wrote #{item.route}"
-        else
-          puts "identical #{item.route}"
-        end
-      end
-
       @source
         .reject { |item| item.route.nil? }
-        .each   { |item| render_and_write(item, &block) }
+        .each   { |item| render_and_write(item) }
     end
 
     private
 
-    def render_and_write(item, &block)
+    def render_and_write(item)
       relpath = @router.filepath(item)
 
       write_status = @writer.write(relpath, @alterant.transform(item))
 
-      if block_given?
-        block.call(item, write_status)
-      end
+      @reporter.call(item, write_status)
     end
   end
 end
