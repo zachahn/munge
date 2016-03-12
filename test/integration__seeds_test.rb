@@ -1,4 +1,5 @@
 require "test_helper"
+require "munge/cli/commands/build"
 
 class IntegrationSeedsTest < Minitest::Test
   def output_path
@@ -10,18 +11,7 @@ class IntegrationSeedsTest < Minitest::Test
       FakeFS::FileSystem.clone(seeds_path)
 
       @out, @err = capture_io do
-        bootstrap = Munge::Bootstrap.new_from_dir(root_path: seeds_path)
-        app = bootstrap.app
-        system = app.instance_variable_get(:@system)
-
-        runner =
-          Munge::Runner.new(
-            source: app.source,
-            router: system.router,
-            alterant: system.alterant,
-            writer: system.writer
-          )
-        runner.write
+        Munge::Cli::Commands::Build.new(seeds_path)
       end
 
       @index = File.read(File.join(output_path, "index.html"))
