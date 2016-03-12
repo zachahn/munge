@@ -24,6 +24,10 @@ module Munge
       @system.source.push(item)
     end
 
+    def vomit(component_name)
+      @system.public_send(component_name)
+    end
+
     private
 
     def render_and_write(item, &block)

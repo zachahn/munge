@@ -3,9 +3,14 @@ module Munge
     module Commands
       class Build
         def initialize(destination_root)
+          app = application(destination_root)
+
           runner =
             Munge::Runner.new(
-              application: application(destination_root)
+              source: app.vomit(:source),
+              router: app.vomit(:router),
+              alterant: app.vomit(:alterant),
+              writer: app.vomit(:writer)
             )
 
           runner.write
