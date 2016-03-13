@@ -2,20 +2,24 @@ require "test_helper"
 
 class RunnerTest < Minitest::Test
   def test_write
-    runner =
-      Munge::Runner.new(
-        source: dummy_source,
-        router: dummy_router,
-        alterant: dummy_alterant,
-        writer: dummy_writer
-      )
+    File.stub(:read, "content") do
+      File.stub(:exist?, true) do
+        runner =
+          Munge::Runner.new(
+            source: dummy_source,
+            router: dummy_router,
+            alterant: dummy_alterant,
+            writer: dummy_writer
+          )
 
-    FakeFS do
-      @out, @err = capture_io { runner.write }
+        FakeFS do
+          @out, @err = capture_io { runner.write }
+        end
+
+        assert_match "wrote /true-file\n", @out
+        assert_match "identical /false-file\n", @out
+      end
     end
-
-    assert_match "wrote /true-file\n", @out
-    assert_match "identical /false-file\n", @out
   end
 
   def test_dry_run
@@ -26,8 +30,8 @@ class RunnerTest < Minitest::Test
 
   def dummy_source
     [
-      OpenStruct.new(route: "/true-file", did_write: true),
-      OpenStruct.new(route: "/false-file", did_write: false)
+      OpenStruct.new(route: "/true-file", content: "different content"),
+      OpenStruct.new(route: "/false-file", content: "content")
     ]
   end
 
@@ -39,13 +43,13 @@ class RunnerTest < Minitest::Test
 
   def dummy_alterant
     QuickDummy.new(
-      transform: -> (item) { item.did_write }
+      transform: -> (item) { item.content }
     )
   end
 
   def dummy_writer
     QuickDummy.new(
-      write: -> (path, content) { return content }
+      write: -> (_path, _content) { nil }
     )
   end
 end
