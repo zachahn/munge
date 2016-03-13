@@ -15,7 +15,7 @@ class SystemWriteTest < Minitest::Test
     FakeFS.deactivate!
   end
 
-  def test_works
+  def test_creates_subdirectories_as_needed
     filepath = "relpath/to/file.html"
 
     @writer.write(filepath, "<3\n")
