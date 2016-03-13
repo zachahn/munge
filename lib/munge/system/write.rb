@@ -10,12 +10,7 @@ module Munge
 
         FileUtils.mkdir_p(File.dirname(abspath))
 
-        if File.exist?(abspath) && File.read(abspath) == content
-          return false
-        else
-          File.write(abspath, content)
-          true
-        end
+        File.write(abspath, content)
       end
     end
   end
