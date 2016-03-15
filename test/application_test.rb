@@ -7,7 +7,7 @@ class ApplicationTest < Minitest::Test
 
     application = Munge::Application.new(system)
 
-    application.source
+    application.items
 
     system.verify
   end

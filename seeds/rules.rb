@@ -1,31 +1,31 @@
 # HTML rules
-app.source
+app.nonrouted
   .select { |item| item.extensions.include?("html") }
   .each   { |item| item.route = item.basename }
   .each   { |item| item.layout = "default" }
   .each   { |item| item.transform }
 
 # Font rules
-app.source
+app.nonrouted
   .select { |item| item.relpath?("assets/fonts") }
   .reject { |item| item.basename[0] == "_" }
   .each   { |item| item.route = item.relpath }
 
 # Image rules
-app.source
+app.nonrouted
   .select { |item| item.relpath?("assets/images") }
   .reject { |item| item.basename[0] == "_" }
   .each   { |item| item.route = item.relpath }
 
 # JS rules
-app.source
+app.nonrouted
   .select { |item| item.relpath?("assets/javascripts") }
   .reject { |item| item.basename[0] == "_" }
   .each   { |item| item.route = "/#{item.dirname}/#{item.basename}.js" }
   .each   { |item| item.transform }
 
 # CSS rules
-app.source
+app.nonrouted
   .select { |item| item.relpath?("assets/stylesheets") }
   .reject { |item| item.basename[0] == "_" }
   .each   { |item| item.route = "/#{item.dirname}/#{item.basename}.css" }
@@ -33,7 +33,7 @@ app.source
 
 # Sitemap
 html_pages =
-  app.source
+  app.routed
     .reject  { |item| item.route.nil? }
     .select  { |item| item.extensions.include?("html") }
     .sort_by { |item| item.route }

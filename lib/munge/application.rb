@@ -4,8 +4,16 @@ module Munge
       @system = system
     end
 
-    def source
+    def items
       @system.source
+    end
+
+    def nonrouted
+      items.select { |item| item.route.nil? }
+    end
+
+    def routed
+      items.reject { |item| item.route.nil? }
     end
 
     def write(&block)
