@@ -3,7 +3,7 @@ require "test_helper"
 class ApplicationTest < Minitest::Test
   def test_source
     system = Minitest::Mock.new
-    system.expect(:source, nil, [])
+    system.expect(:items, nil, [])
 
     application = Munge::Application.new(system)
 

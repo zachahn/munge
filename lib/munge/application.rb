@@ -5,7 +5,7 @@ module Munge
     end
 
     def items
-      @system.source
+      @system.items
     end
 
     def nonrouted
