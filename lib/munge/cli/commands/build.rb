@@ -32,7 +32,7 @@ module Munge
           if @dry_run
             Munge::Writers::Noop.new
           else
-            Munge::System::Write.new(output: "todo: delete")
+            Munge::Writers::Filesystem.new
           end
         end
       end

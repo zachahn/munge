@@ -1,9 +1,6 @@
 module Munge
-  class System
-    class Write
-      def initialize(output:)
-      end
-
+  module Writers
+    class Filesystem
       def write(abspath, content)
         FileUtils.mkdir_p(File.dirname(abspath))
 
