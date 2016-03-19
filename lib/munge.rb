@@ -6,6 +6,10 @@ require "yaml"
 
 require "tilt"
 
+if File.exist?(File.expand_path("../../.git", __FILE__))
+  require "pry-byebug"
+end
+
 # Core
 require "munge/version"
 require "munge/item"
