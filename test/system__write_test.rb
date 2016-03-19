@@ -16,11 +16,11 @@ class SystemWriteTest < Minitest::Test
   end
 
   def test_creates_subdirectories_as_needed
-    filepath = "relpath/to/file.html"
+    filepath = File.join(@output_dir, "relpath/to/file.html")
 
     @writer.write(filepath, "<3\n")
 
-    assert_equal true, File.exist?("#{@output_dir}/#{filepath}")
-    assert_equal "<3\n", File.read("#{@output_dir}/#{filepath}")
+    assert_equal true, File.exist?(filepath)
+    assert_equal "<3\n", File.read(filepath)
   end
 end
