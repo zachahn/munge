@@ -24,7 +24,7 @@ module Munge
       def item_is_html?(item)
         intersection = item.extensions & @html_extensions
 
-        intersection.length > 0
+        !intersection.empty?
       end
 
       def basename_is_index?(route)

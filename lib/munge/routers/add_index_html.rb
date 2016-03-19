@@ -23,7 +23,7 @@ module Munge
       def item_is_html?(item)
         intersection = item.extensions & @html_extensions
 
-        intersection.length > 0
+        !intersection.empty?
       end
 
       def route_needs_extension?(route)

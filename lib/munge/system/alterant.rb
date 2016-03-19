@@ -12,7 +12,7 @@ module Munge
       # name should be snake_case Symbol
       def register_manually(name, transformer)
         if @registry.key?(name)
-          fail "already registered transformer `#{name}`"
+          raise "already registered transformer `#{name}`"
         else
           @registry[name] = transformer
         end
@@ -34,7 +34,7 @@ module Munge
         if @registry.key?(name)
           @registry[name]
         else
-          fail "transformer `#{name}` is not installed"
+          raise "transformer `#{name}` is not installed"
         end
       end
     end
