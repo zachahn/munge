@@ -27,7 +27,7 @@ module Munge
 
       case write_status
       when :different
-        @writer.write(relpath, content)
+        @writer.write(abspath, content)
       when :identical, :double_write_error
         # we'll defer all other cases to the reporter
       end
