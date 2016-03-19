@@ -1,11 +1,11 @@
 module Munge
   class Runner
-    def initialize(source:, router:, alterant:, writer:)
+    def initialize(source:, router:, alterant:, writer:, reporter:)
       @source   = source
       @router   = router
       @alterant = alterant
       @writer   = writer
-      @reporter = Munge::Reporters::Default.new
+      @reporter = reporter
       @write_manager = Munge::WriteManager.new(driver: File)
     end
 

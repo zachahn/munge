@@ -9,7 +9,8 @@ class RunnerTest < Minitest::Test
             source: dummy_source,
             router: dummy_router,
             alterant: dummy_alterant,
-            writer: dummy_writer
+            writer: dummy_writer,
+            reporter: Munge::Reporters::Default.new
           )
 
         FakeFS do
