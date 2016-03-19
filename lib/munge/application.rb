@@ -16,12 +16,6 @@ module Munge
       items.reject { |item| item.route.nil? }
     end
 
-    def write(&block)
-      @system.items
-        .reject { |item| item.route.nil? }
-        .each   { |item| render_and_write(item, &block) }
-    end
-
     def build_virtual_item(relpath, content, **frontmatter)
       @system.items.build(relpath: relpath, content: content, frontmatter: frontmatter)
     end
@@ -32,16 +26,8 @@ module Munge
       @system.items.push(item)
     end
 
-    private
-
-    def render_and_write(item, &block)
-      relpath = @system.router.filepath(item)
-
-      write_status = @system.writer.write(relpath, @system.alterant.transform(item))
-
-      if block_given?
-        block.call(item, write_status)
-      end
+    def vomit(component_name)
+      @system.public_send(component_name)
     end
   end
 end

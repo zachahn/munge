@@ -18,11 +18,7 @@ module Munge
 
         intersection = item.extensions & @extensions
 
-        if intersection.size == 0
-          false
-        else
-          true
-        end
+        !intersection.empty?
       end
 
       def call(initial_route, item)

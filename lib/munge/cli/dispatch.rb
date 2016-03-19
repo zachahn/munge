@@ -15,17 +15,17 @@ module Munge
       end
 
       desc "build", "Build in current directory"
+      method_option :reporter, desc: "Set reporter", default: "Default", type: :string
+      method_option :dry_run, desc: "Run without writing files", default: false, type: :boolean
       def build
-        require_relative "commands/build"
-        Commands::Build.new(destination_root)
+        Commands::Build.new(destination_root, loaded_config, options)
       end
 
       desc "view", "View built files"
       method_option :port, aliases: "-p", desc: "Set port", default: 7000, type: :numeric
       method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
       def view
-        require_relative "commands/view"
-        Commands::View.new(options, config_path)
+        Commands::View.new(config_path, options)
       end
 
       desc "version", "Print version"
@@ -35,6 +35,10 @@ module Munge
       end
 
       private
+
+      def loaded_config
+        Munge::Util::Config.read(config_path)
+      end
 
       def config_path
         File.join(destination_root, "config.yml")

@@ -42,11 +42,6 @@ module Munge
         Router.new(
           alterant: @alterant
         )
-
-      @writer =
-        Write.new(
-          output: output_path
-        )
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
@@ -55,6 +50,5 @@ module Munge
     attr_accessor :global_data
     attr_accessor :router
     attr_accessor :items
-    attr_accessor :writer
   end
 end
