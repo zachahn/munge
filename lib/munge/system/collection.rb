@@ -39,7 +39,7 @@ module Munge
         found_item = @items[id]
 
         if found_item.nil?
-          fail "item not found (#{id})"
+          raise "item not found (#{id})"
         end
 
         found_item
