@@ -17,19 +17,19 @@ module Munge
     end
 
     def write(&block)
-      @system.source
+      @system.items
         .reject { |item| item.route.nil? }
         .each   { |item| render_and_write(item, &block) }
     end
 
     def build_virtual_item(relpath, content, **frontmatter)
-      @system.source.build(relpath: relpath, content: content, frontmatter: frontmatter)
+      @system.items.build(relpath: relpath, content: content, frontmatter: frontmatter)
     end
 
     def create(*args)
       item = build_virtual_item(*args)
       yield item if block_given?
-      @system.source.push(item)
+      @system.items.push(item)
     end
 
     private

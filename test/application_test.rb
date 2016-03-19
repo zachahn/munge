@@ -1,7 +1,7 @@
 require "test_helper"
 
 class ApplicationTest < Minitest::Test
-  def test_source
+  def test_items
     system = Minitest::Mock.new
     system.expect(:items, nil, [])
 
@@ -17,7 +17,7 @@ class ApplicationTest < Minitest::Test
     item.expect(:route, "index")
 
     system = OpenStruct.new
-    system.source = [item]
+    system.items = [item]
     system.router = Minitest::Mock.new
     system.router.expect(:filepath, "/path/to/index", [item])
     system.alterant = Minitest::Mock.new
@@ -39,21 +39,21 @@ class ApplicationTest < Minitest::Test
 
   def test_build_virtual_item
     system = OpenStruct.new
-    system.source = Minitest::Mock.new
-    system.source.expect(:build, "built item", [{ relpath: "new-item-relpath", content: "new item content", frontmatter: { this: "is frontmatter" } }])
+    system.items = Minitest::Mock.new
+    system.items.expect(:build, "built item", [{ relpath: "new-item-relpath", content: "new item content", frontmatter: { this: "is frontmatter" } }])
 
     application = Munge::Application.new(system)
 
     application.build_virtual_item("new-item-relpath", "new item content", this: "is frontmatter")
 
-    system.source.verify
+    system.items.verify
   end
 
   def test_create
     system = OpenStruct.new
-    system.source = Minitest::Mock.new
-    system.source.expect(:build, "built item", [{ relpath: "new-item-relpath", content: "new item content", frontmatter: { this: "is frontmatter" } }])
-    system.source.expect(:push, nil, ["built item"])
+    system.items = Minitest::Mock.new
+    system.items.expect(:build, "built item", [{ relpath: "new-item-relpath", content: "new item content", frontmatter: { this: "is frontmatter" } }])
+    system.items.expect(:push, nil, ["built item"])
 
     application = Munge::Application.new(system)
 
@@ -61,6 +61,6 @@ class ApplicationTest < Minitest::Test
       assert_equal "built item", item
     end
 
-    system.source.verify
+    system.items.verify
   end
 end

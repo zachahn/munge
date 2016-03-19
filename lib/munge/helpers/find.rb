@@ -2,7 +2,7 @@ module Munge
   module Helpers
     module Find
       def items
-        @source
+        @items
       end
 
       def layouts
