@@ -56,7 +56,5 @@ module Munge
     attr_accessor :router
     attr_accessor :items
     attr_accessor :writer
-
-    alias_method :source, :items
   end
 end
