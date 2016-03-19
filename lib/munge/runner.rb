@@ -1,7 +1,7 @@
 module Munge
   class Runner
-    def initialize(source:, router:, alterant:, writer:, reporter:, destination:)
-      @source   = source
+    def initialize(items:, router:, alterant:, writer:, reporter:, destination:)
+      @items    = items
       @router   = router
       @alterant = alterant
       @writer   = writer
@@ -11,7 +11,7 @@ module Munge
     end
 
     def write
-      @source
+      @items
         .reject { |item| item.route.nil? }
         .each   { |item| render_and_write(item) }
     end

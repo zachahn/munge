@@ -6,7 +6,7 @@ class RunnerTest < Minitest::Test
       File.stub(:exist?, true) do
         runner =
           Munge::Runner.new(
-            source: dummy_source,
+            items: dummy_items,
             router: dummy_router,
             alterant: dummy_alterant,
             writer: dummy_writer,
@@ -30,7 +30,7 @@ class RunnerTest < Minitest::Test
 
   private
 
-  def dummy_source
+  def dummy_items
     [
       OpenStruct.new(route: "/true-file", content: "different content"),
       OpenStruct.new(route: "/false-file", content: "content")
