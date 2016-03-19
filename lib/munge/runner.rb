@@ -1,38 +1,38 @@
 module Munge
   class Runner
-    class << self
-      def method_missing(method, root_path, *args)
-        runner = new(application(root_path))
-        runner.public_send(method, *args)
-      end
-
-      def respond_to_missing?(method, *)
-        if instance_methods.include?(method)
-          true
-        else
-          super
-        end
-      end
-
-      def application(root_path)
-        bootstrap = Munge::Bootstrap.new_from_dir(root_path: root_path)
-
-        bootstrap.app
-      end
-    end
-
-    def initialize(application)
-      @app = application
+    def initialize(source:, router:, alterant:, writer:, reporter:, destination:)
+      @source   = source
+      @router   = router
+      @alterant = alterant
+      @writer   = writer
+      @reporter = reporter
+      @write_manager = Munge::WriteManager.new(driver: File)
+      @destination   = destination
     end
 
     def write
-      @app.write do |item, did_write|
-        if did_write
-          puts "wrote #{item.route}"
-        else
-          puts "identical #{item.route}"
-        end
+      @source
+        .reject { |item| item.route.nil? }
+        .each   { |item| render_and_write(item) }
+    end
+
+    private
+
+    def render_and_write(item)
+      relpath = @router.filepath(item)
+      abspath = File.join(@destination, relpath)
+      content = @alterant.transform(item)
+
+      write_status = @write_manager.status(abspath, content)
+
+      case write_status
+      when :different
+        @writer.write(abspath, content)
+      when :identical, :double_write_error
+        # we'll defer all other cases to the reporter
       end
+
+      @reporter.call(item, write_status)
     end
   end
 end

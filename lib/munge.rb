@@ -6,6 +6,10 @@ require "yaml"
 
 require "tilt"
 
+if File.exist?(File.expand_path("../../.git", __FILE__))
+  require "pry-byebug"
+end
+
 # Core
 require "munge/version"
 require "munge/item"
@@ -16,9 +20,11 @@ require "munge/system/router"
 require "munge/system/item_factory"
 require "munge/system/collection"
 require "munge/system/readers/filesystem"
-require "munge/system/write"
 require "munge/system/alterant"
 require "munge/system"
+require "munge/writers/filesystem"
+require "munge/writers/noop"
+require "munge/write_manager"
 require "munge/application"
 require "munge/runner"
 require "munge/bootstrap"

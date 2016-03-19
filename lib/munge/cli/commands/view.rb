@@ -28,7 +28,7 @@ module Munge
   module Cli
     module Commands
       class View
-        def initialize(options, config_path)
+        def initialize(config_path, options)
           config    = Munge::Util::Config.read(config_path)
           rack_opts = { Host: options[:host], Port: options[:port] }
 

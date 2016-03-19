@@ -14,15 +14,14 @@ end
 
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 require "munge"
-
-require "minitest/autorun"
+require "munge/cli"
 
 require "fakefs/safe"
-
+require "minitest/autorun"
+require "sass"
 require "tilt/erb"
 require "tilt/plain"
 require "tilt/redcarpet"
-require "sass"
 
 require "ostruct"
 require "securerandom"
