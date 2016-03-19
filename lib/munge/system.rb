@@ -23,7 +23,7 @@ module Munge
           ignore_extensions: true
         )
 
-      @source =
+      @items =
         Collection.new(
           item_factory: source_item_factory,
           items: Readers::Filesystem.new(source_path)
@@ -54,9 +54,9 @@ module Munge
     attr_accessor :config
     attr_accessor :global_data
     attr_accessor :router
-    attr_accessor :source
+    attr_accessor :items
     attr_accessor :writer
 
-    alias_method :items, :source
+    alias_method :source, :items
   end
 end
