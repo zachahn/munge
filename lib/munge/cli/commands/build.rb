@@ -2,7 +2,7 @@ module Munge
   module Cli
     module Commands
       class Build
-        def initialize(destination_root)
+        def initialize(destination_root, options)
           app = application(destination_root)
 
           runner =
