@@ -10,7 +10,7 @@ class IntegrationSeedsTest < Minitest::Test
       FakeFS::FileSystem.clone(seeds_path)
 
       @out, @err = capture_io do
-        Munge::Cli::Commands::Build.new(seeds_path, { reporter: "Default" })
+        Munge::Cli::Commands::Build.new(seeds_path, munge_config, { reporter: "Default" })
       end
 
       @index = File.read(File.join(output_path, "index.html"))
@@ -21,5 +21,11 @@ class IntegrationSeedsTest < Minitest::Test
     assert_match %r{<title>Munge</title>}, @index, "output is missing layout"
     assert_match %r{<h1>Welcome</h1>}, @index, "output is missing content"
     assert_match(/background-color: ?#fff/, @style, "CSS is wrong")
+  end
+
+  private
+
+  def munge_config
+    { output: "dest" }
   end
 end

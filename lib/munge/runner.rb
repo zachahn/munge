@@ -1,12 +1,13 @@
 module Munge
   class Runner
-    def initialize(source:, router:, alterant:, writer:, reporter:)
+    def initialize(source:, router:, alterant:, writer:, reporter:, destination:)
       @source   = source
       @router   = router
       @alterant = alterant
       @writer   = writer
       @reporter = reporter
       @write_manager = Munge::WriteManager.new(driver: File)
+      @destination   = destination
     end
 
     def write
@@ -19,9 +20,10 @@ module Munge
 
     def render_and_write(item)
       relpath = @router.filepath(item)
+      abspath = File.join(@destination, relpath)
       content = @alterant.transform(item)
 
-      write_status = @write_manager.status(relpath, content)
+      write_status = @write_manager.status(abspath, content)
 
       case write_status
       when :different

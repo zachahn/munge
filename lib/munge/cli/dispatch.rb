@@ -17,7 +17,7 @@ module Munge
       desc "build", "Build in current directory"
       method_option :reporter, desc: "Set reporter", default: "Default", type: :string
       def build
-        Commands::Build.new(destination_root, options)
+        Commands::Build.new(destination_root, loaded_config, options)
       end
 
       desc "view", "View built files"
@@ -34,6 +34,10 @@ module Munge
       end
 
       private
+
+      def loaded_config
+        Munge::Util::Config.read(config_path)
+      end
 
       def config_path
         File.join(destination_root, "config.yml")

@@ -2,7 +2,7 @@ module Munge
   module Cli
     module Commands
       class Build
-        def initialize(destination_root, options)
+        def initialize(destination_root, config, options)
           app = application(destination_root)
           reporter_class = Munge::Reporters.const_get(options[:reporter])
 
@@ -12,7 +12,8 @@ module Munge
               router: app.vomit(:router),
               alterant: app.vomit(:alterant),
               writer: app.vomit(:writer),
-              reporter: reporter_class.new
+              reporter: reporter_class.new,
+              destination: File.expand_path(config[:output], destination_root)
             )
 
           runner.write
