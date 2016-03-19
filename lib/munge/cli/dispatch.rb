@@ -16,7 +16,7 @@ module Munge
 
       desc "build", "Build in current directory"
       method_option :reporter, desc: "Set reporter", default: "Default", type: :string
-      method_option "dry-run", desc: "Run without writing files", type: :boolean
+      method_option :dry_run, desc: "Run without writing files", default: false, type: :boolean
       def build
         Commands::Build.new(destination_root, loaded_config, options)
       end
