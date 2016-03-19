@@ -10,7 +10,7 @@ class IntegrationSeedsTest < Minitest::Test
       FakeFS::FileSystem.clone(seeds_path)
 
       @out, @err = capture_io do
-        Munge::Cli::Commands::Build.new(seeds_path, {})
+        Munge::Cli::Commands::Build.new(seeds_path, { reporter: "Default" })
       end
 
       @index = File.read(File.join(output_path, "index.html"))
