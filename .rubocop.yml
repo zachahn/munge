@@ -41,3 +41,6 @@ Style/MultilineOperationIndentation:
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
+Style/UnneededInterpolation:
+  Enabled: false
