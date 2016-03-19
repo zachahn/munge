@@ -29,7 +29,7 @@ module Munge
       def item_should_have_extension?(item)
         intersection = item.extensions & @keep_extensions
 
-        intersection.length > 0
+        !intersection.empty?
       end
 
       def route_doesnt_have_extension?(initial_route)
@@ -37,7 +37,7 @@ module Munge
 
         intersection = initial_route_extensions & @keep_extensions
 
-        intersection.length == 0
+        intersection.empty?
       end
     end
   end
