@@ -15,7 +15,7 @@ module Munge
       end
 
       desc "build", "Build in current directory"
-      method_option :reporter, desc: "Set reporter", default: "default", type: :string
+      method_option :reporter, desc: "Set reporter", default: "Default", type: :string
       def build
         Commands::Build.new(destination_root, options)
       end
