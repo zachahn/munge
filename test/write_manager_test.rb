@@ -1,21 +1,21 @@
 class WriteManagerTest < Minitest::Test
   def test_identical
     wm = Munge::WriteManager.new(driver: dummy_driver_exists)
-    first_write  = wm.status("foo.txt", "content")
+    first_write = wm.status("foo.txt", "content")
 
     assert_equal(:identical, first_write)
   end
 
   def test_different
     wm = Munge::WriteManager.new(driver: dummy_driver_exists)
-    first_write  = wm.status("foo.txt", "different content")
+    first_write = wm.status("foo.txt", "different content")
 
     assert_equal(:different, first_write)
   end
 
   def test_not_exists
     wm = Munge::WriteManager.new(driver: dummy_driver_dne)
-    first_write  = wm.status("foo.txt", "content")
+    first_write = wm.status("foo.txt", "content")
 
     assert_equal(:different, first_write)
   end
@@ -31,15 +31,15 @@ class WriteManagerTest < Minitest::Test
 
   def dummy_driver_exists
     QuickDummy.new(
-      :exist? => -> (_) { true },
-      :read   => -> (_) { "content" }
+      exist?: -> (_) { true },
+      read:   -> (_) { "content" }
     )
   end
 
   def dummy_driver_dne
     QuickDummy.new(
-      :exist? => -> (_) { false },
-      :read   => -> (_) { "content" }
+      exist?: -> (_) { false },
+      read:   -> (_) { "content" }
     )
   end
 end
