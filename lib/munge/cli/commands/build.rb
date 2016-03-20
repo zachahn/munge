@@ -9,7 +9,7 @@ module Munge
 
           runner =
             Munge::Runner.new(
-              source: @app.vomit(:source),
+              items: @app.vomit(:items),
               router: @app.vomit(:router),
               alterant: @app.vomit(:alterant),
               writer: writer,

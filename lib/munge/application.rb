@@ -4,18 +4,26 @@ module Munge
       @system = system
     end
 
-    def source
-      @system.source
+    def items
+      @system.items
+    end
+
+    def nonrouted
+      items.select { |item| item.route.nil? }
+    end
+
+    def routed
+      items.reject { |item| item.route.nil? }
     end
 
     def build_virtual_item(relpath, content, **frontmatter)
-      @system.source.build(relpath: relpath, content: content, frontmatter: frontmatter)
+      @system.items.build(relpath: relpath, content: content, frontmatter: frontmatter)
     end
 
     def create(*args)
       item = build_virtual_item(*args)
       yield item if block_given?
-      @system.source.push(item)
+      @system.items.push(item)
     end
 
     def vomit(component_name)

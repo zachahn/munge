@@ -1,34 +1,34 @@
 require "test_helper"
 
 class ApplicationTest < Minitest::Test
-  def test_source
+  def test_items
     system = Minitest::Mock.new
-    system.expect(:source, nil, [])
+    system.expect(:items, nil, [])
 
     application = Munge::Application.new(system)
 
-    application.source
+    application.items
 
     system.verify
   end
 
   def test_build_virtual_item
     system = OpenStruct.new
-    system.source = Minitest::Mock.new
-    system.source.expect(:build, "built item", [{ relpath: "new-item-relpath", content: "new item content", frontmatter: { this: "is frontmatter" } }])
+    system.items = Minitest::Mock.new
+    system.items.expect(:build, "built item", [{ relpath: "new-item-relpath", content: "new item content", frontmatter: { this: "is frontmatter" } }])
 
     application = Munge::Application.new(system)
 
     application.build_virtual_item("new-item-relpath", "new item content", this: "is frontmatter")
 
-    system.source.verify
+    system.items.verify
   end
 
   def test_create
     system = OpenStruct.new
-    system.source = Minitest::Mock.new
-    system.source.expect(:build, "built item", [{ relpath: "new-item-relpath", content: "new item content", frontmatter: { this: "is frontmatter" } }])
-    system.source.expect(:push, nil, ["built item"])
+    system.items = Minitest::Mock.new
+    system.items.expect(:build, "built item", [{ relpath: "new-item-relpath", content: "new item content", frontmatter: { this: "is frontmatter" } }])
+    system.items.expect(:push, nil, ["built item"])
 
     application = Munge::Application.new(system)
 
@@ -36,6 +36,6 @@ class ApplicationTest < Minitest::Test
       assert_equal "built item", item
     end
 
-    system.source.verify
+    system.items.verify
   end
 end

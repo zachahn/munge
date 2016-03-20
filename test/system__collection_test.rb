@@ -15,7 +15,7 @@ class SystemCollectionTest < Minitest::Test
         end
       )
 
-    @source = Munge::System::Collection.new(
+    @items = Munge::System::Collection.new(
       item_factory: @item_factory,
       items: [
         { relpath: "lol.html", content: "cool" },
@@ -25,31 +25,31 @@ class SystemCollectionTest < Minitest::Test
   end
 
   def test_hashlike_access
-    item = @source["id doge.html"]
+    item = @items["id doge.html"]
 
     assert_equal "cool", item[:frontmatter][:super]
   end
 
   def test_hashlike_access_not_found
-    assert_raises(RuntimeError) { @source["id notfound.html"] }
+    assert_raises(RuntimeError) { @items["id notfound.html"] }
   end
 
   def test_each_returns_enumerator
-    assert_kind_of(Enumerator, @source.each)
+    assert_kind_of(Enumerator, @items.each)
   end
 
   def test_enumerator_includes_correct_items
     item1 = { relpath: "lol.html", content: "cool", frontmatter: { super: "cool" } }
     item2 = { relpath: "doge.html", content: "", frontmatter: { super: "cool" } }
 
-    assert_includes @source.each.to_a, item1
-    assert_includes @source.each.to_a, item2
-    assert_equal 2, @source.each.to_a.size
+    assert_includes @items.each.to_a, item1
+    assert_includes @items.each.to_a, item2
+    assert_equal 2, @items.each.to_a.size
   end
 
   def test_build
     item =
-      @source.build(
+      @items.build(
         relpath: "foo/bar.jpg",
         content: "binary content lol",
         frontmatter: {}
@@ -63,7 +63,7 @@ class SystemCollectionTest < Minitest::Test
 
   def test_build_does_not_use_extraneous_params
     item =
-      @source.build(
+      @items.build(
         relpath: "foo/bar.jpg",
         content: "binary content lol",
         frontmatter: {},
@@ -80,12 +80,12 @@ class SystemCollectionTest < Minitest::Test
       frontmatter: {}
     }
 
-    item = @source.build(**item_params)
+    item = @items.build(**item_params)
 
-    @source.push(item)
+    @items.push(item)
 
-    assert_equal 3, @source.each.to_a.size
-    assert_includes @source.each.to_a, item_params
-    assert_equal "binary content lol", @source["id foo/bar.jpg"][:content]
+    assert_equal 3, @items.each.to_a.size
+    assert_includes @items.each.to_a, item_params
+    assert_equal "binary content lol", @items["id foo/bar.jpg"][:content]
   end
 end

@@ -59,7 +59,7 @@ Here's an example `rules.rb` for a blog.
 
 ```ruby
 # home page
-app.source
+app.unrouted
   .select { |item| item.id == "home" }      # looks for items where path is "src/home.*"
   .each   { |item| item.route = "" }        # sets output file to "/index.html"
   .each   { |item| item.layout = "default"} # sets layout to "layouts/default.*"
@@ -67,7 +67,7 @@ app.source
   .each   { |item| item.transform(:tilt) }  # have Tilt compile this file
 
 # blog posts
-app.source
+app.unrouted
   .select { |item| item.relpath?("posts") }               # looks for items in "src/posts/**/*"
   .each   { |item| item.route = "blog/#{item.basename}" } # sets output file to "/blog/#{basename}/index.html"
   .each   { |item| item.layout = "post" }
@@ -75,7 +75,7 @@ app.source
 
 # blog index
 posts_for_index =
-  app.source
+  app.routed
     .select  { |item| item.route?("blog") }
     .sort_by { |item| item.route }
     .reverse

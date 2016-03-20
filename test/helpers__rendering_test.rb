@@ -88,7 +88,7 @@ class HelpersRenderingTest < Minitest::Test
     layout.id = "identifier"
 
     outer = OpenStruct.new
-    outer.content = %(<div><%= layout("identifier") { render(@source["inner"]) } %></div>)
+    outer.content = %(<div><%= layout("identifier") { render(@items["inner"]) } %></div>)
     outer.frontmatter = {}
     outer.relpath = "outer.erb"
     outer.id = "outer"
@@ -100,7 +100,7 @@ class HelpersRenderingTest < Minitest::Test
     inner.id = "inner"
 
     @renderer.instance_variable_set(:@layouts, layout.id => layout)
-    @renderer.instance_variable_set(:@source, inner.id => inner, outer.id => outer)
+    @renderer.instance_variable_set(:@items, inner.id => inner, outer.id => outer)
 
     output = @renderer.render(outer)
 
