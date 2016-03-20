@@ -25,7 +25,7 @@ module Munge
       method_option :port, aliases: "-p", desc: "Set port", default: 7000, type: :numeric
       method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
       def view
-        Commands::View.new(config_path, options)
+        Commands::View.new(loaded_config, options)
       end
 
       desc "version", "Print version"
