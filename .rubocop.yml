@@ -5,12 +5,17 @@ AllCops:
     - Gemfile
     - Rakefile
     - seeds/**/*
+    - munge.gemspec
 
 Metrics/AbcSize:
   Exclude:
     - test/**/*
 
+Metrics/LineLength:
+  Max: 120
+
 Metrics/MethodLength:
+  Max: 15
   Exclude:
     - test/**/*
 
