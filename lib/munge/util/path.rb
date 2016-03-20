@@ -17,6 +17,17 @@ module Munge
         end
       end
 
+      def self.extnames(path)
+        basename = File.basename(path)
+        basename_parts = basename.split(".")
+
+        basename_parts[1..-1]
+      end
+
+      def self.basename(path)
+        File.basename(path)
+      end
+
       def self.basename_one_extension(path)
         basename       = File.basename(path)
         basename_parts = basename.split(".")
