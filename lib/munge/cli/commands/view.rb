@@ -28,9 +28,7 @@ module Munge
   module Cli
     module Commands
       class View
-        def initialize(config, options)
-          rack_opts = { Host: options[:host], Port: options[:port] }
-
+        def initialize(config, host:, port:)
           app =
             Rack::Builder.new do
               use Rack::ShowExceptions
@@ -39,7 +37,7 @@ module Munge
               run Rack::File.new(config[:output])
             end
 
-          Rack::Handler::WEBrick.run(app, rack_opts)
+          Rack::Handler::WEBrick.run(app, Host: host, Port: port)
         end
       end
     end
