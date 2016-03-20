@@ -2,23 +2,11 @@ module Munge
   class Bootstrap
     class << self
       def new_from_dir(root_path:)
-        new_from_fs(
-          root_path: root_path,
-          config_path: config_path(root_path),
-          setup_path: setup_path(root_path),
-          rules_path: rules_path(root_path)
-        )
-      end
-
-      def new_from_fs(root_path:,
-                      config_path:,
-                      setup_path:,
-                      rules_path:)
         new(
           root_path: root_path,
-          config: read_config(config_path),
-          setup_path: setup_path,
-          rules_path: rules_path
+          config: read_config(config_path(root_path)),
+          setup_path: setup_path(root_path),
+          rules_path: rules_path(root_path)
         )
       end
 

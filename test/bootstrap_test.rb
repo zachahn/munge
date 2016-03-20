@@ -11,17 +11,6 @@ class BootstrapTest < Minitest::Test
     assert_kind_of Munge::Application, bootstrap.app
   end
 
-  def test_initialize_from_fs
-    bootstrap = Munge::Bootstrap.new_from_fs(
-      root_path: seeds_path,
-      config_path: File.join(seeds_path, "config.yml"),
-      setup_path: File.join(seeds_path, "setup.rb"),
-      rules_path: File.join(seeds_path, "rules.rb")
-    )
-
-    assert_kind_of Munge::Application, bootstrap.app
-  end
-
   def test_initialize_from_dir
     bootstrap = Munge::Bootstrap.new_from_dir(
       root_path: seeds_path
