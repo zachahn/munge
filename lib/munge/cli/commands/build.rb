@@ -2,7 +2,7 @@ module Munge
   module Cli
     module Commands
       class Build
-        def initialize(destination_root, config, options)
+        def initialize(destination_root, config, dry_run:, reporter:)
           @app = application(destination_root)
 
           runner =
@@ -10,8 +10,8 @@ module Munge
               items: @app.vomit(:items),
               router: @app.vomit(:router),
               alterant: @app.vomit(:alterant),
-              writer: writer(options[:dry_run]),
-              reporter: reporter(options[:reporter]),
+              writer: writer(dry_run),
+              reporter: reporter(reporter),
               destination: File.expand_path(config[:output], destination_root)
             )
 
