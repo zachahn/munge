@@ -17,9 +17,7 @@ module Munge
         new(
           root_path: root_path,
           config: read_config(config_path),
-          setup_string: File.read(setup_path),
           setup_path: setup_path,
-          rules_string: File.read(rules_path),
           rules_path: rules_path
         )
       end
@@ -45,8 +43,6 @@ module Munge
 
     def initialize(root_path:,
                    config:,
-                   setup_string:,
-                   rules_string:,
                    setup_path:,
                    rules_path:)
       @setup_path = setup_path
@@ -55,11 +51,11 @@ module Munge
 
       system = Munge::System.new(root_path, config)
 
-      import(setup_path, setup_string)
+      import(setup_path)
 
       @app = Munge::Application.new(system)
 
-      import(rules_path, rules_string)
+      import(rules_path)
     end
 
     def root_path

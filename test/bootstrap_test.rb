@@ -39,7 +39,6 @@ class BootstrapTest < Minitest::Test
         Munge::Bootstrap.new(
           **root_and_config_args,
           **rules_args,
-          setup_string: File.read("/fake-setup.rb"),
           setup_path: "/fake-setup.rb"
         )
       end
@@ -58,7 +57,6 @@ class BootstrapTest < Minitest::Test
         Munge::Bootstrap.new(
           **root_and_config_args,
           **setup_args,
-          rules_string: File.read("/fake-rules.rb"),
           rules_path: "/fake-rules.rb"
         )
       end
@@ -79,14 +77,12 @@ class BootstrapTest < Minitest::Test
 
   def setup_args
     {
-      setup_string: File.read(File.join(seeds_path, "setup.rb")),
       setup_path: File.join(seeds_path, "setup.rb")
     }
   end
 
   def rules_args
     {
-      rules_string: File.read(File.join(seeds_path, "rules.rb")),
       rules_path: File.join(seeds_path, "rules.rb")
     }
   end
