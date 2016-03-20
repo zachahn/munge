@@ -66,9 +66,9 @@ module Munge
       File.join(root_path, "config")
     end
 
-    def import(file_path, file_contents = nil)
+    def import(file_path)
       absolute_file_path = File.expand_path(file_path, root_path)
-      contents           = file_contents || File.read(absolute_file_path)
+      contents           = File.read(absolute_file_path)
       @binding.eval(contents, absolute_file_path)
     end
 
