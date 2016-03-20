@@ -71,6 +71,12 @@ module Munge
           correct
         end
       end
+
+      def self.join(*path_components)
+        path_components
+          .reject { |component| component.empty? }
+          .join("/")
+      end
     end
   end
 end

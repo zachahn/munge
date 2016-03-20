@@ -49,4 +49,8 @@ class UtilPathTest < Minitest::Test
     assert_equal "foo/bar", Munge::Util::Path.ensure_relpath("//foo//bar")
     assert_equal "foo/bar", Munge::Util::Path.ensure_relpath("foo//bar")
   end
+
+  def test_join
+    assert_equal "foo/bar", Munge::Util::Path.join("foo", "", "bar")
+  end
 end
