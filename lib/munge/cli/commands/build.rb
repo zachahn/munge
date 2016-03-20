@@ -4,7 +4,6 @@ module Munge
       class Build
         def initialize(destination_root, config, options)
           @app = application(destination_root)
-          reporter_class = Munge::Reporters.const_get(options[:reporter])
 
           runner =
             Munge::Runner.new(
@@ -12,7 +11,7 @@ module Munge
               router: @app.vomit(:router),
               alterant: @app.vomit(:alterant),
               writer: writer(options[:dry_run]),
-              reporter: reporter_class.new,
+              reporter: reporter(options[:reporter]),
               destination: File.expand_path(config[:output], destination_root)
             )
 
@@ -33,6 +32,10 @@ module Munge
           else
             Munge::Writers::Filesystem.new
           end
+        end
+
+        def reporter(class_name)
+          Munge::Reporters.const_get(class_name).new
         end
       end
     end
