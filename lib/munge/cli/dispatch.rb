@@ -43,10 +43,6 @@ module Munge
       def config_path
         File.join(destination_root, "config.yml")
       end
-
-      def rules_path
-        File.join(destination_root, "rules.rb")
-      end
     end
   end
 end
