@@ -24,10 +24,6 @@ class RunnerTest < Minitest::Test
     end
   end
 
-  def test_dry_run
-    skip
-  end
-
   private
 
   def dummy_items

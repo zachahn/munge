@@ -5,58 +5,6 @@ class SystemRouterTest < Minitest::Test
     @router = Munge::System::Router.new(alterant: new_dummy_alterant)
   end
 
-  def new_item
-    OpenStruct.new(route: "")
-  end
-
-  def register_dummy_router!
-    @dummy_router =
-      QuickDummy.new(
-        type: -> { :route },
-        match?: -> (_route, _itemish) { true },
-        call: -> (_route, _itemish) { "dummy/route" }
-      )
-
-    @router.register(@dummy_router)
-  end
-
-  def register_dummy_index_router!
-    @dummy_index_router =
-      QuickDummy.new(
-        type: -> { :filepath },
-        match?: -> (*) { true },
-        call: -> (route, _itemish) { "#{route}/index.html" }
-      )
-
-    @router.register(@dummy_index_router)
-  end
-
-  def register_dummy_rot1_router!
-    @dummy_rot1_router =
-      QuickDummy.new(
-        type: -> { :filepath },
-        match?: -> (*) { true },
-        call: -> (route, _itemish) { route.tr("a-z", "b-za") }
-      )
-
-    @router.register(@dummy_rot1_router)
-  end
-
-  def register_dummy_rot13_router!
-    @rot13_router =
-      QuickDummy.new(
-        type: -> { :route },
-        match?: -> (*) { true },
-        call: -> (route, *) { route.tr("a-z", "n-za-m") }
-      )
-
-    @router.register(@rot13_router)
-  end
-
-  def new_dummy_alterant
-    QuickDummy.new(transform: -> (*) { "dummy transformed text" })
-  end
-
   def test_route_single_router
     item = new_item
 
@@ -135,5 +83,59 @@ class SystemRouterTest < Minitest::Test
     assert_raises do
       @router.route(item)
     end
+  end
+
+  private
+
+  def new_item
+    OpenStruct.new(route: "")
+  end
+
+  def register_dummy_router!
+    @dummy_router =
+      QuickDummy.new(
+        type: -> { :route },
+        match?: -> (_route, _itemish) { true },
+        call: -> (_route, _itemish) { "dummy/route" }
+      )
+
+    @router.register(@dummy_router)
+  end
+
+  def register_dummy_index_router!
+    @dummy_index_router =
+      QuickDummy.new(
+        type: -> { :filepath },
+        match?: -> (*) { true },
+        call: -> (route, _itemish) { "#{route}/index.html" }
+      )
+
+    @router.register(@dummy_index_router)
+  end
+
+  def register_dummy_rot1_router!
+    @dummy_rot1_router =
+      QuickDummy.new(
+        type: -> { :filepath },
+        match?: -> (*) { true },
+        call: -> (route, _itemish) { route.tr("a-z", "b-za") }
+      )
+
+    @router.register(@dummy_rot1_router)
+  end
+
+  def register_dummy_rot13_router!
+    @rot13_router =
+      QuickDummy.new(
+        type: -> { :route },
+        match?: -> (*) { true },
+        call: -> (route, *) { route.tr("a-z", "n-za-m") }
+      )
+
+    @router.register(@rot13_router)
+  end
+
+  def new_dummy_alterant
+    QuickDummy.new(transform: -> (*) { "dummy transformed text" })
   end
 end

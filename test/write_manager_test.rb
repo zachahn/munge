@@ -29,6 +29,8 @@ class WriteManagerTest < Minitest::Test
     assert_equal(:double_write_error, second_write)
   end
 
+  private
+
   def dummy_driver_exists
     QuickDummy.new(
       exist?: -> (_) { true },

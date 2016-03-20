@@ -5,10 +5,6 @@ class RoutersAutoAddExtensionTest < Minitest::Test
     @auto_add_extension = Munge::Routers::AutoAddExtension.new(keep_extensions: %w(gif))
   end
 
-  def new_fake_item(exts: [])
-    OpenStruct.new(frontmatter: {}, extensions: exts)
-  end
-
   def test_match_gif_item
     gif_item = new_fake_item(exts: %w(gif))
 
@@ -29,5 +25,11 @@ class RoutersAutoAddExtensionTest < Minitest::Test
 
     assert_equal "foo.gif", @auto_add_extension.call("foo", gif_item)
     assert_equal "foo.txt.gif", @auto_add_extension.call("foo.txt", gif_item)
+  end
+
+  private
+
+  def new_fake_item(exts: [])
+    OpenStruct.new(frontmatter: {}, extensions: exts)
   end
 end

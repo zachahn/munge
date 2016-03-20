@@ -1,10 +1,6 @@
 require "test_helper"
 
 class IntegrationSeedsTest < Minitest::Test
-  def output_path
-    File.join(seeds_path, "dest")
-  end
-
   def test_integration
     FakeFS do
       FakeFS::FileSystem.clone(seeds_path)
@@ -27,5 +23,9 @@ class IntegrationSeedsTest < Minitest::Test
 
   def munge_config
     { output: "dest" }
+  end
+
+  def output_path
+    File.join(seeds_path, "dest")
   end
 end

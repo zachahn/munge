@@ -5,26 +5,6 @@ class SystemAlterantTest < Minitest::Test
     @alterant = Munge::System::Alterant.new
   end
 
-  def register_rot13!
-    @rot13 =
-      QuickDummy.new(
-        name: -> { :rot13 },
-        call: -> (_item, content, *) { content.tr("a-z", "n-za-m") }
-      )
-
-    @alterant.register(@rot13)
-  end
-
-  def retister_double!
-    @double =
-      QuickDummy.new(
-        name: -> { :double },
-        call: -> (_item, content, *) { content + content }
-      )
-
-    @alterant.register(@double)
-  end
-
   def test_registration_disallows_transformers_with_same_name
     register_rot13!
 
@@ -62,5 +42,27 @@ class SystemAlterantTest < Minitest::Test
     item.content = %(hello)
 
     assert_raises(RuntimeError) { @alterant.transform(item) }
+  end
+
+  private
+
+  def register_rot13!
+    @rot13 =
+      QuickDummy.new(
+        name: -> { :rot13 },
+        call: -> (_item, content, *) { content.tr("a-z", "n-za-m") }
+      )
+
+    @alterant.register(@rot13)
+  end
+
+  def retister_double!
+    @double =
+      QuickDummy.new(
+        name: -> { :double },
+        call: -> (_item, content, *) { content + content }
+      )
+
+    @alterant.register(@double)
   end
 end
