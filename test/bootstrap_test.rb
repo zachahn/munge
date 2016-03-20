@@ -32,30 +32,40 @@ class BootstrapTest < Minitest::Test
 
   def test_reading_setup
     err = assert_raises do
-      Munge::Bootstrap.new(
-        **root_and_config_args,
-        **rules_args,
-        setup_string: %(fail "setup fail"),
-        setup_path: "fake setup path"
-      )
+      FakeFS do
+        FakeFS::FileSystem.clone(seeds_path)
+        File.write("/fake-setup.rb", %(fail "setup fail"))
+
+        Munge::Bootstrap.new(
+          **root_and_config_args,
+          **rules_args,
+          setup_string: File.read("/fake-setup.rb"),
+          setup_path: "/fake-setup.rb"
+        )
+      end
     end
 
     assert_equal "setup fail", err.message
-    assert_match(/fake setup path/, err.backtrace[0])
+    assert_match(%r{/fake-setup.rb}, err.backtrace[0])
   end
 
   def test_reading_rules
     err = assert_raises do
-      Munge::Bootstrap.new(
-        **root_and_config_args,
-        **setup_args,
-        rules_string: %(fail "rules fail"),
-        rules_path: "fake rules path"
-      )
+      FakeFS do
+        FakeFS::FileSystem.clone(seeds_path)
+        File.write("/fake-rules.rb", %(fail "rules fail"))
+
+        Munge::Bootstrap.new(
+          **root_and_config_args,
+          **setup_args,
+          rules_string: File.read("/fake-rules.rb"),
+          rules_path: "/fake-rules.rb"
+        )
+      end
     end
 
     assert_equal("rules fail", err.message)
-    assert_match(/fake rules path/, err.backtrace[0])
+    assert_match(%r{/fake-rules.rb}, err.backtrace[0])
   end
 
   private
