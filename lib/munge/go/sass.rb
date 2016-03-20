@@ -9,11 +9,13 @@ module Munge
       Sass.load_paths << File.join(*paths)
     end
 
+    # rubocop:disable Style/AccessorMethodName
     def set_sass_system!(system)
       Sass::Script::Functions.send(:define_method, :system) do
         system
       end
     end
+    # rubocop:enable Style/AccessorMethodName
 
     def add_sass_functions!(asset_roots)
       Sass::Script::Functions.send(:include, asset_roots)
