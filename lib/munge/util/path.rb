@@ -74,7 +74,7 @@ module Munge
 
       def self.join(*path_components)
         path_components
-          .reject { |component| component.empty? }
+          .reject(&:empty?)
           .join("/")
       end
     end
