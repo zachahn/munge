@@ -1,12 +1,13 @@
 require_relative "item_factory/content_parser"
+require_relative "item_factory/item_identifier"
 
 module Munge
   class System
     class ItemFactory
       def initialize(text_extensions:,
                      ignore_extensions:)
-        @text_extensions   = Set.new(text_extensions)
-        @ignore_extensions = ignore_extensions
+        @text_extensions = Set.new(text_extensions)
+        @item_identifier = Munge::System::ItemFactory::ItemIdentifier.new(remove_extensions: ignore_extensions)
       end
 
       def build(relpath:,
@@ -15,12 +16,7 @@ module Munge
                 stat: nil)
         type = compute_file_type(relpath)
 
-        id =
-          if @ignore_extensions || type == :text
-            compute_id(relpath)
-          else
-            relpath
-          end
+        id = @item_identifier.call(relpath)
 
         Munge::Item.new(
           relpath: relpath,
@@ -71,26 +67,6 @@ module Munge
         else
           :binary
         end
-      end
-
-      def compute_id(relpath)
-        dirname  = Munge::Util::Path.dirname(relpath)
-        basename =
-          if @ignore_extensions
-            Munge::Util::Path.basename_no_extension(relpath)
-          else
-            Munge::Util::Path.basename_one_extension(relpath)
-          end
-
-        id = []
-
-        unless dirname == ""
-          id.push(dirname)
-        end
-
-        id.push(basename)
-
-        id.join("/")
       end
     end
   end

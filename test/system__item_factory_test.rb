@@ -5,7 +5,7 @@ class SystemItemFactoryTest < Minitest::Test
     # @item_factory = new_item_factory(ignored_basenames: %w(index dir))
     @item_factory = Munge::System::ItemFactory.new(
       text_extensions: %w(txt md html),
-      ignore_extensions: false
+      ignore_extensions: %w(erb)
     )
   end
 
@@ -36,7 +36,7 @@ class SystemItemFactoryTest < Minitest::Test
     item_factory =
       Munge::System::ItemFactory.new(
         text_extensions: %w(txt md html),
-        ignore_extensions: true
+        ignore_extensions: %w(.+)
       )
 
     item = item_factory.build(relpath: "index.html", content: "")
