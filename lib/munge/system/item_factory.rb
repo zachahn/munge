@@ -1,6 +1,3 @@
-require_relative "item_factory/content_parser"
-require_relative "item_factory/item_identifier"
-
 module Munge
   class System
     class ItemFactory
