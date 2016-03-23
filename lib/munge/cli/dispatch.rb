@@ -6,7 +6,7 @@ module Munge
       include Thor::Actions
 
       def self.source_root
-        File.expand_path("../../../seeds", __FILE__)
+        File.expand_path("../../../../seeds", __FILE__)
       end
 
       desc "init PATH", "Create new site at PATH"
