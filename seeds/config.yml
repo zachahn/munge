@@ -23,3 +23,7 @@ bin_extensions:
   - ttf
   - eot
   - woff
+dynamic_extensions:
+  - erb
+  - scss
+  - md

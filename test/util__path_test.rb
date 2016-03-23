@@ -15,6 +15,15 @@ class UtilPathTest < Minitest::Test
     assert_equal "", Munge::Util::Path.extname("ab.")
   end
 
+  def test_extnames
+    assert_equal %w(ij kl), Munge::Util::Path.extnames("ab.cd/ef/gh.ij.kl")
+  end
+
+  def test_basename
+    assert_equal "foo.rb", Munge::Util::Path.basename("foo.rb")
+    assert_equal "foo.rb", Munge::Util::Path.basename("bar/foo.rb")
+  end
+
   def test_basename_no_extension
     assert_equal "foo", Munge::Util::Path.basename_no_extension("foo.rb")
     assert_equal "bar", Munge::Util::Path.basename_no_extension("foo/bar.rb")
@@ -39,5 +48,9 @@ class UtilPathTest < Minitest::Test
     assert_equal "foo/bar.", Munge::Util::Path.ensure_relpath("/foo/bar.")
     assert_equal "foo/bar", Munge::Util::Path.ensure_relpath("//foo//bar")
     assert_equal "foo/bar", Munge::Util::Path.ensure_relpath("foo//bar")
+  end
+
+  def test_join
+    assert_equal "foo/bar", Munge::Util::Path.join("foo", "", "bar")
   end
 end

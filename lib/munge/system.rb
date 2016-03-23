@@ -14,13 +14,13 @@ module Munge
       source_item_factory =
         ItemFactory.new(
           text_extensions: config[:text_extensions] + config[:bintext_extensions],
-          ignore_extensions: false
+          ignore_extensions: config[:dynamic_extensions]
         )
 
       layouts_item_factory =
         ItemFactory.new(
           text_extensions: config[:text_extensions] + config[:bintext_extensions],
-          ignore_extensions: true
+          ignore_extensions: %w(.+)
         )
 
       @items =
