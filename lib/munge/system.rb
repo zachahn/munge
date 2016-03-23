@@ -20,7 +20,7 @@ module Munge
       layouts_item_factory =
         ItemFactory.new(
           text_extensions: config[:text_extensions] + config[:bintext_extensions],
-          ignore_extensions: true
+          ignore_extensions: %w(.+)
         )
 
       @items =
