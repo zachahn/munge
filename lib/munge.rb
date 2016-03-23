@@ -6,8 +6,10 @@ require "yaml"
 
 require "tilt"
 
-if File.exist?(File.expand_path("../../.git", __FILE__))
+begin
+  # require for development
   require "pry-byebug"
+rescue LoadError
 end
 
 # Core
