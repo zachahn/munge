@@ -11,14 +11,6 @@ class BootstrapTest < Minitest::Test
     assert_kind_of Munge::Application, bootstrap.app
   end
 
-  def test_initialize_from_dir
-    bootstrap = Munge::Bootstrap.new_from_dir(
-      root_path: seeds_path
-    )
-
-    assert_kind_of Munge::Application, bootstrap.app
-  end
-
   def test_reading_setup
     err = assert_raises do
       FakeFS do

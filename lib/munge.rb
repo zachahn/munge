@@ -33,6 +33,7 @@ require "munge/write_manager"
 require "munge/application"
 require "munge/runner"
 require "munge/bootstrap"
+require "munge/bootloader"
 
 # Extensions
 require "munge/helpers/asset_tags"
