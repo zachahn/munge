@@ -1,34 +1,5 @@
 module Munge
   class Bootstrap
-    class << self
-      def new_from_dir(root_path:)
-        new(
-          root_path: root_path,
-          config: read_config(config_path(root_path)),
-          setup_path: setup_path(root_path),
-          rules_path: rules_path(root_path)
-        )
-      end
-
-      private
-
-      def read_config(config_path)
-        Munge::Util::Config.read(config_path)
-      end
-
-      def config_path(root_path)
-        File.join(root_path, "config.yml")
-      end
-
-      def setup_path(root_path)
-        File.join(root_path, "setup.rb")
-      end
-
-      def rules_path(root_path)
-        File.join(root_path, "rules.rb")
-      end
-    end
-
     def initialize(root_path:,
                    config:,
                    setup_path:,
