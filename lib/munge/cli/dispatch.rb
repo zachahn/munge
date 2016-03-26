@@ -18,7 +18,7 @@ module Munge
       method_option :reporter, desc: "Set reporter", default: "Default", type: :string
       method_option :dry_run, desc: "Run without writing files", default: false, type: :boolean
       def build
-        Commands::Build.new(destination_root, loaded_config, options)
+        Commands::Build.new(bootloader, options)
       end
 
       desc "view", "View built files"
@@ -38,6 +38,10 @@ module Munge
 
       def loaded_config
         Munge::Util::Config.read(config_path)
+      end
+
+      def bootloader
+        Munge::Bootloader.new(root_path: destination_root)
       end
 
       def config_path

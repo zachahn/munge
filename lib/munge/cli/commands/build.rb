@@ -2,8 +2,10 @@ module Munge
   module Cli
     module Commands
       class Build
-        def initialize(destination_root, config, dry_run:, reporter:)
-          @app = application(destination_root)
+        def initialize(bootloader:, dry_run:, reporter:)
+          destination_root = bootloader.root_path
+          config = bootloader.config
+          @app = application(bootloader)
 
           runner =
             Munge::Runner.new(
@@ -20,8 +22,7 @@ module Munge
 
         private
 
-        def application(root_path)
-          bootloader = Munge::Bootloader.new(root_path: root_path)
+        def application(bootloader)
           bootstrap = bootloader.init
 
           bootstrap.app
