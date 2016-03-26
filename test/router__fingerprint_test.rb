@@ -5,10 +5,6 @@ class RoutersFingerprintTest < Minitest::Test
     @fingerprint = Munge::Routers::Fingerprint.new(extensions: %w(gif), separator: "--")
   end
 
-  def new_fake_itemish
-    OpenStruct.new(frontmatter: {}, compiled_content: "")
-  end
-
   def test_match_false_because_frontmatter
     item = new_fake_itemish
     item.frontmatter[:fingerprint_asset] = false
@@ -61,5 +57,9 @@ class RoutersFingerprintTest < Minitest::Test
 
   def fingerprint
     "d41d8cd98f00b204e9800998ecf8427e"
+  end
+
+  def new_fake_itemish
+    OpenStruct.new(frontmatter: {}, compiled_content: "")
   end
 end

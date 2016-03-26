@@ -1,16 +1,16 @@
 require "test_helper"
 
 class IntegrationSeedsTest < Minitest::Test
-  def output_path
-    File.join(seeds_path, "dest")
-  end
-
   def test_integration
     FakeFS do
       FakeFS::FileSystem.clone(seeds_path)
 
       @out, @err = capture_io do
-        Munge::Cli::Commands::Build.new(seeds_path, munge_config, { reporter: "Default" })
+        Munge::Cli::Commands::Build.new(
+          bootloader,
+          reporter: "Default",
+          dry_run: false
+        )
       end
 
       @index = File.read(File.join(output_path, "index.html"))
@@ -25,7 +25,11 @@ class IntegrationSeedsTest < Minitest::Test
 
   private
 
-  def munge_config
-    { output: "dest" }
+  def output_path
+    File.join(seeds_path, "dest")
+  end
+
+  def bootloader
+    Munge::Bootloader.new(root_path: seeds_path)
   end
 end

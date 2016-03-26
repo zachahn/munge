@@ -1,5 +1,3 @@
-require_relative "router/itemish"
-
 module Munge
   class System
     class Router

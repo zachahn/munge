@@ -15,5 +15,5 @@ system.router.register(
   ))
 system.router.register(
   Routers::AutoAddExtension.new(
-    keep_extensions: config[:bin_extensions] + config[:bintext_extensions],
+    keep_extensions: config[:bin_extensions] + config[:bintext_extensions]
   ))

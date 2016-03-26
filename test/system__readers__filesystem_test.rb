@@ -11,10 +11,6 @@ class SystemReaderFilesystemTest < Minitest::Test
     FakeFS.deactivate!
   end
 
-  def new_filesystem_reader
-    Munge::System::Readers::Filesystem.new(@test_directory)
-  end
-
   def test_is_enumerable
     fsreader = new_filesystem_reader
 
@@ -39,5 +35,11 @@ class SystemReaderFilesystemTest < Minitest::Test
     mapped   = fsreader.map { |filehash| filehash }
 
     assert_equal 0, mapped.length
+  end
+
+  private
+
+  def new_filesystem_reader
+    Munge::System::Readers::Filesystem.new(@test_directory)
   end
 end

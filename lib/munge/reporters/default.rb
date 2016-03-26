@@ -11,7 +11,7 @@ module Munge
         when :identical
           puts "identical #{item.route}"
         when :double_write_error
-          fail "attempted to write #{item.route} twice"
+          raise "attempted to write #{item.route} twice"
         end
       end
     end

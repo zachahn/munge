@@ -4,7 +4,6 @@ module Munge
     def initialize(root_path, config)
       source_path  = File.expand_path(config[:source], root_path)
       layouts_path = File.expand_path(config[:layouts], root_path)
-      output_path  = File.expand_path(config[:output], root_path)
       data_path    = File.expand_path(config[:data], root_path)
 
       @global_data = YAML.load_file(data_path) || {}

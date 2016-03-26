@@ -17,15 +17,6 @@ class IntegrationRouterTest < Minitest::Test
     @router.register(auto_add_extension)
   end
 
-  def new_item(relpath, type: :text, id: nil)
-    Munge::Item.new(
-      type: type,
-      relpath: relpath,
-      id: id || relpath.split(".").first,
-      content: ""
-    )
-  end
-
   def test_index
     item = new_item("about.html.erb")
     item.route = "about"
@@ -56,5 +47,16 @@ class IntegrationRouterTest < Minitest::Test
 
     assert_equal "/", @router.route(item)
     assert_equal "index.html", @router.filepath(item)
+  end
+
+  private
+
+  def new_item(relpath, type: :text, id: nil)
+    Munge::Item.new(
+      type: type,
+      relpath: relpath,
+      id: id || relpath.split(".").first,
+      content: ""
+    )
   end
 end

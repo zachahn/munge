@@ -1,13 +1,10 @@
-require_relative "item_factory/content_parser"
-require_relative "item_factory/item_identifier"
-
 module Munge
   class System
     class ItemFactory
       def initialize(text_extensions:,
                      ignore_extensions:)
         @text_extensions = Set.new(text_extensions)
-        @item_identifier = Munge::System::ItemFactory::ItemIdentifier.new(remove_extensions: ignore_extensions)
+        @item_identifier = ItemIdentifier.new(remove_extensions: ignore_extensions)
       end
 
       def build(relpath:,
@@ -34,7 +31,7 @@ module Munge
         type = compute_file_type(relpath)
 
         if type == :text
-          parsed = Munge::System::ItemFactory::ContentParser.new(content)
+          parsed = ContentParser.new(content)
 
           build(
             relpath: relpath,

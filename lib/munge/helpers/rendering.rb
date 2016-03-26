@@ -4,7 +4,7 @@ module Munge
       def render(item, engines: nil, data: {}, content_override: nil)
         content   = content_override || item.content
         renderers = tilt_renderer_list(item, engines)
-        mdata     = merged_data(item.frontmatter, data, { self_item: item })
+        mdata     = merged_data(item.frontmatter, data, self_item: item)
 
         render_string(content, data: mdata, engines: renderers)
       end
@@ -12,7 +12,7 @@ module Munge
       def layout(item_or_string, data: {}, &block)
         layout_item = resolve_layout(item_or_string)
         renderers   = tilt_renderer_list(layout_item, nil)
-        mdata       = merged_data(layout_item.frontmatter, data, { self_layout: layout_item })
+        mdata       = merged_data(layout_item.frontmatter, data, self_layout: layout_item)
 
         render_string(layout_item.content, data: mdata, engines: renderers, &block)
       end
@@ -25,8 +25,8 @@ module Munge
 
         output =
           engines
-            .inject(content) do |output, engine|
-              template = engine.new { output }
+            .inject(content) do |memo, engine|
+              template = engine.new { memo }
 
               if inner
                 template.render(self, data) { inner }
@@ -44,7 +44,7 @@ module Munge
 
       def render_with_layout(item, content_engines: nil, data: {}, content_override: nil)
         inner = render(item, engines: content_engines, data: data, content_override: content_override)
-        mdata = merged_data(item.frontmatter, data, { self_item: item })
+        mdata = merged_data(item.frontmatter, data, self_item: item)
 
         if item.layout
           layout(item.layout, data: mdata) do
