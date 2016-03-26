@@ -28,7 +28,9 @@ module Munge
   module Cli
     module Commands
       class View
-        def initialize(config, host:, port:)
+        def initialize(bootloader, host:, port:)
+          config = bootloader.config
+
           app =
             Rack::Builder.new do
               use Rack::ShowExceptions
