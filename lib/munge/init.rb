@@ -4,6 +4,7 @@ module Munge
                    config:,
                    setup_path:,
                    rules_path:)
+      @root_path  = root_path
       @setup_path = setup_path
       @rules_path = rules_path
       @binding    = binding
@@ -17,10 +18,6 @@ module Munge
       import(rules_path)
     end
 
-    def root_path
-      File.dirname(@setup_path)
-    end
-
     def config_path
       File.join(root_path, "config")
     end
@@ -32,5 +29,6 @@ module Munge
     end
 
     attr_reader :app
+    attr_reader :root_path
   end
 end
