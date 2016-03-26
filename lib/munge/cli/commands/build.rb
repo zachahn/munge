@@ -21,7 +21,8 @@ module Munge
         private
 
         def application(root_path)
-          bootstrap = Munge::Bootstrap.new_from_dir(root_path: root_path)
+          bootloader = Munge::Bootloader.new(root_path: root_path)
+          bootstrap = bootloader.init
 
           bootstrap.app
         end

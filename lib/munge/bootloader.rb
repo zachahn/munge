@@ -11,7 +11,7 @@ module Munge
       Munge::Util::Config.read(@config_path)
     end
 
-    def bootstrap
+    def init
       Bootstrap.new(
         root_path: @root_path,
         config: config,
