@@ -32,7 +32,7 @@ require "munge/writers/noop"
 require "munge/write_manager"
 require "munge/application"
 require "munge/runner"
-require "munge/bootstrap"
+require "munge/init"
 require "munge/bootloader"
 
 # Extensions

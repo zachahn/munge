@@ -1,5 +1,5 @@
 module Munge
-  class Bootstrap
+  class Init
     def initialize(root_path:,
                    config:,
                    setup_path:,

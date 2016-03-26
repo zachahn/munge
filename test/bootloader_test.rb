@@ -6,7 +6,7 @@ class BootloaderTest < Minitest::Test
       root_path: seeds_path
     )
 
-    assert_kind_of Munge::Bootstrap, bootloader.init
+    assert_kind_of Munge::Init, bootloader.init
     assert_kind_of Hash, bootloader.config
   end
 end

@@ -12,7 +12,7 @@ module Munge
     end
 
     def init
-      Bootstrap.new(
+      Init.new(
         root_path: @root_path,
         config: config,
         setup_path: @setup_path,

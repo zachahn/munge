@@ -1,8 +1,8 @@
 require "test_helper"
 
-class BootstrapTest < Minitest::Test
+class InitTest < Minitest::Test
   def test_initialize
-    bootstrap = Munge::Bootstrap.new(
+    bootstrap = Munge::Init.new(
       **root_and_config_args,
       **setup_args,
       **rules_args
@@ -17,7 +17,7 @@ class BootstrapTest < Minitest::Test
         FakeFS::FileSystem.clone(seeds_path)
         File.write("/fake-setup.rb", %(fail "setup fail"))
 
-        Munge::Bootstrap.new(
+        Munge::Init.new(
           **root_and_config_args,
           **rules_args,
           setup_path: "/fake-setup.rb"
@@ -35,7 +35,7 @@ class BootstrapTest < Minitest::Test
         FakeFS::FileSystem.clone(seeds_path)
         File.write("/fake-rules.rb", %(fail "rules fail"))
 
-        Munge::Bootstrap.new(
+        Munge::Init.new(
           **root_and_config_args,
           **setup_args,
           rules_path: "/fake-rules.rb"
