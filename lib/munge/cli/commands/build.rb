@@ -2,7 +2,7 @@ module Munge
   module Cli
     module Commands
       class Build
-        def initialize(bootloader:, dry_run:, reporter:)
+        def initialize(bootloader, dry_run:, reporter:)
           destination_root = bootloader.root_path
           config = bootloader.config
           @app = application(bootloader)

@@ -7,7 +7,7 @@ class IntegrationSeedsTest < Minitest::Test
 
       @out, @err = capture_io do
         Munge::Cli::Commands::Build.new(
-          bootloader: bootloader,
+          bootloader,
           reporter: "Default",
           dry_run: false
         )
