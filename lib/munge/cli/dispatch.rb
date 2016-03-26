@@ -36,16 +36,8 @@ module Munge
 
       private
 
-      def loaded_config
-        Munge::Util::Config.read(config_path)
-      end
-
       def bootloader
         Munge::Bootloader.new(root_path: destination_root)
-      end
-
-      def config_path
-        File.join(destination_root, "config.yml")
       end
 
       def symbolized_options
