@@ -38,4 +38,22 @@ class ApplicationTest < Minitest::Test
 
     system.items.verify
   end
+
+  def test_enumerable_create
+    system       = OpenStruct.new
+    system.items =
+      QuickDummy.new(
+        build: -> (_) { "item" },
+        push: -> (_) {}
+      )
+    application  = Munge::Application.new(system)
+
+    enum_item =
+      application
+        .create("test.html", "<div>content</div>")
+        .each
+
+    assert_instance_of Enumerator, enum_item
+    assert_equal 1, enum_item.size
+  end
 end

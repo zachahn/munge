@@ -24,6 +24,7 @@ module Munge
       item = build_virtual_item(*args)
       yield item if block_given?
       @system.items.push(item)
+      [item]
     end
 
     def vomit(component_name)
