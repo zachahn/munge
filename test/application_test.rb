@@ -32,9 +32,9 @@ class ApplicationTest < Minitest::Test
 
     application = Munge::Application.new(system)
 
-    application.create("new-item-relpath", "new item content", this: "is frontmatter") do |item|
-      assert_equal "built item", item
-    end
+    item = application.create("new-item-relpath", "new item content", this: "is frontmatter")
+
+    assert_equal "built item", item[0]
 
     system.items.verify
   end
