@@ -80,11 +80,10 @@ posts_for_index =
     .sort_by { |item| item.route }
     .reverse
 
-app.create("blog/index.html.erb", "", posts: posts_for_index) do |item|
-  item.route  = "blog" # sets output file to "/blog/index.html"
-  item.layout = "list"
-  item.transform
-end
+app.create("blog/index.html.erb", "", posts: posts_for_index)
+  .each { |item| item.route = "blog" }
+  .each { |item| item.layout = "list" }
+  .each { |item| item.transform }
 ```
 
 
