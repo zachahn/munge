@@ -30,9 +30,14 @@ module Munge
         end
       end
 
-      def push(virtual_item)
-        key = virtual_item.id
-        @items[key] = virtual_item
+      def push(item)
+        key = item.id
+
+        if @items.has_key?(key)
+          raise "item with id `#{key}` already exists"
+        else
+          @items[key] = item
+        end
       end
 
       def [](id)
