@@ -31,23 +31,19 @@ module Munge
       end
 
       def push(item)
-        key = item.id
-
-        if @items.has_key?(key)
-          raise "item with id `#{key}` already exists"
+        if @items.key?(item.id)
+          raise "item with id `#{item.id}` already exists"
         else
-          @items[key] = item
+          @items[item.id] = item
         end
       end
 
       def [](id)
-        found_item = @items[id]
-
-        if found_item.nil?
+        if @items.key?(id)
+          @items[id]
+        else
           raise "item not found (#{id})"
         end
-
-        found_item
       end
 
       def freeze
