@@ -32,10 +32,28 @@ class ApplicationTest < Minitest::Test
 
     application = Munge::Application.new(system)
 
-    application.create("new-item-relpath", "new item content", this: "is frontmatter") do |item|
-      assert_equal "built item", item
-    end
+    item = application.create("new-item-relpath", "new item content", this: "is frontmatter")
+
+    assert_equal "built item", item[0]
 
     system.items.verify
+  end
+
+  def test_enumerable_create
+    system       = OpenStruct.new
+    system.items =
+      QuickDummy.new(
+        build: -> (_) { "item" },
+        push: -> (_) {}
+      )
+    application  = Munge::Application.new(system)
+
+    enum_item =
+      application
+        .create("test.html", "<div>content</div>")
+        .each
+
+    assert_instance_of Enumerator, enum_item
+    assert_equal 1, enum_item.size
   end
 end
