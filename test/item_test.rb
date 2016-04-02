@@ -141,4 +141,15 @@ class ItemTest < Minitest::Test
     item.layout = "/////baz/"
     assert_equal "baz", item.layout
   end
+
+  def test_frozen_items
+    item = new_item
+
+    item.layout = "old"
+
+    item.freeze
+
+    assert_raises(RuntimeError) { item.layout = "new" }
+    assert_raises(RuntimeError) { item.layout << "lol" }
+  end
 end

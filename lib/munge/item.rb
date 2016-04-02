@@ -82,6 +82,12 @@ module Munge
       @transforms.push([transformer, args])
     end
 
+    def freeze
+      freeze_all_instance_variables
+
+      super
+    end
+
     private
 
     def generate_regex(pattern_list)
@@ -93,6 +99,12 @@ module Munge
       string
         .sub(%r{^/+}, "")
         .sub(%r{/+$}, "")
+    end
+
+    def freeze_all_instance_variables
+      instance_variables.each do |ivar|
+        instance_variable_get(ivar).freeze
+      end
     end
   end
 end

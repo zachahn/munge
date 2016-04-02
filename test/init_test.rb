@@ -47,6 +47,18 @@ class InitTest < Minitest::Test
     assert_match(%r{/fake-rules.rb}, err.backtrace[0])
   end
 
+  def test_frozen_items
+    bootstrap = Munge::Init.new(
+      **root_and_config_args,
+      **setup_args,
+      **rules_args
+    )
+
+    assert_equal true, bootstrap.app.items.first.frozen?
+
+    assert_kind_of Munge::Application, bootstrap.app
+  end
+
   private
 
   def root_and_config_args
