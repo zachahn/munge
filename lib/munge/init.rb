@@ -17,9 +17,7 @@ module Munge
 
       import(rules_path)
 
-      @app.items.each do |item|
-        item.freeze
-      end
+      @app.items.each(&:freeze)
     end
 
     def config_path
