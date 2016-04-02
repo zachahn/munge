@@ -16,6 +16,10 @@ module Munge
       @app = Munge::Application.new(system)
 
       import(rules_path)
+
+      @app.items.each do |item|
+        item.freeze
+      end
     end
 
     def config_path
