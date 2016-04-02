@@ -1,6 +1,6 @@
 module Munge
   module Transformers
-    class Tilt
+    class TiltTransformer
       def initialize(scope)
         @pristine_scope = scope
         @registry = []
