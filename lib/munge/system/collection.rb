@@ -45,6 +45,12 @@ module Munge
         found_item
       end
 
+      def freeze
+        @items.freeze
+
+        super
+      end
+
       private
 
       def prune_args(args)

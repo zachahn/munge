@@ -88,4 +88,18 @@ class SystemCollectionTest < Minitest::Test
     assert_includes @items.each.to_a, item_params
     assert_equal "binary content lol", @items["id foo/bar.jpg"][:content]
   end
+
+  def test_freeze
+    @items.freeze
+
+    assert_raises(RuntimeError) do
+      @items.push(
+        @items.build(
+          relpath: "foo/bar.jpg",
+          content: "binary content lol",
+          frontmatter: {}
+        )
+      )
+    end
+  end
 end
