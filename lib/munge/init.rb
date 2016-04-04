@@ -18,6 +18,7 @@ module Munge
       import(rules_path)
 
       @app.items.each(&:freeze)
+      @app.items.freeze
     end
 
     def config_path
