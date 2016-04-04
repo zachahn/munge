@@ -32,7 +32,7 @@ module Munge
 
       def route_mapper(item, method_name, initial_route = nil)
         if !item.route && !initial_route
-          raise "item has no route"
+          raise "item `#{item.relpath}` has no route"
         end
 
         itemish = Itemish.new(item, @alterant)
