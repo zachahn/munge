@@ -25,6 +25,14 @@ class TransformersTiltTransformerTest < TestCase
     assert_equal "hi", output
   end
 
+  test "can pass in rendering options" do
+    @tilt_transformer.demand(Tilt::ScssTemplate, style: :compressed)
+
+    output = @tilt_transformer.call(new_item, "a { color: black }", "scss")
+
+    assert_equal "a{color:#000}\n", output
+  end
+
   private
 
   def new_item

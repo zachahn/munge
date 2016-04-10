@@ -22,6 +22,7 @@ require "sass"
 require "tilt/erb"
 require "tilt/plain"
 require "tilt/redcarpet"
+require "tilt/sass"
 
 require "ostruct"
 require "securerandom"
