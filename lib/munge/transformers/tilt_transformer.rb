@@ -3,7 +3,8 @@ module Munge
     class TiltTransformer
       def initialize(scope)
         @pristine_scope = scope
-        @registry = []
+        @registry       = []
+        @demands        = Hash.new { |hash, key| {} }
       end
 
       def name
