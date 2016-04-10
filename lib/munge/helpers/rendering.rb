@@ -28,7 +28,8 @@ module Munge
         output =
           engines
             .inject(content) do |memo, engine|
-              template = engine.new(template_name) { memo }
+              options  = @tilt_options[engine]
+              template = engine.new(template_name, options) { memo }
 
               if inner
                 template.render(self, data) { inner }
