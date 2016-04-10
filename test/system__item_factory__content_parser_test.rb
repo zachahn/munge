@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SystemItemFactoryContentParserTest < Minitest::Test
+class SystemItemFactoryContentParserTest < TestCase
   def test_content_parser_reads_frontmatter
     match = Munge::System::ItemFactory::ContentParser.new(
       %(---

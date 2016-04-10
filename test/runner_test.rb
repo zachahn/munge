@@ -1,6 +1,6 @@
 require "test_helper"
 
-class RunnerTest < Minitest::Test
+class RunnerTest < TestCase
   def test_write
     File.stub(:read, "content") do
       File.stub(:exist?, true) do

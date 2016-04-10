@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersAssetPathsTest < Minitest::Test
+class HelpersAssetPathsTest < TestCase
   def setup
     @renderer = QuickDummy.new(
       items: -> { Hash.new { |_h, k| "#{k}_item" } },

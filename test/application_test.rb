@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ApplicationTest < Minitest::Test
+class ApplicationTest < TestCase
   def test_items
     system = Minitest::Mock.new
     system.expect(:items, nil, [])

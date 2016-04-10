@@ -1,6 +1,6 @@
 require "test_helper"
 
-class IntegrationSeedsTest < Minitest::Test
+class IntegrationSeedsTest < TestCase
   def test_integration
     FakeFS do
       FakeFS::FileSystem.clone(seeds_path)

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SystemCollectionTest < Minitest::Test
+class SystemCollectionTest < TestCase
   def setup
     @item_factory =
       QuickDummy.new(

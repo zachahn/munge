@@ -29,7 +29,7 @@ require "securerandom"
 require_relative "support/declarative"
 require_relative "support/quick_dummy"
 
-class Minitest::Test
+class TestCase < Minitest::Test
   extend Declarative
 
   def seeds_path

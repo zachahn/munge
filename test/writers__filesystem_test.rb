@@ -1,6 +1,6 @@
 require "test_helper"
 
-class WritersFilesystemTest < Minitest::Test
+class WritersFilesystemTest < TestCase
   def setup
     FakeFS.activate!
 

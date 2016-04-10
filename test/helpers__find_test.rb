@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersFindTest < Minitest::Test
+class HelpersFindTest < TestCase
   def setup
     items = { id: "item" }
 

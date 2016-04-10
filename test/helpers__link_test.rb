@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersLinkTest < Minitest::Test
+class HelpersLinkTest < TestCase
   def setup
     dummy_router = Object.new
 

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersCaptureTest < Minitest::Test
+class HelpersCaptureTest < TestCase
   def test_find
     helpers =
       QuickDummy.new(

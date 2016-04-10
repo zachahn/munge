@@ -1,6 +1,6 @@
 require "test_helper"
 
-class InitTest < Minitest::Test
+class InitTest < TestCase
   def test_initialize
     bootstrap = Munge::Init.new(
       **root_and_config_args,

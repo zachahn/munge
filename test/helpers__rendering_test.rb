@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersRenderingTest < Minitest::Test
+class HelpersRenderingTest < TestCase
   def setup
     @renderer = Object.new
     @renderer.instance_variable_set(:@global_data, {})

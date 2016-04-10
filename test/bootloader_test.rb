@@ -1,6 +1,6 @@
 require "test_helper"
 
-class BootloaderTest < Minitest::Test
+class BootloaderTest < TestCase
   def test_initialize_from_dir
     bootloader = Munge::Bootloader.new(
       root_path: seeds_path

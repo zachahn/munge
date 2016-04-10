@@ -1,6 +1,6 @@
 require "test_helper"
 
-class UtilSymbolHashTest < Minitest::Test
+class UtilSymbolHashTest < TestCase
   def test_basic
     pre  = { "a" => "b", "c" => "d" }
     post = { a: "b", c: "d" }
