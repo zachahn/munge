@@ -13,7 +13,7 @@ module Munge
     end
 
     def routed
-      items.select { |item| item.route }
+      items.select(&:route)
     end
 
     def build_virtual_item(relpath, content, **frontmatter)
