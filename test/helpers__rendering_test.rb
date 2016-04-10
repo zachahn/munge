@@ -4,6 +4,7 @@ class HelpersRenderingTest < TestCase
   def setup
     @renderer = Object.new
     @renderer.instance_variable_set(:@global_data, {})
+    @renderer.instance_variable_set(:@tilt_options, {})
     @renderer.extend(Munge::Helpers::Rendering)
     @renderer.extend(Munge::Helpers::Capture)
   end
