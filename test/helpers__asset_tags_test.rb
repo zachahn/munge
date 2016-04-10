@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersAssetTagsTest < Minitest::Test
+class HelpersAssetTagsTest < TestCase
   def setup
     @renderer =
       QuickDummy.new(

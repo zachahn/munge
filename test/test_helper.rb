@@ -26,15 +26,12 @@ require "tilt/redcarpet"
 require "ostruct"
 require "securerandom"
 
-class QuickDummy
-  def initialize(**args)
-    args.each do |method_name, definition|
-      define_singleton_method(method_name, definition)
-    end
-  end
-end
+require_relative "support/declarative"
+require_relative "support/quick_dummy"
 
-class Minitest::Test
+class TestCase < Minitest::Test
+  extend Declarative
+
   def seeds_path
     File.absolute_path(File.expand_path("../../seeds", __FILE__))
   end

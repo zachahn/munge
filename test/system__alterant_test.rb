@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SystemAlterantTest < Minitest::Test
+class SystemAlterantTest < TestCase
   def setup
     @alterant = Munge::System::Alterant.new
   end

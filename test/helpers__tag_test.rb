@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersTagTest < Minitest::Test
+class HelpersTagTest < TestCase
   def setup
     @renderer = Object.new
     @renderer.extend(Munge::Helpers::Tag)

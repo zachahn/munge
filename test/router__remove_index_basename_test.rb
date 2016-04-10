@@ -1,6 +1,6 @@
 require "test_helper"
 
-class RoutersRemoveIndexBasenameTest < Minitest::Test
+class RoutersRemoveIndexBasenameTest < TestCase
   def setup
     @index_remover =
       Munge::Routers::RemoveIndexBasename.new(

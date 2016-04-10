@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SystemItemFactoryItemIdentifierTest < Minitest::Test
+class SystemItemFactoryItemIdentifierTest < TestCase
   def test_basename
     identifier = Munge::System::ItemFactory::ItemIdentifier.new(remove_extensions: dynamic_extensions)
 

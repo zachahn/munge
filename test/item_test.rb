@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ItemTest < Minitest::Test
+class ItemTest < TestCase
   def new_item(type:        :text,
                relpath:     "path/to/index.html.erb",
                id:          "path/to",

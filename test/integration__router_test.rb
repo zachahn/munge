@@ -1,6 +1,6 @@
 require "test_helper"
 
-class IntegrationRouterTest < Minitest::Test
+class IntegrationRouterTest < TestCase
   def setup
     fingerprint = Munge::Routers::Fingerprint.new(extensions: %w(gif), separator: "--")
     index_basename = Munge::Routers::RemoveIndexBasename.new(html_extensions: %w(html), index: "index.html")

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class TransformersTiltTest < Minitest::Test
+class TransformersTiltTest < TestCase
   def setup
     fake_scope = Object.new
     fake_scope.instance_variable_set(:@global_data, {})

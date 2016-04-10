@@ -1,6 +1,6 @@
 require "test_helper"
 
-class RoutersAutoAddExtensionTest < Minitest::Test
+class RoutersAutoAddExtensionTest < TestCase
   def setup
     @auto_add_extension = Munge::Routers::AutoAddExtension.new(keep_extensions: %w(gif))
   end

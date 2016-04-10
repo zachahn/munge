@@ -1,6 +1,6 @@
 require "test_helper"
 
-class UtilConfigTest < Minitest::Test
+class UtilConfigTest < TestCase
   def test_config
     config = Munge::Util::Config.read(File.join(seeds_path, "config.yml"))
 

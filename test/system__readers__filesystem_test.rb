@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SystemReaderFilesystemTest < Minitest::Test
+class SystemReaderFilesystemTest < TestCase
   def setup
     FakeFS.activate!
     @test_directory = "/#{SecureRandom.hex(10)}"

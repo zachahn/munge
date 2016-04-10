@@ -1,6 +1,6 @@
 require "test_helper"
 
-class RoutersFingerprintTest < Minitest::Test
+class RoutersFingerprintTest < TestCase
   def setup
     @fingerprint = Munge::Routers::Fingerprint.new(extensions: %w(gif), separator: "--")
   end

@@ -1,4 +1,4 @@
-class WriteManagerTest < Minitest::Test
+class WriteManagerTest < TestCase
   def test_identical
     wm = Munge::WriteManager.new(driver: dummy_driver_exists)
     first_write = wm.status("foo.txt", "content")

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SystemRouterItemishTest < Minitest::Test
+class SystemRouterItemishTest < TestCase
   def test_compiled_content
     item = OpenStruct.new
 

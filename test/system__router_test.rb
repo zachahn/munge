@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SystemRouterTest < Minitest::Test
+class SystemRouterTest < TestCase
   def setup
     @router = Munge::System::Router.new(alterant: new_dummy_alterant)
   end

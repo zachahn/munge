@@ -1,6 +1,6 @@
 require "test_helper"
 
-class MungeTest < Minitest::Test
+class MungeTest < TestCase
   def test_that_it_has_a_version_number
     refute_nil ::Munge::VERSION
   end
