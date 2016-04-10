@@ -56,4 +56,20 @@ class ApplicationTest < TestCase
     assert_instance_of Enumerator, enum_item
     assert_equal 1, enum_item.size
   end
+
+  test "items with false routes don't show up in #routed or #nonrouted" do
+    yes_item    = OpenStruct.new(route: "yes")
+    nil_item    = OpenStruct.new(route: nil)
+    false_item  = OpenStruct.new(route: false)
+    system      = OpenStruct.new(items: [yes_item, nil_item, false_item])
+    application = Munge::Application.new(system)
+
+    assert_includes(application.routed.map(&:route), "yes")
+    refute_includes(application.routed.map(&:route), nil)
+    refute_includes(application.routed.map(&:route), false)
+
+    refute_includes(application.nonrouted.map(&:route), "yes")
+    assert_includes(application.nonrouted.map(&:route), nil)
+    refute_includes(application.nonrouted.map(&:route), false)
+  end
 end
