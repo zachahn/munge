@@ -4,7 +4,7 @@ module Munge
       def initialize(scope)
         @pristine_scope = scope
         @registry       = []
-        @demands        = Hash.new { |hash, key| {} }
+        @demands        = Hash.new { Hash.new }
       end
 
       def name
