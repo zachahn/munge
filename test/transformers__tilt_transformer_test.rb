@@ -10,22 +10,27 @@ class TransformersTiltTransformerTest < TestCase
   end
 
   def test_auto_transform
-    item = OpenStruct.new
+    item = new_item
     item.relpath = "foo.erb"
-    item.frontmatter = {}
-    item.content = %(<%= "hi" %>)
     output = @tilt_transformer.call(item)
 
     assert_equal "hi", output
   end
 
   def test_manual_transform
-    item = OpenStruct.new
+    item = new_item
     item.relpath = "foo.txt"
-    item.frontmatter = {}
-    item.content = %(<%= "hi" %>)
     output = @tilt_transformer.call(item, nil, "erb")
 
     assert_equal "hi", output
+  end
+
+  private
+
+  def new_item
+    OpenStruct.new(
+      frontmatter: {},
+      content: %(<%= "hi" %>)
+    )
   end
 end
