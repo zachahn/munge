@@ -26,6 +26,8 @@ require "tilt/redcarpet"
 require "ostruct"
 require "securerandom"
 
+require_relative "support/declarative"
+
 class QuickDummy
   def initialize(**args)
     args.each do |method_name, definition|
@@ -35,6 +37,8 @@ class QuickDummy
 end
 
 class Minitest::Test
+  extend Declarative
+
   def seeds_path
     File.absolute_path(File.expand_path("../../seeds", __FILE__))
   end
