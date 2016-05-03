@@ -18,34 +18,24 @@ class HelpersAssetTagsTest < TestCase
   def test_stylesheet_tag
     tag = @renderer.stylesheet_tag("foo", class: "id")
 
-    assert_match %(<link), tag
-    assert_match %(class="id"), tag
-    assert_match %(rel="stylesheet" href="foo.css"), tag
-    assert_match %(/>), tag
+    assert_match %(<link class="id" rel="stylesheet" href="foo.css" />), tag
   end
 
   def test_javascript_tag
     tag = @renderer.javascript_tag("foo", id: "class")
 
-    assert_match %(<script), tag
-    assert_match %(id="class"), tag
-    assert_match %(type="text/javascript" src="foo.js"), tag
-    assert_match %(</script>), tag
+    assert_match %(<script id="class" type="text/javascript" src="foo.js"></script>), tag
   end
 
   def test_inline_stylesheet_tag
     tag = @renderer.inline_stylesheet_tag("foo", id: "class")
 
-    assert_match %(<style), tag
-    assert_match %(id="class"), tag
-    assert_match %(>rendered item</style>), tag
+    assert_match %(<style id="class">rendered item</style>), tag
   end
 
   def test_inline_javascript_tag
     tag = @renderer.inline_javascript_tag("foo", class: "id")
 
-    assert_match %(<script), tag
-    assert_match %(class="id"), tag
-    assert_match %(>rendered item</script>), tag
+    assert_match %(<script class="id">rendered item</script>), tag
   end
 end
