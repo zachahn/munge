@@ -5,7 +5,7 @@ class HelpersAssetTagsTest < TestCase
     @renderer =
       QuickDummy.new(
         stylesheet_path: -> (basename) { "#{basename}.css" },
-        javascript_url: -> (basename) { "#{basename}.js" },
+        javascript_path: -> (basename) { "#{basename}.js" },
         stylesheets_root: -> { "stylesheets" },
         javascripts_root: -> { "javascripts" },
         items: -> { Hash.new("item".freeze) },

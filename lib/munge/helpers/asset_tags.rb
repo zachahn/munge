@@ -10,7 +10,7 @@ module Munge
 
       def javascript_tag(basename, options = {})
         options[:type] = "text/javascript"
-        options[:src]  = javascript_url(basename)
+        options[:src]  = javascript_path(basename)
 
         content_tag(:script, options)
       end
