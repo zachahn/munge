@@ -3,7 +3,7 @@ module Munge
     module AssetTags
       def stylesheet_tag(basename, options = {})
         options[:rel]  = "stylesheet"
-        options[:href] = stylesheet_url(basename)
+        options[:href] = stylesheet_path(basename)
 
         empty_tag(:link, options)
       end
