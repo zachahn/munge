@@ -27,6 +27,18 @@ class HelpersAssetTagsTest < TestCase
     assert_match %(<script id="class" type="text/javascript" src="foo.js"></script>), tag
   end
 
+  test "overrideable stylesheet rel and href" do
+    tag = @renderer.stylesheet_tag("foo", rel: "stylesheet/less", href: "bar.less")
+
+    assert_match %(<link rel="stylesheet/less" href="bar.less" />), tag
+  end
+
+  test "overrideable javascript type and src" do
+    tag = @renderer.javascript_tag("foo", type: "text/coffeescript", src: "bar.coffee")
+
+    assert_equal %(<script type="text/coffeescript" src="bar.coffee"></script>), tag
+  end
+
   def test_inline_stylesheet_tag
     tag = @renderer.inline_stylesheet_tag("foo", id: "class")
 
