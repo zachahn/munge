@@ -15,6 +15,7 @@ module Munge
 
         inside(path) do
           run_bundle("install")
+          run_bundle("binstub munge")
         end
       end
 
