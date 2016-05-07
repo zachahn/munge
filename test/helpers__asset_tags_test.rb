@@ -18,19 +18,19 @@ class HelpersAssetTagsTest < TestCase
   def test_stylesheet_tag
     tag = @renderer.stylesheet_tag("foo", class: "id")
 
-    assert_match %(<link class="id" rel="stylesheet" href="foo.css" />), tag
+    assert_equal %(<link class="id" rel="stylesheet" href="foo.css" />), tag
   end
 
   def test_javascript_tag
     tag = @renderer.javascript_tag("foo", id: "class")
 
-    assert_match %(<script id="class" type="text/javascript" src="foo.js"></script>), tag
+    assert_equal %(<script id="class" type="text/javascript" src="foo.js"></script>), tag
   end
 
   test "overrideable stylesheet rel and href" do
     tag = @renderer.stylesheet_tag("foo", rel: "stylesheet/less", href: "bar.less")
 
-    assert_match %(<link rel="stylesheet/less" href="bar.less" />), tag
+    assert_equal %(<link rel="stylesheet/less" href="bar.less" />), tag
   end
 
   test "overrideable javascript type and src" do
@@ -42,12 +42,12 @@ class HelpersAssetTagsTest < TestCase
   def test_inline_stylesheet_tag
     tag = @renderer.inline_stylesheet_tag("foo", id: "class")
 
-    assert_match %(<style id="class">rendered item</style>), tag
+    assert_equal %(<style id="class">rendered item</style>), tag
   end
 
   def test_inline_javascript_tag
     tag = @renderer.inline_javascript_tag("foo", class: "id")
 
-    assert_match %(<script class="id">rendered item</script>), tag
+    assert_equal %(<script class="id">rendered item</script>), tag
   end
 end
