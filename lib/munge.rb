@@ -6,10 +6,10 @@ require "yaml"
 
 require "tilt"
 
-begin
-  # require for development
+if Gem::Specification.find_all_by_name("pry-byebug").any?
   require "pry-byebug"
-rescue LoadError
+elsif Gem::Specification.find_all_by_name("pry").any?
+  require "pry"
 end
 
 # Core
