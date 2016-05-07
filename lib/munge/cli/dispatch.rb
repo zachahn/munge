@@ -50,10 +50,14 @@ module Munge
       end
 
       def run_bundle(command)
-        say_status :run, "bundle #{command}"
+        if Gem::Specification::find_all_by_name("bundler").any?
+          say_status :run, "bundle #{command}"
 
-        Bundler.with_clean_env do
-          system("bundle #{command}")
+          require "bundler"
+
+          ::Bundler.with_clean_env do
+            system("bundle #{command}")
+          end
         end
       end
     end
