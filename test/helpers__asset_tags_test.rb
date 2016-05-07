@@ -15,37 +15,37 @@ class HelpersAssetTagsTest < TestCase
     @renderer.extend(Munge::Helpers::Tag)
   end
 
-  def test_stylesheet_tag
+  test "#stylesheet_tag returns a tag with correct path and options" do
     tag = @renderer.stylesheet_tag("foo", class: "id")
 
     assert_equal %(<link class="id" rel="stylesheet" href="foo.css" />), tag
   end
 
-  def test_javascript_tag
+  test "#javascript_tag returns a tag with correct path and options" do
     tag = @renderer.javascript_tag("foo", id: "class")
 
     assert_equal %(<script id="class" type="text/javascript" src="foo.js"></script>), tag
   end
 
-  test "overrideable stylesheet rel and href" do
+  test "#stylesheet_tag has overrideable stylesheet rel and href" do
     tag = @renderer.stylesheet_tag("foo", rel: "stylesheet/less", href: "bar.less")
 
     assert_equal %(<link rel="stylesheet/less" href="bar.less" />), tag
   end
 
-  test "overrideable javascript type and src" do
+  test "#javascript_tag has overrideable javascript type and src" do
     tag = @renderer.javascript_tag("foo", type: "text/coffeescript", src: "bar.coffee")
 
     assert_equal %(<script type="text/coffeescript" src="bar.coffee"></script>), tag
   end
 
-  def test_inline_stylesheet_tag
+  test "#inline_stylesheet_tag returns contents of css around correct tags" do
     tag = @renderer.inline_stylesheet_tag("foo", id: "class")
 
     assert_equal %(<style id="class">rendered item</style>), tag
   end
 
-  def test_inline_javascript_tag
+  test "#inline_javascript_tag returns contents of js around correct tags" do
     tag = @renderer.inline_javascript_tag("foo", class: "id")
 
     assert_equal %(<script class="id">rendered item</script>), tag
