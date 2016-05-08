@@ -17,7 +17,13 @@ Before we begin, notice that we're interfacing primarily with simple Ruby
 
 An `Item` is simply a file's contents and metadata.
 
-These docs are correct as of version `0.9.0`.
+These docs are correct as of version `0.10.0`.
+
+
+## Requirements
+
+Munge requires your Ruby version to be at least `2.1`. Also, these instructions
+expects that you have the `bundler` gem installed.
 
 
 ## Installation and Setup
@@ -26,14 +32,15 @@ These docs are correct as of version `0.9.0`.
 gem install munge # Install the munge application
 munge init blahhg # Create a new website
 cd blahhg
-bundle install    # Install dependencies
 ```
 
 Running the above steps should setup a basic site:
 
 ```
 .
+├── .gitignore
 ├── Gemfile
+├── Gemfile.lock
 ├── config
 │   ├── _asset_roots.rb
 │   ├── routing.rb
@@ -59,6 +66,20 @@ Running the above steps should setup a basic site:
 
 8 directories, 15 files
 ```
+
+To quickly go over what each file/directory contains
+
+- `config.yml` contains some necessary configuration for Munge to work
+- `data.yml` can contain data which will be global to all views
+- `layouts/` holds all the layouts that your site has
+- `rules.rb` contains all the routing rules and content transformations
+  necessary to generate the site
+- `setup.rb` loads the files under the `config/` directory. This file is
+  generally useful for holding methods and setting up your site's environment.
+  It is loaded immediately before parsing `rules.rb`
+- `src/` contains all of the site's data and contents
+- `dest/` contains the compiled output of the site and is created when running
+  `munge build`
 
 Now that this is set, we'll build our site and have a quick preview. Visit
 http://localhost:7000 to see the output
@@ -92,7 +113,14 @@ My personal preference is to have my filenames be the unixtime (eg.
 `1462155398.md`). But for now, we'll follow the standard Jekyll way of creating
 blog posts, which is `YEAR-MONTH-DAY-title.MARKUP`.
 
-Here's an example of a blog post.
+Here's an example of a blog post with a filepath of
+`src/posts/2016-05-05-first-post.md`.
+
+```
+This is my **first post** and it is Cinco de Mayo!
+```
+
+This is represented internally as the following item:
 
 ```
 #<Munge::Item:0x007f99ba27ad70
@@ -132,11 +160,15 @@ Now, we need to do something with these blog posts we found.
 
 ```ruby
 def date_from_filename(name)
-  # ...
+  y, m, d, title = name.split("-", 4)
+
+  Date.new(y.to_i, m.to_i, d.to_i)
 end
 
 def title_from_filename(name)
-  # ...
+  y, m, d, title = name.split("-", 4)
+
+  title.split(".", 2)[0]
 end
 
 blog_posts.each do |post|
@@ -148,3 +180,35 @@ end
 
 At this point, we can go to http://localhost:7000/2016/05/05/first-post/, but
 markdown formatting doesn't work yet.
+
+There are two ways we can format items, an automatic way and a manual way. The
+automatic way provides the item to [Tilt][], which maps extensions to the
+appropriate formatter.
+
+```ruby
+# Manual method:
+blog_posts.each do |post|
+  # ...
+  post.transform(:tilt, "md")
+end
+
+# Automatic (recommended) method
+blog_posts.each do |post|
+  # ...
+  post.transform
+end
+```
+
+Either method will result in your posts being formatted as markdown. It is
+possible to provide multiple extensions to both the filename or the manual
+method; this will format the contents in order.
+
+To further illustrate some points, let's now add an image to our next blog post.
+This blog post will be named `src/posts/2016-05-08-second-post.md.erb`. To
+complicate matters, this post will contain a photo.
+
+```
+This is a picture of my family on Mother's Day.
+
+![](<%= url_for(items["posts/2016-05-08-family.jpg"]) %>)
+```
