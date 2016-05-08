@@ -5,6 +5,10 @@ module Munge
         @router.route(item)
       end
 
+      def path_to(item)
+        @router.route(item)
+      end
+
       def link_to(item, text = nil, opts = {})
         link = url_for(item)
 
