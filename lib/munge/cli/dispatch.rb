@@ -50,7 +50,7 @@ module Munge
       end
 
       def run_bundle(command)
-        if Gem::Specification::find_all_by_name("bundler").any?
+        if Gem::Specification.find_all_by_name("bundler").any?
           say_status :run, "bundle #{command}"
 
           require "bundler"
