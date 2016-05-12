@@ -23,9 +23,7 @@ module Munge
           require "listen"
 
           Listen.to(@bootloader.root_path) do |modified, added, removed|
-            Dir.chdir(@bootloader.root_path) do
-              system("munge build")
-            end
+            system("munge build")
           end
         end
       end
