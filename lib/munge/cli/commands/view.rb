@@ -30,16 +30,20 @@ module Munge
       class View
         def initialize(bootloader, host:, port:)
           config = bootloader.config
+          @host  = host
+          @port  = port
 
-          app =
+          @app =
             Rack::Builder.new do
               use Rack::ShowExceptions
               use Rack::Head
               use Adsf::Rack::IndexFileFinder, root: config[:output]
               run Rack::File.new(config[:output])
             end
+        end
 
-          Rack::Handler::WEBrick.run(app, Host: host, Port: port)
+        def call
+          Rack::Handler::WEBrick.run(@app, Host: @host, Port: @port)
         end
       end
     end

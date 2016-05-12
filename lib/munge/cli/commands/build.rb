@@ -4,20 +4,22 @@ module Munge
       class Build
         def initialize(bootloader, dry_run:, reporter:)
           destination_root = bootloader.root_path
-          config = bootloader.config
-          @app = application(bootloader)
+          config           = bootloader.config
+          app              = application(bootloader)
 
-          runner =
+          @runner =
             Munge::Runner.new(
-              items: @app.vomit(:items),
-              router: @app.vomit(:router),
-              alterant: @app.vomit(:alterant),
+              items: app.vomit(:items),
+              router: app.vomit(:router),
+              alterant: app.vomit(:alterant),
               writer: writer(dry_run),
               reporter: reporter(reporter),
               destination: File.expand_path(config[:output], destination_root)
             )
+        end
 
-          runner.write
+        def call
+          @runner.write
         end
 
         private

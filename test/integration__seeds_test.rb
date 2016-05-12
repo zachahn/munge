@@ -10,7 +10,7 @@ class IntegrationSeedsTest < TestCase
           bootloader,
           reporter: "Default",
           dry_run: false
-        )
+        ).call
       end
 
       @index = File.read(File.join(output_path, "index.html"))

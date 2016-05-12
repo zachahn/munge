@@ -23,14 +23,14 @@ module Munge
       method_option :reporter, desc: "Set reporter", default: "Default", type: :string
       method_option :dry_run, desc: "Run without writing files", default: false, type: :boolean
       def build
-        Commands::Build.new(bootloader, symbolized_options)
+        Commands::Build.new(bootloader, symbolized_options).call
       end
 
       desc "view", "View built files"
       method_option :port, aliases: "-p", desc: "Set port", default: 7000, type: :numeric
       method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
       def view
-        Commands::View.new(bootloader, symbolized_options)
+        Commands::View.new(bootloader, symbolized_options).call
       end
 
       desc "version", "Print version"
