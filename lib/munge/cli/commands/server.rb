@@ -15,6 +15,8 @@ module Munge
           Dir.chdir(@bootloader.root_path) do
             system("munge view")
           end
+        rescue Interrupt => e
+          @listener.stop
         end
 
         private
