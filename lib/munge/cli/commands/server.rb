@@ -1,5 +1,3 @@
-require "listen"
-
 module Munge
   module Cli
     module Commands
@@ -22,6 +20,8 @@ module Munge
         private
 
         def listener
+          require "listen"
+
           Listen.to(@bootloader.root_path) do |modified, added, removed|
             Dir.chdir(@bootloader.root_path) do
               system("munge build")
