@@ -2,10 +2,11 @@ module Munge
   module Cli
     module Commands
       class Build
-        def initialize(bootloader, dry_run:, reporter:)
+        def initialize(bootloader, dry_run:, reporter:, build_root: nil)
           destination_root = bootloader.root_path
           config           = bootloader.config
           app              = application(bootloader)
+          destination      = File.expand_path(build_root || config[:output], destination_root)
 
           @runner =
             Munge::Runner.new(
@@ -14,7 +15,7 @@ module Munge
               alterant: app.vomit(:alterant),
               writer: writer(dry_run),
               reporter: reporter(reporter),
-              destination: File.expand_path(config[:output], destination_root)
+              destination: destination
             )
         end
 

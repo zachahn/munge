@@ -19,18 +19,18 @@ module Munge
         end
       end
 
-      desc "build", "Build in current directory"
-      method_option :reporter, desc: "Set reporter", default: "Default", type: :string
-      method_option :dry_run, desc: "Run without writing files", default: false, type: :boolean
+      desc "build", "Build site"
+      method_option :reporter,    desc: "Set reporter", default: "Default", type: :string
+      method_option :dry_run,     desc: "Run without writing files", default: false, type: :boolean
       def build
-        Commands::Build.new(bootloader, symbolized_options).call
+        Commands::Build.new(bootloader, **symbolized_options, build_root: ENV["BUILD_ROOT"]).call
       end
 
       desc "view", "View built files"
       method_option :port, aliases: "-p", desc: "Set port", default: 7000, type: :numeric
       method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
       def view
-        Commands::View.new(bootloader, symbolized_options).call
+        Commands::View.new(bootloader, **symbolized_options, build_root: ENV["BUILD_ROOT"]).call
       end
 
       desc "version", "Print version"

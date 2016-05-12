@@ -28,17 +28,18 @@ module Munge
   module Cli
     module Commands
       class View
-        def initialize(bootloader, host:, port:)
+        def initialize(bootloader, host:, port:, build_root: nil)
           config = bootloader.config
           @host  = host
           @port  = port
+          root   = File.expand_path(build_root || config[:output], bootloader.root_path)
 
           @app =
             Rack::Builder.new do
               use Rack::ShowExceptions
               use Rack::Head
-              use Adsf::Rack::IndexFileFinder, root: config[:output]
-              run Rack::File.new(config[:output])
+              use Adsf::Rack::IndexFileFinder, root: root
+              run Rack::File.new(root)
             end
         end
 
