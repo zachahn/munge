@@ -13,7 +13,7 @@ module Munge
           Dir.chdir(@bootloader.root_path) do
             system("munge view")
           end
-        rescue Interrupt => e
+        rescue Interrupt
           @listener.stop
         end
 
@@ -22,7 +22,7 @@ module Munge
         def listener
           require "listen"
 
-          Listen.to(@bootloader.root_path) do |modified, added, removed|
+          Listen.to(@bootloader.root_path) do
             system("munge build")
           end
         end
