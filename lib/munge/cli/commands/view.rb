@@ -43,6 +43,12 @@ module Munge
         end
 
         def call
+          Signal.trap("INT") do
+            # Prints a newline after the terminal prints `^C`
+            puts
+            Rack::Handler::WEBrick.shutdown
+          end
+
           Rack::Handler::WEBrick.run(@app, Host: @host, Port: @port)
         end
       end
