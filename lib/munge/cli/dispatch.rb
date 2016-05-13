@@ -33,6 +33,11 @@ module Munge
         Commands::View.new(bootloader, **symbolized_options, build_root: ENV["BUILD_ROOT"]).call
       end
 
+      desc "server", "Run the development server"
+      def server
+        Commands::Server.new(bootloader).call
+      end
+
       desc "version", "Print version"
       map %w(-v --version) => "version"
       def version
