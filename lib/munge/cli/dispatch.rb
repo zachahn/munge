@@ -23,6 +23,8 @@ module Munge
       method_option :reporter,    desc: "Set reporter", default: "Default", type: :string
       method_option :dry_run,     desc: "Run without writing files", default: false, type: :boolean
       def build
+        ENV["MUNGE_ENV"] ||= "production"
+
         Commands::Build.new(bootloader, **symbolized_options, build_root: ENV["BUILD_ROOT"]).call
       end
 
@@ -30,11 +32,15 @@ module Munge
       method_option :port, aliases: "-p", desc: "Set port", default: 7000, type: :numeric
       method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
       def view
+        ENV["MUNGE_ENV"] ||= "production"
+
         Commands::View.new(bootloader, **symbolized_options, build_root: ENV["BUILD_ROOT"]).call
       end
 
       desc "server", "Run the development server"
       def server
+        ENV["MUNGE_ENV"] ||= "development"
+
         Commands::Server.new(bootloader).call
       end
 
