@@ -22,8 +22,19 @@ module Munge
         def listener
           require "listen"
 
-          Listen.to(@bootloader.root_path) do
+          listen = Listen.to(@bootloader.root_path) do
             system("munge build")
+          end
+
+          ignore(listen, ENV["BUILD_ROOT"])
+          ignore(listen, @bootloader.config[:output])
+
+          listen
+        end
+
+        def ignore(listener, pattern)
+          if pattern
+            listener.ignore(/^#{pattern}/)
           end
         end
       end
