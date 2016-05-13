@@ -10,6 +10,8 @@ module Munge
         def call
           @listener.start
 
+          system("munge build")
+
           system("munge view")
         rescue Interrupt
           @listener.stop
