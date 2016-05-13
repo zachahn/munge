@@ -39,7 +39,8 @@ module Munge
 
       desc "server", "Run the development server"
       def server
-        ENV["MUNGE_ENV"] ||= "development"
+        ENV["MUNGE_ENV"]  ||= "development"
+        ENV["BUILD_ROOT"] ||= "tmp/development-build"
 
         Commands::Server.new(bootloader).call
       end
