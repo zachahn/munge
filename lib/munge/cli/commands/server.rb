@@ -10,9 +10,7 @@ module Munge
         def call
           @listener.start
 
-          Dir.chdir(@bootloader.root_path) do
-            system("munge view")
-          end
+          system("munge view")
         rescue Interrupt
           @listener.stop
         end
