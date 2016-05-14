@@ -6,17 +6,7 @@ module Munge
     end
 
     def call(item, relpath, write_status)
-      should_print =
-        if @verbosity == :all
-          true
-        elsif @verbosity == :written
-          if write_status == :new || write_status == :changed
-            true
-          end
-        elsif @verbosity == :silent
-        end
-
-      @formatter.call(item, relpath, write_status, should_print || false)
+      @formatter.call(item, relpath, write_status, should_print?(write_status))
     end
 
     def start
@@ -25,6 +15,21 @@ module Munge
 
     def done
       @formatter.done
+    end
+
+    private
+
+    def should_print?(write_status)
+      case @verbosity
+      when :all
+        return true
+      when :written
+        return write_status == :new || write_status == :changed
+      when :silent
+        return false
+      end
+
+      false
     end
   end
 end
