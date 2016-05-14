@@ -6,7 +6,7 @@ module Munge
     end
 
     def call(item, write_status)
-      should_print = 
+      should_print =
         if @verbosity == :all
           true
         elsif @verbosity == :written
