@@ -20,8 +20,9 @@ module Munge
       end
 
       desc "build", "Build site"
-      method_option :formatter,   desc: "Set reporting formatter", default: "Default", type: :string
+      method_option :reporter,    desc: "Set reporting formatter", default: "Default", type: :string
       method_option :dry_run,     desc: "Run without writing files", default: false, type: :boolean
+      method_option :verbosity,   desc: "Preferred amount of output", enum: %w(all written silent), default: "written", type: :string
       def build
         ENV["MUNGE_ENV"] ||= "production"
 

@@ -2,7 +2,7 @@ module Munge
   module Cli
     module Commands
       class Build
-        def initialize(bootloader, dry_run:, formatter:, build_root: nil)
+        def initialize(bootloader, dry_run:, reporter:, verbosity:, build_root: nil)
           destination_root = bootloader.root_path
           config           = bootloader.config
           app              = application(bootloader)
@@ -14,7 +14,8 @@ module Munge
               router: app.vomit(:router),
               alterant: app.vomit(:alterant),
               writer: writer(dry_run),
-              formatter: formatter(formatter),
+              formatter: formatter(reporter),
+              verbosity: verbosity.to_sym,
               destination: destination
             )
         end

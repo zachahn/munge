@@ -11,6 +11,7 @@ class RunnerTest < TestCase
             alterant: dummy_alterant,
             writer: dummy_writer,
             formatter: Munge::Formatters::Default.new,
+            verbosity: :all,
             destination: "anywhere"
           )
 
