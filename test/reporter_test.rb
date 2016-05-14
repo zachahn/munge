@@ -40,7 +40,7 @@ class ReporterTest < TestCase
   private
 
   def formatter
-    lambda do |item, relpath, write_status, should_print|
+    lambda do |item, _relpath, write_status, should_print|
       "#{write_status.inspect} #{should_print} #{item.route}"
     end
   end

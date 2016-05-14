@@ -20,7 +20,7 @@ module Munge
         return :identical
       end
 
-      return :changed
+      :changed
     end
   end
 end
