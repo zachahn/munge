@@ -36,7 +36,7 @@ module Munge
         # we'll defer all other cases to the reporter
       end
 
-      @reporter.call(item, write_status)
+      @reporter.call(item, relpath, write_status)
     end
   end
 end

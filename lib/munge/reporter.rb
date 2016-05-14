@@ -5,7 +5,7 @@ module Munge
       @verbosity = verbosity
     end
 
-    def call(item, write_status)
+    def call(item, relpath, write_status)
       should_print =
         if @verbosity == :all
           true
@@ -16,7 +16,7 @@ module Munge
         elsif @verbosity == :silent
         end
 
-      @formatter.call(item, write_status, should_print || false)
+      @formatter.call(item, relpath, write_status, should_print || false)
     end
 
     def start

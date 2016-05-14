@@ -56,7 +56,7 @@ class RunnerTest < TestCase
     QuickDummy.new(
       start: -> {},
       done: -> {},
-      call: lambda do |item, write_status, should_write|
+      call: lambda do |item, relpath, write_status, _should_write|
         case write_status
         when :new, :changed
           puts "wrote #{item.route}"

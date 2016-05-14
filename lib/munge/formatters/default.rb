@@ -7,7 +7,7 @@ module Munge
         @identical_count = 0
       end
 
-      def call(item, write_status, should_print)
+      def call(item, relpath, write_status, should_print)
         case write_status
         when :new
           @new_count += 1
