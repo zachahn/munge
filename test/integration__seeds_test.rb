@@ -8,7 +8,7 @@ class IntegrationSeedsTest < TestCase
       @out, @err = capture_io do
         Munge::Cli::Commands::Build.new(
           bootloader,
-          reporter: "Default",
+          formatter: "Default",
           dry_run: false
         ).call
       end

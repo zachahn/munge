@@ -10,7 +10,7 @@ class RunnerTest < TestCase
             router: dummy_router,
             alterant: dummy_alterant,
             writer: dummy_writer,
-            reporter: Munge::Formatters::Default.new,
+            formatter: Munge::Formatters::Default.new,
             destination: "anywhere"
           )
 
