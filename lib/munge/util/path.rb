@@ -28,13 +28,6 @@ module Munge
         File.basename(path)
       end
 
-      def self.basename_one_extension(path)
-        basename       = File.basename(path)
-        basename_parts = basename.split(".")
-
-        basename_parts[0..1].join(".")
-      end
-
       def self.basename_no_extension(path)
         basename = File.basename(path)
         basename_parts = basename.split(".")
