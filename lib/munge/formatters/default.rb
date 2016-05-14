@@ -6,7 +6,7 @@ module Munge
 
       def call(item, write_status)
         case write_status
-        when :different
+        when :new, :changed
           puts "wrote #{item.route}"
         when :identical
           puts "identical #{item.route}"

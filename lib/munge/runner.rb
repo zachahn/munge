@@ -26,7 +26,7 @@ module Munge
       write_status = @write_manager.status(abspath, content)
 
       case write_status
-      when :different
+      when :new, :changed
         @writer.write(abspath, content)
       when :identical, :double_write_error
         # we'll defer all other cases to the reporter
