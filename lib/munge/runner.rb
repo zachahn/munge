@@ -11,9 +11,13 @@ module Munge
     end
 
     def write
+      @reporter.start
+
       @items
         .reject { |item| item.route.nil? }
         .each   { |item| render_and_write(item) }
+
+      @reporter.done
     end
 
     private

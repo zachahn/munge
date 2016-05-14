@@ -18,5 +18,13 @@ module Munge
 
       @formatter.call(item, write_status, should_print || false)
     end
+
+    def start
+      @formatter.start
+    end
+
+    def done
+      @formatter.done
+    end
   end
 end
