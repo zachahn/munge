@@ -11,13 +11,13 @@ module Munge
         case write_status
         when :new
           @new_count += 1
-          report("  created", item, should_print)
+          report("  created", item, relpath, should_print)
         when :changed
           @changed_count += 1
-          report("  updated", item, should_print)
+          report("  updated", item, relpath, should_print)
         when :identical
           @identical_count += 1
-          report("identical", item, should_print)
+          report("identical", item, relpath, should_print)
         when :double_write_error
           raise "attempted to write #{item.route} twice"
         end
@@ -36,9 +36,9 @@ module Munge
 
       private
 
-      def report(action, item, should_print)
+      def report(action, item, relpath, should_print)
         if should_print
-          puts "  #{action} #{item.relpath} => #{item.route}"
+          puts "  #{action} #{item.relpath} => #{relpath}"
         end
       end
     end
