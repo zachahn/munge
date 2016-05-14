@@ -1,5 +1,5 @@
 module Munge
-  module Reporters
+  module Formatters
     class Default
       def initialize
       end

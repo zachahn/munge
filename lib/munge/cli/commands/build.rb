@@ -40,7 +40,7 @@ module Munge
         end
 
         def reporter(class_name)
-          Munge::Reporters.const_get(class_name).new
+          Munge::Formatters.const_get(class_name).new
         end
       end
     end
