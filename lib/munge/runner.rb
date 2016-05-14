@@ -5,7 +5,7 @@ module Munge
       @router        = router
       @alterant      = alterant
       @writer        = writer
-      @reporter      = reporter
+      @reporter      = Munge::Reporter.new(formatter: reporter, verbosity: :all)
       @write_manager = Munge::WriteManager.new(driver: File)
       @destination   = destination
     end

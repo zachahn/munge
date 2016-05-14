@@ -4,7 +4,7 @@ module Munge
       def initialize
       end
 
-      def call(item, write_status)
+      def call(item, write_status, should_print)
         case write_status
         when :new, :changed
           puts "wrote #{item.route}"
