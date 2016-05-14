@@ -9,4 +9,5 @@
 /tmp/
 
 /seeds/dest
+/seeds/tmp
 .sass-cache
