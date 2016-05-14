@@ -12,15 +12,15 @@ module Munge
 
       @write_paths.push(path)
 
-      if @driver.exist?(path)
-        if @driver.read(path) == content
-          return :identical
-        else
-          return :changed
-        end
-      else
+      if !@driver.exist?(path)
         return :new
       end
+
+      if @driver.read(path) == content
+        return :identical
+      end
+
+      return :changed
     end
   end
 end
