@@ -13,8 +13,8 @@ class HelpersLinkTest < TestCase
     @renderer.extend(Munge::Helpers::Link)
   end
 
-  def test_url_for
-    url = @renderer.url_for(Object.new)
+  def test_path_to
+    url = @renderer.path_to(Object.new)
 
     assert_equal "/super/cool", url
   end

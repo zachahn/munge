@@ -4,7 +4,7 @@ class HelpersAssetPathsTest < TestCase
   def setup
     @renderer = QuickDummy.new(
       items: -> { Hash.new { |_h, k| "#{k}_item" } },
-      url_for: -> (root) { "url/for/#{root}" }
+      path_to: -> (root) { "path/to/#{root}" }
     )
     @renderer.extend(Munge::Helpers::AssetPaths)
   end
@@ -14,7 +14,7 @@ class HelpersAssetPathsTest < TestCase
 
     url = @renderer.image_path("basename")
 
-    assert_equal "url/for/img/basename_item", url
+    assert_equal "path/to/img/basename_item", url
   end
 
   def test_font_path
@@ -22,7 +22,7 @@ class HelpersAssetPathsTest < TestCase
 
     url = @renderer.font_path("basename")
 
-    assert_equal "url/for/otf/basename_item", url
+    assert_equal "path/to/otf/basename_item", url
   end
 
   def test_stylesheet_path
@@ -30,7 +30,7 @@ class HelpersAssetPathsTest < TestCase
 
     url = @renderer.stylesheet_path("basename")
 
-    assert_equal "url/for/css/basename_item", url
+    assert_equal "path/to/css/basename_item", url
   end
 
   def test_javascript_path
@@ -38,6 +38,6 @@ class HelpersAssetPathsTest < TestCase
 
     url = @renderer.javascript_path("basename")
 
-    assert_equal "url/for/js/basename_item", url
+    assert_equal "path/to/js/basename_item", url
   end
 end
