@@ -9,6 +9,7 @@ class IntegrationSeedsTest < TestCase
         Munge::Cli::Commands::Build.new(
           bootloader,
           reporter: "Default",
+          verbosity: "all",
           dry_run: false
         ).call
       end

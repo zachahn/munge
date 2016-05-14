@@ -43,6 +43,9 @@ Style/MultilineMethodCallIndentation:
 Style/MultilineOperationIndentation:
   EnforcedStyle: indented
 
+Style/NegatedIf:
+  Enabled: false
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 

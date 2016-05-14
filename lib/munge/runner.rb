@@ -1,19 +1,23 @@
 module Munge
   class Runner
-    def initialize(items:, router:, alterant:, writer:, reporter:, destination:)
+    def initialize(items:, router:, alterant:, writer:, formatter:, verbosity:, destination:)
       @items         = items
       @router        = router
       @alterant      = alterant
       @writer        = writer
-      @reporter      = reporter
+      @reporter      = Munge::Reporter.new(formatter: formatter, verbosity: verbosity)
       @write_manager = Munge::WriteManager.new(driver: File)
       @destination   = destination
     end
 
     def write
+      @reporter.start
+
       @items
         .reject { |item| item.route.nil? }
         .each   { |item| render_and_write(item) }
+
+      @reporter.done
     end
 
     private
@@ -26,13 +30,13 @@ module Munge
       write_status = @write_manager.status(abspath, content)
 
       case write_status
-      when :different
+      when :new, :changed
         @writer.write(abspath, content)
       when :identical, :double_write_error
         # we'll defer all other cases to the reporter
       end
 
-      @reporter.call(item, write_status)
+      @reporter.call(item, relpath, write_status)
     end
   end
 end

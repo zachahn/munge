@@ -2,7 +2,7 @@ module Munge
   module Cli
     module Commands
       class Build
-        def initialize(bootloader, dry_run:, reporter:, build_root: nil)
+        def initialize(bootloader, dry_run:, reporter:, verbosity:, build_root: nil)
           destination_root = bootloader.root_path
           config           = bootloader.config
           app              = application(bootloader)
@@ -14,7 +14,8 @@ module Munge
               router: app.vomit(:router),
               alterant: app.vomit(:alterant),
               writer: writer(dry_run),
-              reporter: reporter(reporter),
+              formatter: formatter(reporter),
+              verbosity: verbosity.to_sym,
               destination: destination
             )
         end
@@ -39,8 +40,8 @@ module Munge
           end
         end
 
-        def reporter(class_name)
-          Munge::Reporters.const_get(class_name).new
+        def formatter(class_name)
+          Munge::Formatters.const_get(class_name).new
         end
       end
     end

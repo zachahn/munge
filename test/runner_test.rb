@@ -10,7 +10,8 @@ class RunnerTest < TestCase
             router: dummy_router,
             alterant: dummy_alterant,
             writer: dummy_writer,
-            reporter: Munge::Reporters::Default.new,
+            formatter: dummy_formatter,
+            verbosity: :all,
             destination: "anywhere"
           )
 
@@ -48,6 +49,21 @@ class RunnerTest < TestCase
   def dummy_writer
     QuickDummy.new(
       write: -> (_path, _content) { nil }
+    )
+  end
+
+  def dummy_formatter
+    QuickDummy.new(
+      start: -> {},
+      done: -> {},
+      call: lambda do |item, _relpath, write_status, _should_write|
+        case write_status
+        when :new, :changed
+          puts "wrote #{item.route}"
+        else
+          puts "identical #{item.route}"
+        end
+      end
     )
   end
 end
