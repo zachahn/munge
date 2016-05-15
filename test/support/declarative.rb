@@ -6,7 +6,7 @@ module Declarative
       if block_given?
         block
       else
-        Proc.new { skip "not defined" }
+        proc { skip "not defined" }
       end
 
     if method_defined?(method_name)
