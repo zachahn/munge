@@ -2,26 +2,37 @@ module Munge
   module Formatters
     class Dots
       def initialize
-        @news       = []
-        @changeds   = []
-        @identicals = []
-        @total      = 0
+        @counts = {
+          new:       0,
+          changed:   0,
+          identical: 0
+        }
+
+        @relpaths = {
+          new:       [],
+          changed:   [],
+          identical: []
+        }
+
+        @dots = {
+          new:       Rainbow("W").green,
+          changed:   Rainbow("W").yellow,
+          identical: "."
+        }
+
+        @total = 0
       end
 
-      def call(_item, relpath, write_status, _should_print)
+      def call(_item, relpath, write_status, should_print)
         @total += 1
 
-        case write_status
-        when :new
-          @news.push(relpath)
-          print Rainbow("W").green
-        when :changed
-          @changeds.push(relpath)
-          print Rainbow("W").yellow
-        when :identical
-          @identicals.push(relpath)
-          print "."
+        @counts[write_status] += 1
+
+        if should_print
+          @relpaths[write_status].push(relpath)
         end
+
+        print @dots[write_status]
       end
 
       def start
@@ -45,13 +56,14 @@ module Munge
 
       def list!
         lists = [
-          [@news, "New items:"],
-          [@changeds, "Updated items:"]
+          [@relpaths[:new], "New items:"],
+          [@relpaths[:changed], "Updated items:"],
+          [@relpaths[:identical], "Identical items:"]
         ]
 
         lists.each do |list, title|
           if list.empty?
-            skip
+            next
           end
 
           puts
@@ -63,9 +75,9 @@ module Munge
 
       def summary!
         write_summary = [
-          "Created #{@news.size}",
-          "Updated #{@changeds.size}",
-          "Ignored #{@identicals.size}"
+          "Created #{@counts[:new]}",
+          "Updated #{@counts[:changed]}",
+          "Ignored #{@counts[:identical]}"
         ]
 
         puts
