@@ -32,8 +32,10 @@ module Munge
       case write_status
       when :new, :changed
         @writer.write(abspath, content)
-      when :identical, :double_write_error
-        # we'll defer all other cases to the reporter
+      when :double_write_error
+        raise "attempted to write #{item.route} twice"
+      when :identical
+        # Defer to the reporter
       end
 
       @reporter.call(item, relpath, write_status)
