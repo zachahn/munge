@@ -18,6 +18,9 @@ Metrics/MethodLength:
   Exclude:
     - test/**/*
 
+Metrics/ParameterLists:
+  CountKeywordArgs: false
+
 Metrics/ClassLength:
   Exclude:
     - test/**/*
@@ -48,6 +51,9 @@ Style/NegatedIf:
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  Enabled: false
 
 Style/SymbolProc:
   Exclude:
