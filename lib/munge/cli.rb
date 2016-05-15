@@ -6,3 +6,4 @@ require "munge/cli/commands/view"
 require "munge/cli/commands/server"
 
 require "munge/formatters/default"
+require "munge/formatters/dots"
