@@ -8,7 +8,7 @@ module Munge
         @total      = 0
       end
 
-      def call(item, relpath, write_status, should_print)
+      def call(_item, relpath, write_status, _should_print)
         @total += 1
 
         case write_status
@@ -50,12 +50,14 @@ module Munge
         ]
 
         lists.each do |list, title|
-          if list.size > 0
-            puts
-            puts title
-            puts
-            puts list.join(", ")
+          if list.empty?
+            skip
           end
+
+          puts
+          puts title
+          puts
+          puts list.join(", ")
         end
       end
 

@@ -8,7 +8,7 @@ module Munge
         @reported_count  = 0
       end
 
-      def call(item, relpath, write_status, should_print)
+      def call(_item, relpath, write_status, should_print)
         case write_status
         when :new
           report_new(relpath, should_print)
