@@ -2,7 +2,7 @@ module Munge
   module Helpers
     module Tag
       def empty_tag(name, options = {})
-        options_str = options.map { |k, v| %(#{k}="#{v}") }.join(" ")
+        options_str = options.map { |k, v| %(#{k}="#{h(v)}") }.join(" ")
 
         if options_str == ""
           "<#{name} />"
@@ -17,7 +17,7 @@ module Munge
           content = nil
         end
 
-        options_str = options.map { |k, v| %(#{k}="#{v}") }.join(" ")
+        options_str = options.map { |k, v| %(#{k}="#{h(v)}") }.join(" ")
 
         content_str =
           if content
@@ -29,6 +29,10 @@ module Munge
           end
 
         "<#{name} #{options_str}>#{content_str}</#{name}>"
+      end
+
+      def h(string)
+        CGI.escape_html(string)
       end
     end
   end

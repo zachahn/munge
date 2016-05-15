@@ -36,4 +36,12 @@ class HelpersTagTest < TestCase
 
     assert_equal %(<bar ab="cd"></bar>), tag
   end
+
+  test "#h escapes HTML" do
+    assert_equal %(&lt;&quot;&amp;&gt;), @renderer.h(%(<"&>))
+  end
+
+  test "#empty_tag can handle dangerous characters as HTML attributes" do
+    assert_equal %(<foo data="&quot;hi&quot;" />), @renderer.empty_tag(:foo, data: %("hi"))
+  end
 end
