@@ -1,16 +1,12 @@
 module Munge
   module Helpers
     module Link
-      def url_for(item)
-        @router.route(item)
-      end
-
       def path_to(item)
         @router.route(item)
       end
 
       def link_to(item, text = nil, opts = {})
-        link = url_for(item)
+        link = path_to(item)
 
         if text.is_a?(Hash)
           opts = text
