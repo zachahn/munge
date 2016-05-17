@@ -85,8 +85,7 @@ Now that this is set, we'll build our site and have a quick preview. Visit
 http://localhost:7000 to see the output
 
 ```bash
-munge build       # Build your website into `dest/`
-munge view        # Start the munge server
+munge server # Start the development server
 ```
 
 While we're here, let's quickly install some gems. In your Gemfile
@@ -102,7 +101,8 @@ gem 'rake'      # Need this for gemoji
 gem 'pry'       # Not needed, just useful for poking around
 ```
 
-Lastly, let's run `bundle install` again to install everything we'll need.
+Lastly, let's run `bundle install` again to install everything we'll need. We'll
+have to quit and restart `munge server`.
 
 
 ## Individual blog posts
@@ -182,7 +182,7 @@ At this point, we can go to http://localhost:7000/2016/05/05/first-post/, but
 markdown formatting doesn't work yet.
 
 There are two ways we can format items, an automatic way and a manual way. The
-automatic way provides the item to [Tilt][], which maps extensions to the
+automatic way provides the item to [Tilt][tilt], which maps extensions to the
 appropriate formatter.
 
 ```ruby
@@ -210,5 +210,22 @@ complicate matters, this post will contain a photo.
 ```
 This is a picture of my family on Mother's Day.
 
-![](<%= url_for(items["posts/2016-05-08-family.jpg"]) %>)
+![](<%= path_to(items["posts/2016-05-08-family.jpg"]) %>)
 ```
+
+As an aside, if you choose to manually transform these items, you will have to
+update it to something like the following. As you can see, transformers are
+chainable and run in the called order.
+
+```ruby
+# Updated manual method
+blog_posts.each do |post|
+  # ...
+  if post.extensions.include?("erb")
+    post.transform(:tilt, "erb")
+  end
+  post.transform(:tilt, "md")
+end
+```
+
+[tilt]: https://github.com/rtomayko/tilt
