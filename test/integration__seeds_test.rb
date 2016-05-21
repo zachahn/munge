@@ -24,6 +24,27 @@ class IntegrationSeedsTest < TestCase
     assert_match(/background-color: ?#fff/, @style, "CSS is wrong")
   end
 
+  test "dry run doesn't write any files" do
+    FakeFS do
+      FakeFS::FileSystem.clone(seeds_path)
+
+      @out, @err = capture_io do
+        Munge::Cli::Commands::Build.new(
+          bootloader,
+          reporter: "Default",
+          verbosity: "all",
+          dry_run: true
+        ).call
+      end
+
+      @files = Dir.glob(File.join(output_path, "**/*"))
+    end
+
+    assert_equal([], @files)
+    refute_equal("", @out)
+    assert_equal("", @err)
+  end
+
   private
 
   def output_path
