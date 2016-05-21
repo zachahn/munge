@@ -215,11 +215,12 @@ This is a picture of my family on Mother's Day.
 
 As an aside, if you choose to manually transform these items, you will have to
 update it to something like the following. As you can see, transformers are
-chainable and run in the called order.
+chainable and run in the called order. (Also, we generally don't want to run
+`erb` and `md` transformers on binary files.)
 
 ```ruby
 # Updated manual method
-blog_posts.each do |post|
+blog_posts.select { |post| post.type == :text }.each do |post|
   # ...
   if post.extensions.include?("erb")
     post.transform(:tilt, "erb")
