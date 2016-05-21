@@ -1,37 +1,56 @@
 require "test_helper"
 
 class RunnerTest < TestCase
-  def test_write
-    File.stub(:read, "content") do
-      File.stub(:exist?, true) do
-        runner =
-          Munge::Runner.new(
-            items: dummy_items,
-            router: dummy_router,
-            alterant: dummy_alterant,
-            writer: dummy_writer,
-            formatter: dummy_formatter,
-            verbosity: :all,
-            destination: "anywhere"
-          )
+  test "#write with new file" do
+    r = runner
+    r.instance_variable_set(:@write_manager, dummy_write_manager)
 
-        FakeFS do
-          @out, @err = capture_io { runner.write }
-        end
+    out, _err = capture_io { r.write }
 
-        assert_match "wrote /true-file\n", @out
-        assert_match "identical /false-file\n", @out
-      end
-    end
+    assert_equal "new /about\nnew /about\n", out
+  end
+
+  test "#write with updated file" do
+    r = runner
+    r.instance_variable_set(:@write_manager, dummy_write_manager_changed)
+
+    out, _err = capture_io { r.write }
+
+    assert_equal "changed /about\nchanged /about\n", out
+  end
+
+  test "#write with identical file" do
+    r = runner
+    r.instance_variable_set(:@write_manager, dummy_write_manager_identical)
+
+    out, _err = capture_io { r.write }
+
+    assert_equal "identical /about\nidentical /about\n", out
+  end
+
+  test "#write with double write error" do
+    r = runner
+    r.instance_variable_set(:@write_manager, dummy_write_manager_double_write_error)
+
+    assert_raises { r.write }
   end
 
   private
 
-  def dummy_items
-    [
-      OpenStruct.new(route: "/true-file", content: "different content"),
-      OpenStruct.new(route: "/false-file", content: "content")
-    ]
+  def runner
+    Munge::Runner.new(
+      items: [item, item],
+      router: dummy_router,
+      alterant: dummy_alterant,
+      writer: Munge::Writers::Noop.new,
+      formatter: formatter,
+      verbosity: :all,
+      destination: "anywhere"
+    )
+  end
+
+  def item
+    OpenStruct.new(route: "/about", content: "I am the best")
   end
 
   def dummy_router
@@ -46,23 +65,36 @@ class RunnerTest < TestCase
     )
   end
 
-  def dummy_writer
+  def dummy_write_manager
     QuickDummy.new(
-      write: -> (_path, _content) { nil }
+      status: -> (_, _) { :new }
     )
   end
 
-  def dummy_formatter
+  def dummy_write_manager_changed
+    QuickDummy.new(
+      status: -> (_, _) { :changed }
+    )
+  end
+
+  def dummy_write_manager_identical
+    QuickDummy.new(
+      status: -> (_, _) { :identical }
+    )
+  end
+
+  def dummy_write_manager_double_write_error
+    QuickDummy.new(
+      status: -> (_, _) { :double_write_error }
+    )
+  end
+
+  def formatter
     QuickDummy.new(
       start: -> {},
       done: -> {},
       call: lambda do |item, _relpath, write_status, _should_write|
-        case write_status
-        when :new, :changed
-          puts "wrote #{item.route}"
-        else
-          puts "identical #{item.route}"
-        end
+        puts "#{write_status} #{item.route}"
       end
     )
   end
