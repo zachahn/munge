@@ -174,7 +174,7 @@ end
 blog_posts.each do |post|
   posted_at  = date_from_filename(post.filename)
   title      = title_from_filename(post.filename)
-  post.route = "#{posted_at.year}/#{posted_at.month}/#{posted_at.day}/#{title}"
+  post.route = "#{posted_at.strftime("%Y/%m/%d")}/#{title}"
 end
 ```
 
