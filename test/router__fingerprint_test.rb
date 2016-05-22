@@ -1,6 +1,8 @@
 require "test_helper"
 
 class RoutersFingerprintTest < TestCase
+  include RouterInterfaceTest
+
   def setup
     @fingerprint = Munge::Routers::Fingerprint.new(extensions: %w(gif), separator: "--")
   end
@@ -61,5 +63,9 @@ class RoutersFingerprintTest < TestCase
 
   def new_fake_itemish
     OpenStruct.new(frontmatter: {}, compiled_content: "")
+  end
+
+  def router
+    Munge::Routers::Fingerprint.new(extensions: %w(gif), separator: "--")
   end
 end

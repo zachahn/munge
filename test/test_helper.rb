@@ -32,6 +32,7 @@ require_relative "support/declarative"
 require_relative "support/quick_dummy"
 
 require_relative "interfaces/formatter_interface_test"
+require_relative "interfaces/router_interface_test"
 
 class TestCase < Minitest::Test
   extend Declarative

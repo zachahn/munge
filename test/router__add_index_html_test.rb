@@ -1,6 +1,8 @@
 require "test_helper"
 
 class RoutersAddIndexHtmlTest < TestCase
+  include RouterInterfaceTest
+
   def setup
     @index_html =
       Munge::Routers::AddIndexHtml.new(
@@ -33,5 +35,14 @@ class RoutersAddIndexHtmlTest < TestCase
     item = Object.new
 
     assert_equal "about/index.html", @index_html.call("about", item)
+  end
+
+  private
+
+  def router
+    Munge::Routers::AddIndexHtml.new(
+      html_extensions: %w(html htm md),
+      index: "index.html"
+    )
   end
 end

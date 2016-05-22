@@ -1,6 +1,8 @@
 require "test_helper"
 
 class RoutersAutoAddExtensionTest < TestCase
+  include RouterInterfaceTest
+
   def setup
     @auto_add_extension = Munge::Routers::AutoAddExtension.new(keep_extensions: %w(gif))
   end
@@ -31,5 +33,9 @@ class RoutersAutoAddExtensionTest < TestCase
 
   def new_fake_item(exts: [])
     OpenStruct.new(frontmatter: {}, extensions: exts)
+  end
+
+  def router
+    Munge::Routers::AutoAddExtension.new(keep_extensions: %w(gif))
   end
 end

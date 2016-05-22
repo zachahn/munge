@@ -1,6 +1,8 @@
 require "test_helper"
 
 class RoutersRemoveIndexBasenameTest < TestCase
+  include RouterInterfaceTest
+
   def setup
     @index_remover =
       Munge::Routers::RemoveIndexBasename.new(
@@ -26,5 +28,14 @@ class RoutersRemoveIndexBasenameTest < TestCase
 
     assert_equal "", @index_remover.call("index", item)
     assert_equal "about", @index_remover.call("about/index", item)
+  end
+
+  private
+
+  def router
+    Munge::Routers::RemoveIndexBasename.new(
+      html_extensions: %w(html htm md),
+      index: "index.html"
+    )
   end
 end
