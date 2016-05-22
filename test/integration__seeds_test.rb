@@ -1,9 +1,9 @@
 require "test_helper"
 
 class IntegrationSeedsTest < TestCase
-  def test_integration
+  test "integration" do
     FakeFS do
-      FakeFS::FileSystem.clone(seeds_path)
+      FakeFS::FileSystem.clone(seeds_path, fake_path)
 
       @out, @err = capture_io do
         Munge::Cli::Commands::Build.new(
@@ -26,7 +26,7 @@ class IntegrationSeedsTest < TestCase
 
   test "dry run doesn't write any files" do
     FakeFS do
-      FakeFS::FileSystem.clone(seeds_path)
+      FakeFS::FileSystem.clone(seeds_path, fake_path)
 
       @out, @err = capture_io do
         Munge::Cli::Commands::Build.new(
@@ -47,11 +47,15 @@ class IntegrationSeedsTest < TestCase
 
   private
 
+  def fake_path
+    @path ||= "/#{SecureRandom.hex(10)}"
+  end
+
   def output_path
-    File.join(seeds_path, "dest")
+    File.join(fake_path, "dest")
   end
 
   def bootloader
-    Munge::Bootloader.new(root_path: seeds_path)
+    Munge::Bootloader.new(root_path: fake_path)
   end
 end
