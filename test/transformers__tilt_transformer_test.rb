@@ -1,6 +1,8 @@
 require "test_helper"
 
 class TransformersTiltTransformerTest < TestCase
+  include TransformerInterfaceTest
+
   def setup
     fake_scope = Object.new
     fake_scope.instance_variable_set(:@global_data, {})
@@ -40,5 +42,12 @@ class TransformersTiltTransformerTest < TestCase
       frontmatter: {},
       content: %(<%= "hi" %>)
     )
+  end
+
+  def transformer
+    fake_scope = Object.new
+    fake_scope.instance_variable_set(:@global_data, {})
+
+    Munge::Transformers::TiltTransformer.new(fake_scope)
   end
 end
