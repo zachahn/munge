@@ -193,7 +193,7 @@ blog_posts.each do |post|
 end
 
 # Automatic (recommended) method
-blog_posts.each do |post|
+posts.each do |post|
   # ...
   post.transform
 end
@@ -226,6 +226,30 @@ blog_posts.select { |post| post.type == :text }.each do |post|
     post.transform(:tilt, "erb")
   end
   post.transform(:tilt, "md")
+end
+```
+
+## Blog index
+
+Now, let's list all the blog posts on the home page.
+
+First, we'll need a new layout. Let's name this `blog_index.html.erb`.
+
+```html
+<% posts.each do |post_item| %>
+  <%= render(post_item) %>
+<% end %>
+```
+
+Next, we'll update our `rules.rb`
+
+```ruby
+text_posts = blog_posts.select{ |item| item.type == :text }
+
+app.create("index.html.erb", "", posts: text_posts).each do |index|
+  index.route = "/"
+  index.layout = "blog_index" # Note that we don't need the extension here
+  index.transform
 end
 ```
 
