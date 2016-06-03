@@ -1,4 +1,5 @@
 require "rainbow"
+require "thor"
 
 require "munge/cli/commands/build"
 require "munge/cli/commands/view"

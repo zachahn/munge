@@ -1,5 +1,3 @@
-require "thor"
-
 module Munge
   module Cli
     class Dispatch < Thor
