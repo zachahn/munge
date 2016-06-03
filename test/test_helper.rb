@@ -18,6 +18,7 @@ require "munge/cli"
 
 require "fakefs/safe"
 require "minitest/autorun"
+require "rack/test"
 require "timecop"
 require "sass"
 require "tilt/erb"
