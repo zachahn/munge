@@ -14,7 +14,8 @@ module RouterInterfaceTest
 
   test "#call interface" do
     assert_respond_to(router, :call)
-    assert_equal(2, router.method(:call).arity)
+    parameter_types = router.method(:call).parameters.map(&:first)
+    assert_equal(%i(req req), parameter_types)
   end
 
   private
