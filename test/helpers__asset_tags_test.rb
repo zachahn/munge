@@ -22,7 +22,7 @@ class HelpersAssetTagsTest < TestCase
   end
 
   test "#javascript_tag returns a tag with correct path and options" do
-    tag = @renderer.javascript_tag("foo", id: "class")
+    tag = @renderer.javascript_include_tag("foo", id: "class")
 
     assert_equal %(<script id="class" type="text/javascript" src="foo.js"></script>), tag
   end
@@ -34,7 +34,7 @@ class HelpersAssetTagsTest < TestCase
   end
 
   test "#javascript_tag has overrideable javascript type and src" do
-    tag = @renderer.javascript_tag("foo", type: "text/coffeescript", src: "bar.coffee")
+    tag = @renderer.javascript_include_tag("foo", type: "text/coffeescript", src: "bar.coffee")
 
     assert_equal %(<script type="text/coffeescript" src="bar.coffee"></script>), tag
   end

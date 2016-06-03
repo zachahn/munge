@@ -8,7 +8,7 @@ module Munge
         empty_tag(:link, options)
       end
 
-      def javascript_tag(basename, options = {})
+      def javascript_include_tag(basename, options = {})
         options[:type] ||= "text/javascript"
         options[:src]  ||= javascript_path(basename)
 
