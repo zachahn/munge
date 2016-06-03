@@ -16,7 +16,7 @@ class HelpersAssetTagsTest < TestCase
   end
 
   test "#stylesheet_tag returns a tag with correct path and options" do
-    tag = @renderer.stylesheet_tag("foo", class: "id")
+    tag = @renderer.stylesheet_link_tag("foo", class: "id")
 
     assert_equal %(<link class="id" rel="stylesheet" href="foo.css" />), tag
   end
@@ -28,7 +28,7 @@ class HelpersAssetTagsTest < TestCase
   end
 
   test "#stylesheet_tag has overrideable stylesheet rel and href" do
-    tag = @renderer.stylesheet_tag("foo", rel: "stylesheet/less", href: "bar.less")
+    tag = @renderer.stylesheet_link_tag("foo", rel: "stylesheet/less", href: "bar.less")
 
     assert_equal %(<link rel="stylesheet/less" href="bar.less" />), tag
   end

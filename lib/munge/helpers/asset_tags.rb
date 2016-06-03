@@ -1,7 +1,7 @@
 module Munge
   module Helpers
     module AssetTags
-      def stylesheet_tag(basename, options = {})
+      def stylesheet_link_tag(basename, options = {})
         options[:rel]  ||= "stylesheet"
         options[:href] ||= stylesheet_path(basename)
 
