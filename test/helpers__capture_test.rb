@@ -27,6 +27,38 @@ class HelpersCaptureTest < TestCase
     refute_match("and you're cold", output)
   end
 
+  test "#yield_content with default and no replacement" do
+    template = extract_data("yield_content block layout")
+    erb      = ERB.new(template)
+    output   = erb.result(erb_context.get_binding)
+
+    assert_match("Default yield_content", output)
+  end
+
+  test "#yield_content with default and no block and no replacement" do
+    template = extract_data("yield_content nonblock layout")
+    erb      = ERB.new(template)
+    output   = erb.result(erb_context.get_binding)
+
+    assert_match(/^\s*$/, output)
+  end
+
+  test "#yield_content with a replacement" do
+    template = extract_data("content_for yield_content")
+    erb      = ERB.new(template)
+    output   = erb.result(erb_context.get_binding)
+
+    assert_match(/^\s*a\s*123\s*c\s*$/, output)
+  end
+
+  test "#yield_content with no block and with replacement" do
+    template = extract_data("content_for blank yield_content")
+    erb      = ERB.new(template)
+    output   = erb.result(erb_context.get_binding)
+
+    assert_match(/^\s*a\s*123\s*c\s*$/, output)
+  end
+
   private
 
   def erb_context
@@ -58,3 +90,35 @@ cause you're hot
 <% capture_test do %>
   Text
 <% end %>
+
+@@ yield_content block layout
+
+<% yield_content :test do %>
+Default yield_content
+<% end %>
+
+@@ yield_content nonblock layout
+
+<% yield_content :test %>
+
+@@ content_for yield_content
+
+<% content_for :test do %>
+123
+<% end %>
+
+a
+<% yield_content :test do %>
+b
+<% end %>
+c
+
+@@ content_for blank yield_content
+
+<% content_for :test do %>
+123
+<% end %>
+
+a
+<%= yield_content :test %>
+c

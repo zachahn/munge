@@ -27,6 +27,36 @@ module Munge
 
         text
       end
+
+      def yield_content(content_name, &block)
+        @content_fors ||= Hash.new([].freeze)
+
+        if @content_fors[content_name].empty?
+          if block_given?
+            inner = capture(&block)
+
+            append_to_erbout(block.binding, inner)
+          end
+        else
+          if block_given?
+            @content_fors[content_name].each do |content|
+              append_to_erbout(block.binding, content)
+            end
+          else
+            @content_fors[content_name].join("\n")
+          end
+        end
+      end
+
+      def content_for(content_name, &block)
+        @content_fors ||= Hash.new([].freeze)
+
+        if block_given?
+          inner = capture(&block)
+
+          @content_fors[content_name] += [inner]
+        end
+      end
     end
   end
 end
