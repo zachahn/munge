@@ -7,9 +7,9 @@ class IntegrationRouterTest < TestCase
     index_html = Munge::Routers::AddIndexHtml.new(html_extensions: %w(html), index: "index.html")
     auto_add_extension = Munge::Routers::AutoAddExtension.new(keep_extensions: %w(gif))
 
-    alterant = QuickDummy.new(transform: -> (_item) { "transformed" })
+    processor = QuickDummy.new(transform: -> (_item) { "transformed" })
 
-    @router = Munge::System::Router.new(alterant: alterant)
+    @router = Munge::System::Router.new(processor: processor)
 
     @router.register(fingerprint)
     @router.register(index_basename)

@@ -1,9 +1,9 @@
 module Munge
   class Runner
-    def initialize(items:, router:, alterant:, writer:, formatter:, verbosity:, destination:)
+    def initialize(items:, router:, processor:, writer:, formatter:, verbosity:, destination:)
       @items         = items
       @router        = router
-      @alterant      = alterant
+      @processor      = processor
       @writer        = writer
       @reporter      = Munge::Reporter.new(formatter: formatter, verbosity: verbosity)
       @write_manager = Munge::WriteManager.new(driver: File)
@@ -25,7 +25,7 @@ module Munge
     def render_and_write(item)
       relpath = @router.filepath(item)
       abspath = File.join(@destination, relpath)
-      content = @alterant.transform(item)
+      content = @processor.transform(item)
 
       write_status = @write_manager.status(abspath, content)
 

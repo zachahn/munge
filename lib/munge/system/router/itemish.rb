@@ -4,13 +4,13 @@ module Munge
       class Itemish
         extend Forwardable
 
-        def initialize(item, alterant)
+        def initialize(item, processor)
           @item     = item
-          @alterant = alterant
+          @processor = processor
         end
 
         def compiled_content
-          @compiled_content ||= @alterant.transform(@item)
+          @compiled_content ||= @processor.transform(@item)
         end
 
         def_delegators :@item, *%i(type relpath id frontmatter stat layout)
