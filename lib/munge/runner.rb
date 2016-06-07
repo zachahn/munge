@@ -3,7 +3,7 @@ module Munge
     def initialize(items:, router:, processor:, writer:, formatter:, verbosity:, destination:)
       @items         = items
       @router        = router
-      @processor      = processor
+      @processor     = processor
       @writer        = writer
       @reporter      = Munge::Reporter.new(formatter: formatter, verbosity: verbosity)
       @write_manager = Munge::WriteManager.new(driver: File)
