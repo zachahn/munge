@@ -35,7 +35,7 @@ module Munge
         )
 
       @alterant =
-        Alterant.new
+        Processor.new
 
       @router =
         Router.new(
