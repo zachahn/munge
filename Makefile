@@ -1,4 +1,4 @@
-.PHONY: all coverage-test coverage-open seeds-build seeds-open seeds-clean test release
+.PHONY: all coverage-test coverage-open seeds-build seeds-open seeds-clean test release contents current-version
 
 all:
 	@echo "usage:"
@@ -31,3 +31,12 @@ test:
 
 release:
 	bundle exec rake release
+
+build:
+	bundle exec rake build ; $(MAKE) contents
+
+contents:
+	CV="$(shell make version)"; echo; tar -zxOf pkg/munge-$${CV}.gem data.tar.gz | tar -tf -
+
+version:
+	@sed -n -e '/VERSION/ s/[^0-1\.]//g;s/\.$$//p' lib/munge/version.rb
