@@ -31,6 +31,7 @@ require "securerandom"
 
 require_relative "support/declarative"
 require_relative "support/quick_dummy"
+require_relative "support/extract_data"
 
 require_relative "interfaces/command_interface_test"
 require_relative "interfaces/formatter_interface_test"
@@ -39,6 +40,7 @@ require_relative "interfaces/transformer_interface_test"
 
 class TestCase < Minitest::Test
   extend Declarative
+  include ExtractData
 
   def seeds_path
     File.absolute_path(File.expand_path("../../seeds", __FILE__))
