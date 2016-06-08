@@ -3,15 +3,26 @@ module ExtractData
     file     = caller_locations(1, 1).first.absolute_path
     contents = File.read(file)
     post_end = contents.split(/^__END__$/, 2).last || ""
-    matches  = post_end.strip.match(/(?:(@@\s*[^\n]*)\n([^(@@)]+)+)/m).to_a
     sections =
       post_end
         .split(/^@@\s*/)
         .map(&:rstrip)
-        .select { |s| s.length > 0 }
-        .map    { |section| section.split("\n", 2) }
+        .map { |section| section.split("\n", 2) }
+        .map { |key, value| [key, value] }
         .to_h
 
-    sections[name].sub(/^\n*/, "") + "\n"
+    found_section = sections[name]
+
+    if found_section.nil?
+      return nil
+    end
+
+    extracted_section = found_section.sub(/^\n*/, "")
+
+    if extracted_section[-1] == "\n"
+      extracted_section
+    else
+      extracted_section + "\n"
+    end
   end
 end
