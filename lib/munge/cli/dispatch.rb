@@ -41,8 +41,12 @@ module Munge
 
       private
 
+      def current_working_directory
+        File.expand_path("")
+      end
+
       def bootloader
-        Munge::Bootloader.new(root_path: destination_root)
+        Munge::Bootloader.new(root_path: current_working_directory)
       end
 
       def symbolized_options
