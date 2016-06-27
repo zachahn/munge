@@ -244,7 +244,7 @@ First, we'll need a new layout. Let's name this `blog_index.html.erb`.
 Next, we'll update our `rules.rb`
 
 ```ruby
-text_posts = blog_posts.select{ |item| item.type == :text }
+text_posts = blog_posts.select { |item| item.type == :text }
 
 app.create("index.html.erb", "", posts: text_posts).each do |index|
   index.route = "/"
