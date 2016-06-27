@@ -248,7 +248,7 @@ text_posts = blog_posts.select { |item| item.type == :text }
 
 app.create("index.html.erb", "", posts: text_posts).each do |index|
   index.route = "/"
-  index.layout = "blog_index" # Note that we don't need the extension here
+  index.layout = "blog_index" # Layouts have no extensions
   index.transform
 end
 ```
