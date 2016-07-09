@@ -246,9 +246,12 @@ Next, we'll update our `rules.rb`
 ```ruby
 text_posts = blog_posts.select { |item| item.type == :text }
 
+# Arg 1: Name of file, if it were in the filesystem. Not too important
+# Arg 2: Contents of file, if it were in the filesystem
+# Arg 3: (Hash) Objects to pass into the page scope when rendering
 app.create("index.html.erb", "", posts: text_posts).each do |index|
   index.route = "/"
-  index.layout = "blog_index" # Layouts have no extensions
+  index.layout = "blog_index" # Layouts are referred without extensions
   index.transform
 end
 ```
