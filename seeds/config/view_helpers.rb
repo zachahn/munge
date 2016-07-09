@@ -8,4 +8,4 @@ tilt_transformer.register(Munge::Helpers::AssetPaths)
 tilt_transformer.register(Munge::Helpers::AssetTags)
 tilt_transformer.register(AssetRoots)
 
-system.alterant.register(tilt_transformer)
+system.processor.register(tilt_transformer)

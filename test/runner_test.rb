@@ -41,7 +41,7 @@ class RunnerTest < TestCase
     Munge::Runner.new(
       items: [item, item],
       router: dummy_router,
-      alterant: dummy_alterant,
+      processor: dummy_processor,
       writer: Munge::Writers::Noop.new,
       formatter: formatter,
       verbosity: :all,
@@ -59,7 +59,7 @@ class RunnerTest < TestCase
     )
   end
 
-  def dummy_alterant
+  def dummy_processor
     QuickDummy.new(
       transform: -> (item) { item.content }
     )

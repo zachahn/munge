@@ -1,14 +1,14 @@
 require "test_helper"
 
-class SystemAlterantTest < TestCase
+class SystemProcessorTest < TestCase
   def setup
-    @alterant = Munge::System::Alterant.new
+    @processor = Munge::System::Processor.new
   end
 
   def test_registration_disallows_transformers_with_same_name
     register_rot13!
 
-    assert_raises(RuntimeError) { @alterant.register(@rot13) }
+    assert_raises(RuntimeError) { @processor.register(@rot13) }
   end
 
   def test_transform
@@ -18,7 +18,7 @@ class SystemAlterantTest < TestCase
     item.transforms = [[:rot13]]
     item.content = %(hello)
 
-    output = @alterant.transform(item)
+    output = @processor.transform(item)
 
     assert_equal "uryyb", output
   end
@@ -31,7 +31,7 @@ class SystemAlterantTest < TestCase
     item.transforms = [[:rot13], [:double]]
     item.content = %(hello)
 
-    output = @alterant.transform(item)
+    output = @processor.transform(item)
 
     assert_equal "uryyburyyb", output
   end
@@ -41,7 +41,7 @@ class SystemAlterantTest < TestCase
     item.transforms = [[:dne], [:rot13]]
     item.content = %(hello)
 
-    assert_raises(RuntimeError) { @alterant.transform(item) }
+    assert_raises(RuntimeError) { @processor.transform(item) }
   end
 
   private
@@ -53,7 +53,7 @@ class SystemAlterantTest < TestCase
         call: -> (_item, content, *) { content.tr("a-z", "n-za-m") }
       )
 
-    @alterant.register(@rot13)
+    @processor.register(@rot13)
   end
 
   def retister_double!
@@ -63,6 +63,6 @@ class SystemAlterantTest < TestCase
         call: -> (_item, content, *) { content + content }
       )
 
-    @alterant.register(@double)
+    @processor.register(@double)
   end
 end

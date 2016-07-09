@@ -1,6 +1,6 @@
 module Munge
   class System
-    class Alterant
+    class Processor
       def initialize
         @registry = {}
       end

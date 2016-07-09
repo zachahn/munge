@@ -1,9 +1,9 @@
 module Munge
   class System
     class Router
-      def initialize(alterant:)
+      def initialize(processor:)
         @registries = { route: [], filepath: [] }
-        @alterant = alterant
+        @processor = processor
       end
 
       def register(router)
@@ -35,7 +35,7 @@ module Munge
           raise "item `#{item.relpath}` has no route"
         end
 
-        itemish = Itemish.new(item, @alterant)
+        itemish = Itemish.new(item, @processor)
 
         @registries[method_name]
           .select { |router| router.type == method_name }

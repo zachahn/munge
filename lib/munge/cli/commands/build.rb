@@ -12,7 +12,7 @@ module Munge
             Munge::Runner.new(
               items: app.vomit(:items),
               router: app.vomit(:router),
-              alterant: app.vomit(:alterant),
+              processor: app.vomit(:processor),
               writer: writer(dry_run),
               formatter: formatter(reporter),
               verbosity: verbosity.to_sym,

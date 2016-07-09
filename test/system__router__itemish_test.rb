@@ -4,25 +4,25 @@ class SystemRouterItemishTest < TestCase
   def test_compiled_content
     item = OpenStruct.new
 
-    alterant = Minitest::Mock.new
-    alterant.expect(:transform, "postcompile", [item])
+    processor = Minitest::Mock.new
+    processor.expect(:transform, "postcompile", [item])
 
-    itemish = Munge::System::Router::Itemish.new(item, alterant)
+    itemish = Munge::System::Router::Itemish.new(item, processor)
     itemish.compiled_content
 
-    alterant.verify
+    processor.verify
   end
 
   def test_delegated_method
     item = Minitest::Mock.new
     item.expect(:frontmatter, {})
 
-    alterant =
+    processor =
       QuickDummy.new(
         transform: -> (_item) { "postcompile" }
       )
 
-    itemish = Munge::System::Router::Itemish.new(item, alterant)
+    itemish = Munge::System::Router::Itemish.new(item, processor)
     itemish.frontmatter
 
     item.verify

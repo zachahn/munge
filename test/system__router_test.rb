@@ -2,7 +2,7 @@ require "test_helper"
 
 class SystemRouterTest < TestCase
   def setup
-    @router = Munge::System::Router.new(alterant: new_dummy_alterant)
+    @router = Munge::System::Router.new(processor: new_dummy_processor)
   end
 
   def test_route_single_router
@@ -135,7 +135,7 @@ class SystemRouterTest < TestCase
     @router.register(@rot13_router)
   end
 
-  def new_dummy_alterant
+  def new_dummy_processor
     QuickDummy.new(transform: -> (*) { "dummy transformed text" })
   end
 end

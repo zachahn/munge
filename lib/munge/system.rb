@@ -34,17 +34,17 @@ module Munge
           items: Readers::Filesystem.new(layouts_path)
         )
 
-      @alterant =
-        Alterant.new
+      @processor =
+        Processor.new
 
       @router =
         Router.new(
-          alterant: @alterant
+          processor: @processor
         )
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-    attr_accessor :alterant
+    attr_accessor :processor
     attr_accessor :config
     attr_accessor :global_data
     attr_accessor :router
