@@ -35,7 +35,7 @@ module Munge
 
       desc "update", "Use with caution: override local configs with pristine version (useful after bumping version in Gemfile)"
       def update
-        ENV["MUNGE_ENV"]  ||= "development"
+        ENV["MUNGE_ENV"] ||= "development"
 
         Commands::Update.new(bootloader, current_working_directory).call
       end

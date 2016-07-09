@@ -9,7 +9,7 @@ module Munge
           File.expand_path("../../../../../seeds", __FILE__)
         end
 
-        def initialize(bootloader, path)
+        def initialize(_bootloader, path)
           self.options = {}
           self.destination_root = File.expand_path(path)
         end
