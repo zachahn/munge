@@ -33,7 +33,7 @@ module Munge
         Commands::Server.new(bootloader).call
       end
 
-      desc "version", "Print version"
+      desc "version", "Print version (v#{Munge::VERSION})"
       map %w(-v --version) => "version"
       def version
         puts "munge #{Munge::VERSION}"
