@@ -12,7 +12,7 @@ all:
 	@echo "make release        releases gem (dangerous)"
 
 coverage-test:
-	COVERAGE=1 script/test
+	RUN_FILESYSTEM_INTEGRATION_TESTS=1 COVERAGE=1 script/test
 
 coverage-open:
 	cd coverage && adsf
