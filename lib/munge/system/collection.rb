@@ -30,19 +30,20 @@ module Munge
         end
       end
 
-      def push(virtual_item)
-        key = virtual_item.id
-        @items[key] = virtual_item
+      def push(item)
+        if @items.key?(item.id)
+          raise "item with id `#{item.id}` already exists"
+        else
+          @items[item.id] = item
+        end
       end
 
       def [](id)
-        found_item = @items[id]
-
-        if found_item.nil?
+        if @items.key?(id)
+          @items[id]
+        else
           raise "item not found (#{id})"
         end
-
-        found_item
       end
 
       def freeze

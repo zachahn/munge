@@ -2,26 +2,29 @@ module Munge
   module Util
     class Path
       def self.dirname(path)
-        path_parts = path.split("/")
-        path_parts[0..-2].join("/")
+        if File.dirname(path) == "."
+          ""
+        else
+          File.dirname(path)
+        end
       end
 
       def self.extname(path)
-        basename = File.basename(path)
-        basename_parts = basename.split(".")
+        filename = basename(path)
+        filename_parts = filename.split(".")
 
-        if basename_parts.length > 1
-          basename_parts[-1]
+        if filename_parts.length > 1
+          filename_parts[-1]
         else
           ""
         end
       end
 
       def self.extnames(path)
-        basename = File.basename(path)
-        basename_parts = basename.split(".")
+        filename = basename(path)
+        filename_parts = filename.split(".")
 
-        basename_parts[1..-1]
+        filename_parts[1..-1]
       end
 
       def self.basename(path)
@@ -29,10 +32,10 @@ module Munge
       end
 
       def self.basename_no_extension(path)
-        basename = File.basename(path)
-        basename_parts = basename.split(".")
+        filename = basename(path)
+        filename_parts = filename.split(".")
 
-        basename_parts[0] || ""
+        filename_parts[0] || ""
       end
 
       def self.path_no_extension(path)

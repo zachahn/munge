@@ -6,13 +6,13 @@ module Munge
           original_erbout = block.binding.local_variable_get(:_erbout)
           block.binding.local_variable_set(:_erbout, "")
 
-          captured_text = block.call
+          captured_text = yield
 
           block.binding.local_variable_set(:_erbout, original_erbout)
 
           captured_text
         else
-          block.call
+          yield
         end
       end
 

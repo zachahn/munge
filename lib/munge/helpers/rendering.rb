@@ -27,15 +27,11 @@ module Munge
 
         output =
           engines
-            .inject(content) do |memo, engine|
+            .reduce(content) do |memoized_content, engine|
               options  = tilt_options[engine]
-              template = engine.new(template_name, options) { memo }
+              template = engine.new(template_name, options) { memoized_content }
 
-              if inner
-                template.render(self, data) { inner }
-              else
-                template.render(self, data)
-              end
+              template.render(self, data) { inner }
             end
 
         if block_given?
@@ -62,14 +58,11 @@ module Munge
 
       def merged_data(*data)
         hash_with_string_and_symbol_keys =
-          data.inject(system.global_data) do |merged, datum|
+          data.reduce(system.global_data) do |merged, datum|
             merged.merge(datum)
           end
 
-        hash_with_string_and_symbol_keys
-          .each_with_object({}) do |(key, value), memo|
-            memo[key.to_sym] = value
-          end
+        Munge::Util::SymbolHash.deep_convert(hash_with_string_and_symbol_keys)
       end
 
       def resolve_layout(item_or_string)

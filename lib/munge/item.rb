@@ -26,23 +26,19 @@ module Munge
     attr_reader :layout, :transforms
 
     def dirname
-      if File.dirname(@relpath) == "."
-        ""
-      else
-        File.dirname(@relpath)
-      end
+      Munge::Util::Path.dirname(@relpath)
     end
 
     def filename
-      File.basename(@relpath)
+      Munge::Util::Path.basename(@relpath)
     end
 
     def basename
-      filename.split(".").first
+      Munge::Util::Path.basename_no_extension(@relpath)
     end
 
     def extensions
-      filename.split(".")[1..-1]
+      Munge::Util::Path.extnames(@relpath)
     end
 
     def [](key)
@@ -65,13 +61,13 @@ module Munge
 
     def relpath?(*subdir_patterns)
       regexp = generate_regex(subdir_patterns)
-      regexp === @relpath
+      Munge::Util::BooleanRegex.match?(regexp, @relpath)
     end
 
     # do not query with slashes
     def route?(*subdir_patterns)
       regexp = generate_regex(subdir_patterns)
-      regexp === @route
+      Munge::Util::BooleanRegex.match?(regexp, @route)
     end
 
     def layout=(new_layout)
