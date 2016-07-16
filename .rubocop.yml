@@ -62,3 +62,12 @@ Style/SymbolProc:
 
 Style/UnneededInterpolation:
   Enabled: false
+
+Style/CollectionMethods:
+  PreferredMethods:
+    collect: 'map'
+    collect!: 'map!'
+    inject: 'reduce'
+    detect: 'find'
+    find_all: 'select'
+  Enabled: true
