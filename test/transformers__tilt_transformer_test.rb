@@ -4,14 +4,11 @@ class TransformersTiltTransformerTest < TestCase
   include TransformerInterfaceTest
 
   def setup
-    fake_scope = Object.new
-    fake_scope.instance_variable_set(:@global_data, {})
-
-    @tilt_transformer = Munge::Transformers::TiltTransformer.new(fake_scope)
+    @tilt_transformer = transformer
     @tilt_transformer.register(Munge::Helpers::Rendering)
   end
 
-  def test_auto_transform
+  test "auto transform" do
     item = new_item
     item.relpath = "foo.erb"
     output = @tilt_transformer.call(item)
@@ -19,7 +16,7 @@ class TransformersTiltTransformerTest < TestCase
     assert_equal "hi", output
   end
 
-  def test_manual_transform
+  test "manual transform" do
     item = new_item
     item.relpath = "foo.txt"
     output = @tilt_transformer.call(item, nil, "erb")
@@ -46,7 +43,7 @@ class TransformersTiltTransformerTest < TestCase
 
   def transformer
     fake_scope = Object.new
-    fake_scope.instance_variable_set(:@global_data, {})
+    fake_scope.define_singleton_method(:global_data) { Hash.new }
 
     Munge::Transformers::TiltTransformer.new(fake_scope)
   end

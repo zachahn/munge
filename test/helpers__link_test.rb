@@ -8,30 +8,33 @@ class HelpersLinkTest < TestCase
       "/super/cool"
     end
 
+    system = Object.new
+    system.define_singleton_method(:router) { dummy_router }
+
     @renderer = Object.new
-    @renderer.instance_variable_set(:@router, dummy_router)
+    @renderer.define_singleton_method(:system) { system }
     @renderer.extend(Munge::Helpers::Link)
   end
 
-  def test_path_to
+  test "#path_to" do
     url = @renderer.path_to(Object.new)
 
     assert_equal "/super/cool", url
   end
 
-  def test_link_to_with_custom_text
+  test "#link_to with custom text" do
     html = @renderer.link_to(Object.new, "custom text")
 
     assert_equal %(<a href="/super/cool">custom text</a>), html
   end
 
-  def test_link_to_without_custom_text
+  test "#link_to without custom text" do
     html = @renderer.link_to(Object.new)
 
     assert_equal %(<a href="/super/cool">/super/cool</a>), html
   end
 
-  def test_link_to_with_html_opts
+  test "#link_to with html options/attributes" do
     html = @renderer.link_to(Object.new, class: "hi", "asdf" => 3)
 
     assert_equal %(<a href="/super/cool" class="hi" asdf="3">/super/cool</a>), html

@@ -2,14 +2,18 @@ require "test_helper"
 
 class HelpersRenderingTest < TestCase
   def setup
+    @system = system = Object.new
+    @system.define_singleton_method(:global_data) { {} }
+
     @renderer = Object.new
-    @renderer.instance_variable_set(:@global_data, {})
-    @renderer.instance_variable_set(:@tilt_options, {})
+    @renderer.define_singleton_method(:tilt_options) { {} }
+    @renderer.define_singleton_method(:system) { system }
     @renderer.extend(Munge::Helpers::Rendering)
+    @renderer.extend(Munge::Helpers::Find)
     @renderer.extend(Munge::Helpers::Capture)
   end
 
-  def test_basic_render
+  test "#render with basic erb input" do
     item = OpenStruct.new
     item.content = %(<h1><%= "hi" %></h1>)
     item.frontmatter = {}
@@ -20,7 +24,7 @@ class HelpersRenderingTest < TestCase
     assert_equal "<h1>hi</h1>", output
   end
 
-  def test_render_with_content_override
+  test "#render with content_override" do
     item = OpenStruct.new
     item.content = %(<h1><%= "hi" %></h1>)
     item.frontmatter = {}
@@ -31,7 +35,7 @@ class HelpersRenderingTest < TestCase
     assert_equal "test", output
   end
 
-  def test_render_with_engine_override
+  test "#render with engine override" do
     item = OpenStruct.new
     item.content = %(<h1><%= "hi" %></h1>)
     item.frontmatter = {}
@@ -42,7 +46,7 @@ class HelpersRenderingTest < TestCase
     assert_equal %(<h1><%= "hi" %></h1>), output
   end
 
-  def test_render_with_array_engine_override
+  test "#render with list of engine overrides" do
     item = OpenStruct.new
     item.content = %(<h1><%= "hi" %></h1>)
     item.frontmatter = {}
@@ -53,7 +57,7 @@ class HelpersRenderingTest < TestCase
     assert_equal %(<h1>hi</h1>), output
   end
 
-  def test_layout_when_item_is_passed
+  test "#layout when item is passed" do
     layout = OpenStruct.new
     layout.content = %(<h1><%= yield %></h1>)
     layout.frontmatter = {}
@@ -65,7 +69,7 @@ class HelpersRenderingTest < TestCase
     assert_equal %(<h1><%= "hi" %></h1>), output
   end
 
-  def test_layout_when_string_is_passed
+  test "#layout when name of layout is passed" do
     layout = OpenStruct.new
     layout.content = %(<h1><%= yield %></h1>)
     layout.frontmatter = {}
@@ -73,14 +77,14 @@ class HelpersRenderingTest < TestCase
     layout.class = Munge::Item
     layout.id = "identifier"
 
-    @renderer.instance_variable_set(:@layouts, layout.id => layout)
+    @system.define_singleton_method(:layouts) { { layout.id => layout } }
 
     output = @renderer.layout("identifier") { %(<%= "hi" %>) }
 
     assert_equal %(<h1><%= "hi" %></h1>), output
   end
 
-  def test_layout_in_render
+  test "#layout nested in #render (#render #layout #render)" do
     layout = OpenStruct.new
     layout.content = %(<h1><%= yield %></h1>)
     layout.frontmatter = {}
@@ -89,7 +93,7 @@ class HelpersRenderingTest < TestCase
     layout.id = "identifier"
 
     outer = OpenStruct.new
-    outer.content = %(<div><%= layout("identifier") { render(@items["inner"]) } %></div>)
+    outer.content = %(<div><%= layout("identifier") { render(items["inner"]) } %></div>)
     outer.frontmatter = {}
     outer.relpath = "outer.erb"
     outer.id = "outer"
@@ -100,8 +104,8 @@ class HelpersRenderingTest < TestCase
     inner.relpath = "inner.erb"
     inner.id = "inner"
 
-    @renderer.instance_variable_set(:@layouts, layout.id => layout)
-    @renderer.instance_variable_set(:@items, inner.id => inner, outer.id => outer)
+    @system.define_singleton_method(:layouts) { { layout.id => layout } }
+    @system.define_singleton_method(:items) { { inner.id => inner, outer.id => outer } }
 
     output = @renderer.render(outer)
 
