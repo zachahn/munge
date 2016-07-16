@@ -28,7 +28,7 @@ module Munge
         output =
           engines
             .inject(content) do |memo, engine|
-              options  = @tilt_options[engine]
+              options  = tilt_options[engine]
               template = engine.new(template_name, options) { memo }
 
               if inner
@@ -62,7 +62,7 @@ module Munge
 
       def merged_data(*data)
         hash_with_string_and_symbol_keys =
-          data.inject(@global_data) do |merged, datum|
+          data.inject(system.global_data) do |merged, datum|
             merged.merge(datum)
           end
 
@@ -74,7 +74,7 @@ module Munge
 
       def resolve_layout(item_or_string)
         if item_or_string.is_a?(String)
-          @layouts[item_or_string]
+          system.layouts[item_or_string]
         else
           item_or_string
         end

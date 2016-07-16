@@ -49,5 +49,6 @@ module Munge
     attr_accessor :global_data
     attr_accessor :router
     attr_accessor :items
+    attr_accessor :layouts
   end
 end

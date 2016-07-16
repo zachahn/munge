@@ -2,7 +2,7 @@ module Munge
   module Helpers
     module Link
       def path_to(item)
-        @router.route(item)
+        system.router.route(item)
       end
 
       def link_to(item, text = nil, opts = {})
