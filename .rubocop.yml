@@ -5,6 +5,7 @@ AllCops:
     - Gemfile
     - Rakefile
     - munge.gemspec
+    - sandbox/**/*
 
 Metrics/AbcSize:
   Exclude:
