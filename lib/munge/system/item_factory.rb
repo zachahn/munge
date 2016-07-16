@@ -11,7 +11,7 @@ module Munge
                 content:,
                 frontmatter: {},
                 stat: nil)
-        type = compute_file_type(relpath)
+        type = item_file_type(relpath)
 
         id = @item_identifier.call(relpath)
 
@@ -28,25 +28,20 @@ module Munge
       def parse(relpath:,
                 content:,
                 stat: nil)
-        type = compute_file_type(relpath)
+        normalized_content, normalized_frontmatter =
+          if item_file_type(relpath) == :text
+            parsed = ContentParser.new(content)
+            [parsed.content, parsed.frontmatter]
+          else
+            [content, {}]
+          end
 
-        if type == :text
-          parsed = ContentParser.new(content)
-
-          build(
-            relpath: relpath,
-            content: parsed.content,
-            frontmatter: parsed.frontmatter,
-            stat: stat
-          )
-        else
-          build(
-            relpath: relpath,
-            content: content,
-            frontmatter: {},
-            stat: stat
-          )
-        end
+        build(
+          relpath: relpath,
+          content: normalized_content,
+          frontmatter: normalized_frontmatter,
+          stat: stat
+        )
       end
 
       private
@@ -56,7 +51,7 @@ module Munge
         Set.new(extensions)
       end
 
-      def compute_file_type(abspath)
+      def item_file_type(abspath)
         exts = file_extensions(abspath)
 
         if exts.intersect?(@text_extensions)
