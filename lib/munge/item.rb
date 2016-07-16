@@ -65,13 +65,13 @@ module Munge
 
     def relpath?(*subdir_patterns)
       regexp = generate_regex(subdir_patterns)
-      regexp === @relpath
+      Munge::Util::BooleanRegex.match?(regexp, @relpath)
     end
 
     # do not query with slashes
     def route?(*subdir_patterns)
       regexp = generate_regex(subdir_patterns)
-      regexp === @route
+      Munge::Util::BooleanRegex.match?(regexp, @route)
     end
 
     def layout=(new_layout)
