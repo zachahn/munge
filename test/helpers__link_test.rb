@@ -13,6 +13,7 @@ class HelpersLinkTest < TestCase
 
     @renderer = tilt_scope_class.new(system, {})
     @renderer.extend(Munge::Helpers::Link)
+    @renderer.extend(Munge::Helpers::Tag)
   end
 
   test "#path_to" do
@@ -37,5 +38,11 @@ class HelpersLinkTest < TestCase
     html = @renderer.link_to(Object.new, class: "hi", "asdf" => 3)
 
     assert_equal %(<a href="/super/cool" class="hi" asdf="3">/super/cool</a>), html
+  end
+
+  test "#link_to with href option results in that option overriding default" do
+    html = @renderer.link_to(Object.new, href: "/hi", class: "hi")
+
+    assert_equal %(<a href="/hi" class="hi">/super/cool</a>), html
   end
 end

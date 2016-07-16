@@ -13,21 +13,9 @@ module Munge
           text = nil
         end
 
-        optstr = opts.map { |key, val| %(#{key}="#{val}") }
+        href_with_options = { href: link }.merge(opts)
 
-        parts =
-          [
-            [
-              "<a",
-              %(href="#{link}"),
-              optstr
-            ].flatten.join(" "),
-            ">",
-            text || link,
-            "</a>"
-          ]
-
-        parts.join
+        content_tag(:a, text || link, href_with_options)
       end
     end
   end

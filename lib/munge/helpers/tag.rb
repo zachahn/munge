@@ -32,7 +32,7 @@ module Munge
       end
 
       def h(string)
-        CGI.escape_html(string)
+        CGI.escape_html(string.to_s)
       end
     end
   end
