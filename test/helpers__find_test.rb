@@ -4,12 +4,15 @@ class HelpersFindTest < TestCase
   def setup
     items = { id: "item" }
 
+    system = Object.new
+    system.define_singleton_method(:items) { items }
+
     @renderer = Object.new
-    @renderer.instance_variable_set(:@items, items)
+    @renderer.define_singleton_method(:system) { system }
     @renderer.extend(Munge::Helpers::Find)
   end
 
-  def test_find
+  test "find" do
     item = @renderer.items[:id]
 
     assert_equal "item", item

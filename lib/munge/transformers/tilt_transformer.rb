@@ -18,8 +18,6 @@ module Munge
         scope = Object.new
         @registry.each { |helpers| scope.extend(helpers) }
         scope.define_singleton_method(:system) { system }
-        scope.define_singleton_method(:layouts) { system.layouts }
-        scope.define_singleton_method(:items) { system.items }
         scope.define_singleton_method(:tilt_options) { demands }
 
         scope.render_with_layout(item, content_engines: renderer, content_override: content)
