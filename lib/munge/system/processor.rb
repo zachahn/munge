@@ -21,7 +21,7 @@ module Munge
       def transform(item)
         item.transforms
           .map { |name, args| [get_transformer(name), args] }
-          .inject(item.content) do |content, params|
+          .reduce(item.content) do |content, params|
             transformer, args = params
 
             transformer.call(item, content, *args)

@@ -39,7 +39,7 @@ module Munge
 
         @registries[method_name]
           .select { |router| router.type == method_name }
-          .inject(initial_route || item.route) do |route, router|
+          .reduce(initial_route || item.route) do |route, router|
             if router.match?(route, itemish)
               router.call(route, itemish)
             else

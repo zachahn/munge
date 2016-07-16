@@ -27,7 +27,7 @@ module Munge
 
         output =
           engines
-            .inject(content) do |memo, engine|
+            .reduce(content) do |memo, engine|
               options  = tilt_options[engine]
               template = engine.new(template_name, options) { memo }
 
@@ -62,7 +62,7 @@ module Munge
 
       def merged_data(*data)
         hash_with_string_and_symbol_keys =
-          data.inject(system.global_data) do |merged, datum|
+          data.reduce(system.global_data) do |merged, datum|
             merged.merge(datum)
           end
 
