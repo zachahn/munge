@@ -1,12 +1,19 @@
 module Munge
   module Helpers
     module Link
-      def path_to(item)
+      def path_to(itemish)
+        item =
+          if item.is_a?(String)
+            system.items[itemish]
+          else
+            itemish
+          end
+
         system.router.route(item)
       end
 
-      def link_to(item, text = nil, opts = {})
-        link = path_to(item)
+      def link_to(itemish, text = nil, opts = {})
+        link = path_to(itemish)
 
         if text.is_a?(Hash)
           opts = text
