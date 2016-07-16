@@ -7,8 +7,7 @@ class HelpersFindTest < TestCase
     system = Object.new
     system.define_singleton_method(:items) { items }
 
-    @renderer = Object.new
-    @renderer.define_singleton_method(:system) { system }
+    @renderer = tilt_scope_class.new(system, {})
     @renderer.extend(Munge::Helpers::Find)
   end
 

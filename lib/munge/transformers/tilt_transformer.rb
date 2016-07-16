@@ -12,13 +12,8 @@ module Munge
       end
 
       def call(item, content = nil, renderer = nil)
-        system = @system.clone
-        demands = @demands
-
-        scope = Object.new
+        scope = Scope.new(@system.clone, @demands)
         @registry.each { |helpers| scope.extend(helpers) }
-        scope.define_singleton_method(:system) { system }
-        scope.define_singleton_method(:tilt_options) { demands }
 
         scope.render_with_layout(item, content_engines: renderer, content_override: content)
       end
@@ -29,6 +24,16 @@ module Munge
 
       def demand(tilt_template, **options)
         @demands[tilt_template] = @demands[tilt_template].merge(options)
+      end
+
+      class Scope
+        def initialize(system, tilt_options)
+          @system = system
+          @tilt_options = tilt_options
+        end
+
+        attr_reader :system
+        attr_reader :tilt_options
       end
     end
   end

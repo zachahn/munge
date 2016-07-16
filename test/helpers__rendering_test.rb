@@ -5,9 +5,7 @@ class HelpersRenderingTest < TestCase
     @system = system = Object.new
     @system.define_singleton_method(:global_data) { {} }
 
-    @renderer = Object.new
-    @renderer.define_singleton_method(:tilt_options) { {} }
-    @renderer.define_singleton_method(:system) { system }
+    @renderer = tilt_scope_class.new(system, {})
     @renderer.extend(Munge::Helpers::Rendering)
     @renderer.extend(Munge::Helpers::Find)
     @renderer.extend(Munge::Helpers::Capture)

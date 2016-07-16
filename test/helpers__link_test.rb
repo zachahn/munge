@@ -11,8 +11,7 @@ class HelpersLinkTest < TestCase
     system = Object.new
     system.define_singleton_method(:router) { dummy_router }
 
-    @renderer = Object.new
-    @renderer.define_singleton_method(:system) { system }
+    @renderer = tilt_scope_class.new(system, {})
     @renderer.extend(Munge::Helpers::Link)
   end
 
