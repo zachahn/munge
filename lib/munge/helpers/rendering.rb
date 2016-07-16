@@ -62,10 +62,7 @@ module Munge
             merged.merge(datum)
           end
 
-        hash_with_string_and_symbol_keys
-          .each_with_object({}) do |(key, value), memo|
-            memo[key.to_sym] = value
-          end
+        Munge::Util::SymbolHash.deep_convert(hash_with_string_and_symbol_keys)
       end
 
       def resolve_layout(item_or_string)
