@@ -31,11 +31,7 @@ module Munge
               options  = tilt_options[engine]
               template = engine.new(template_name, options) { memo }
 
-              if inner
-                template.render(self, data) { inner }
-              else
-                template.render(self, data)
-              end
+              template.render(self, data) { inner }
             end
 
         if block_given?
