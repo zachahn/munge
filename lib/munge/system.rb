@@ -1,25 +1,19 @@
 module Munge
   class System
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     def initialize(root_path, config)
-      source_path  = File.expand_path(config[:source], root_path)
-      layouts_path = File.expand_path(config[:layouts], root_path)
-      data_path    = File.expand_path(config[:data], root_path)
-
-      @global_data = YAML.load_file(data_path) || {}
-
+      @root_path = root_path
       @config = config
+    end
+
+    def items
+      return @items if @items
+
+      source_path = File.expand_path(@config[:source], @root_path)
 
       source_item_factory =
         ItemFactory.new(
-          text_extensions: config[:text_extensions] + config[:bintext_extensions],
-          ignore_extensions: config[:dynamic_extensions]
-        )
-
-      layouts_item_factory =
-        ItemFactory.new(
-          text_extensions: config[:text_extensions] + config[:bintext_extensions],
-          ignore_extensions: %w(.+)
+          text_extensions: @config[:text_extensions] + @config[:bintext_extensions],
+          ignore_extensions: @config[:dynamic_extensions]
         )
 
       @items =
@@ -27,28 +21,44 @@ module Munge
           item_factory: source_item_factory,
           items: Readers::Filesystem.new(source_path)
         )
+    end
 
-      @layouts =
+    def layouts
+      return @layouts if @layouts
+
+      layouts_path = File.expand_path(@config[:layouts], @root_path)
+
+      layouts_item_factory =
+        ItemFactory.new(
+          text_extensions: @config[:text_extensions] + @config[:bintext_extensions],
+          ignore_extensions: %w(.+)
+        )
+
+      @layouts ||=
         Collection.new(
           item_factory: layouts_item_factory,
           items: Readers::Filesystem.new(layouts_path)
         )
+    end
 
-      @processor =
-        Processor.new
+    def processor
+      @processor ||= Processor.new
+    end
 
-      @router =
+    def router
+      @router ||=
         Router.new(
-          processor: @processor
+          processor: processor
         )
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-    attr_accessor :processor
-    attr_accessor :config
-    attr_accessor :global_data
-    attr_accessor :router
-    attr_accessor :items
-    attr_accessor :layouts
+    def global_data
+      return @global_data if @global_data
+
+      data_path = File.expand_path(@config[:data], @root_path)
+      @global_data = YAML.load_file(data_path) || {}
+    end
+
+    attr_reader :config
   end
 end
