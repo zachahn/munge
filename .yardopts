@@ -1,0 +1,6 @@
+--legacy
+--markup-provider=redcarpet
+--markup markdown
+-
+README.md
+LICENSE.txt

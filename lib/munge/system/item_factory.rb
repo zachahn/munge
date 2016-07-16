@@ -1,12 +1,20 @@
 module Munge
   class System
     class ItemFactory
+      # @param text_extensions [Array<String>]
+      # @param ignore_extensions [Array<String>] Strings are converted to regex
       def initialize(text_extensions:,
                      ignore_extensions:)
         @text_extensions = Set.new(text_extensions)
         @item_identifier = ItemIdentifier.new(remove_extensions: ignore_extensions)
       end
 
+      # Builds an Item
+      #
+      # @param relpath [String]
+      # @param content [String]
+      # @param frontmatter [Hash]
+      # @param stat [File::Stat]
       def build(relpath:,
                 content:,
                 frontmatter: {},
@@ -25,6 +33,11 @@ module Munge
         )
       end
 
+      # Parses frontmatter and builds an Item, given a text string
+      #
+      # @param relpath [String]
+      # @param content [String]
+      # @param stat [File::Stat]
       def parse(relpath:,
                 content:,
                 stat: nil)

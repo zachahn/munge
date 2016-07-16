@@ -27,7 +27,12 @@ require "rack"
 module Munge
   module Cli
     module Commands
+      # This class starts up a webserver useful for development
       class View
+        # @param bootloader [Munge::Bootloader]
+        # @param host [String]
+        # @param port [Numeric]
+        # @param build_root [String, nil]
         def initialize(bootloader, host:, port:, build_root: nil)
           config = bootloader.config
           @host  = host

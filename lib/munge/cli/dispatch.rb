@@ -1,5 +1,6 @@
 module Munge
   module Cli
+    # This class directs commandline flags to appropriate classes
     class Dispatch < Thor
       desc "init PATH", "Create new site at PATH"
       def init(path)
