@@ -1,10 +1,10 @@
 module Munge
   module Transformers
     class TiltTransformer
-      def initialize(scope)
-        @pristine_scope = scope
-        @registry       = []
-        @demands        = Hash.new { Hash.new }
+      def initialize(system)
+        @system = system
+        @registry = []
+        @demands = Hash.new { Hash.new }
       end
 
       def name
@@ -12,11 +12,10 @@ module Munge
       end
 
       def call(item, content = nil, renderer = nil)
-        scope = @pristine_scope.dup
-        scope.instance_variable_set(:@renderer, @renderer)
-        dirty_scope = extend_with_helpers(scope)
-        dirty_scope.instance_variable_set(:@tilt_options, @demands)
-        dirty_scope.render_with_layout(item, content_engines: renderer, content_override: content)
+        scope = Scope.new(@system.clone, @demands)
+        @registry.each { |helpers| scope.extend(helpers) }
+
+        scope.render_with_layout(item, content_engines: renderer, content_override: content)
       end
 
       def register(helper)
@@ -27,11 +26,14 @@ module Munge
         @demands[tilt_template] = @demands[tilt_template].merge(options)
       end
 
-      private
+      class Scope
+        def initialize(system, tilt_options)
+          @system = system
+          @tilt_options = tilt_options
+        end
 
-      def extend_with_helpers(scope)
-        @registry
-          .inject(scope) { |a, e| a.extend(e) }
+        attr_reader :system
+        attr_reader :tilt_options
       end
     end
   end

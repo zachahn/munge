@@ -43,4 +43,8 @@ class TestCase < Minitest::Test
   def seeds_path
     File.absolute_path(File.expand_path("../../seeds", __FILE__))
   end
+
+  def tilt_scope_class
+    Munge::Transformers::TiltTransformer::Scope
+  end
 end
