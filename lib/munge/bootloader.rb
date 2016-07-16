@@ -1,5 +1,7 @@
 module Munge
+  # This class is useful for loading the application.
   class Bootloader
+    # @param root_path [String] Absolute path to munge directory
     def initialize(root_path:)
       @root_path   = root_path
       @config_path = File.join(root_path, "config.yml")
@@ -8,6 +10,7 @@ module Munge
       @config      = Munge::Util::Config.read(@config_path)
     end
 
+    # @return [Munge::Init]
     def init
       @init ||=
         Init.new(

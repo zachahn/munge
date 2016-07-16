@@ -1,7 +1,12 @@
 module Munge
   module Cli
     module Commands
+      # This class is used by the CLI to build and calculate output
       class Build
+        # @param bootloader [Munge::Bootloader]
+        # @param dry_run [true, false]
+        # @param reporter [Munge::Reporters]
+        # @param build_root [String, nil]
         def initialize(bootloader, dry_run:, reporter:, verbosity:, build_root: nil)
           destination_root = bootloader.root_path
           config           = bootloader.config

@@ -1,5 +1,8 @@
 module Munge
+  # This class loads the user rules, as well as provides some useful methods
+  # for setup.
   class Init
+    # Initializing loads up the user's `setup.rb` and `rules.rb`.
     def initialize(root_path:,
                    config:,
                    setup_path:,
@@ -21,10 +24,14 @@ module Munge
       @app.items.freeze
     end
 
+    # @return [String] path to user's `config/` directory
     def config_path
       File.join(root_path, "config")
     end
 
+    # Loads file into current scope. Similar to `load "filename.rb"`
+    #
+    # @return [void]
     def import(file_path)
       absolute_file_path = File.expand_path(file_path, root_path)
       contents           = File.read(absolute_file_path)

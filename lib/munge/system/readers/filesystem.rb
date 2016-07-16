@@ -1,13 +1,17 @@
 module Munge
   class System
     module Readers
+      # Enumerable list of {Munge::Item}s
       class Filesystem
         include Enumerable
 
+        # @param source_path [String]
         def initialize(source_path)
           @source_path = source_path
         end
 
+        # @yield [Item]
+        # @return [Enumerator]
         def each
           return enum_for(:each) unless block_given?
 
