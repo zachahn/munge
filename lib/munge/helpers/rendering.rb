@@ -27,9 +27,9 @@ module Munge
 
         output =
           engines
-            .reduce(content) do |memo, engine|
+            .reduce(content) do |memoized_content, engine|
               options  = tilt_options[engine]
-              template = engine.new(template_name, options) { memo }
+              template = engine.new(template_name, options) { memoized_content }
 
               template.render(self, data) { inner }
             end
