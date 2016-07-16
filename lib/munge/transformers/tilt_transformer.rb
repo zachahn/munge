@@ -12,7 +12,7 @@ module Munge
       end
 
       def call(item, content = nil, renderer = nil)
-        system = @system.dup
+        system = @system.clone
         demands = @demands
 
         scope = Object.new
