@@ -2,17 +2,8 @@ module Munge
   module Formatters
     class Dots
       def initialize
-        @counts = {
-          new:       0,
-          changed:   0,
-          identical: 0
-        }
-
-        @relpaths = {
-          new:       [],
-          changed:   [],
-          identical: []
-        }
+        @counts = Hash.new { 0 }
+        @relpaths = Hash.new { [] }
 
         @dots = {
           new:       Rainbow("W").green,
@@ -29,7 +20,7 @@ module Munge
         @counts[write_status] += 1
 
         if should_print
-          @relpaths[write_status].push(relpath)
+          @relpaths[write_status] += [relpath]
         end
 
         print @dots[write_status]
