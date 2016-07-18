@@ -8,7 +8,7 @@ class SystemProcessorTest < TestCase
   def test_registration_disallows_transformers_with_same_name
     register_rot13!
 
-    assert_raises(RuntimeError) { @processor.register(@rot13) }
+    assert_raises(Munge::Errors::DuplicateTransformerError) { @processor.register(@rot13) }
   end
 
   def test_transform
@@ -41,7 +41,7 @@ class SystemProcessorTest < TestCase
     item.transforms = [[:dne], [:rot13]]
     item.content = %(hello)
 
-    assert_raises(RuntimeError) { @processor.transform(item) }
+    assert_raises(Munge::Errors::TransformerNotFoundError) { @processor.transform(item) }
   end
 
   private

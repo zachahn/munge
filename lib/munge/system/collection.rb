@@ -48,7 +48,7 @@ module Munge
       # @return [void]
       def push(item)
         if @items.key?(item.id)
-          raise "item with id `#{item.id}` already exists"
+          raise Errors::DuplicateItemError, item.id
         else
           @items[item.id] = item
         end
@@ -60,7 +60,7 @@ module Munge
         if @items.key?(id)
           @items[id]
         else
-          raise "item not found (#{id})"
+          raise Errors::ItemNotFoundError, id
         end
       end
 

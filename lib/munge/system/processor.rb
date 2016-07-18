@@ -19,7 +19,7 @@ module Munge
       # @param transformer [#call]
       def register_manually(name, transformer)
         if @registry.key?(name)
-          raise "already registered transformer `#{name}`"
+          raise Errors::DuplicateTransformerError, name
         else
           @registry[name] = transformer
         end
@@ -44,7 +44,7 @@ module Munge
         if @registry.key?(name)
           @registry[name]
         else
-          raise "transformer `#{name}` is not installed"
+          raise Errors::TransformerNotFoundError, name
         end
       end
     end

@@ -13,7 +13,7 @@ module Munge
         when :filepath
           @registries[:filepath].push(router)
         else
-          raise "invalid router"
+          raise Errors::InvalidRouterError, router.type
         end
       end
 
@@ -32,7 +32,7 @@ module Munge
 
       def route_mapper(item, method_name, initial_route = nil)
         if !item.route && !initial_route
-          raise "item `#{item.relpath}` has no route"
+          raise Errors::ItemHasNoRouteError, item.relpath
         end
 
         itemish = Itemish.new(item, @processor)

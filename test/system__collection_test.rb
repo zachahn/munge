@@ -31,7 +31,7 @@ class SystemCollectionTest < TestCase
   end
 
   def test_hashlike_access_not_found
-    assert_raises(RuntimeError) { @items["id notfound.html"] }
+    assert_raises(Munge::Errors::ItemNotFoundError) { @items["id notfound.html"] }
   end
 
   def test_each_returns_enumerator

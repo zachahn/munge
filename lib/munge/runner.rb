@@ -33,7 +33,7 @@ module Munge
       when :new, :changed
         @writer.write(abspath, content)
       when :double_write_error
-        raise "attempted to write #{item.route} twice"
+        raise Errors::DoubleWriteError, item.route
       when :identical
         # Defer to the reporter
       end
