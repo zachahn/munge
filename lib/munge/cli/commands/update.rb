@@ -15,7 +15,7 @@ module Munge
         end
 
         def call
-          directory("config", File.expand_path("config", destination_root))
+          directory("lib", File.expand_path("lib", destination_root))
           copy_file("setup.rb")
         end
       end

@@ -24,9 +24,9 @@ module Munge
       @app.items.freeze
     end
 
-    # @return [String] path to user's `config/` directory
-    def config_path
-      File.join(root_path, "config")
+    # @return [String] path to user's `lib/` directory
+    def lib_path
+      File.join(root_path, "lib")
     end
 
     # Loads file into current scope. Similar to `load "filename.rb"`

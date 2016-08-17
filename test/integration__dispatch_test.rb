@@ -39,8 +39,8 @@ class IntegrationDispatchTest < TestCase
       end
     end
 
-    assert_match("exist  config", out(update_io))
-    assert_match("identical  config/_asset_roots.rb", out(update_io))
+    assert_match("exist  lib", out(update_io))
+    assert_match("identical  lib/_asset_roots.rb", out(update_io))
 
     view_io = capture_subprocess_io do
       Dir.chdir("sandbox/#{project_name}") do
