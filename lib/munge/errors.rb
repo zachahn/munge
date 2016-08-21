@@ -64,5 +64,14 @@ module Munge
         "invalid router with type #{@identifier}"
       end
     end
+
+    class ConfigYmlNotFound < Base
+      include ErrorWithIdentifier
+
+      def message
+        "Expected to find config file: #{@identifier}\n" \
+        "Are you in the correct directory, or did you run `munge init`?"
+      end
+    end
   end
 end

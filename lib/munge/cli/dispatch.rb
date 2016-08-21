@@ -55,6 +55,9 @@ module Munge
 
       def bootloader
         Munge::Bootloader.new(root_path: current_working_directory)
+      rescue Munge::Errors::ConfigYmlNotFound => e
+        puts e.message
+        exit
       end
 
       def symbolized_options

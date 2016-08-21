@@ -21,6 +21,8 @@ module Munge
 
         def read_yaml(abspath)
           YAML.load_file(abspath)
+        rescue
+          raise Munge::Errors::ConfigYmlNotFound, abspath
         end
       end
     end
