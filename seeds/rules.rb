@@ -1,35 +1,37 @@
+# General route helpers
+transform = -> (item) { item.transform }
+
 # HTML rules
 app.nonrouted
   .select { |item| item.extensions.include?("html") }
   .each   { |item| item.route = item.basename }
   .each   { |item| item.layout = "default" }
-  .each   { |item| item.transform }
+  .each(&transform)
+
+# Asset route helpers
+def app_asset(subdir)
+  app.nonrouted
+    .select { |item| item.relpath?("assets/#{subdir}") }
+    .reject { |item| item.basename[0] == "_" }
+end
 
 # Font rules
-app.nonrouted
-  .select { |item| item.relpath?("assets/fonts") }
-  .reject { |item| item.basename[0] == "_" }
-  .each   { |item| item.route = item.relpath }
+app_asset("fonts")
+  .each { |item| item.route = "/assets/#{item.filename}" }
 
 # Image rules
-app.nonrouted
-  .select { |item| item.relpath?("assets/images") }
-  .reject { |item| item.basename[0] == "_" }
-  .each   { |item| item.route = item.relpath }
+app_asset("images")
+  .each { |item| item.route = "/assets/#{item.filename}" }
 
 # JS rules
-app.nonrouted
-  .select { |item| item.relpath?("assets/javascripts") }
-  .reject { |item| item.basename[0] == "_" }
-  .each   { |item| item.route = "/#{item.dirname}/#{item.basename}.js" }
-  .each   { |item| item.transform }
+app_asset("javascripts")
+  .each { |item| item.route = "/assets/#{item.basename}.js" }
+  .each(&transform)
 
 # CSS rules
-app.nonrouted
-  .select { |item| item.relpath?("assets/stylesheets") }
-  .reject { |item| item.basename[0] == "_" }
-  .each   { |item| item.route = "/#{item.dirname}/#{item.basename}.css" }
-  .each   { |item| item.transform }
+app_asset("stylesheets")
+  .each { |item| item.route = "/assets/#{item.basename}.css" }
+  .each(&transform)
 
 # Sitemap
 html_pages =
