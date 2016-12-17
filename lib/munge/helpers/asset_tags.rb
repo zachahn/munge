@@ -15,6 +15,12 @@ module Munge
         content_tag(:script, options)
       end
 
+      def image_tag(basename, options = {})
+        options[:src] ||= image_path(basename)
+
+        empty_tag(:img, options)
+      end
+
       def inline_stylesheet_tag(basename, options = {})
         inline_asset_tag_helper(stylesheets_root, basename, :style, options)
       end

@@ -6,8 +6,10 @@ class HelpersAssetTagsTest < TestCase
       QuickDummy.new(
         stylesheet_path: -> (basename) { "#{basename}.css" },
         javascript_path: -> (basename) { "#{basename}.js" },
+        image_path: -> (basename) { basename },
         stylesheets_root: -> { "stylesheets" },
         javascripts_root: -> { "javascripts" },
+        images_root: -> { "images" },
         items: -> { Hash.new("item".freeze) },
         render: -> (_) { "rendered item" }
       )
@@ -37,6 +39,12 @@ class HelpersAssetTagsTest < TestCase
     tag = @renderer.javascript_tag("foo", type: "text/coffeescript", src: "bar.coffee")
 
     assert_equal %(<script type="text/coffeescript" src="bar.coffee"></script>), tag
+  end
+
+  test "#image_tag returns a tag with correct path and options" do
+    tag = @renderer.image_tag("foo.jpg", alt: "bar")
+
+    assert_equal(%(<img alt="bar" src="foo.jpg" />), tag)
   end
 
   test "#inline_stylesheet_tag returns contents of css around correct tags" do
