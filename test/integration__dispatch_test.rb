@@ -31,7 +31,7 @@ class IntegrationDispatchTest < TestCase
     end
 
     assert_match("Started build", out(build_io))
-    assert_match(%r{assets/stylesheets/basic-}, out(build_io))
+    assert_match(%r{assets/basic-}, out(build_io))
 
     update_io = capture_subprocess_io do
       Dir.chdir("sandbox/#{project_name}") do
@@ -58,13 +58,13 @@ class IntegrationDispatchTest < TestCase
       Dir.chdir("sandbox/#{project_name}") do
         ENV["MUNGE_ENV"] = "development"
         pid = fork { Munge::Cli::Dispatch.start(["server"]) }
-        sleep(2)
+        sleep(6)
         Process.kill("INT", pid)
         Process.wait
       end
     end
 
-    assert_match("created   assets/stylesheets/basic.", out(server_io))
+    assert_match("created   assets/basic.", out(server_io))
     assert_match("INFO  WEBrick", err(server_io))
   end
 

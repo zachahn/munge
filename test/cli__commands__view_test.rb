@@ -5,7 +5,7 @@ class CliComandsViewTest < TestCase
   include Rack::Test::Methods
 
   test "rack app" do
-    get "/index.html.erb"
+    get "/home/index.html.erb"
     assert_equal(200, last_response.status)
   end
 

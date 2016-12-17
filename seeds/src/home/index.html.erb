@@ -1,5 +1,5 @@
 ---
-title: Welcome
+title: Woohoo!
 ---
 
 <h1><%= title %></h1>
@@ -28,12 +28,17 @@ title: Welcome
   <code>setup.rb</code>.
 </p>
 
-<h2>Links</h2>
+<h2>Example Links</h2>
+
+<ul>
+  <li><%= link_to(items["blog-index.html"], "Example blog") %></li>
+  <li><%= link_to(items["home/about.html"], "Example page") %></li>
+</ul>
+
+<h2>Munge Links</h2>
 
 <ul>
   <li><a href="https://github.com/zachahn/munge">Munge homepage</a></li>
   <li><a href="https://github.com/zachahn/munge/issues">Munge issues</a></li>
   <li><a href="https://rubygems.org/gems/munge">Gem homepage</a></li>
 </ul>
-
-<%= render(layouts["sitemap"]) %>

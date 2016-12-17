@@ -1,0 +1,7 @@
+<% layout("default") do %>
+  <ul>
+    <% posts.each do |post| %>
+      <li><a href="<%= path_to(post) %>"><%= post.basename %></a></li>
+    <% end %>
+  </ul>
+<% end %>

@@ -1,10 +1,38 @@
 # General route helpers
 transform = -> (item) { item.transform }
 
-# HTML rules
+# Blog rules
+blog_items =
+  app.nonrouted
+    .select  { |item| item.relpath?("blog") }
+    .sort_by { |item| item.basename }
+    .each    { |item| item[:hide] = item.extensions.include?("draft") }
+    .each    { |item| item[:text] = item.content.valid_encoding? }
+    .each    { |item| item.route = "blog/#{item.basename}" }
+    .reverse
+
+blog_public_items = blog_items.select { |i| !i[:hide] && i[:text] }
+blog_index_items = blog_public_items[0..7]
+
+blog_items
+  .select { |item| item[:text] }
+  .each   { |item| item.layout = "blog_show" }
+  .each(&transform)
+
+app.create("blog-index.html.erb", "", posts: blog_index_items)
+  .each { |item| item.route  = "blog" }
+  .each { |item| item.layout = "blog_index" }
+  .each(&transform)
+
+app.create("blog-archive.html.erb", "", posts: blog_public_items)
+  .each { |item| item.route  = "blog/archives" }
+  .each { |item| item.layout = "blog_archives" }
+  .each(&transform)
+
+# Home page rules
 app.nonrouted
-  .select { |item| item.extensions.include?("html") }
-  .each   { |item| item.route = item.basename }
+  .select { |item| item.relpath?("home") }
+  .each   { |item| item.route = "#{item.id.sub(%r{^home/}, "")}" }
   .each   { |item| item.layout = "default" }
   .each(&transform)
 
