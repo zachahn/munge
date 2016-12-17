@@ -7,9 +7,6 @@ class HelpersAssetTagsTest < TestCase
         stylesheet_path: -> (basename) { "#{basename}.css" },
         javascript_path: -> (basename) { "#{basename}.js" },
         image_path: -> (basename) { basename },
-        stylesheets_root: -> { "stylesheets" },
-        javascripts_root: -> { "javascripts" },
-        images_root: -> { "images" },
         items: -> { Hash.new("item".freeze) },
         render: -> (_) { "rendered item" }
       )
