@@ -22,6 +22,12 @@ class SystemItemFactoryItemIdentifierTest < TestCase
     assert_equal "bar/foo", identifier.call("bar/foo.erbrb")
   end
 
+  test "absolute directories get translated into relative ones" do
+    identifier = Munge::System::ItemFactory::ItemIdentifier.new(remove_extensions: dynamic_extensions)
+
+    assert_equal "foo/bar/foo.bar.baz", identifier.call("/foo/bar/foo.bar.baz.erb")
+  end
+
   private
 
   def dynamic_extensions

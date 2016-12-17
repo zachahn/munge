@@ -7,7 +7,7 @@ module Munge
         end
 
         def call(relpath)
-          dirname    = Munge::Util::Path.dirname(relpath)
+          dirname    = Munge::Util::Path.ensure_relpath(Munge::Util::Path.dirname(relpath))
           basename   = Munge::Util::Path.basename_no_extension(relpath)
           extensions = Munge::Util::Path.extnames(relpath)
 
