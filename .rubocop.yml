@@ -71,3 +71,6 @@ Style/CollectionMethods:
     detect: 'find'
     find_all: 'select'
   Enabled: true
+
+Style/SpaceInLambdaLiteral:
+  EnforcedStyle: require_space
