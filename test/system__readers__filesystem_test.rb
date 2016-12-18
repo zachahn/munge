@@ -14,8 +14,8 @@ class SystemReaderFilesystemTest < TestCase
   def test_is_enumerable
     fsreader = new_filesystem_reader
 
-    assert_kind_of Enumerable, fsreader
-    assert_kind_of Enumerable, fsreader.each
+    assert_kind_of(Enumerable, fsreader)
+    assert_kind_of(Enumerable, fsreader.each)
   end
 
   def test_yields_itemlike_hash
@@ -24,9 +24,9 @@ class SystemReaderFilesystemTest < TestCase
     fsreader = new_filesystem_reader
     mapped   = fsreader.map { |filehash| filehash }
 
-    assert_equal "index.html.erb", mapped.first[:relpath]
-    assert_equal "asdf", mapped.first[:content]
-    assert_instance_of FakeFS::File::Stat, mapped.first[:stat]
+    assert_equal("index.html.erb", mapped.first[:relpath])
+    assert_equal("asdf", mapped.first[:content])
+    assert_instance_of(FakeFS::File::Stat, mapped.first[:stat])
   end
 
   def test_doesnt_yield_directories
@@ -34,7 +34,7 @@ class SystemReaderFilesystemTest < TestCase
     fsreader = new_filesystem_reader
     mapped   = fsreader.map { |filehash| filehash }
 
-    assert_equal 0, mapped.length
+    assert_equal(0, mapped.length)
   end
 
   private

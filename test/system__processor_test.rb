@@ -20,7 +20,7 @@ class SystemProcessorTest < TestCase
 
     output = @processor.transform(item)
 
-    assert_equal "uryyb", output
+    assert_equal("uryyb", output)
   end
 
   def test_multiple_transforms
@@ -33,7 +33,7 @@ class SystemProcessorTest < TestCase
 
     output = @processor.transform(item)
 
-    assert_equal "uryyburyyb", output
+    assert_equal("uryyburyyb", output)
   end
 
   def test_missing_transformer

@@ -22,6 +22,6 @@ class HelpersCaptureTest < TestCase
     erb    = ERB.new(template)
     output = erb.result(helpers.get_binding)
 
-    assert_equal "<h1>hi</h1>\n\n  TEXT\n", output
+    assert_equal("<h1>hi</h1>\n\n  TEXT\n", output)
   end
 end

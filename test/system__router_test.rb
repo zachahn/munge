@@ -10,7 +10,7 @@ class SystemRouterTest < TestCase
 
     register_dummy_router!
 
-    assert_equal "/dummy/route", @router.route(item)
+    assert_equal("/dummy/route", @router.route(item))
   end
 
   def test_filepath_single_router
@@ -19,7 +19,7 @@ class SystemRouterTest < TestCase
 
     register_dummy_index_router!
 
-    assert_equal "super/cool/route/index.html", @router.filepath(item)
+    assert_equal("super/cool/route/index.html", @router.filepath(item))
   end
 
   def test_route_multiple_routers
@@ -28,7 +28,7 @@ class SystemRouterTest < TestCase
     register_dummy_router!
     register_dummy_rot13_router!
 
-    assert_equal "/qhzzl/ebhgr", @router.route(item)
+    assert_equal("/qhzzl/ebhgr", @router.route(item))
   end
 
   def test_filepath_multiple_routers
@@ -38,7 +38,7 @@ class SystemRouterTest < TestCase
     register_dummy_index_router!
     register_dummy_rot1_router!
 
-    assert_equal "tvqfs/dppm/spvuf/joefy.iunm", @router.filepath(item)
+    assert_equal("tvqfs/dppm/spvuf/joefy.iunm", @router.filepath(item))
   end
 
   def test_filepath_runs_route_first_then_runs_filepath
@@ -54,11 +54,11 @@ class SystemRouterTest < TestCase
     register_dummy_rot13_router!
 
     # Route should only be rot13
-    assert_equal "/qhzzl/ebhgr", @router.route(item)
+    assert_equal("/qhzzl/ebhgr", @router.route(item))
 
     # Filepath's dir should be rot14
     # Filepath's basename should be: rot1
-    assert_equal "riaam/fcihs/joefy.iunm", @router.filepath(item)
+    assert_equal("riaam/fcihs/joefy.iunm", @router.filepath(item))
   end
 
   def test_registering_invalid_router

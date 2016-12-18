@@ -19,7 +19,7 @@ class HelpersRenderingTest < TestCase
 
     output = @renderer.render(item)
 
-    assert_equal "<h1>hi</h1>", output
+    assert_equal("<h1>hi</h1>", output)
   end
 
   test "#render with content_override" do
@@ -30,7 +30,7 @@ class HelpersRenderingTest < TestCase
 
     output = @renderer.render(item, content_override: "test")
 
-    assert_equal "test", output
+    assert_equal("test", output)
   end
 
   test "#render with engine override" do
@@ -41,7 +41,7 @@ class HelpersRenderingTest < TestCase
 
     output = @renderer.render(item, engines: "test")
 
-    assert_equal %(<h1><%= "hi" %></h1>), output
+    assert_equal(%(<h1><%= "hi" %></h1>), output)
   end
 
   test "#render with list of engine overrides" do
@@ -52,7 +52,7 @@ class HelpersRenderingTest < TestCase
 
     output = @renderer.render(item, engines: %w(html erb))
 
-    assert_equal %(<h1>hi</h1>), output
+    assert_equal(%(<h1>hi</h1>), output)
   end
 
   test "#layout when item is passed" do
@@ -64,7 +64,7 @@ class HelpersRenderingTest < TestCase
 
     output = @renderer.layout(layout) { %(<%= "hi" %>) }
 
-    assert_equal %(<h1><%= "hi" %></h1>), output
+    assert_equal(%(<h1><%= "hi" %></h1>), output)
   end
 
   test "#layout when name of layout is passed" do
@@ -79,7 +79,7 @@ class HelpersRenderingTest < TestCase
 
     output = @renderer.layout("identifier") { %(<%= "hi" %>) }
 
-    assert_equal %(<h1><%= "hi" %></h1>), output
+    assert_equal(%(<h1><%= "hi" %></h1>), output)
   end
 
   test "#layout nested in #render (#render #layout #render)" do
@@ -107,6 +107,6 @@ class HelpersRenderingTest < TestCase
 
     output = @renderer.render(outer)
 
-    assert_equal "<div><h1>hi</h1></div>", output
+    assert_equal("<div><h1>hi</h1></div>", output)
   end
 end

@@ -27,7 +27,7 @@ class SystemCollectionTest < TestCase
   def test_hashlike_access
     item = @items["id doge.html"]
 
-    assert_equal "cool", item[:frontmatter][:super]
+    assert_equal("cool", item[:frontmatter][:super])
   end
 
   def test_hashlike_access_not_found
@@ -42,9 +42,9 @@ class SystemCollectionTest < TestCase
     item1 = { relpath: "lol.html", content: "cool", frontmatter: { super: "cool" } }
     item2 = { relpath: "doge.html", content: "", frontmatter: { super: "cool" } }
 
-    assert_includes @items.each.to_a, item1
-    assert_includes @items.each.to_a, item2
-    assert_equal 2, @items.each.to_a.size
+    assert_includes(@items.each.to_a, item1)
+    assert_includes(@items.each.to_a, item2)
+    assert_equal(2, @items.each.to_a.size)
   end
 
   def test_build
@@ -55,9 +55,9 @@ class SystemCollectionTest < TestCase
         frontmatter: {}
       )
 
-    assert_equal "id foo/bar.jpg", item.id
-    assert_equal "foo/bar.jpg", item[:relpath]
-    assert_equal "binary content lol", item[:content]
+    assert_equal("id foo/bar.jpg", item.id)
+    assert_equal("foo/bar.jpg", item[:relpath])
+    assert_equal("binary content lol", item[:content])
     assert_equal({}, item[:frontmatter])
   end
 
@@ -70,7 +70,7 @@ class SystemCollectionTest < TestCase
         unused: "param"
       )
 
-    assert_nil item[:unused]
+    assert_nil(item[:unused])
   end
 
   def test_push_inserts_into_collection
@@ -84,9 +84,9 @@ class SystemCollectionTest < TestCase
 
     @items.push(item)
 
-    assert_equal 3, @items.each.to_a.size
-    assert_includes @items.each.to_a, item_params
-    assert_equal "binary content lol", @items["id foo/bar.jpg"][:content]
+    assert_equal(3, @items.each.to_a.size)
+    assert_includes(@items.each.to_a, item_params)
+    assert_equal("binary content lol", @items["id foo/bar.jpg"][:content])
   end
 
   def test_freeze

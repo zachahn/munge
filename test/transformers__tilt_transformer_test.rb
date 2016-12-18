@@ -13,7 +13,7 @@ class TransformersTiltTransformerTest < TestCase
     item.relpath = "foo.erb"
     output = @tilt_transformer.call(item)
 
-    assert_equal "hi", output
+    assert_equal("hi", output)
   end
 
   test "manual transform" do
@@ -21,7 +21,7 @@ class TransformersTiltTransformerTest < TestCase
     item.relpath = "foo.txt"
     output = @tilt_transformer.call(item, nil, "erb")
 
-    assert_equal "hi", output
+    assert_equal("hi", output)
   end
 
   test "can pass in rendering options" do
@@ -29,7 +29,7 @@ class TransformersTiltTransformerTest < TestCase
 
     output = @tilt_transformer.call(new_item, "a { color: black }", "scss")
 
-    assert_equal "a{color:#000}\n", output
+    assert_equal("a{color:#000}\n", output)
   end
 
   private

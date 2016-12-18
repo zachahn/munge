@@ -21,32 +21,32 @@ class IntegrationRouterTest < TestCase
     item = new_item("about.html.erb")
     item.route = "about"
 
-    assert_equal "/about", @router.route(item)
-    assert_equal "about/index.html", @router.filepath(item)
+    assert_equal("/about", @router.route(item))
+    assert_equal("about/index.html", @router.filepath(item))
   end
 
   def test_gif_when_route_has_extension
     item = new_item("t.gif")
     item.route = "t.gif"
 
-    assert_equal "/t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.route(item)
-    assert_equal "t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.filepath(item)
+    assert_equal("/t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.route(item))
+    assert_equal("t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.filepath(item))
   end
 
   def test_gif_when_route_has_no_extension
     item = new_item("t.gif")
     item.route = "t"
 
-    assert_equal "/t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.route(item)
-    assert_equal "t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.filepath(item)
+    assert_equal("/t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.route(item))
+    assert_equal("t--6090a18fd9a2e25d11957dacdcdfcb23.gif", @router.filepath(item))
   end
 
   def test_index_thing
     item = new_item("index.html.erb")
     item.route = "index"
 
-    assert_equal "/", @router.route(item)
-    assert_equal "index.html", @router.filepath(item)
+    assert_equal("/", @router.route(item))
+    assert_equal("index.html", @router.filepath(item))
   end
 
   private

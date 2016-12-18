@@ -14,6 +14,6 @@ class HelpersFindTest < TestCase
   test "find" do
     item = @renderer.items[:id]
 
-    assert_equal "item", item
+    assert_equal("item", item)
   end
 end

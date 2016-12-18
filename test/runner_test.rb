@@ -7,7 +7,7 @@ class RunnerTest < TestCase
 
     out, _err = capture_io { r.write }
 
-    assert_equal "new /about\nnew /about\n", out
+    assert_equal("new /about\nnew /about\n", out)
   end
 
   test "#write with updated file" do
@@ -16,7 +16,7 @@ class RunnerTest < TestCase
 
     out, _err = capture_io { r.write }
 
-    assert_equal "changed /about\nchanged /about\n", out
+    assert_equal("changed /about\nchanged /about\n", out)
   end
 
   test "#write with identical file" do
@@ -25,7 +25,7 @@ class RunnerTest < TestCase
 
     out, _err = capture_io { r.write }
 
-    assert_equal "identical /about\nidentical /about\n", out
+    assert_equal("identical /about\nidentical /about\n", out)
   end
 
   test "#write with double write error" do

@@ -4,10 +4,10 @@ class UtilConfigTest < TestCase
   def test_config
     config = Munge::Util::Config.read(File.join(seeds_path, "config.yml"))
 
-    assert_equal "src", config[:source]
-    assert_equal "dest", config[:output]
-    assert_equal nil, config["source"]
-    assert_equal nil, config[:this_doesnt_exist]
+    assert_equal("src", config[:source])
+    assert_equal("dest", config[:output])
+    assert_nil(config["source"])
+    assert_nil(config[:this_doesnt_exist])
   end
 
   def test_invalid_config
@@ -16,7 +16,7 @@ class UtilConfigTest < TestCase
       @config = Munge::Util::Config.read("/config.yml")
     end
 
-    assert_instance_of Hash, @config
+    assert_instance_of(Hash, @config)
   end
 
   def test_invalid_yaml
@@ -34,12 +34,12 @@ class UtilConfigTest < TestCase
       @config = Munge::Util::Config.read("/config.yml")
     end
 
-    assert_instance_of Hash, @config
+    assert_instance_of(Hash, @config)
   end
 
   def test_expanding_of_paths
     config = Munge::Util::Config.read(File.join("seeds", "config.yml"))
 
-    assert_equal "src", config[:source]
+    assert_equal("src", config[:source])
   end
 end

@@ -19,8 +19,8 @@ class IntegrationSeedsTest < TestCase
       @style = File.read(style_path)
     end
 
-    assert_match %r{<title>Munge</title>}, @index, "output is missing layout"
-    assert_match %r{<h1>Woohoo!</h1>}, @index, "output is missing content"
+    assert_match(%r{<title>Munge</title>}, @index, "output is missing layout")
+    assert_match(%r{<h1>Woohoo!</h1>}, @index, "output is missing content")
     assert_match(/background-color: ?#fff/, @style, "CSS is wrong")
   end
 

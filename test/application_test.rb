@@ -34,7 +34,7 @@ class ApplicationTest < TestCase
 
     item = application.create("new-item-relpath", "new item content", this: "is frontmatter")
 
-    assert_equal "built item", item[0]
+    assert_equal("built item", item[0])
 
     system.items.verify
   end
@@ -53,8 +53,8 @@ class ApplicationTest < TestCase
         .create("test.html", "<div>content</div>")
         .each
 
-    assert_instance_of Enumerator, enum_item
-    assert_equal 1, enum_item.size
+    assert_instance_of(Enumerator, enum_item)
+    assert_equal(1, enum_item.size)
   end
 
   test "items with false routes don't show up in #routed or #nonrouted" do

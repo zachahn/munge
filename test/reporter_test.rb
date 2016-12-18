@@ -8,9 +8,9 @@ class ReporterTest < TestCase
     changed   = r.call(OpenStruct.new(route: "@@ITEM@@"), "b", :changed)
     identical = r.call(OpenStruct.new(route: "@@ITEM@@"), "c", :identical)
 
-    assert_equal ":new true @@ITEM@@", new
-    assert_equal ":changed true @@ITEM@@", changed
-    assert_equal ":identical true @@ITEM@@", identical
+    assert_equal(":new true @@ITEM@@", new)
+    assert_equal(":changed true @@ITEM@@", changed)
+    assert_equal(":identical true @@ITEM@@", identical)
   end
 
   test "#call prints only :new and :changed when verbosity is `:written`" do
@@ -20,9 +20,9 @@ class ReporterTest < TestCase
     changed   = r.call(OpenStruct.new(route: "@@ITEM@@"), "b", :changed)
     identical = r.call(OpenStruct.new(route: "@@ITEM@@"), "c", :identical)
 
-    assert_equal ":new true @@ITEM@@", new
-    assert_equal ":changed true @@ITEM@@", changed
-    assert_equal ":identical false @@ITEM@@", identical
+    assert_equal(":new true @@ITEM@@", new)
+    assert_equal(":changed true @@ITEM@@", changed)
+    assert_equal(":identical false @@ITEM@@", identical)
   end
 
   test "#call prints nothing when verbosity is `:silent`" do
@@ -32,9 +32,9 @@ class ReporterTest < TestCase
     changed   = r.call(OpenStruct.new(route: "@@ITEM@@"), "b", :changed)
     identical = r.call(OpenStruct.new(route: "@@ITEM@@"), "c", :identical)
 
-    assert_equal ":new false @@ITEM@@", new
-    assert_equal ":changed false @@ITEM@@", changed
-    assert_equal ":identical false @@ITEM@@", identical
+    assert_equal(":new false @@ITEM@@", new)
+    assert_equal(":changed false @@ITEM@@", changed)
+    assert_equal(":identical false @@ITEM@@", identical)
   end
 
   private

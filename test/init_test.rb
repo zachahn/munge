@@ -8,7 +8,7 @@ class InitTest < TestCase
       **rules_args
     )
 
-    assert_kind_of Munge::Application, bootstrap.app
+    assert_kind_of(Munge::Application, bootstrap.app)
   end
 
   def test_reading_setup
@@ -25,7 +25,7 @@ class InitTest < TestCase
       end
     end
 
-    assert_equal "setup fail", err.message
+    assert_equal("setup fail", err.message)
     assert_match(%r{/fake-setup.rb}, err.backtrace[0])
   end
 
@@ -54,9 +54,9 @@ class InitTest < TestCase
       **rules_args
     )
 
-    assert_equal true, bootstrap.app.items.first.frozen?
+    assert_equal(true, bootstrap.app.items.first.frozen?)
 
-    assert_kind_of Munge::Application, bootstrap.app
+    assert_kind_of(Munge::Application, bootstrap.app)
   end
 
   private

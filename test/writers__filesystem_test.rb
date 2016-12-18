@@ -20,7 +20,7 @@ class WritersFilesystemTest < TestCase
 
     @writer.write(filepath, "<3\n")
 
-    assert_equal true, File.exist?(filepath)
-    assert_equal "<3\n", File.read(filepath)
+    assert_equal(true, File.exist?(filepath))
+    assert_equal("<3\n", File.read(filepath))
   end
 end
