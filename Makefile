@@ -24,7 +24,7 @@ seeds-open:
 	cd seeds && ../exe/munge view
 
 seeds-clean:
-	rm -r seeds/dest seeds/.sass-cache
+	rm -r seeds/dest seeds/.sass-cache seeds/tmp
 
 test:
 	script/test
