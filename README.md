@@ -87,6 +87,11 @@ app.create("blog/index.html.erb", "", posts: posts_for_index)
 ```
 
 
+## Guides
+
+- [FAQ](guides/faq.md)
+
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/zachahn/munge.
