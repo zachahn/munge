@@ -3,7 +3,7 @@ module Munge
     module Link
       def path_to(itemish)
         item =
-          if item.is_a?(String)
+          if itemish.is_a?(String)
             system.items[itemish]
           else
             itemish

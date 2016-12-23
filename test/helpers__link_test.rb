@@ -10,6 +10,7 @@ class HelpersLinkTest < TestCase
 
     system = Object.new
     system.define_singleton_method(:router) { dummy_router }
+    system.define_singleton_method(:items) { {} }
 
     @renderer = tilt_scope_class.new(system, {})
     @renderer.extend(Munge::Helpers::Link)
@@ -18,6 +19,12 @@ class HelpersLinkTest < TestCase
 
   test "#path_to" do
     url = @renderer.path_to(Object.new)
+
+    assert_equal("/super/cool", url)
+  end
+
+  test "#path_to works when a string is passed in" do
+    url = @renderer.path_to("")
 
     assert_equal("/super/cool", url)
   end
