@@ -10,6 +10,9 @@ module TransformerInterfaceTest
   test "#call interface" do
     m = new_transformer.method(:call).parameters
     parameter_types = m.map(&:first)
-    assert_equal(%i(req opt opt), parameter_types)
+
+    assert(parameter_types.length >= 2)
+    assert_equal(:req, parameter_types[0])
+    assert_equal(:req, parameter_types[1])
   end
 end

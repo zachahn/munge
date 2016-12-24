@@ -11,7 +11,7 @@ module Munge
         :tilt
       end
 
-      def call(item, content = nil, renderer = nil)
+      def call(item, content, renderer = nil)
         scope = Scope.new(@system.clone, @demands)
         @registry.each { |helpers| scope.extend(helpers) }
 

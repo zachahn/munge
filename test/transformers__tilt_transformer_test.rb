@@ -9,7 +9,7 @@ class TransformersTiltTransformerTest < TestCase
     item = new_item
     item.relpath = "foo.erb"
 
-    output = tilt_transformer.call(item)
+    output = tilt_transformer.call(item, new_item_content)
 
     assert_equal("hi", output)
   end
@@ -20,7 +20,7 @@ class TransformersTiltTransformerTest < TestCase
     item = new_item
     item.relpath = "foo.txt"
 
-    output = tilt_transformer.call(item, nil, "erb")
+    output = tilt_transformer.call(item, new_item_content, "erb")
 
     assert_equal("hi", output)
   end
@@ -36,10 +36,14 @@ class TransformersTiltTransformerTest < TestCase
 
   private
 
+  def new_item_content
+    %(<%= "hi" %>)
+  end
+
   def new_item
     OpenStruct.new(
       frontmatter: {},
-      content: %(<%= "hi" %>)
+      content: new_item_content
     )
   end
 
