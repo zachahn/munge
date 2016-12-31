@@ -1,7 +1,7 @@
 require "test_helper"
 
 class HelpersCaptureTest < TestCase
-  def test_find
+  test "capture" do
     helpers =
       QuickDummy.new(
         get_binding: -> { binding },

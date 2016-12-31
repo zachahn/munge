@@ -4,17 +4,17 @@ module RouterInterfaceTest
   extend Declarative
 
   test "#type interface" do
-    router.type
+    new_router.type
   end
 
   test "#match? interface" do
-    router.match?("/initial-route", new_text_item)
-    router.match?("/initial-route", new_binary_item)
+    new_router.match?("/initial-route", new_text_item)
+    new_router.match?("/initial-route", new_binary_item)
   end
 
   test "#call interface" do
-    assert_respond_to(router, :call)
-    parameter_types = router.method(:call).parameters.map(&:first)
+    assert_respond_to(new_router, :call)
+    parameter_types = new_router.method(:call).parameters.map(&:first)
     assert_equal(%i(req req), parameter_types)
   end
 

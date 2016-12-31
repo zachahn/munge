@@ -1,87 +1,82 @@
 require "test_helper"
 
 class SystemRouterTest < TestCase
-  def setup
-    @router = Munge::System::Router.new(processor: new_dummy_processor)
-  end
-
-  def test_route_single_router
+  test "route single router" do
+    router = new_router
     item = new_item
 
-    register_dummy_router!
+    router.register(new_router_dummy)
 
-    assert_equal("/dummy/route", @router.route(item))
+    assert_equal("/dummy/route", router.route(item))
   end
 
-  def test_filepath_single_router
+  test "filepath single router" do
+    router = new_router
+    router.register(new_router_index)
     item       = new_item
     item.route = "super/cool/route"
 
-    register_dummy_index_router!
-
-    assert_equal("super/cool/route/index.html", @router.filepath(item))
+    assert_equal("super/cool/route/index.html", router.filepath(item))
   end
 
-  def test_route_multiple_routers
+  test "route multiple routers" do
+    router = new_router
+    router.register(new_router_dummy)
+    router.register(new_router_rot13)
     item = new_item
 
-    register_dummy_router!
-    register_dummy_rot13_router!
-
-    assert_equal("/qhzzl/ebhgr", @router.route(item))
+    assert_equal("/qhzzl/ebhgr", router.route(item))
   end
 
-  def test_filepath_multiple_routers
+  test "filepath multiple routers" do
+    router = new_router
+    router.register(new_router_index)
+    router.register(new_router_rot1)
     item       = new_item
     item.route = "super/cool/route"
 
-    register_dummy_index_router!
-    register_dummy_rot1_router!
-
-    assert_equal("tvqfs/dppm/spvuf/joefy.iunm", @router.filepath(item))
+    assert_equal("tvqfs/dppm/spvuf/joefy.iunm", router.filepath(item))
   end
 
-  def test_filepath_runs_route_first_then_runs_filepath
+  test "filepath runs route first, then runs filepath" do
+    router = new_router
     item       = new_item
     item.route = "super/cool/route"
 
     # register filepath routers first
-    register_dummy_index_router!
-    register_dummy_rot1_router!
+    router.register(new_router_index)
+    router.register(new_router_rot1)
 
     # register route routers second (but these should run first)
-    register_dummy_router!
-    register_dummy_rot13_router!
+    router.register(new_router_dummy)
+    router.register(new_router_rot13)
 
     # Route should only be rot13
-    assert_equal("/qhzzl/ebhgr", @router.route(item))
+    assert_equal("/qhzzl/ebhgr", router.route(item))
 
     # Filepath's dir should be rot14
     # Filepath's basename should be: rot1
-    assert_equal("riaam/fcihs/joefy.iunm", @router.filepath(item))
+    assert_equal("riaam/fcihs/joefy.iunm", router.filepath(item))
   end
 
-  def test_registering_invalid_router
-    bad_router =
-      QuickDummy.new(
-        type: -> { :invalid },
-        match?: -> (*) { true },
-        call: -> { "" }
-      )
+  test "registering invalid router" do
+    router = new_router
+    bad_router = new_router_invalid
 
     assert_raises do
-      @router.register(bad_router)
+      router.register(bad_router)
     end
   end
 
-  def test_routing_item_with_no_route
+  test "routing item with no route" do
+    router = new_router
     item       = new_item
     item.route = nil
 
-    register_dummy_router!
+    router.register(new_router_dummy)
 
     assert_raises do
-      @router.route(item)
+      router.route(item)
     end
   end
 
@@ -91,48 +86,48 @@ class SystemRouterTest < TestCase
     OpenStruct.new(route: "")
   end
 
-  def register_dummy_router!
-    @dummy_router =
-      QuickDummy.new(
-        type: -> { :route },
-        match?: -> (_route, _itemish) { true },
-        call: -> (_route, _itemish) { "dummy/route" }
-      )
-
-    @router.register(@dummy_router)
+  def new_router_invalid
+    QuickDummy.new(
+      type: -> { :invalid },
+      match?: -> (*) { true },
+      call: -> { "" }
+    )
   end
 
-  def register_dummy_index_router!
-    @dummy_index_router =
-      QuickDummy.new(
-        type: -> { :filepath },
-        match?: -> (*) { true },
-        call: -> (route, _itemish) { "#{route}/index.html" }
-      )
-
-    @router.register(@dummy_index_router)
+  def new_router_dummy
+    QuickDummy.new(
+      type: -> { :route },
+      match?: -> (_route, _itemish) { true },
+      call: -> (_route, _itemish) { "dummy/route" }
+    )
   end
 
-  def register_dummy_rot1_router!
-    @dummy_rot1_router =
-      QuickDummy.new(
-        type: -> { :filepath },
-        match?: -> (*) { true },
-        call: -> (route, _itemish) { route.tr("a-z", "b-za") }
-      )
-
-    @router.register(@dummy_rot1_router)
+  def new_router_index
+    QuickDummy.new(
+      type: -> { :filepath },
+      match?: -> (*) { true },
+      call: -> (route, _itemish) { "#{route}/index.html" }
+    )
   end
 
-  def register_dummy_rot13_router!
-    @rot13_router =
-      QuickDummy.new(
-        type: -> { :route },
-        match?: -> (*) { true },
-        call: -> (route, *) { route.tr("a-z", "n-za-m") }
-      )
+  def new_router
+    Munge::System::Router.new(processor: new_dummy_processor)
+  end
 
-    @router.register(@rot13_router)
+  def new_router_rot1
+    QuickDummy.new(
+      type: -> { :filepath },
+      match?: -> (*) { true },
+      call: -> (route, _itemish) { route.tr("a-z", "b-za") }
+    )
+  end
+
+  def new_router_rot13
+    QuickDummy.new(
+      type: -> { :route },
+      match?: -> (*) { true },
+      call: -> (route, *) { route.tr("a-z", "n-za-m") }
+    )
   end
 
   def new_dummy_processor

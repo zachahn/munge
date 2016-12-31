@@ -1,26 +1,28 @@
+require "test_helper"
+
 class WriteManagerTest < TestCase
-  def test_identical
+  test "identical" do
     wm = Munge::WriteManager.new(driver: dummy_driver_exists)
     first_write = wm.status("foo.txt", "content")
 
     assert_equal(:identical, first_write)
   end
 
-  def test_different
+  test "different" do
     wm = Munge::WriteManager.new(driver: dummy_driver_exists)
     first_write = wm.status("foo.txt", "different content")
 
     assert_equal(:changed, first_write)
   end
 
-  def test_not_exists
+  test "not exists" do
     wm = Munge::WriteManager.new(driver: dummy_driver_dne)
     first_write = wm.status("foo.txt", "content")
 
     assert_equal(:new, first_write)
   end
 
-  def test_no_duplicates
+  test "no duplicates" do
     wm = Munge::WriteManager.new(driver: dummy_driver_exists)
     first_write  = wm.status("foo.txt", "bar")
     second_write = wm.status("foo.txt", "test")

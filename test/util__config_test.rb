@@ -1,7 +1,7 @@
 require "test_helper"
 
 class UtilConfigTest < TestCase
-  def test_config
+  test "config" do
     config = Munge::Util::Config.read(File.join(seeds_path, "config.yml"))
 
     assert_equal("src", config[:source])
@@ -10,7 +10,7 @@ class UtilConfigTest < TestCase
     assert_nil(config[:this_doesnt_exist])
   end
 
-  def test_invalid_config
+  test "invalid config" do
     FakeFS do
       File.write("/config.yml", "- hi\n- bye\n")
       @config = Munge::Util::Config.read("/config.yml")
@@ -19,7 +19,7 @@ class UtilConfigTest < TestCase
     assert_instance_of(Hash, @config)
   end
 
-  def test_invalid_yaml
+  test "invalid yaml" do
     assert_raises do
       FakeFS do
         File.write("/config.yml", "--- `")
@@ -28,7 +28,7 @@ class UtilConfigTest < TestCase
     end
   end
 
-  def test_empty_yaml
+  test "empty yaml" do
     FakeFS do
       File.write("/config.yml", "")
       @config = Munge::Util::Config.read("/config.yml")
@@ -37,7 +37,7 @@ class UtilConfigTest < TestCase
     assert_instance_of(Hash, @config)
   end
 
-  def test_expanding_of_paths
+  test "expanding of paths" do
     config = Munge::Util::Config.read(File.join("seeds", "config.yml"))
 
     assert_equal("src", config[:source])

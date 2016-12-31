@@ -1,7 +1,7 @@
 require "test_helper"
 
 class BootloaderTest < TestCase
-  def test_initialize_from_dir
+  test "#initialize when given path to munge app directory" do
     bootloader = Munge::Bootloader.new(
       root_path: seeds_path
     )

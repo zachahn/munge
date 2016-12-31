@@ -1,68 +1,64 @@
 require "test_helper"
 
 class SystemProcessorTest < TestCase
-  def setup
-    @processor = Munge::System::Processor.new
+  test "registration disallows transformers with same name" do
+    processor = Munge::System::Processor.new
+    processor.register(new_transformer_rot13)
+
+    assert_raises(Munge::Errors::DuplicateTransformerError) { processor.register(new_transformer_rot13) }
   end
 
-  def test_registration_disallows_transformers_with_same_name
-    register_rot13!
+  test "transform" do
+    processor = Munge::System::Processor.new
+    processor.register(new_transformer_rot13)
 
-    assert_raises(Munge::Errors::DuplicateTransformerError) { @processor.register(@rot13) }
-  end
+    item = new_item(:rot13)
 
-  def test_transform
-    register_rot13!
-
-    item = OpenStruct.new
-    item.transforms = [[:rot13]]
-    item.content = %(hello)
-
-    output = @processor.transform(item)
+    output = processor.transform(item)
 
     assert_equal("uryyb", output)
   end
 
-  def test_multiple_transforms
-    register_rot13!
-    retister_double!
+  test "multiple transforms" do
+    processor = Munge::System::Processor.new
+    processor.register(new_transformer_rot13)
+    processor.register(new_transformer_doubler)
 
-    item = OpenStruct.new
-    item.transforms = [[:rot13], [:double]]
-    item.content = %(hello)
+    item = new_item(:rot13, :double)
 
-    output = @processor.transform(item)
+    output = processor.transform(item)
 
     assert_equal("uryyburyyb", output)
   end
 
-  def test_missing_transformer
-    item = OpenStruct.new
-    item.transforms = [[:dne], [:rot13]]
-    item.content = %(hello)
+  test "missing transformer" do
+    processor = Munge::System::Processor.new
 
-    assert_raises(Munge::Errors::TransformerNotFoundError) { @processor.transform(item) }
+    item = new_item(:dne, :rot13)
+
+    assert_raises(Munge::Errors::TransformerNotFoundError) { processor.transform(item) }
   end
 
   private
 
-  def register_rot13!
-    @rot13 =
-      QuickDummy.new(
-        name: -> { :rot13 },
-        call: -> (_item, content, *) { content.tr("a-z", "n-za-m") }
-      )
-
-    @processor.register(@rot13)
+  def new_transformer_rot13
+    QuickDummy.new(
+      name: -> { :rot13 },
+      call: -> (_item, content, *) { content.tr("a-z", "n-za-m") }
+    )
   end
 
-  def retister_double!
-    @double =
-      QuickDummy.new(
-        name: -> { :double },
-        call: -> (_item, content, *) { content + content }
-      )
+  def new_transformer_doubler
+    QuickDummy.new(
+      name: -> { :double },
+      call: -> (_item, content, *) { content + content }
+    )
+  end
 
-    @processor.register(@double)
+  def new_item(*transformations)
+    item = OpenStruct.new
+    item.transforms = transformations.map { |t| [t.to_sym] }
+    item.content = %(hello)
+    item
   end
 end

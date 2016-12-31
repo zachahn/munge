@@ -11,14 +11,14 @@ class SystemReaderFilesystemTest < TestCase
     FakeFS.deactivate!
   end
 
-  def test_is_enumerable
+  test "is enumerable" do
     fsreader = new_filesystem_reader
 
     assert_kind_of(Enumerable, fsreader)
     assert_kind_of(Enumerable, fsreader.each)
   end
 
-  def test_yields_itemlike_hash
+  test "yields itemlike hash" do
     File.write(File.join(@test_directory, "index.html.erb"), "asdf")
 
     fsreader = new_filesystem_reader
@@ -29,7 +29,7 @@ class SystemReaderFilesystemTest < TestCase
     assert_instance_of(FakeFS::File::Stat, mapped.first[:stat])
   end
 
-  def test_doesnt_yield_directories
+  test "doesn't yield directories" do
     FileUtils.mkdir_p(File.join(@test_directory, "/munge"))
     fsreader = new_filesystem_reader
     mapped   = fsreader.map { |filehash| filehash }

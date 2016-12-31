@@ -1,7 +1,7 @@
 require "test_helper"
 
 class ApplicationTest < TestCase
-  def test_items
+  test "#items" do
     system = Minitest::Mock.new
     system.expect(:items, nil, [])
 
@@ -12,7 +12,7 @@ class ApplicationTest < TestCase
     system.verify
   end
 
-  def test_build_virtual_item
+  test "#build_virtual_item" do
     system = OpenStruct.new
     system.items = Minitest::Mock.new
     system.items.expect(:build, "built item", [{ relpath: "new-item-relpath", content: "new item content", frontmatter: { this: "is frontmatter" } }])
@@ -24,7 +24,7 @@ class ApplicationTest < TestCase
     system.items.verify
   end
 
-  def test_create
+  test "#create" do
     system = OpenStruct.new
     system.items = Minitest::Mock.new
     system.items.expect(:build, "built item", [{ relpath: "new-item-relpath", content: "new item content", frontmatter: { this: "is frontmatter" } }])
@@ -39,7 +39,7 @@ class ApplicationTest < TestCase
     system.items.verify
   end
 
-  def test_enumerable_create
+  test "#create returns Enumerable" do
     system       = OpenStruct.new
     system.items =
       QuickDummy.new(

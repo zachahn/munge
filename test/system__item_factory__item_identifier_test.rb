@@ -1,21 +1,21 @@
 require "test_helper"
 
 class SystemItemFactoryItemIdentifierTest < TestCase
-  def test_basename
+  test "removes specified extensions from basename" do
     identifier = Munge::System::ItemFactory::ItemIdentifier.new(remove_extensions: dynamic_extensions)
 
     assert_equal("foo.bar.baz", identifier.call("foo.bar.baz.erb"))
     assert_equal("foo.erbrb", identifier.call("foo.erbrb"))
   end
 
-  def test_relpath
+  test "removes specified extensions from relpath" do
     identifier = Munge::System::ItemFactory::ItemIdentifier.new(remove_extensions: dynamic_extensions)
 
     assert_equal("foo/bar/foo.bar.baz", identifier.call("foo/bar/foo.bar.baz.erb"))
     assert_equal("bar/foo/foo.erbrb", identifier.call("bar/foo/foo.erbrb"))
   end
 
-  def test_remove_all
+  test "removes all extensions" do
     identifier = Munge::System::ItemFactory::ItemIdentifier.new(remove_extensions: remove_all_extensions)
 
     assert_equal("foo", identifier.call("foo.bar.baz.erb"))

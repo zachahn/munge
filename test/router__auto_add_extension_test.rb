@@ -3,30 +3,29 @@ require "test_helper"
 class RoutersAutoAddExtensionTest < TestCase
   include RouterInterfaceTest
 
-  def setup
-    @auto_add_extension = Munge::Routers::AutoAddExtension.new(keep_extensions: %w(gif))
-  end
-
-  def test_match_gif_item
+  test "#match? matches gif item" do
+    router = new_router
     gif_item = new_fake_item(exts: %w(gif))
 
-    assert_equal(true, @auto_add_extension.match?("foo", gif_item))
-    assert_equal(false, @auto_add_extension.match?("foo.gif", gif_item))
+    assert_equal(true, router.match?("foo", gif_item))
+    assert_equal(false, router.match?("foo.gif", gif_item))
   end
 
-  def test_match_txt_item
+  test "#match? matches txt item" do
+    router = new_router
     txt_item = new_fake_item(exts: %w(txt erb))
 
-    assert_equal(false, @auto_add_extension.match?("foo", txt_item))
-    assert_equal(false, @auto_add_extension.match?("foo.txt", txt_item))
-    assert_equal(false, @auto_add_extension.match?("foo.gif", txt_item))
+    assert_equal(false, router.match?("foo", txt_item))
+    assert_equal(false, router.match?("foo.txt", txt_item))
+    assert_equal(false, router.match?("foo.gif", txt_item))
   end
 
-  def test_call
+  test "#call" do
+    router = new_router
     gif_item = new_fake_item(exts: %w(gif))
 
-    assert_equal("foo.gif", @auto_add_extension.call("foo", gif_item))
-    assert_equal("foo.txt.gif", @auto_add_extension.call("foo.txt", gif_item))
+    assert_equal("foo.gif", router.call("foo", gif_item))
+    assert_equal("foo.txt.gif", router.call("foo.txt", gif_item))
   end
 
   private
@@ -35,7 +34,7 @@ class RoutersAutoAddExtensionTest < TestCase
     OpenStruct.new(frontmatter: {}, extensions: exts)
   end
 
-  def router
+  def new_router
     Munge::Routers::AutoAddExtension.new(keep_extensions: %w(gif))
   end
 end

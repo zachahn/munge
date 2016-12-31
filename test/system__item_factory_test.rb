@@ -1,16 +1,10 @@
 require "test_helper"
 
 class SystemItemFactoryTest < TestCase
-  def setup
-    # @item_factory = new_item_factory(ignored_basenames: %w(index dir))
-    @item_factory = Munge::System::ItemFactory.new(
-      text_extensions: %w(txt md html),
-      ignore_extensions: %w(erb)
-    )
-  end
+  test "#build text item" do
+    item_factory = new_item_factory
 
-  def test_build_when_item_is_text
-    item = @item_factory.build(
+    item = item_factory.build(
       relpath: "path/to/index.html",
       content: "this is so cool man",
       frontmatter: { foo: "bar" }
@@ -21,8 +15,10 @@ class SystemItemFactoryTest < TestCase
     assert_equal("bar", item.frontmatter[:foo])
   end
 
-  def test_build_when_item_is_binary
-    item = @item_factory.build(
+  test "#build binary item" do
+    item_factory = new_item_factory
+
+    item = item_factory.build(
       relpath: "path/to/picture.gif",
       content: "",
       frontmatter: { foo: "bar" }
@@ -32,7 +28,7 @@ class SystemItemFactoryTest < TestCase
     assert_equal("bar", item.frontmatter[:foo])
   end
 
-  def test_built_text_item_id_has_no_extensions
+  test "#build text item with no extensions" do
     item_factory =
       Munge::System::ItemFactory.new(
         text_extensions: %w(txt md html),
@@ -46,39 +42,54 @@ class SystemItemFactoryTest < TestCase
     assert_equal("path/to/dir", item.id)
   end
 
-  def test_built_binary_item_id_has_one_extensions
-    item = @item_factory.build(relpath: "index.gif", content: "")
+  test "#build binary items creates ids with one extension" do
+    item_factory = new_item_factory
+
+    item = item_factory.build(relpath: "index.gif", content: "")
     assert_equal("index.gif", item.id)
 
-    item = @item_factory.build(relpath: "path/to/dir.gif", content: "")
+    item = item_factory.build(relpath: "path/to/dir.gif", content: "")
     assert_equal("path/to/dir.gif", item.id)
 
-    item = @item_factory.build(relpath: "index.html.erb", content: "")
+    item = item_factory.build(relpath: "index.html.erb", content: "")
     assert_equal("index.html", item.id)
 
-    item = @item_factory.build(relpath: "frontmatter.html.erb", content: "")
+    item = item_factory.build(relpath: "frontmatter.html.erb", content: "")
     assert_equal("frontmatter.html", item.id)
 
-    item = @item_factory.build(relpath: "in/sub/dir.html.erb", content: "")
+    item = item_factory.build(relpath: "in/sub/dir.html.erb", content: "")
     assert_equal("in/sub/dir.html", item.id)
   end
 
-  def test_type
-    txt = @item_factory.build(relpath: "index.html", content: "")
+  test "#build builds item with the correct type" do
+    item_factory = new_item_factory
+
+    txt = item_factory.build(relpath: "index.html", content: "")
     assert_equal(:text, txt.type)
 
-    bin = @item_factory.build(relpath: "transparent.gif", content: "")
+    bin = item_factory.build(relpath: "transparent.gif", content: "")
     assert_equal(:binary, bin.type)
   end
 
-  def test_parse
+  test "#parse" do
+    item_factory = new_item_factory
+
     content_with_frontmatter = "---\nhas: frontmatter\n---\n\nmain content"
-    txt = @item_factory.parse(relpath: "index.html", content: content_with_frontmatter)
+    txt = item_factory.parse(relpath: "index.html", content: content_with_frontmatter)
     assert_equal("main content", txt.content)
     assert_equal("frontmatter", txt.frontmatter[:has])
 
-    bin = @item_factory.parse(relpath: "transparent.gif", content: content_with_frontmatter)
+    bin = item_factory.parse(relpath: "transparent.gif", content: content_with_frontmatter)
     assert_equal(content_with_frontmatter, bin.content)
     assert_equal({}, bin.frontmatter)
+  end
+
+  private
+
+  def new_item_factory
+    Munge::System::ItemFactory.new(
+      text_extensions: %w(txt md html),
+      ignore_extensions: %w(erb)
+    )
   end
 end

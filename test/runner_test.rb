@@ -2,7 +2,7 @@ require "test_helper"
 
 class RunnerTest < TestCase
   test "#write with new file" do
-    r = runner
+    r = new_runner
     r.instance_variable_set(:@write_manager, dummy_write_manager)
 
     out, _err = capture_io { r.write }
@@ -11,7 +11,7 @@ class RunnerTest < TestCase
   end
 
   test "#write with updated file" do
-    r = runner
+    r = new_runner
     r.instance_variable_set(:@write_manager, dummy_write_manager_changed)
 
     out, _err = capture_io { r.write }
@@ -20,7 +20,7 @@ class RunnerTest < TestCase
   end
 
   test "#write with identical file" do
-    r = runner
+    r = new_runner
     r.instance_variable_set(:@write_manager, dummy_write_manager_identical)
 
     out, _err = capture_io { r.write }
@@ -29,7 +29,7 @@ class RunnerTest < TestCase
   end
 
   test "#write with double write error" do
-    r = runner
+    r = new_runner
     r.instance_variable_set(:@write_manager, dummy_write_manager_double_write_error)
 
     assert_raises { r.write }
@@ -37,19 +37,19 @@ class RunnerTest < TestCase
 
   private
 
-  def runner
+  def new_runner
     Munge::Runner.new(
-      items: [item, item],
+      items: [new_item, new_item],
       router: dummy_router,
       processor: dummy_processor,
       writer: Munge::Writers::Noop.new,
-      formatter: formatter,
+      formatter: new_formatter,
       verbosity: :all,
       destination: "anywhere"
     )
   end
 
-  def item
+  def new_item
     OpenStruct.new(route: "/about", content: "I am the best")
   end
 
@@ -89,7 +89,7 @@ class RunnerTest < TestCase
     )
   end
 
-  def formatter
+  def new_formatter
     QuickDummy.new(
       start: -> {},
       done: -> {},

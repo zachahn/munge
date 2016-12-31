@@ -1,47 +1,54 @@
 require "test_helper"
 
 class HelpersTagTest < TestCase
-  def setup
-    @renderer = Object.new
-    @renderer.extend(Munge::Helpers::Tag)
-    @renderer.extend(Munge::Helpers::Capture)
-  end
-
-  def test_empty_tag_empty
-    tag = @renderer.empty_tag(:foo)
+  test "#empty_tag returns an empty tag" do
+    tag = new_renderer.empty_tag(:foo)
 
     assert_equal(%(<foo />), tag)
   end
 
-  def test_empty_tag
-    tag = @renderer.empty_tag(:foo, "a-b" => "cd", ef: "gh", "ijk" => "lm")
+  test "#empty_tag has attributes" do
+    tag = new_renderer.empty_tag(:foo, "a-b" => "cd", ef: "gh", "ijk" => "lm")
 
     assert_equal(%(<foo a-b="cd" ef="gh" ijk="lm" />), tag)
   end
 
-  def test_contest_tag_arg
-    tag = @renderer.content_tag(:bar, "test", ab: "cd")
+  test "#content_tag content works from parameter" do
+    tag = new_renderer.content_tag(:bar, "test", ab: "cd")
 
     assert_equal(%(<bar ab="cd">test</bar>), tag)
   end
 
-  def test_contest_tag_block
-    tag = @renderer.content_tag(:bar, ab: "cd") { "test" }
+  test "#content_tag content works from block" do
+    tag = new_renderer.content_tag(:bar, ab: "cd") { "test" }
 
     assert_equal(%(<bar ab="cd">test</bar>), tag)
   end
 
-  def test_content_tag_empty
-    tag = @renderer.content_tag(:bar, ab: "cd")
+  test "#content_tag doesn't need content" do
+    tag = new_renderer.content_tag(:bar, ab: "cd")
 
     assert_equal(%(<bar ab="cd"></bar>), tag)
   end
 
   test "#h escapes HTML" do
-    assert_equal(%(&lt;&quot;&amp;&gt;), @renderer.h(%(<"&>)))
+    escaped_html = new_renderer.h(%(<"&>))
+
+    assert_equal(%(&lt;&quot;&amp;&gt;), escaped_html)
   end
 
   test "#empty_tag can handle dangerous characters as HTML attributes" do
-    assert_equal(%(<foo data="&quot;hi&quot;" />), @renderer.empty_tag(:foo, data: %("hi")))
+    escaped_html = new_renderer.empty_tag(:foo, data: %("hi"))
+
+    assert_equal(%(<foo data="&quot;hi&quot;" />), escaped_html)
+  end
+
+  private
+
+  def new_renderer
+    renderer = Object.new
+    renderer.extend(Munge::Helpers::Tag)
+    renderer.extend(Munge::Helpers::Capture)
+    renderer
   end
 end

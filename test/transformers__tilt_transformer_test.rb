@@ -3,31 +3,33 @@ require "test_helper"
 class TransformersTiltTransformerTest < TestCase
   include TransformerInterfaceTest
 
-  def setup
-    @tilt_transformer = transformer
-    @tilt_transformer.register(Munge::Helpers::Rendering)
-  end
-
   test "auto transform" do
+    tilt_transformer = new_transformer_with_rendering
+
     item = new_item
     item.relpath = "foo.erb"
-    output = @tilt_transformer.call(item)
+
+    output = tilt_transformer.call(item)
 
     assert_equal("hi", output)
   end
 
   test "manual transform" do
+    tilt_transformer = new_transformer_with_rendering
+
     item = new_item
     item.relpath = "foo.txt"
-    output = @tilt_transformer.call(item, nil, "erb")
+
+    output = tilt_transformer.call(item, nil, "erb")
 
     assert_equal("hi", output)
   end
 
   test "can pass in rendering options" do
-    @tilt_transformer.demand(Tilt::ScssTemplate, style: :compressed)
+    tilt_transformer = new_transformer_with_rendering
+    tilt_transformer.demand(Tilt::ScssTemplate, style: :compressed)
 
-    output = @tilt_transformer.call(new_item, "a { color: black }", "scss")
+    output = tilt_transformer.call(new_item, "a { color: black }", "scss")
 
     assert_equal("a{color:#000}\n", output)
   end
@@ -41,10 +43,16 @@ class TransformersTiltTransformerTest < TestCase
     )
   end
 
-  def transformer
+  def new_transformer
     fake_scope = Object.new
     fake_scope.define_singleton_method(:global_data) { Hash.new }
 
     Munge::Transformers::TiltTransformer.new(fake_scope)
+  end
+
+  def new_transformer_with_rendering
+    transformer = new_transformer
+    transformer.register(Munge::Helpers::Rendering)
+    transformer
   end
 end

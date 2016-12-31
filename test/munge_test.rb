@@ -1,11 +1,11 @@
 require "test_helper"
 
 class MungeTest < TestCase
-  def test_that_it_has_a_version_number
+  test "it has a version number" do
     refute_nil ::Munge::VERSION
   end
 
-  def test_it_does_something_useful
+  test "it does something useful" do
     assert true
   end
 end

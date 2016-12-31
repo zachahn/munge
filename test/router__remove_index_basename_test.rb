@@ -3,36 +3,32 @@ require "test_helper"
 class RoutersRemoveIndexBasenameTest < TestCase
   include RouterInterfaceTest
 
-  def setup
-    @index_remover =
-      Munge::Routers::RemoveIndexBasename.new(
-        html_extensions: %w(html htm md),
-        index: "index.html"
-      )
-  end
+  test "#match? works" do
+    router = new_router
 
-  def test_match_index
     item = OpenStruct.new
     item.extensions = %w(html erb)
 
-    assert_equal(true, @index_remover.match?("index", item))
-    assert_equal(false, @index_remover.match?("about", item))
+    assert_equal(true, router.match?("index", item))
+    assert_equal(false, router.match?("about", item))
 
-    assert_equal(false, @index_remover.match?("index.htm", item))
-    assert_equal(false, @index_remover.match?("index.html", item))
-    assert_equal(false, @index_remover.match?("about.html", item))
+    assert_equal(false, router.match?("index.htm", item))
+    assert_equal(false, router.match?("index.html", item))
+    assert_equal(false, router.match?("about.html", item))
   end
 
-  def test_call
+  test "#call works" do
+    router = new_router
+
     item = Object.new
 
-    assert_equal("", @index_remover.call("index", item))
-    assert_equal("about", @index_remover.call("about/index", item))
+    assert_equal("", router.call("index", item))
+    assert_equal("about", router.call("about/index", item))
   end
 
   private
 
-  def router
+  def new_router
     Munge::Routers::RemoveIndexBasename.new(
       html_extensions: %w(html htm md),
       index: "index.html"

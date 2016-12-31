@@ -15,7 +15,7 @@ class WritersFilesystemTest < TestCase
     FakeFS.deactivate!
   end
 
-  def test_creates_subdirectories_as_needed
+  test "creates subdirectories as needed" do
     filepath = File.join(@output_dir, "relpath/to/file.html")
 
     @writer.write(filepath, "<3\n")

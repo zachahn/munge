@@ -3,56 +3,59 @@ require "test_helper"
 class RoutersFingerprintTest < TestCase
   include RouterInterfaceTest
 
-  def setup
-    @fingerprint = Munge::Routers::Fingerprint.new(extensions: %w(gif), separator: "--")
-  end
-
-  def test_match_false_because_frontmatter
+  test "#match? is false because frontmatter" do
+    router = new_router
     item = new_fake_itemish
     item.frontmatter[:fingerprint_asset] = false
 
-    assert_equal(false, @fingerprint.match?("cool", item))
+    assert_equal(false, router.match?("cool", item))
   end
 
-  def test_match_true_because_frontmatter
+  test "#match? is true because frontmatter" do
+    router = new_router
     item = new_fake_itemish
     item.frontmatter[:fingerprint_asset] = true
 
-    assert_equal(true, @fingerprint.match?("cool", item))
+    assert_equal(true, router.match?("cool", item))
   end
 
-  def test_match_because_extension
+  test "#match? is true because extension" do
+    router = new_router
     gif_item = new_fake_itemish
     gif_item.extensions = %w(gif)
 
-    assert_equal(true, @fingerprint.match?("cool", gif_item))
+    assert_equal(true, router.match?("cool", gif_item))
   end
 
-  def test_match_false_because_extension
+  test "#match? is false because of extension" do
+    router = new_router
     txt_item = new_fake_itemish
     txt_item.extensions = %w(txt)
 
-    assert_equal(false, @fingerprint.match?("cool", txt_item))
+    assert_equal(false, router.match?("cool", txt_item))
   end
 
-  def test_fingerprinted_with_route_with_extension
+  test "#call adds fingerprint before extension" do
+    router = new_router
     item = new_fake_itemish
 
-    assert_equal("transparent--#{fingerprint}.gif", @fingerprint.call("transparent.gif", item))
+    assert_equal("transparent--#{fingerprint}.gif", router.call("transparent.gif", item))
   end
 
-  def test_fingerprinted_with_route_without_extension
+  test "#call adds fingerprint at the end if no extension" do
+    router = new_router
     item = new_fake_itemish
 
-    assert_equal("transparent--#{fingerprint}", @fingerprint.call("transparent", item))
+    assert_equal("transparent--#{fingerprint}", router.call("transparent", item))
   end
 
-  def test_independence_of_route_and_filepath_and_itemroute
+  test "#call treats route, filepath, and item.route independently" do
+    router = new_router
     item = new_fake_itemish
     item.route = "transparent"
 
-    assert_equal("foo--#{fingerprint}", @fingerprint.call("foo", item))
-    assert_equal("bar--#{fingerprint}", @fingerprint.call("bar", item))
+    assert_equal("foo--#{fingerprint}", router.call("foo", item))
+    assert_equal("bar--#{fingerprint}", router.call("bar", item))
   end
 
   private
@@ -65,7 +68,7 @@ class RoutersFingerprintTest < TestCase
     OpenStruct.new(frontmatter: {}, compiled_content: "")
   end
 
-  def router
+  def new_router
     Munge::Routers::Fingerprint.new(extensions: %w(gif), separator: "--")
   end
 end

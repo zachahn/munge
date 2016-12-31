@@ -3,46 +3,40 @@ require "test_helper"
 class RoutersAddIndexHtmlTest < TestCase
   include RouterInterfaceTest
 
-  def setup
-    @index_html =
-      Munge::Routers::AddIndexHtml.new(
-        html_extensions: %w(html htm md),
-        index: "index.html"
-      )
+  test "only for filepath" do
+    router = new_router
+
+    assert_equal(:filepath, router.type)
   end
 
-  def test_only_for_filepath
-    assert_equal(:filepath, @index_html.type)
+  test "#match? matches html" do
+    router = new_router
+    item = new_item_with_extensions(%w(html erb))
+
+    assert_equal(true, router.match?("about", item))
+    assert_equal(false, router.match?("about.htm", item))
   end
 
-  def test_match_html
-    item = OpenStruct.new
-    item.extensions = %w(html erb)
+  test "#match? doesn't match non html" do
+    router = new_router
+    item = new_item_with_extensions(%w(gif erb))
 
-    assert_equal(true, @index_html.match?("about", item))
-    assert_equal(false, @index_html.match?("about.htm", item))
-  end
-
-  def test_match_not_html
-    item = OpenStruct.new
-    item.extensions = %w(gif erb)
-
-    assert_equal(false, @index_html.match?("about", item))
-    assert_equal(false, @index_html.match?("about.htm", item))
-  end
-
-  def test_route_without_hashing_because_of_extension
-    item = Object.new
-
-    assert_equal("about/index.html", @index_html.call("about", item))
+    assert_equal(false, router.match?("about", item))
+    assert_equal(false, router.match?("about.htm", item))
   end
 
   private
 
-  def router
+  def new_router
     Munge::Routers::AddIndexHtml.new(
       html_extensions: %w(html htm md),
       index: "index.html"
     )
+  end
+
+  def new_item_with_extensions(extensions)
+    item = OpenStruct.new
+    item.extensions = extensions
+    item
   end
 end

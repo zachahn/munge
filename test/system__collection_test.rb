@@ -1,55 +1,37 @@
 require "test_helper"
 
 class SystemCollectionTest < TestCase
-  def setup
-    @item_factory =
-      QuickDummy.new(
-        build: lambda do |args|
-          args.define_singleton_method(:id) { "id #{self[:relpath]}" }
-          args
-        end,
-        parse: lambda do |**args|
-          args[:frontmatter] = {}
-          args[:frontmatter][:super] = "cool"
-          build(args)
-        end
-      )
-
-    @items = Munge::System::Collection.new(
-      item_factory: @item_factory,
-      items: [
-        { relpath: "lol.html", content: "cool" },
-        { relpath: "doge.html", content: "" }
-      ]
-    )
-  end
-
-  def test_hashlike_access
-    item = @items["id doge.html"]
+  test "hashlike access" do
+    items = new_collection(new_item_factory)
+    item = items["id doge.html"]
 
     assert_equal("cool", item[:frontmatter][:super])
   end
 
-  def test_hashlike_access_not_found
-    assert_raises(Munge::Errors::ItemNotFoundError) { @items["id notfound.html"] }
+  test "#[] not found" do
+    items = new_collection(new_item_factory)
+    assert_raises(Munge::Errors::ItemNotFoundError) { items["id notfound.html"] }
   end
 
-  def test_each_returns_enumerator
-    assert_kind_of(Enumerator, @items.each)
+  test "#each returns enumerator" do
+    items = new_collection(new_item_factory)
+    assert_kind_of(Enumerator, items.each)
   end
 
-  def test_enumerator_includes_correct_items
+  test "#each enumerator includes correct items" do
+    items = new_collection(new_item_factory)
     item1 = { relpath: "lol.html", content: "cool", frontmatter: { super: "cool" } }
     item2 = { relpath: "doge.html", content: "", frontmatter: { super: "cool" } }
 
-    assert_includes(@items.each.to_a, item1)
-    assert_includes(@items.each.to_a, item2)
-    assert_equal(2, @items.each.to_a.size)
+    assert_includes(items.each.to_a, item1)
+    assert_includes(items.each.to_a, item2)
+    assert_equal(2, items.each.to_a.size)
   end
 
-  def test_build
+  test "#build returns an item" do
+    items = new_collection(new_item_factory)
     item =
-      @items.build(
+      items.build(
         relpath: "foo/bar.jpg",
         content: "binary content lol",
         frontmatter: {}
@@ -61,9 +43,10 @@ class SystemCollectionTest < TestCase
     assert_equal({}, item[:frontmatter])
   end
 
-  def test_build_does_not_use_extraneous_params
+  test "#build silently ignores extraneous params" do
+    items = new_collection(new_item_factory)
     item =
-      @items.build(
+      items.build(
         relpath: "foo/bar.jpg",
         content: "binary content lol",
         frontmatter: {},
@@ -73,33 +56,61 @@ class SystemCollectionTest < TestCase
     assert_nil(item[:unused])
   end
 
-  def test_push_inserts_into_collection
+  test "#push adds an item into collection" do
+    items = new_collection(new_item_factory)
     item_params = {
       relpath: "foo/bar.jpg",
       content: "binary content lol",
       frontmatter: {}
     }
 
-    item = @items.build(**item_params)
+    item = items.build(**item_params)
 
-    @items.push(item)
+    items.push(item)
 
-    assert_equal(3, @items.each.to_a.size)
-    assert_includes(@items.each.to_a, item_params)
-    assert_equal("binary content lol", @items["id foo/bar.jpg"][:content])
+    assert_equal(3, items.each.to_a.size)
+    assert_includes(items.each.to_a, item_params)
+    assert_equal("binary content lol", items["id foo/bar.jpg"][:content])
   end
 
-  def test_freeze
-    @items.freeze
+  test "#freeze freezes deeply" do
+    items = new_collection(new_item_factory)
+    items.freeze
 
     assert_raises(RuntimeError) do
-      @items.push(
-        @items.build(
+      items.push(
+        items.build(
           relpath: "foo/bar.jpg",
           content: "binary content lol",
           frontmatter: {}
         )
       )
     end
+  end
+
+  private
+
+  def new_item_factory
+    QuickDummy.new(
+      build: lambda do |args|
+        args.define_singleton_method(:id) { "id #{self[:relpath]}" }
+        args
+      end,
+      parse: lambda do |**args|
+        args[:frontmatter] = {}
+        args[:frontmatter][:super] = "cool"
+        build(args)
+      end
+    )
+  end
+
+  def new_collection(item_factory)
+    Munge::System::Collection.new(
+      item_factory: item_factory,
+      items: [
+        { relpath: "lol.html", content: "cool" },
+        { relpath: "doge.html", content: "" }
+      ]
+    )
   end
 end

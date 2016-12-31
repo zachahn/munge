@@ -1,23 +1,7 @@
 require "test_helper"
 
 class ItemTest < TestCase
-  def new_item(type:        :text,
-               relpath:     "path/to/index.html.erb",
-               id:          "path/to",
-               content:     %(<%= "hi" %>\n),
-               frontmatter: {},
-               stat:        nil)
-    Munge::Item.new(
-      type:        type,
-      relpath:     relpath,
-      id:          id,
-      content:     content,
-      frontmatter: frontmatter,
-      stat:        stat
-    )
-  end
-
-  def test_accessors
+  test "accessors" do
     item = new_item
 
     assert_equal(:text, item.type)
@@ -28,7 +12,7 @@ class ItemTest < TestCase
     assert_nil(item.stat)
   end
 
-  def test_dirname
+  test "#dirname" do
     item = new_item(relpath: "index.html")
     assert_equal("", item.dirname)
 
@@ -36,7 +20,7 @@ class ItemTest < TestCase
     assert_equal("in/sub", item.dirname)
   end
 
-  def test_filename
+  test "#filename" do
     item = new_item(relpath: "index.html.erb")
     assert_equal("index.html.erb", item.filename)
 
@@ -44,7 +28,7 @@ class ItemTest < TestCase
     assert_equal("dir.html.erb", item.filename)
   end
 
-  def test_basename
+  test "#basename" do
     item = new_item(relpath: "index.html.erb")
     assert_equal("index", item.basename)
 
@@ -52,7 +36,7 @@ class ItemTest < TestCase
     assert_equal("dir", item.basename)
   end
 
-  def test_extensions
+  test "#extensions" do
     item = new_item(relpath: "index.html.erb")
     assert_equal(%w(html erb), item.extensions)
 
@@ -60,7 +44,7 @@ class ItemTest < TestCase
     assert_equal([], item.extensions)
   end
 
-  def test_route_set_get
+  test "#route and #route=" do
     item = new_item(relpath: "index.html.erb")
 
     assert_nil(item.route)
@@ -75,7 +59,7 @@ class ItemTest < TestCase
     assert_equal("/baz", item.route)
   end
 
-  def test_route?
+  test "#route?" do
     item = new_item
 
     assert_equal(false, item.route?("test"))
@@ -85,7 +69,7 @@ class ItemTest < TestCase
     assert_equal(false, item.route?("fail"))
   end
 
-  def test_relpath?
+  test "#relpath?" do
     item = new_item
     assert_equal(true, item.relpath?(""))
     assert_equal(false, item.relpath?("test"))
@@ -102,7 +86,7 @@ class ItemTest < TestCase
     assert_equal(false, item.relpath?("dir"))
   end
 
-  def test_frontmatter
+  test "#frontmatter" do
     item = new_item
 
     assert_nil(item.frontmatter[:foo])
@@ -115,7 +99,7 @@ class ItemTest < TestCase
     assert_equal("bye", item.frontmatter[:test])
   end
 
-  def test_transformations
+  test "transformations" do
     item = new_item
     item.transform
     assert_equal([[:tilt, []]], item.transforms)
@@ -127,7 +111,7 @@ class ItemTest < TestCase
     assert_equal([:qwer, %w(ty uiop)], item.transforms[1])
   end
 
-  def test_layout=
+  test "#layout=" do
     item = new_item
 
     assert_nil(item.layout)
@@ -142,7 +126,7 @@ class ItemTest < TestCase
     assert_equal("baz", item.layout)
   end
 
-  def test_frozen_items
+  test "frozen items" do
     item = new_item
 
     item.layout = "old"
@@ -151,5 +135,23 @@ class ItemTest < TestCase
 
     assert_raises(RuntimeError) { item.layout = "new" }
     assert_raises(RuntimeError) { item.layout << "lol" }
+  end
+
+  private
+
+  def new_item(type:        :text,
+               relpath:     "path/to/index.html.erb",
+               id:          "path/to",
+               content:     %(<%= "hi" %>\n),
+               frontmatter: {},
+               stat:        nil)
+    Munge::Item.new(
+      type:        type,
+      relpath:     relpath,
+      id:          id,
+      content:     content,
+      frontmatter: frontmatter,
+      stat:        stat
+    )
   end
 end

@@ -1,7 +1,7 @@
 require "test_helper"
 
 class SystemItemFactoryContentParserTest < TestCase
-  def test_content_parser_reads_frontmatter
+  test "ContentParser reads formatter" do
     match = Munge::System::ItemFactory::ContentParser.new(
       %(---
 this: is
@@ -15,7 +15,7 @@ but this is not yay
     assert_equal("but this is not yay\n", match.content)
   end
 
-  def test_content_parser_reads_nonfrontmatter
+  test "ContentParser can read when there's no frontmatter" do
     match = Munge::System::ItemFactory::ContentParser.new(
       "yay this is cool lol"
     )
@@ -24,7 +24,7 @@ but this is not yay
     assert_equal("yay this is cool lol", match.content)
   end
 
-  def test_content_parser_reads_nonfrontmatter_with_weird_dashes
+  test "ContentParser can handle weird dashes" do
     match = Munge::System::ItemFactory::ContentParser.new(
       %(baa baa
 
@@ -40,7 +40,7 @@ have you any wool)
       match.content)
   end
 
-  def test_content_parser_that_looks_like_frontmatter_but_really_isnt
+  test "ContentParser ignores 'fake' frontmatter" do
     match = Munge::System::ItemFactory::ContentParser.new(
       %(---
 not frontmatter

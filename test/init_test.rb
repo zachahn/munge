@@ -1,7 +1,7 @@
 require "test_helper"
 
 class InitTest < TestCase
-  def test_initialize
+  test "#initialize" do
     bootstrap = Munge::Init.new(
       **root_and_config_args,
       **setup_args,
@@ -11,7 +11,7 @@ class InitTest < TestCase
     assert_kind_of(Munge::Application, bootstrap.app)
   end
 
-  def test_reading_setup
+  test "reads setup" do
     err = assert_raises do
       FakeFS do
         FakeFS::FileSystem.clone(seeds_path)
@@ -29,7 +29,7 @@ class InitTest < TestCase
     assert_match(%r{/fake-setup.rb}, err.backtrace[0])
   end
 
-  def test_reading_rules
+  test "reads rules" do
     err = assert_raises do
       FakeFS do
         FakeFS::FileSystem.clone(seeds_path)
@@ -47,7 +47,7 @@ class InitTest < TestCase
     assert_match(%r{/fake-rules.rb}, err.backtrace[0])
   end
 
-  def test_frozen_items
+  test "freezes items" do
     bootstrap = Munge::Init.new(
       **root_and_config_args,
       **setup_args,

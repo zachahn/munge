@@ -1,7 +1,7 @@
 require "test_helper"
 
 class SystemRouterItemishTest < TestCase
-  def test_compiled_content
+  test "compiled content" do
     item = OpenStruct.new
 
     processor = Minitest::Mock.new
@@ -13,7 +13,7 @@ class SystemRouterItemishTest < TestCase
     processor.verify
   end
 
-  def test_delegated_method
+  test "delegated method" do
     item = Minitest::Mock.new
     item.expect(:frontmatter, {})
 
