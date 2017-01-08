@@ -13,9 +13,9 @@ module Munge
           @compiled_content ||= @processor.transform(@item)
         end
 
-        def_delegators :@item, *%i(type relpath id frontmatter stat layout)
-        def_delegators :@item, *%i(dirname filename basename extensions)
-        def_delegators :@item, *%i(relpath? route?)
+        def_delegators :@item, :type, :relpath, :id, :frontmatter, :stat, :layout
+        def_delegators :@item, :dirname, :filename, :basename, :extensions
+        def_delegators :@item, :relpath?, :route?
       end
     end
   end

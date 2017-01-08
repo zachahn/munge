@@ -18,13 +18,11 @@ module Munge
     #
     # @param system [Munge::System]
     # @return [void]
-    # rubocop:disable Style/AccessorMethodName
     def set_sass_system!(system)
       Sass::Script::Functions.send(:define_method, :system) do
         system
       end
     end
-    # rubocop:enable Style/AccessorMethodName
 
     # Includes methods into Sass functions scope
     #

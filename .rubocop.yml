@@ -26,13 +26,20 @@ Metrics/ClassLength:
   Exclude:
     - test/**/*
 
+Style/AccessorMethodName:
+  Exclude:
+    - lib/munge/go/**/*
+
 Style/AlignParameters:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
   Enabled: false
 
 Style/Documentation:
   Enabled: false
 
-Style/ClassAndModuleChildren:
+Style/EmptyMethod:
   Enabled: false
 
 Style/GuardClause:

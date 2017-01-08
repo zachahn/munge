@@ -53,7 +53,7 @@ class HelpersAssetTagsTest < TestCase
         image_path: -> (basename) { basename },
         items: -> { Hash.new("item".freeze) },
         render: -> (_) { "rendered item" }
-    )
+      )
     renderer.extend(Munge::Helpers::AssetTags)
     renderer.extend(Munge::Helpers::Tag)
   end
