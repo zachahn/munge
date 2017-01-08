@@ -7,6 +7,6 @@ class BootloaderTest < TestCase
     )
 
     assert_kind_of(Munge::Init, bootloader.init)
-    assert_kind_of(Hash, bootloader.config)
+    assert_kind_of(Munge::Config, bootloader.config)
   end
 end

@@ -55,7 +55,7 @@ module Munge
 
       def bootloader
         Munge::Bootloader.new(root_path: current_working_directory)
-      rescue Munge::Errors::ConfigYmlNotFound => e
+      rescue Munge::Errors::ConfigRbNotFound => e
         puts e.message
         exit
       end

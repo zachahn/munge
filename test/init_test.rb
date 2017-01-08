@@ -64,7 +64,7 @@ class InitTest < TestCase
   def root_and_config_args
     {
       root_path: seeds_path,
-      config: Munge::Util::Config.read(File.join(seeds_path, "config.yml"))
+      config: Munge::PreInit.new(File.join(seeds_path, "config.rb")).config
     }
   end
 

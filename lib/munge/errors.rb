@@ -65,12 +65,20 @@ module Munge
       end
     end
 
-    class ConfigYmlNotFound < Base
+    class ConfigRbNotFound < Base
       include ErrorWithIdentifier
 
       def message
         "Expected to find config file: #{@identifier}\n" \
         "Are you in the correct directory, or did you run `munge init`?"
+      end
+    end
+
+    class ConfigKeyNotFound < Base
+      include ErrorWithIdentifier
+
+      def message
+        "Couldn't find config for key: #{@identifier.inspect}"
       end
     end
   end
