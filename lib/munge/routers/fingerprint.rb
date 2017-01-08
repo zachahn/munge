@@ -39,7 +39,7 @@ module Munge
       end
 
       def hash(content)
-        Digest::MD5.hexdigest(content)
+        Digest::SHA256.hexdigest(content)
       end
 
       def disassemble(path)

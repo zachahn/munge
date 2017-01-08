@@ -39,14 +39,14 @@ class RoutersFingerprintTest < TestCase
     router = new_router
     item = new_fake_itemish
 
-    assert_equal("transparent--#{fingerprint}.gif", router.call("transparent.gif", item))
+    assert_equal("transparent--#{fingerprint_value}.gif", router.call("transparent.gif", item))
   end
 
   test "#call adds fingerprint at the end if no extension" do
     router = new_router
     item = new_fake_itemish
 
-    assert_equal("transparent--#{fingerprint}", router.call("transparent", item))
+    assert_equal("transparent--#{fingerprint_value}", router.call("transparent", item))
   end
 
   test "#call treats route, filepath, and item.route independently" do
@@ -54,14 +54,14 @@ class RoutersFingerprintTest < TestCase
     item = new_fake_itemish
     item.route = "transparent"
 
-    assert_equal("foo--#{fingerprint}", router.call("foo", item))
-    assert_equal("bar--#{fingerprint}", router.call("bar", item))
+    assert_equal("foo--#{fingerprint_value}", router.call("foo", item))
+    assert_equal("bar--#{fingerprint_value}", router.call("bar", item))
   end
 
   private
 
-  def fingerprint
-    "d41d8cd98f00b204e9800998ecf8427e"
+  def fingerprint_value
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   end
 
   def new_fake_itemish

@@ -15,8 +15,8 @@ class IntegrationRouterTest < TestCase
     item = new_item("t.gif")
     item.route = "t.gif"
 
-    assert_equal("/t--6090a18fd9a2e25d11957dacdcdfcb23.gif", router.route(item))
-    assert_equal("t--6090a18fd9a2e25d11957dacdcdfcb23.gif", router.filepath(item))
+    assert_equal("/t--#{fingerprint_value}.gif", router.route(item))
+    assert_equal("t--#{fingerprint_value}.gif", router.filepath(item))
   end
 
   test "fingerprinting when route has no extension" do
@@ -24,8 +24,8 @@ class IntegrationRouterTest < TestCase
     item = new_item("t.gif")
     item.route = "t"
 
-    assert_equal("/t--6090a18fd9a2e25d11957dacdcdfcb23.gif", router.route(item))
-    assert_equal("t--6090a18fd9a2e25d11957dacdcdfcb23.gif", router.filepath(item))
+    assert_equal("/t--#{fingerprint_value}.gif", router.route(item))
+    assert_equal("t--#{fingerprint_value}.gif", router.filepath(item))
   end
 
   test "index thing" do
@@ -38,6 +38,10 @@ class IntegrationRouterTest < TestCase
   end
 
   private
+
+  def fingerprint_value
+    "6517eaddaaeaf31a1de9b77c3a284e5862f4c75ae7bc2ce261c10cbeafdc5fa5"
+  end
 
   def new_item(relpath, type: :text, id: nil)
     Munge::Item.new(
