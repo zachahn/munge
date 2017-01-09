@@ -27,7 +27,7 @@ module Munge
           end
 
           ignore(listen, ENV["BUILD_ROOT"])
-          ignore(listen, @bootloader.config[:output])
+          ignore(listen, @bootloader.config[:output_path])
 
           listen
         end

@@ -8,12 +8,12 @@ module Munge
     def items
       return @items if @items
 
-      source_path = File.expand_path(@config[:source], @root_path)
+      source_path = File.expand_path(@config[:source_path], @root_path)
 
       source_item_factory =
         ItemFactory.new(
-          text_extensions: @config[:text_extensions] + @config[:bintext_extensions],
-          ignore_extensions: @config[:dynamic_extensions]
+          text_extensions: @config[:items_text_extensions],
+          ignore_extensions: @config[:items_ignore_extensions]
         )
 
       @items =
@@ -26,11 +26,11 @@ module Munge
     def layouts
       return @layouts if @layouts
 
-      layouts_path = File.expand_path(@config[:layouts], @root_path)
+      layouts_path = File.expand_path(@config[:layouts_path], @root_path)
 
       layouts_item_factory =
         ItemFactory.new(
-          text_extensions: @config[:text_extensions] + @config[:bintext_extensions],
+          text_extensions: @config[:layouts_text_extensions],
           ignore_extensions: %w(.+)
         )
 
@@ -55,7 +55,7 @@ module Munge
     def global_data
       return @global_data if @global_data
 
-      data_path = File.expand_path(@config[:data], @root_path)
+      data_path = File.expand_path(@config[:data_path], @root_path)
       @global_data = YAML.load_file(data_path) || {}
     end
 

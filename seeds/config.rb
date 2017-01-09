@@ -1,15 +1,21 @@
 yml = YAML.load(__end__)
 
-config.source = "src"
-config.output = "dest"
-config.data = "data.yml"
-config.layouts = "layouts"
-config.index = "index.html"
-config.fingeprint_separator = "-"
-config.text_extensions = yml["text_extensions"]
-config.bintext_extensions = yml["bintext_extensions"]
-config.bin_extensions = yml["bin_extensions"]
-config.dynamic_extensions = yml["dynamic_extensions"]
+config.source_path = "src"
+config.output_path = "dest"
+config.data_path = "data.yml"
+config.layouts_path = "layouts"
+
+config.items_text_extensions = yml["text_extensions"] + yml["bintext_extensions"]
+config.items_ignore_extensions = yml["dynamic_extensions"]
+config.layouts_text_extensions = yml["text_extensions"] + yml["bintext_extensions"]
+
+config.router_fingerprint_extensions = yml["bin_extensions"] + yml["bintext_extensions"]
+config.router_fingeprint_separator = "-"
+config.router_remove_basename_extensions = yml["text_extensions"]
+config.router_remove_basename_basename = "index.html"
+config.router_add_index_html = yml["text_extensions"]
+config.router_add_index_index = "index.html"
+config.router_keep_extensions = yml["bin_extensions"] + yml["bintext_extensions"]
 
 __END__
 ---

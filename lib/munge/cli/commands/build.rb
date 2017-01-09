@@ -11,7 +11,7 @@ module Munge
           destination_root = bootloader.root_path
           config           = bootloader.config
           app              = application(bootloader)
-          destination      = File.expand_path(build_root || config[:output], destination_root)
+          destination      = File.expand_path(build_root || config[:output_path], destination_root)
 
           @runner =
             Munge::Runner.new(

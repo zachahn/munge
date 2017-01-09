@@ -37,7 +37,7 @@ module Munge
           config = bootloader.config
           @host  = host
           @port  = port
-          root   = File.expand_path(build_root || config[:output], bootloader.root_path)
+          root   = File.expand_path(build_root || config[:output_path], bootloader.root_path)
 
           @app =
             Rack::Builder.new do
