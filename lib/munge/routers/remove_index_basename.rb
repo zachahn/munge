@@ -3,8 +3,7 @@ module Munge
     class RemoveIndexBasename
       def initialize(html_extensions:, index:)
         @html_extensions = html_extensions
-        @index           = index
-        @index_basename  = Munge::Util::Path.basename_no_extension(@index)
+        @index_basename  = Munge::Util::Path.basename_no_extension(index)
       end
 
       def type
