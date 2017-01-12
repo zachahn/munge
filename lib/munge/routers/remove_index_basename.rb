@@ -1,9 +1,10 @@
 module Munge
   module Routers
-    class RemoveIndexBasename
-      def initialize(html_extensions:, index:)
-        @html_extensions = html_extensions
-        @index_basename  = Munge::Util::Path.basename_no_extension(index)
+    class RemoveBasename
+      def initialize(extensions:, basenames:, keep_explicit:)
+        @extensions = extensions
+        @basenames = basenames
+        @keep_if_explicit_extension = keep_explicit
       end
 
       def type
@@ -11,7 +12,7 @@ module Munge
       end
 
       def match?(initial_route, item)
-        item_is_html?(item) && basename_is_index?(initial_route)
+        item_has_extension?(item) && route_has_basename?(initial_route)
       end
 
       def call(initial_route, _item)
@@ -20,14 +21,24 @@ module Munge
 
       private
 
-      def item_is_html?(item)
-        intersection = item.extensions & @html_extensions
+      def item_has_extension?(item)
+        intersection = item.extensions & @extensions
 
         !intersection.empty?
       end
 
-      def basename_is_index?(route)
-        File.basename(route) == @index_basename
+      def route_has_basename?(route)
+        if @keep_if_explicit_extension
+          route_extensions = Munge::Util::Path.extnames(route)
+
+          if route_extensions.any?
+            return false
+          end
+        end
+
+        route_basename = Munge::Util::Path.basename_no_extension(route)
+
+        @basenames.include?(route_basename)
       end
     end
   end

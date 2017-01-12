@@ -8,9 +8,10 @@ if ENV["MUNGE_ENV"] == "production"
 end
 
 system.router.register(
-  Routers::RemoveIndexBasename.new(
-    html_extensions: config[:router_remove_basename_extensions],
-    index: config[:router_remove_basename_basename]
+  Routers::RemoveBasename.new(
+    extensions: config[:router_remove_basename_extensions],
+    basenames: config[:router_remove_basename_basenames],
+    keep_explicit: config[:router_remove_basename_keep_explicit]
   )
 )
 

@@ -11,8 +11,9 @@ config.layouts_text_extensions = yml["text_extensions"] + yml["bintext_extension
 
 config.router_fingerprint_extensions = yml["bin_extensions"] + yml["bintext_extensions"]
 config.router_fingeprint_separator = "-"
-config.router_remove_basename_extensions = yml["text_extensions"]
-config.router_remove_basename_basename = "index.html"
+config.router_remove_basename_extensions = %w(htm html)
+config.router_remove_basename_basenames = %w(index)
+config.router_remove_basename_keep_explicit = true
 config.router_add_index_html = yml["text_extensions"]
 config.router_add_index_index = "index.html"
 config.router_keep_extensions = yml["bin_extensions"] + yml["bintext_extensions"]
