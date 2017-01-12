@@ -5,7 +5,7 @@ module Munge
       # @param ignore_extensions [Array<String>] Strings are converted to regex
       def initialize(text_extensions:,
                      ignore_extensions:)
-        @text_extensions = Set.new(text_extensions)
+        @text_extensions = text_extensions
         @item_identifier = ItemIdentifier.new(remove_extensions: ignore_extensions)
       end
 
@@ -59,19 +59,19 @@ module Munge
 
       private
 
-      def file_extensions(filepath)
-        extensions = File.basename(filepath).split(".")[1..-1]
-        Set.new(extensions)
-      end
-
       def item_file_type(abspath)
-        exts = file_extensions(abspath)
-
-        if exts.intersect?(@text_extensions)
+        if has_text_extension?(abspath)
           :text
         else
           :binary
         end
+      end
+
+      def has_text_extension?(filepath)
+        extensions = Munge::Util::Path.extnames(filepath)
+        intersection = extensions & @text_extensions
+
+        intersection.any?
       end
     end
   end
