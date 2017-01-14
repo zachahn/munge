@@ -16,8 +16,8 @@ system.router.register(
 )
 
 system.router.register(
-  Routers::AddIndexHtml.new(
-    html_extensions: config[:router_add_index_original_extensions],
+  Routers::AddDirectoryIndex.new(
+    extensions: config[:router_add_index_original_extensions],
     index: config[:router_add_index_basename]
   )
 )

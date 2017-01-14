@@ -55,7 +55,7 @@ class IntegrationRouterTest < TestCase
   def new_router
     fingerprint = Munge::Routers::Fingerprint.new(extensions: %w(gif), separator: "--")
     index_basename = Munge::Routers::RemoveBasename.new(extensions: %w(html), basenames: %w(index), keep_explicit: true)
-    index_html = Munge::Routers::AddIndexHtml.new(html_extensions: %w(html), index: "index.html")
+    index_html = Munge::Routers::AddDirectoryIndex.new(extensions: %w(html), index: "index.html")
     auto_add_extension = Munge::Routers::AutoAddExtension.new(keep_extensions: %w(gif))
 
     processor = QuickDummy.new(transform: -> (_item) { "transformed" })

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class RoutersAddIndexHtmlTest < TestCase
+class RoutersAddDirectoryIndexTest < TestCase
   include RouterInterfaceTest
 
   test "only for filepath" do
@@ -28,8 +28,8 @@ class RoutersAddIndexHtmlTest < TestCase
   private
 
   def new_router
-    Munge::Routers::AddIndexHtml.new(
-      html_extensions: %w(html htm md),
+    Munge::Routers::AddDirectoryIndex.new(
+      extensions: %w(html htm md),
       index: "index.html"
     )
   end

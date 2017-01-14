@@ -1,9 +1,9 @@
 module Munge
   module Routers
-    class AddIndexHtml
-      def initialize(html_extensions:, index:)
-        @html_extensions = html_extensions
-        @index           = index
+    class AddDirectoryIndex
+      def initialize(extensions:, index:)
+        @extensions = extensions
+        @index = index
       end
 
       def type
@@ -21,7 +21,7 @@ module Munge
       private
 
       def item_is_html?(item)
-        intersection = item.extensions & @html_extensions
+        intersection = item.extensions & @extensions
 
         !intersection.empty?
       end
