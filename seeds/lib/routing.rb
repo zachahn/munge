@@ -9,16 +9,16 @@ end
 
 system.router.register(
   Routers::RemoveBasename.new(
-    extensions: config[:router_remove_basename_extensions],
-    basenames: config[:router_remove_basename_basenames],
+    extensions: config[:router_remove_basename_original_extensions],
+    basenames: config[:router_remove_basename_route_basenames],
     keep_explicit: config[:router_remove_basename_keep_explicit]
   )
 )
 
 system.router.register(
   Routers::AddIndexHtml.new(
-    html_extensions: config[:router_add_index_html],
-    index: config[:router_add_index_index]
+    html_extensions: config[:router_add_index_original_extensions],
+    index: config[:router_add_index_basename]
   )
 )
 
