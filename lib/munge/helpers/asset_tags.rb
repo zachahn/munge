@@ -22,17 +22,18 @@ module Munge
       end
 
       def inline_stylesheet_tag(basename, options = {})
-        inline_asset_tag_helper(:stylesheet_path, basename, :style, options)
+        inline_asset_tag_helper(stylesheets_root, basename, :style, options)
       end
 
       def inline_javascript_tag(basename, options = {})
-        inline_asset_tag_helper(:javascript_path, basename, :script, options)
+        inline_asset_tag_helper(javascripts_root, basename, :script, options)
       end
 
       private
 
-      def inline_asset_tag_helper(asset_path_method, basename, tag, options)
-        rendered_asset = render(send(asset_path_method, basename))
+      def inline_asset_tag_helper(asset_root, basename, tag, options)
+        path_to_asset = File.join(asset_root, basename)
+        rendered_asset = render(items[path_to_asset])
 
         content_tag(tag, rendered_asset, options)
       end

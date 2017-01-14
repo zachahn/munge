@@ -50,6 +50,8 @@ class HelpersAssetTagsTest < TestCase
       QuickDummy.new(
         stylesheet_path: -> (basename) { "#{basename}.css" },
         javascript_path: -> (basename) { "#{basename}.js" },
+        stylesheets_root: -> { "path/to/css" },
+        javascripts_root: -> { "path/to/js" },
         image_path: -> (basename) { basename },
         items: -> { Hash.new("item".freeze) },
         render: -> (_) { "rendered item" }
