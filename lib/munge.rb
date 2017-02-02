@@ -5,11 +5,10 @@ require "yaml"
 require "cgi"
 
 require "tilt"
+require "pry"
 
 if Gem::Specification.find_all_by_name("pry-byebug").any?
   require "pry-byebug"
-elsif Gem::Specification.find_all_by_name("pry").any?
-  require "pry"
 end
 
 # Core
@@ -25,6 +24,7 @@ require "munge/system/router/itemish"
 require "munge/system/item_factory"
 require "munge/system/item_factory/content_parser"
 require "munge/system/item_factory/item_identifier"
+require "munge/system/inspector"
 require "munge/system/collection"
 require "munge/system/readers/filesystem"
 require "munge/system/processor"
