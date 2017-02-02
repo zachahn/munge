@@ -79,8 +79,10 @@ class HelpersRenderingTest < TestCase
   private
 
   def new_system
+    inspector = noop_inspector
     system = Object.new
     system.define_singleton_method(:global_data) { {} }
+    system.define_singleton_method(:inspector) { inspector }
     system
   end
 

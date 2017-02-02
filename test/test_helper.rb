@@ -47,4 +47,11 @@ class TestCase < Minitest::Test
   def tilt_scope_class
     Munge::Transformers::TiltTransformer::Scope
   end
+
+  def noop_inspector
+    QuickDummy.new(
+      handler: -> (*) {},
+      breakpoint: -> (*) {}
+    )
+  end
 end

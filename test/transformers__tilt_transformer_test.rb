@@ -48,8 +48,10 @@ class TransformersTiltTransformerTest < TestCase
   end
 
   def new_transformer
+    inspector = noop_inspector
     fake_scope = Object.new
     fake_scope.define_singleton_method(:global_data) { Hash.new }
+    fake_scope.define_singleton_method(:inspector) { inspector }
 
     Munge::Transformers::TiltTransformer.new(fake_scope)
   end

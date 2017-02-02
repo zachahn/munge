@@ -7,6 +7,8 @@ module Munge
         mdata     = merged_data(item.frontmatter, data, self_item: item)
         item_path = item.relpath
 
+        system.inspector.breakpoint(:render_item, binding)
+
         render_string(content, data: mdata, engines: renderers, template_name: item_path)
       end
 
