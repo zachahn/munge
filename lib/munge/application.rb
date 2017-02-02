@@ -47,5 +47,9 @@ module Munge
     def vomit(component_name)
       @system.public_send(component_name)
     end
+
+    def inspector
+      @system.inspector
+    end
   end
 end

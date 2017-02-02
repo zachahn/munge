@@ -52,6 +52,11 @@ module Munge
         )
     end
 
+    def inspector
+      @inspector =
+        Inspector.new
+    end
+
     def global_data
       return @global_data if @global_data
 
