@@ -45,6 +45,10 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "tilt", "~> 2.0"
   spec.add_runtime_dependency "sass", "~> 3.4"
 
+  if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("2.2.2")
+    spec.add_runtime_dependency "reel", "~> 0.6"
+  end
+
   if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("2.3")
     spec.add_runtime_dependency "rack", ">= 1.0", "< 2.0"
   end

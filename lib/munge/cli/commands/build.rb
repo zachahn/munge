@@ -25,6 +25,7 @@ module Munge
             )
         end
 
+        # @return [Array<String>] list of updated items routes
         def call
           @runner.write
         end

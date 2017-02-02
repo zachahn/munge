@@ -14,7 +14,7 @@ class CliComandsServerTest < TestCase
   end
 
   def command
-    command_class.new(bootloader)
+    command_class.new(bootloader, livereload: false)
   end
 
   def command_class

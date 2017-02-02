@@ -55,7 +55,8 @@ class RunnerTest < TestCase
 
   def dummy_router
     QuickDummy.new(
-      filepath: -> (item) { item.route }
+      filepath: -> (item) { item.route },
+      route: -> (item) { item.route }
     )
   end
 

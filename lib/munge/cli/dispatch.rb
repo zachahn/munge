@@ -27,11 +27,12 @@ module Munge
       end
 
       desc "server", "Run the development server"
+      method_option :livereload, desc: "Reload browser on update", default: Gem.loaded_specs.key?("reel"), type: :boolean
       def server
         ENV["MUNGE_ENV"]  ||= "development"
         ENV["BUILD_ROOT"] ||= "tmp/development-build"
 
-        Commands::Server.new(bootloader).call
+        Commands::Server.new(bootloader, **symbolized_options).call
       end
 
       desc "update", "Use with caution: override local configs with pristine version (useful after bumping version in Gemfile)"

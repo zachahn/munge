@@ -42,30 +42,46 @@ class IntegrationDispatchTest < TestCase
     assert_match("exist  lib", out(update_io))
     assert_match("identical  lib/_asset_roots.rb", out(update_io))
 
-    view_io = capture_subprocess_io do
+    @view_server_responded = false
+    _view_io = capture_subprocess_io do
       Dir.chdir("sandbox/#{project_name}") do
         ENV["MUNGE_ENV"] = "production"
-        pid = fork { Munge::Cli::Dispatch.start(["view"]) }
-        sleep(2)
+        pid = Process.fork { Munge::Cli::Dispatch.start(["view"]) }
+        10.times do
+          sleep(1)
+          if Net::HTTP.get(URI("http://127.0.0.1:7000/"))
+            @view_server_responded = true
+            break
+          end
+        end
         Process.kill("INT", pid)
         Process.wait
       end
     end
 
-    assert_match("INFO  WEBrick", err(view_io))
+    assert_equal(true, @view_server_responded)
 
-    server_io = capture_subprocess_io do
+    @server_server_responded = false
+    _server_io = capture_subprocess_io do
       Dir.chdir("sandbox/#{project_name}") do
         ENV["MUNGE_ENV"] = "development"
-        pid = fork { Munge::Cli::Dispatch.start(["server"]) }
-        sleep(6)
+        pid = Process.fork { Munge::Cli::Dispatch.start(["server", "--no-livereload"]) }
+        10.times do
+          sleep(1)
+          if Net::HTTP.get(URI("http://127.0.0.1:7000/"))
+            @server_server_responded = true
+            break
+          end
+        end
         Process.kill("INT", pid)
         Process.wait
       end
     end
 
-    assert_match("created   assets/basic.", out(server_io))
-    assert_match("INFO  WEBrick", err(server_io))
+    built_file = Dir.glob("sandbox/#{project_name}/tmp/development-build/assets/basic*")
+
+    assert_kind_of(String, built_file.first)
+    assert_equal(true, @server_server_responded)
   end
 
   test "#version" do

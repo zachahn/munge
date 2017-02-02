@@ -28,6 +28,7 @@ require "tilt/sass"
 
 require "ostruct"
 require "securerandom"
+require "net/http"
 
 require_relative "support/declarative"
 require_relative "support/quick_dummy"

@@ -53,3 +53,5 @@ require "munge/routers/fingerprint"
 require "munge/routers/add_directory_index"
 require "munge/routers/remove_index_basename"
 require "munge/transformers/tilt_transformer"
+
+require "munge/extras/livereload"
