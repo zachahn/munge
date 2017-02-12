@@ -31,6 +31,12 @@ class HelpersTagTest < TestCase
     assert_equal(%(<bar ab="cd"></bar>), tag)
   end
 
+  test "#content_tag without stuff" do
+    tag = new_renderer.content_tag(:bar)
+
+    assert_equal(%(<bar></bar>), tag)
+  end
+
   test "#h escapes HTML" do
     escaped_html = new_renderer.h(%(<"&>))
 

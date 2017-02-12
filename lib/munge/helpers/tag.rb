@@ -17,7 +17,12 @@ module Munge
           content = nil
         end
 
-        options_str = options.map { |k, v| %(#{k}="#{h(v)}") }.join(" ")
+        options_str =
+          if options.any?
+            " " + options.map { |k, v| %(#{k}="#{h(v)}") }.join(" ")
+          else
+            ""
+          end
 
         content_str =
           if content
@@ -28,7 +33,7 @@ module Munge
             ""
           end
 
-        "<#{name} #{options_str}>#{content_str}</#{name}>"
+        "<#{name}#{options_str}>#{content_str}</#{name}>"
       end
 
       def h(string)
