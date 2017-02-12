@@ -6,6 +6,7 @@ tilt_transformer.register(Munge::Helpers::Rendering)
 tilt_transformer.register(Munge::Helpers::Tag)
 tilt_transformer.register(Munge::Helpers::AssetPaths)
 tilt_transformer.register(Munge::Helpers::AssetTags)
+tilt_transformer.register(Munge::Helpers::Livereload)
 tilt_transformer.register(AssetRoots)
 
 system.processor.register(tilt_transformer)
