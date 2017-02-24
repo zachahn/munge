@@ -45,7 +45,7 @@ module Munge
 
         def handle_request(request)
           if request.path == "/livereload.js"
-            livejs = File.expand_path("livereload.js", File.dirname(__FILE__))
+            livejs = File.expand_path("vendor/livereload.js", File.dirname(__FILE__))
             request.respond(:ok, File.read(livejs))
           else
             request.respond(:not_found, "not found")
