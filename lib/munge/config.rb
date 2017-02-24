@@ -27,6 +27,8 @@ module Munge
         self[key_from_setter(method_name)] = arguments.first
       elsif key?(method_name)
         self[method_name]
+      else
+        super
       end
     end
 

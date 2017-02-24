@@ -1,4 +1,4 @@
-yml = YAML.load(__end__)
+yml = YAML.safe_load(__end__)
 
 # Path to content
 config.source_path = "src"

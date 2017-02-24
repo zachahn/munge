@@ -27,7 +27,7 @@ module Munge
         def self.parse_frontmatter(matchdata)
           return {} if matchdata.nil?
 
-          parsed_frontmatter = YAML.load(matchdata[1])
+          parsed_frontmatter = YAML.safe_load(matchdata[1])
 
           frontmatter_hash =
             if parsed_frontmatter.is_a?(Hash)
