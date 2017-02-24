@@ -5,10 +5,10 @@ module Munge
         should_show = ENV["MUNGE_ENV"] == "development" && Gem.loaded_specs.key?("reel")
 
         loading_script =
-          %q(document.write('<script src="http://') +
-          %q( + (location.host || 'localhost').split(':')[0]) +
-          %q( + ':35729/livereload.js?snipver=1"></') +
-          %q( + 'script>'))
+          %q{document.write('<script src="http://'} +
+          %q{ + (location.host || 'localhost').split(':')[0]} +
+          %q{ + ':35729/livereload.js?snipver=1"></'} +
+          %q{ + 'script>')}
 
         if should_show || force
           content_tag(:script, loading_script)
