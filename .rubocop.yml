@@ -4,6 +4,7 @@ AllCops:
     - vendor/bundle/**/*
     - munge.gemspec
     - sandbox/**/*
+  DisplayCopNames: true
 
 Metrics/AbcSize:
   Exclude:
