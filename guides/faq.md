@@ -32,15 +32,17 @@ These directions should be similar regardless of what Sass libraries are used.
 
 ## What is an `item.id`?
 
-The `item.id` is very similar to `item.relpath` except that it excludes dynamic
+The `item.id` is primarily used for querying for items. For example,
+`index.html.erb` could be accessed in the templates with `items["index.html"]`.
+
+The ID is very similar to `item.relpath` except that it excludes dynamic
 extensions, such as `erb`, `scss`, etc.
 
 Here are a few examples:
 
-- `index.html.erb`'s ID would be `index.html`
-- `blog/1482530041.html.md`'s ID would be `blog/1482530041.html`
-- `assets/stylesheets/application.css.scss.erb`'s ID would be
-  `assets/stylesheets/application.css`
-
-The ID is primarily used for querying for items. For example, `index.html.erb`
-could be accessed in the templates with `items["index.html"]`.
+relpath                                 | id
+----------------------------------------|-------------------------------
+`index.html.erb`                        | `index.html`
+`blog/1482530041.html.md`               | `blog/1482530041.html`
+`assets/stylesheets/style.css.scss.erb` | `assets/stylesheets/style.css`
+`about/profile.jpg`                     | `about/profile.jpg`
