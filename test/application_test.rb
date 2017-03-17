@@ -13,26 +13,30 @@ class ApplicationTest < TestCase
   end
 
   test "#build_virtual_item" do
+    expected_args = { relpath: "relpath", content: "new content", frontmatter: { cool: "frontmatter" } }
+
     system = OpenStruct.new
     system.items = Minitest::Mock.new
-    system.items.expect(:build, "built item", [{ relpath: "new-item-relpath", content: "new item content", frontmatter: { this: "is frontmatter" } }])
+    system.items.expect(:build, "built item", [expected_args])
 
     application = Munge::Application.new(system)
 
-    application.build_virtual_item("new-item-relpath", "new item content", this: "is frontmatter")
+    application.build_virtual_item("relpath", "new content", cool: "frontmatter")
 
     system.items.verify
   end
 
   test "#create" do
+    expected_args = { relpath: "relpath", content: "new content", frontmatter: { cool: "frontmatter" } }
+
     system = OpenStruct.new
     system.items = Minitest::Mock.new
-    system.items.expect(:build, "built item", [{ relpath: "new-item-relpath", content: "new item content", frontmatter: { this: "is frontmatter" } }])
+    system.items.expect(:build, "built item", [expected_args])
     system.items.expect(:push, nil, ["built item"])
 
     application = Munge::Application.new(system)
 
-    item = application.create("new-item-relpath", "new item content", this: "is frontmatter")
+    item = application.create("relpath", "new content", cool: "frontmatter")
 
     assert_equal("built item", item[0])
 
