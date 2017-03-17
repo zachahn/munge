@@ -39,8 +39,6 @@ module Munge
         @written_items.push(route)
       when :double_write_error
         raise Errors::DoubleWriteError, item.route
-      when :identical
-        # Defer to the reporter
       end
 
       @reporter.call(item, relpath, write_status)
