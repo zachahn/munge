@@ -60,14 +60,14 @@ module Munge
       private
 
       def item_file_type(abspath)
-        if has_text_extension?(abspath)
+        if text_file_extension?(abspath)
           :text
         else
           :binary
         end
       end
 
-      def has_text_extension?(filepath)
+      def text_file_extension?(filepath)
         extensions = Munge::Util::Path.extnames(filepath)
         intersection = extensions & @text_extensions
 
