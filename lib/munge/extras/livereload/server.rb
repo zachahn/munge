@@ -20,6 +20,8 @@ module Munge
           end
         end
 
+        private
+
         def on_connection(connection)
           connection.each_request do |request|
             if request.websocket?
