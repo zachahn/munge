@@ -16,6 +16,7 @@ module Munge
                 socket << @messaging.reload(file)
               end
             rescue Reel::SocketError
+              print_error("error pushing livereload notification to browser")
             end
           end
         end
@@ -43,6 +44,7 @@ module Munge
             end
           end
         rescue Reel::SocketError
+          print_error("error with livereload socket")
         end
 
         def handle_request(request)
@@ -52,6 +54,10 @@ module Munge
           else
             request.respond(:not_found, "not found")
           end
+        end
+
+        def print_error(message)
+          $stderr.puts(message)
         end
       end
     end
