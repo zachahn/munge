@@ -21,6 +21,15 @@ class ConfigTest < TestCase
     assert_equal("bar", config.foo)
   end
 
+  test "method getter doesn't exist" do
+    config = Munge::Config.new
+    config.foo = "bar"
+
+    assert_raises(Munge::Errors::ConfigKeyNotFound) do
+      config.dne
+    end
+  end
+
   test "swappable setter/getter" do
     config = Munge::Config.new
     config.foo = "bar"

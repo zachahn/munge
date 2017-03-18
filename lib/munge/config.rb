@@ -28,7 +28,7 @@ module Munge
       elsif key?(method_name)
         self[method_name]
       else
-        super
+        raise Munge::Errors::ConfigKeyNotFound, method_name
       end
     end
 
