@@ -32,7 +32,8 @@ app.create("blog-archive.html.erb", "", posts: blog_public_items)
 # Home page rules
 app.nonrouted
   .select { |item| item.relpath?("home") }
-  .each   { |item| item.route = "#{item.id.sub(%r{^home/}, "")}" }
+  .select { |item| item.type == :text }
+  .each   { |item| item.route = "#{item.basepath.sub(%r{^home/}, "")}" }
   .each   { |item| item.layout = "default" }
   .each(&transform)
 
