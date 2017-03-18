@@ -34,6 +34,14 @@ class ConfigTest < TestCase
     assert_equal("bar", config["foo"])
   end
 
+  test "#[] when not found" do
+    config = Munge::Config.new(foo: "bar")
+
+    assert_raises(Munge::Errors::ConfigKeyNotFound) do
+      config["dne"]
+    end
+  end
+
   test "#respond_to?" do
     config = Munge::Config.new(foo: "bar")
 
