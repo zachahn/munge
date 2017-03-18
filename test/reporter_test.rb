@@ -37,6 +37,18 @@ class ReporterTest < TestCase
     assert_equal(":identical false @@ITEM@@", identical)
   end
 
+  test "#call prints nothing when verbosity is unknown" do
+    r = Munge::Reporter.new(formatter: formatter, verbosity: :unknown)
+
+    new       = r.call(OpenStruct.new(route: "@@ITEM@@"), "a", :new)
+    changed   = r.call(OpenStruct.new(route: "@@ITEM@@"), "b", :changed)
+    identical = r.call(OpenStruct.new(route: "@@ITEM@@"), "c", :identical)
+
+    assert_equal(":new false @@ITEM@@", new)
+    assert_equal(":changed false @@ITEM@@", changed)
+    assert_equal(":identical false @@ITEM@@", identical)
+  end
+
   private
 
   def formatter
