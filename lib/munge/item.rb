@@ -41,6 +41,14 @@ module Munge
       Munge::Util::Path.basename_no_extension(@relpath)
     end
 
+    # @return [String] relpath, without extensions
+    def basepath
+      dirname = Munge::Util::Path.dirname(@relpath)
+      basename = Munge::Util::Path.basename_no_extension(@relpath)
+
+      Munge::Util::Path.join(dirname, basename)
+    end
+
     # @return [Array<String>] extensions (everything following the first ".")
     def extensions
       Munge::Util::Path.extnames(@relpath)

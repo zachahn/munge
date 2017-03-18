@@ -36,6 +36,14 @@ class ItemTest < TestCase
     assert_equal("dir", item.basename)
   end
 
+  test "#basepath" do
+    item = new_item(relpath: "index.html.erb")
+    assert_equal("index", item.basepath)
+
+    item = new_item(relpath: "foo/bar/baz/index.html.erb.jpg")
+    assert_equal("foo/bar/baz/index", item.basepath)
+  end
+
   test "#extensions" do
     item = new_item(relpath: "index.html.erb")
     assert_equal(%w(html erb), item.extensions)
