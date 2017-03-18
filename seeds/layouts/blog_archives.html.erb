@@ -1,4 +1,4 @@
-<% layout("default") do %>
+<% layout("blog") do %>
   <ul>
     <% posts.each do |post| %>
       <li><a href="<%= path_to(post) %>"><%= post.basename %></a></li>
