@@ -14,7 +14,7 @@ class CliComandsServerTest < TestCase
   end
 
   def command
-    command_class.new(bootloader, livereload: false)
+    command_class.new(bootloader, livereload: false, host: "0.0.0.0", port: 7000)
   end
 
   def command_class

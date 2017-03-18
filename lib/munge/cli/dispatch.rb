@@ -28,6 +28,8 @@ module Munge
 
       desc "server", "Run the development server"
       method_option :livereload, desc: "Reload browser on update", default: Gem.loaded_specs.key?("reel"), type: :boolean
+      method_option :port, aliases: "-p", desc: "Set port", default: 7000, type: :numeric
+      method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
       def server
         ENV["MUNGE_ENV"]  ||= "development"
         ENV["BUILD_ROOT"] ||= "tmp/development-build"

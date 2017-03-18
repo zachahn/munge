@@ -2,9 +2,11 @@ module Munge
   module Cli
     module Commands
       class Server
-        def initialize(bootloader, livereload:)
+        def initialize(bootloader, livereload:, host:, port:)
           @bootloader = bootloader
           @listener = listener
+          @view_host = host
+          @view_port = port
           @livereload =
             if livereload
               if Gem.loaded_specs.key?("reel")
@@ -23,7 +25,7 @@ module Munge
 
           munge_build
 
-          system("munge view")
+          munge_view
         rescue Interrupt
           @listener.stop
         end
@@ -60,12 +62,9 @@ module Munge
         end
 
         def munge_build
-          bootloader =
-            Munge::Bootloader.new(root_path: @bootloader.root_path)
-
           build_command =
             Munge::Cli::Commands::Build.new(
-              bootloader,
+              new_bootloader,
               dry_run: false,
               reporter: "Default",
               verbosity: "written",
@@ -73,6 +72,22 @@ module Munge
             )
 
           build_command.call
+        end
+
+        def munge_view
+          view_command =
+            Munge::Cli::Commands::View.new(
+              new_bootloader,
+              host: @view_host,
+              port: @view_port,
+              build_root: ENV["BUILD_ROOT"]
+            )
+
+          view_command.call
+        end
+
+        def new_bootloader
+          Munge::Bootloader.new(root_path: @bootloader.root_path)
         end
       end
     end
