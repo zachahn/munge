@@ -34,9 +34,14 @@ module Munge
           require "listen"
 
           listen = Listen.to(@bootloader.root_path) do
-            built_files = munge_build
+            begin
+              built_files = munge_build
 
-            @livereload.notify_changes(files: built_files)
+              @livereload.notify_changes(files: built_files)
+            rescue => e
+              puts "ERROR: #{e.message}"
+              puts e.backtrace.map { |line| "\t" + line }.join("\n")
+            end
 
             GC.start
           end
