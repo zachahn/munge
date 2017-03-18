@@ -1,25 +1,4 @@
 module Sass::Script::Functions
-  def stringify_string(stringish)
-    if stringish.instance_of?(::String)
-      stringish
-    else
-      stringish.value
-    end
-  end
-
-  def asset_route_helper(root, basename)
-    basename_string = stringify_string(basename)
-
-    item = system.items["#{root}/#{basename_string}"]
-    r = system.router.route(item)
-
-    quoted_string(r)
-  end
-
-  def font_route(basename)
-    asset_route_helper(fonts_root, basename)
-  end
-
   def font_url(basename)
     basename_string = stringify_string(basename)
 
@@ -40,5 +19,28 @@ module Sass::Script::Functions
   def image_url(basename)
     img_route = asset_route_helper(images_root, basename)
     unquoted_string("url(#{img_route})")
+  end
+
+  private
+
+  def stringify_string(stringish)
+    if stringish.instance_of?(::String)
+      stringish
+    else
+      stringish.value
+    end
+  end
+
+  def asset_route_helper(root, basename)
+    basename_string = stringify_string(basename)
+
+    item = system.items["#{root}/#{basename_string}"]
+    r = system.router.route(item)
+
+    quoted_string(r)
+  end
+
+  def font_route(basename)
+    asset_route_helper(fonts_root, basename)
   end
 end
