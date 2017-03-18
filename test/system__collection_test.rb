@@ -73,6 +73,18 @@ class SystemCollectionTest < TestCase
     assert_equal("binary content lol", items["id foo/bar.jpg"][:content])
   end
 
+  test "#push prevents duplicate item ids" do
+    items = new_collection(new_item_factory)
+    item1 = items.build(relpath: "foo.txt", content: "qqqq", frontmatter: {})
+    item2 = items.build(relpath: "foo.txt", content: "wwww", frontmatter: {})
+
+    items.push(item1)
+
+    assert_raises(Munge::Errors::DuplicateItemError) do
+      items.push(item2)
+    end
+  end
+
   test "#freeze freezes deeply" do
     items = new_collection(new_item_factory)
     items.freeze
