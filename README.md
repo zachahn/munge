@@ -6,6 +6,9 @@
 
 Munge is a static site generator aiming to simplify complex build rules.
 
+It's built partially to emulate unix pipes and scripts; small transformations
+can be joined, composed, and applied to create almost any site you can think up.
+
 SemVer will be followed once 1.0.0 is released.
 Until then,
 the API should be considered experimental.
@@ -13,16 +16,22 @@ the API should be considered experimental.
 
 ## Features
 
+- No DSL
 - No metaprogramming
-- Suitable for large, complex sites (e.g., multiple blogs with different templates, a single blog with multiple data sources)
+- LiveReload
+- Optional frontmatter
+- Suitable for large, complex sites (e.g., multiple blogs with different
+  templates, a single blog with multiple data sources)
+- Very configurable
 - Concise rule definition
-- Rules defined by iterating through arrays and modifying objects
+- Rules defined by iterating through arrays and modifying matching objects
 
 
 ## Caveats
 
-- Not optimized (Pull requests welcome, gradual optimizations preferred)
-- Rules can seem pretty dense (because of its conciseness)
+- Not yet optimized (Pull requests welcome, gradual optimizations preferred)
+- User facing API has mostly stabilized, but plugins have yet to be fully worked
+  out
 
 
 ## Installation
@@ -30,7 +39,7 @@ the API should be considered experimental.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'munge'
+gem "munge"
 ```
 
 And then execute:
