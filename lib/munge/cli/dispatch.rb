@@ -12,7 +12,7 @@ module Munge
       method_option :dry_run, desc: "Run without writing files", default: false, type: :boolean
       method_option :verbosity, aliases: "-v", desc: "Preferred amount of output", enum: %w(all written silent), default: "written", type: :string
       def build
-        ENV["MUNGE_ENV"] ||= "production"
+        production!
 
         Commands::Build.new(bootloader, **symbolized_options, build_root: ENV["BUILD_ROOT"]).call
       end
@@ -21,7 +21,7 @@ module Munge
       method_option :port, aliases: "-p", desc: "Set port", default: 7000, type: :numeric
       method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
       def view
-        ENV["MUNGE_ENV"] ||= "production"
+        production!
 
         Commands::View.new(bootloader, **symbolized_options, build_root: ENV["BUILD_ROOT"]).call
       end
@@ -31,15 +31,14 @@ module Munge
       method_option :port, aliases: "-p", desc: "Set port", default: 7000, type: :numeric
       method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
       def server
-        ENV["MUNGE_ENV"]  ||= "development"
-        ENV["BUILD_ROOT"] ||= "tmp/development-build"
+        development!
 
         Commands::Server.new(bootloader, **symbolized_options).call
       end
 
       desc "update", "Use with caution: override local configs with pristine version (useful after bumping version in Gemfile)"
       def update
-        ENV["MUNGE_ENV"] ||= "development"
+        development!
 
         Commands::Update.new(bootloader, current_working_directory).call
       end
@@ -65,6 +64,15 @@ module Munge
 
       def symbolized_options
         Munge::Util::SymbolHash.deep_convert(options)
+      end
+
+      def production!
+        ENV["MUNGE_ENV"] ||= "production"
+      end
+
+      def development!
+        ENV["MUNGE_ENV"]  ||= "development"
+        ENV["BUILD_ROOT"] ||= "tmp/development-build"
       end
     end
   end
