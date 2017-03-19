@@ -46,10 +46,11 @@ class IntegrationDispatchTest < TestCase
     _view_io = capture_subprocess_io do
       Dir.chdir("sandbox/#{project_name}") do
         ENV["MUNGE_ENV"] = "production"
-        pid = Process.fork { Munge::Cli::Dispatch.start(["view"]) }
+        view_port = new_port_number
+        pid = Process.fork { Munge::Cli::Dispatch.start(["view", "--port", view_port.to_s]) }
         10.times do
           sleep(1)
-          if Net::HTTP.get(URI("http://127.0.0.1:7000/"))
+          if server_responded?("http://127.0.0.1:#{view_port}/")
             @view_server_responded = true
             break
           end
@@ -65,10 +66,11 @@ class IntegrationDispatchTest < TestCase
     _server_io = capture_subprocess_io do
       Dir.chdir("sandbox/#{project_name}") do
         ENV["MUNGE_ENV"] = "development"
-        pid = Process.fork { Munge::Cli::Dispatch.start(["server", "--no-livereload"]) }
+        server_port = new_port_number
+        pid = Process.fork { Munge::Cli::Dispatch.start(["server", "--no-livereload", "--port", server_port.to_s]) }
         10.times do
           sleep(1)
-          if Net::HTTP.get(URI("http://127.0.0.1:7000/"))
+          if server_responded?("http://127.0.0.1:#{server_port}/")
             @server_server_responded = true
             break
           end
@@ -106,5 +108,23 @@ class IntegrationDispatchTest < TestCase
 
   def err(io)
     io.last
+  end
+
+  # @return [Number] random unclaimable port number
+  def new_port_number
+    min_port = 49152 + 1000
+    max_port = 65535 - 1000
+
+    rand(min_port..max_port)
+  end
+
+  def server_responded?(url)
+    if Net::HTTP.get(URI(url))
+      return true
+    else
+      return false
+    end
+  rescue
+    return false
   end
 end
