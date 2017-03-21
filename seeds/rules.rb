@@ -7,15 +7,14 @@ blog_items =
     .select { |item| item.relpath?("blog") }
     .sort_by { |item| item.basename }
     .each { |item| item[:hide] = item.extensions.include?("draft") }
-    .each { |item| item[:text] = item.content.valid_encoding? }
     .each { |item| item.route = "blog/#{item.basename}" }
     .reverse
 
-blog_public_items = blog_items.select { |i| !i[:hide] && i[:text] }
+blog_public_items = blog_items.select { |i| !i[:hide] && i.text? }
 blog_index_items = blog_public_items[0..7]
 
 blog_items
-  .select { |item| item[:text] }
+  .select(&:text?)
   .each { |item| item.layout = "blog_show" }
   .each(&transform)
 
