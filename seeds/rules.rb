@@ -5,12 +5,12 @@ transform = -> (item) { item.transform }
 blog_items =
   app.nonrouted
     .select { |item| item.relpath?("blog") }
-    .sort_by { |item| item.basename }
     .each { |item| item[:hide] = item.extensions.include?("draft") }
     .each { |item| item.route = "blog/#{item.basename}" }
+    .sort_by(&:basename)
     .reverse
 
-blog_public_items = blog_items.select { |i| !i[:hide] && i.text? }
+blog_public_items = blog_items.select { |item| !item[:hide] && item.text? }
 blog_index_items = blog_public_items[0..7]
 
 blog_items
@@ -66,6 +66,6 @@ html_pages =
   app.routed
     .reject { |item| item.route.nil? }
     .select { |item| item.extensions.include?("html") }
-    .sort_by { |item| item.route }
+    .sort_by(&:route)
 
 system.global_data[:sitemap_pages] = html_pages

@@ -78,10 +78,6 @@ Style/StringLiterals:
 Style/StringLiteralsInInterpolation:
   Enabled: false
 
-Style/SymbolProc:
-  Exclude:
-    - seeds/**/*
-
 Style/UnneededInterpolation:
   Enabled: false
 
