@@ -47,7 +47,12 @@ class IntegrationDispatchTest < TestCase
       Dir.chdir("sandbox/#{project_name}") do
         ENV["MUNGE_ENV"] = "production"
         view_port = new_port_number
-        pid = Process.fork { Munge::Cli::Dispatch.start(["view", "--port", view_port.to_s]) }
+        pid =
+          Process.fork do
+            SimpleCov.start { command_name "munge_dispatch_view" } if ENV["COVERAGE"]
+            Munge::Cli::Dispatch.start(["view", "--port", view_port.to_s])
+          end
+
         10.times do
           sleep(1)
           if server_responded?("http://127.0.0.1:#{view_port}/")
@@ -67,7 +72,12 @@ class IntegrationDispatchTest < TestCase
       Dir.chdir("sandbox/#{project_name}") do
         ENV["MUNGE_ENV"] = "development"
         server_port = new_port_number
-        pid = Process.fork { Munge::Cli::Dispatch.start(["server", "--no-livereload", "--port", server_port.to_s]) }
+        pid =
+          Process.fork do
+            SimpleCov.start { command_name "munge_dispatch_server" } if ENV["COVERAGE"]
+            Munge::Cli::Dispatch.start(["server", "--no-livereload", "--port", server_port.to_s])
+          end
+
         10.times do
           sleep(1)
           if server_responded?("http://127.0.0.1:#{server_port}/")

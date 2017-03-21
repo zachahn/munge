@@ -9,6 +9,7 @@ if ENV["COVERAGE"]
     add_filter do |src|
       src.filename =~ %r{^#{SimpleCov.root}/test}
     end
+    command_name "munge_main"
   end
 end
 
