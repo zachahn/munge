@@ -10,7 +10,7 @@ class SystemItemFactoryTest < TestCase
       frontmatter: { foo: "bar" }
     )
 
-    assert_equal(:text, item.type)
+    assert_equal(true, item.text?)
     assert_equal("this is so cool man", item.content)
     assert_equal("bar", item.frontmatter[:foo])
   end
@@ -24,7 +24,7 @@ class SystemItemFactoryTest < TestCase
       frontmatter: { foo: "bar" }
     )
 
-    assert_equal(:binary, item.type)
+    assert_equal(true, item.binary?)
     assert_equal("bar", item.frontmatter[:foo])
   end
 
@@ -65,10 +65,10 @@ class SystemItemFactoryTest < TestCase
     item_factory = new_item_factory
 
     txt = item_factory.build(relpath: "index.html", content: "")
-    assert_equal(:text, txt.type)
+    assert_equal(true, txt.text?)
 
     bin = item_factory.build(relpath: "transparent.gif", content: "")
-    assert_equal(:binary, bin.type)
+    assert_equal(true, bin.binary?)
   end
 
   test "#parse" do

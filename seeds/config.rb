@@ -9,7 +9,7 @@ config.output_path = "dest"
 # Path to global data file
 config.data_path = "data.yml"
 
-# Determines `item.type` for items and layouts
+# Determines `item.text?` and `item.binary?` for items and layouts
 # This can be useful avoid applying a transformation to an image
 config.items_text_extensions = yml["text_extensions"] + yml["bintext_extensions"]
 config.layouts_text_extensions = yml["text_extensions"] + yml["bintext_extensions"]

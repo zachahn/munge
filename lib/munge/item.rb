@@ -19,7 +19,6 @@ module Munge
       @transforms = []
     end
 
-    attr_reader :type
     attr_reader :relpath, :id
     attr_reader :content, :frontmatter
     attr_reader :stat
@@ -75,6 +74,18 @@ module Munge
       if @route
         "/#{@route}"
       end
+    end
+
+    # @return [true, false] whether or not this item is a text type
+    #   (determined by extension)
+    def text?
+      @type == :text
+    end
+
+    # @return [true, false] whether or not this item is a binary type
+    #   (determined by extension)
+    def binary?
+      @type == :binary
     end
 
     # Runs a regex match to see if item was found in the specified directory.

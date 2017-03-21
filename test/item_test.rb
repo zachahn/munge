@@ -4,7 +4,6 @@ class ItemTest < TestCase
   test "accessors" do
     item = new_item
 
-    assert_equal(:text, item.type)
     assert_equal("path/to/index.html.erb", item.relpath)
     assert_equal("path/to", item.id)
     assert_equal(%(<%= "hi" %>\n), item.content)
@@ -65,6 +64,18 @@ class ItemTest < TestCase
 
     item.route = "/////baz/"
     assert_equal("/baz", item.route)
+  end
+
+  test "#text?" do
+    assert_equal(true, new_item(type: :text).text?)
+
+    assert_equal(false, new_item(type: :binary).text?)
+  end
+
+  test "#binary?" do
+    assert_equal(false, new_item(type: :text).binary?)
+
+    assert_equal(true, new_item(type: :binary).binary?)
   end
 
   test "#route?" do
