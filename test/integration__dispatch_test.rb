@@ -96,6 +96,34 @@ class IntegrationDispatchTest < TestCase
     assert_equal(true, @server_server_responded)
   end
 
+  test "#init and #clean" do
+    Dir.mktmpdir do |dir|
+      capture_subprocess_io do
+        Dir.chdir(dir) do
+          Munge::Cli::Dispatch.start(["init", project_name])
+        end
+
+        File.write(File.join(dir, project_name, "src", "home", "testing.html"), "hi!")
+
+        Dir.chdir(File.join(dir, project_name)) do
+          Munge::Cli::Dispatch.start(["build"])
+        end
+
+        written_files = Dir.glob(File.join(dir, project_name, "dest", "**", "*"))
+        assert_equal(9, written_files.select { |file| File.file?(file) }.length)
+      end
+
+      File.unlink(File.join(dir, project_name, "src", "home", "testing.html"))
+
+      Dir.chdir(File.join(dir, project_name)) do
+        Munge::Cli::Dispatch.start(["clean"])
+      end
+
+      written_files = Dir.glob(File.join(dir, project_name, "dest", "**", "*"))
+      assert_equal(8, written_files.select { |file| File.file?(file) }.length)
+    end
+  end
+
   test "#version" do
     version_io = capture_io do
       Dir.chdir("sandbox") do

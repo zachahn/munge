@@ -20,6 +20,12 @@ module Munge
       def read(path)
         @driver.read(path)
       end
+
+      def rm(_path)
+      end
+
+      def rmdir(_path)
+      end
     end
   end
 end

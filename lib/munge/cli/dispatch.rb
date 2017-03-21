@@ -36,6 +36,16 @@ module Munge
         Commands::Server.new(bootloader, **symbolized_options).call
       end
 
+      desc "clean", "Remove old built files (generally unnecessary)"
+      method_option :reporter, desc: "Set reporting formatter", default: "Default", type: :string
+      method_option :dry_run, desc: "Run without writing files", default: false, type: :boolean
+      method_option :verbosity, aliases: "-v", desc: "Preferred amount of output", enum: %w(all written silent), default: "written", type: :string
+      def clean
+        production!
+
+        Commands::Clean.new(bootloader, **symbolized_options, build_root: ENV["BUILD_ROOT"]).call
+      end
+
       desc "update", "Use with caution: override local configs with pristine version (useful after bumping version in Gemfile)"
       def update
         development!

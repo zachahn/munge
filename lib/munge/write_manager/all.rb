@@ -1,6 +1,6 @@
 module Munge
   module WriteManager
-    class OnlyNeeded
+    class All
       def initialize(io)
         @io = io
         @written_routes = []
@@ -18,7 +18,9 @@ module Munge
         @written_routes.push(abspath)
       end
 
-      def on_identical(_route, _abspath, _content)
+      def on_identical(route, abspath, content)
+        @io.write(abspath, content)
+        @written_routes.push(abspath)
       end
     end
   end

@@ -21,6 +21,18 @@ module Munge
       def read(path)
         File.read(path)
       end
+
+      def rm(path)
+        File.delete(path)
+      end
+
+      def rmdir(path)
+        contents = Dir.entries(path) - %w(. ..)
+
+        if contents.empty?
+          Dir.rmdir(path)
+        end
+      end
     end
   end
 end

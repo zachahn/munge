@@ -16,6 +16,12 @@ module Munge
       def read(_path)
         ""
       end
+
+      def rm(_path)
+      end
+
+      def rmdir(_path)
+      end
     end
   end
 end

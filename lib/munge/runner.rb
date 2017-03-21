@@ -8,7 +8,6 @@ module Munge
       @reporter = reporter
       @destination = destination
       @manager = manager
-      @written_items = []
       @written_paths = []
     end
 
@@ -21,7 +20,7 @@ module Munge
 
       @reporter.done
 
-      @written_items
+      @manager.written_routes
     end
 
     private
@@ -36,13 +35,11 @@ module Munge
 
       case write_status
       when :new
-        @manager.on_new(abspath, content)
-        @written_items.push(route)
+        @manager.on_new(route, abspath, content)
       when :changed
-        @manager.on_changed(abspath, content)
-        @written_items.push(route)
+        @manager.on_changed(route, abspath, content)
       when :identical
-        @manager.on_identical(abspath, content)
+        @manager.on_identical(route, abspath, content)
       when :double_write_error
         raise Errors::DoubleWriteError, item.route
       end
