@@ -14,8 +14,7 @@ class SystemRouterItemishTest < TestCase
   end
 
   test "delegated method" do
-    item = Minitest::Mock.new
-    item.expect(:frontmatter, {})
+    item = OpenStruct.new(frontmatter: { og: :frontmatter })
 
     processor =
       QuickDummy.new(
@@ -23,8 +22,6 @@ class SystemRouterItemishTest < TestCase
       )
 
     itemish = Munge::System::Router::Itemish.new(item, processor)
-    itemish.frontmatter
-
-    item.verify
+    assert_equal({ og: :frontmatter }, itemish.frontmatter)
   end
 end
