@@ -24,7 +24,7 @@ class WriteManagerTest < TestCase
 
   test "no duplicates" do
     wm = Munge::WriteManager.new(driver: dummy_driver_exists)
-    first_write  = wm.status("foo.txt", "bar")
+    first_write = wm.status("foo.txt", "bar")
     second_write = wm.status("foo.txt", "test")
 
     assert_equal(:changed, first_write)

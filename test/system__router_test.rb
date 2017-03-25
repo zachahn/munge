@@ -13,7 +13,7 @@ class SystemRouterTest < TestCase
   test "filepath single router" do
     router = new_router
     router.register(new_router_index)
-    item       = new_item
+    item = new_item
     item.route = "super/cool/route"
 
     assert_equal("super/cool/route/index.html", router.filepath(item))
@@ -32,7 +32,7 @@ class SystemRouterTest < TestCase
     router = new_router
     router.register(new_router_index)
     router.register(new_router_rot1)
-    item       = new_item
+    item = new_item
     item.route = "super/cool/route"
 
     assert_equal("tvqfs/dppm/spvuf/joefy.iunm", router.filepath(item))
@@ -40,7 +40,7 @@ class SystemRouterTest < TestCase
 
   test "filepath runs route first, then runs filepath" do
     router = new_router
-    item       = new_item
+    item = new_item
     item.route = "super/cool/route"
 
     # register filepath routers first
@@ -70,7 +70,7 @@ class SystemRouterTest < TestCase
 
   test "routing item with no route" do
     router = new_router
-    item       = new_item
+    item = new_item
     item.route = nil
 
     router.register(new_router_dummy)

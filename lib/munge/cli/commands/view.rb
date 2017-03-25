@@ -35,9 +35,9 @@ module Munge
         # @param build_root [String, nil]
         def initialize(bootloader, host:, port:, build_root: nil)
           config = bootloader.config
-          @host  = host
-          @port  = port
-          root   = File.expand_path(build_root || config[:output_path], bootloader.root_path)
+          @host = host
+          @port = port
+          root = File.expand_path(build_root || config[:output_path], bootloader.root_path)
 
           @app =
             Rack::Builder.new do

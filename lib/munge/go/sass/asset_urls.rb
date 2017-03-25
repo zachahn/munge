@@ -6,7 +6,7 @@ module Sass::Script::Functions
       basename_parts = basename_string.split("?")
 
       base = "#{basename_parts[0]}"
-      qs   = "?#{basename_parts[1]}"
+      qs = "?#{basename_parts[1]}"
 
       path_to_font = quoted_string(font_route(base).value + qs)
 

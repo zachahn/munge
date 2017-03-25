@@ -15,7 +15,7 @@ class CliCommandsInitTest < TestCase
       end
 
       @gemfile = File.read(File.join(fake_path, "Gemfile"))
-      @rules   = File.read(File.join(fake_path, "rules.rb"))
+      @rules = File.read(File.join(fake_path, "rules.rb"))
     end
 
     assert_match(/^gem "munge"/, @gemfile)

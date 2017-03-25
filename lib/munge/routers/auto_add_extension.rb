@@ -21,7 +21,7 @@ module Munge
 
       def add_extension(initial_route, item)
         intersection = item.extensions & @keep_extensions
-        extension    = intersection[0]
+        extension = intersection[0]
 
         "#{initial_route}.#{extension}"
       end

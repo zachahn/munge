@@ -22,7 +22,7 @@ class SystemReaderFilesystemTest < TestCase
     File.write(File.join(@test_directory, "index.html.erb"), "asdf")
 
     fsreader = new_filesystem_reader
-    mapped   = fsreader.map { |filehash| filehash }
+    mapped = fsreader.map { |filehash| filehash }
 
     assert_equal("index.html.erb", mapped.first[:relpath])
     assert_equal("asdf", mapped.first[:content])
@@ -32,7 +32,7 @@ class SystemReaderFilesystemTest < TestCase
   test "doesn't yield directories" do
     FileUtils.mkdir_p(File.join(@test_directory, "/munge"))
     fsreader = new_filesystem_reader
-    mapped   = fsreader.map { |filehash| filehash }
+    mapped = fsreader.map { |filehash| filehash }
 
     assert_equal(0, mapped.length)
   end

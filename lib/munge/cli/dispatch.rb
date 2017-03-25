@@ -71,7 +71,7 @@ module Munge
       end
 
       def development!
-        ENV["MUNGE_ENV"]  ||= "development"
+        ENV["MUNGE_ENV"] ||= "development"
         ENV["BUILD_ROOT"] ||= "tmp/development-build"
       end
     end

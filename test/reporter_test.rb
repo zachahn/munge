@@ -4,8 +4,8 @@ class ReporterTest < TestCase
   test "#call prints everything when verbosity is `:all`" do
     r = Munge::Reporter.new(formatter: formatter, verbosity: :all)
 
-    new       = r.call(OpenStruct.new(route: "@@ITEM@@"), "a", :new)
-    changed   = r.call(OpenStruct.new(route: "@@ITEM@@"), "b", :changed)
+    new = r.call(OpenStruct.new(route: "@@ITEM@@"), "a", :new)
+    changed = r.call(OpenStruct.new(route: "@@ITEM@@"), "b", :changed)
     identical = r.call(OpenStruct.new(route: "@@ITEM@@"), "c", :identical)
 
     assert_equal(":new true @@ITEM@@", new)
@@ -16,8 +16,8 @@ class ReporterTest < TestCase
   test "#call prints only :new and :changed when verbosity is `:written`" do
     r = Munge::Reporter.new(formatter: formatter, verbosity: :written)
 
-    new       = r.call(OpenStruct.new(route: "@@ITEM@@"), "a", :new)
-    changed   = r.call(OpenStruct.new(route: "@@ITEM@@"), "b", :changed)
+    new = r.call(OpenStruct.new(route: "@@ITEM@@"), "a", :new)
+    changed = r.call(OpenStruct.new(route: "@@ITEM@@"), "b", :changed)
     identical = r.call(OpenStruct.new(route: "@@ITEM@@"), "c", :identical)
 
     assert_equal(":new true @@ITEM@@", new)
@@ -28,8 +28,8 @@ class ReporterTest < TestCase
   test "#call prints nothing when verbosity is `:silent`" do
     r = Munge::Reporter.new(formatter: formatter, verbosity: :silent)
 
-    new       = r.call(OpenStruct.new(route: "@@ITEM@@"), "a", :new)
-    changed   = r.call(OpenStruct.new(route: "@@ITEM@@"), "b", :changed)
+    new = r.call(OpenStruct.new(route: "@@ITEM@@"), "a", :new)
+    changed = r.call(OpenStruct.new(route: "@@ITEM@@"), "b", :changed)
     identical = r.call(OpenStruct.new(route: "@@ITEM@@"), "c", :identical)
 
     assert_equal(":new false @@ITEM@@", new)
@@ -40,8 +40,8 @@ class ReporterTest < TestCase
   test "#call prints nothing when verbosity is unknown" do
     r = Munge::Reporter.new(formatter: formatter, verbosity: :unknown)
 
-    new       = r.call(OpenStruct.new(route: "@@ITEM@@"), "a", :new)
-    changed   = r.call(OpenStruct.new(route: "@@ITEM@@"), "b", :changed)
+    new = r.call(OpenStruct.new(route: "@@ITEM@@"), "a", :new)
+    changed = r.call(OpenStruct.new(route: "@@ITEM@@"), "b", :changed)
     identical = r.call(OpenStruct.new(route: "@@ITEM@@"), "c", :identical)
 
     assert_equal(":new false @@ITEM@@", new)

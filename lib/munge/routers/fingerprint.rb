@@ -4,7 +4,7 @@ module Munge
       def initialize(extensions:,
                      separator:)
         @extensions = extensions
-        @separator  = separator
+        @separator = separator
       end
 
       def type
@@ -29,7 +29,7 @@ module Munge
 
       def generate_link(initial_route, content)
         pre, extension = disassemble(initial_route)
-        asset_hash     = hash(content)
+        asset_hash = hash(content)
 
         if extension == ""
           "#{pre}#{@separator}#{asset_hash}"
@@ -43,7 +43,7 @@ module Munge
       end
 
       def disassemble(path)
-        extension              = Util::Path.extname(path)
+        extension = Util::Path.extname(path)
         path_without_extension = Util::Path.path_no_extension(path)
 
         [

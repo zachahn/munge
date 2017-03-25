@@ -7,13 +7,13 @@ module Munge
         end
 
         def call(relpath)
-          dirname    = Munge::Util::Path.ensure_relpath(Munge::Util::Path.dirname(relpath))
-          basename   = Munge::Util::Path.basename_no_extension(relpath)
+          dirname = Munge::Util::Path.ensure_relpath(Munge::Util::Path.dirname(relpath))
+          basename = Munge::Util::Path.basename_no_extension(relpath)
           extensions = Munge::Util::Path.extnames(relpath)
 
           filtered_extensions =
             extensions
-              .map    { |ext| @remove_extension_regex.match(ext) || ext }
+              .map { |ext| @remove_extension_regex.match(ext) || ext }
               .select { |ext| ext.is_a?(String) }
 
           new_basename =

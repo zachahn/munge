@@ -3,7 +3,7 @@ module Munge
   class WriteManager
     # @param driver [#exist?, #read]
     def initialize(driver:)
-      @driver      = driver
+      @driver = driver
       @write_paths = []
     end
 

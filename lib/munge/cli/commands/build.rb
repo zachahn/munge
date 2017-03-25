@@ -9,9 +9,9 @@ module Munge
         # @param build_root [String, nil]
         def initialize(bootloader, dry_run:, reporter:, verbosity:, build_root: nil)
           destination_root = bootloader.root_path
-          config           = bootloader.config
-          app              = application(bootloader)
-          destination      = File.expand_path(build_root || config[:output_path], destination_root)
+          config = bootloader.config
+          app = application(bootloader)
+          destination = File.expand_path(build_root || config[:output_path], destination_root)
 
           @runner =
             Munge::Runner.new(

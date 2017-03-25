@@ -2,7 +2,7 @@ module Munge
   module Helpers
     module AssetTags
       def stylesheet_tag(basename, options = {})
-        options[:rel]  ||= "stylesheet"
+        options[:rel] ||= "stylesheet"
         options[:href] ||= stylesheet_path(basename)
 
         empty_tag(:link, options)
@@ -10,7 +10,7 @@ module Munge
 
       def javascript_tag(basename, options = {})
         options[:type] ||= "text/javascript"
-        options[:src]  ||= javascript_path(basename)
+        options[:src] ||= javascript_path(basename)
 
         content_tag(:script, options)
       end

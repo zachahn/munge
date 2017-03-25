@@ -9,10 +9,10 @@ module Munge
                    config:,
                    setup_path:,
                    rules_path:)
-      @root_path  = root_path
+      @root_path = root_path
       @setup_path = setup_path
       @rules_path = rules_path
-      @binding    = binding
+      @binding = binding
 
       system = Munge::System.new(root_path, config)
 

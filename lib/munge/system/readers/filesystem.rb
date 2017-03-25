@@ -38,7 +38,7 @@ module Munge
 
         def compute_relpath(abspath)
           folder = Pathname.new(@source_path)
-          file   = Pathname.new(abspath)
+          file = Pathname.new(abspath)
 
           file.relative_path_from(folder).to_s
         end

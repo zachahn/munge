@@ -44,13 +44,13 @@ class ApplicationTest < TestCase
   end
 
   test "#create returns Enumerable" do
-    system       = OpenStruct.new
+    system = OpenStruct.new
     system.items =
       QuickDummy.new(
         build: -> (_) { "item" },
         push: -> (_) {}
       )
-    application  = Munge::Application.new(system)
+    application = Munge::Application.new(system)
 
     enum_item =
       application
@@ -62,10 +62,10 @@ class ApplicationTest < TestCase
   end
 
   test "items with false routes don't show up in #routed or #nonrouted" do
-    yes_item    = OpenStruct.new(route: "yes")
-    nil_item    = OpenStruct.new(route: nil)
-    false_item  = OpenStruct.new(route: false)
-    system      = OpenStruct.new(items: [yes_item, nil_item, false_item])
+    yes_item = OpenStruct.new(route: "yes")
+    nil_item = OpenStruct.new(route: nil)
+    false_item = OpenStruct.new(route: false)
+    system = OpenStruct.new(items: [yes_item, nil_item, false_item])
     application = Munge::Application.new(system)
 
     assert_includes(application.routed.map(&:route), "yes")

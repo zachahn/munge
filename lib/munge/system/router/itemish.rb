@@ -5,7 +5,7 @@ module Munge
         extend Forwardable
 
         def initialize(item, processor)
-          @item      = item
+          @item = item
           @processor = processor
         end
 

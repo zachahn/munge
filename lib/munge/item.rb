@@ -7,15 +7,15 @@ module Munge
                    content: nil,
                    frontmatter: {},
                    stat: nil)
-      @type        = type
-      @relpath     = relpath
-      @id          = id
-      @content     = content
+      @type = type
+      @relpath = relpath
+      @id = id
+      @content = content
       @frontmatter = frontmatter
-      @stat        = stat
+      @stat = stat
 
-      @route      = nil
-      @layout     = nil
+      @route = nil
+      @layout = nil
       @transforms = []
     end
 

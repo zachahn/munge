@@ -147,12 +147,12 @@ class ItemTest < TestCase
 
   private
 
-  def new_item(type:        :text,
-               relpath:     "path/to/index.html.erb",
-               id:          "path/to",
-               content:     %(<%= "hi" %>\n),
+  def new_item(type: :text,
+               relpath: "path/to/index.html.erb",
+               id: "path/to",
+               content: %(<%= "hi" %>\n),
                frontmatter: {},
-               stat:        nil)
+               stat: nil)
     Munge::Item.new(
       type:        type,
       relpath:     relpath,

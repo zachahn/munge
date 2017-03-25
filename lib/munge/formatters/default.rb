@@ -2,10 +2,10 @@ module Munge
   module Formatters
     class Default
       def initialize
-        @new_count       = 0
-        @changed_count   = 0
+        @new_count = 0
+        @changed_count = 0
         @identical_count = 0
-        @reported_count  = 0
+        @reported_count = 0
       end
 
       def call(_item, relpath, write_status, should_print)

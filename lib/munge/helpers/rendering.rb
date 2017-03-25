@@ -2,9 +2,9 @@ module Munge
   module Helpers
     module Rendering
       def render(item, engines: nil, data: {}, content_override: nil)
-        content   = content_override || item.content
+        content = content_override || item.content
         renderers = tilt_renderer_list(item, engines)
-        mdata     = merged_data(item.frontmatter, data, self_item: item)
+        mdata = merged_data(item.frontmatter, data, self_item: item)
         item_path = item.relpath
 
         render_string(content, data: mdata, engines: renderers, template_name: item_path)
@@ -12,8 +12,8 @@ module Munge
 
       def layout(item_or_string, data: {}, &block)
         layout_item = resolve_layout(item_or_string)
-        renderers   = tilt_renderer_list(layout_item, nil)
-        mdata       = merged_data(layout_item.frontmatter, data, self_layout: layout_item)
+        renderers = tilt_renderer_list(layout_item, nil)
+        mdata = merged_data(layout_item.frontmatter, data, self_layout: layout_item)
         layout_path = "(layout) #{layout_item.relpath}"
 
         render_string(layout_item.content, data: mdata, engines: renderers, template_name: layout_path, &block)
@@ -28,7 +28,7 @@ module Munge
         output =
           engines
             .reduce(content) do |memoized_content, engine|
-              options  = tilt_options[engine]
+              options = tilt_options[engine]
               template = engine.new(template_name, options) { memoized_content }
 
               template.render(self, data) { inner }

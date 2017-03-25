@@ -1,13 +1,13 @@
 module Munge
   class Runner
     def initialize(items:, router:, processor:, writer:, formatter:, verbosity:, destination:)
-      @items         = items
-      @router        = router
-      @processor     = processor
-      @writer        = writer
-      @reporter      = Munge::Reporter.new(formatter: formatter, verbosity: verbosity)
+      @items = items
+      @router = router
+      @processor = processor
+      @writer = writer
+      @reporter = Munge::Reporter.new(formatter: formatter, verbosity: verbosity)
       @write_manager = Munge::WriteManager.new(driver: File)
-      @destination   = destination
+      @destination = destination
       @written_items = []
     end
 
@@ -16,7 +16,7 @@ module Munge
 
       @items
         .reject { |item| item.route.nil? }
-        .each   { |item| render_and_write(item) }
+        .each { |item| render_and_write(item) }
 
       @reporter.done
 
