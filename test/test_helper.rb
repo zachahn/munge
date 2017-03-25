@@ -1,15 +1,17 @@
-if ENV["CODECLIMATE_REPO_TOKEN"]
-  require "codeclimate-test-reporter"
-  CodeClimate::TestReporter.start
-end
+if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("2.3.0")
+  if ENV["CODECLIMATE_REPO_TOKEN"]
+    require "codeclimate-test-reporter"
+    CodeClimate::TestReporter.start
+  end
 
-if ENV["COVERAGE"]
-  require "simplecov"
-  SimpleCov.start do
-    add_filter do |src|
-      src.filename =~ %r{^#{SimpleCov.root}/test}
+  if ENV["COVERAGE"]
+    require "simplecov"
+    SimpleCov.start do
+      add_filter do |src|
+        src.filename =~ %r{^#{SimpleCov.root}/test}
+      end
+      command_name "munge_main"
     end
-    command_name "munge_main"
   end
 end
 
