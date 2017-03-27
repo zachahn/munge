@@ -1,5 +1,5 @@
 module Munge
-  module Writers
+  module Io
     # NoOp driver for writing files. This is used to compute dry-runs.
     class Noop
       # Pretends to write, but actually does nothing

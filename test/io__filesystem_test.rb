@@ -1,6 +1,6 @@
 require "test_helper"
 
-class WritersFilesystemTest < TestCase
+class IoFilesystemTest < TestCase
   def setup
     FakeFS.activate!
 
@@ -8,7 +8,7 @@ class WritersFilesystemTest < TestCase
 
     FileUtils.mkdir_p(@output_dir)
 
-    @writer = Munge::Writers::Filesystem.new
+    @writer = Munge::Io::Filesystem.new
   end
 
   def teardown

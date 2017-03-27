@@ -1,5 +1,5 @@
 module Munge
-  module Writers
+  module Io
     # Filesystem driver for writing files. These drivers can be defined however
     # you wish, as long as the `#write` method accepts an abspath and content.
     class Filesystem
