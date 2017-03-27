@@ -43,8 +43,7 @@ class RunnerTest < TestCase
       router: dummy_router,
       processor: dummy_processor,
       writer: Munge::Writers::Noop.new,
-      formatter: new_formatter,
-      verbosity: :all,
+      reporter: Munge::Reporter.new(formatter: new_formatter, verbosity: :all),
       destination: "anywhere"
     )
   end

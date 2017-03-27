@@ -19,8 +19,7 @@ module Munge
               router: app.vomit(:router),
               processor: app.vomit(:processor),
               writer: writer(dry_run),
-              formatter: formatter(reporter),
-              verbosity: verbosity.to_sym,
+              reporter: Munge::Reporter.new(formatter: formatter(reporter), verbosity: verbosity.to_sym),
               destination: destination
             )
         end
