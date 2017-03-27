@@ -6,7 +6,7 @@ module Munge
       @processor = processor
       @writer = writer
       @reporter = reporter
-      @write_manager = Munge::WriteManager.new(driver: File)
+      @write_manager = Munge::WriteManager.new(driver: writer)
       @destination = destination
       @written_items = []
     end

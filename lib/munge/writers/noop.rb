@@ -8,6 +8,14 @@ module Munge
       # @param _content [String]
       def write(_abspath, _content)
       end
+
+      def exist?(_path)
+        false
+      end
+
+      def read(_path)
+        ""
+      end
     end
   end
 end

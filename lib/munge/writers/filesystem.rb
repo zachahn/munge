@@ -13,6 +13,14 @@ module Munge
 
         File.write(abspath, content)
       end
+
+      def exist?(path)
+        File.exist?(path)
+      end
+
+      def read(path)
+        File.read(path)
+      end
     end
   end
 end
