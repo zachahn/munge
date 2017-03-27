@@ -39,7 +39,7 @@ module Munge
 
         def writer(dry_run)
           if dry_run
-            Munge::Writers::Noop.new
+            Munge::Writers::DryRun.new
           else
             Munge::Writers::Filesystem.new
           end
