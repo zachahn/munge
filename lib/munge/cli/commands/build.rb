@@ -39,7 +39,7 @@ module Munge
 
         def writer(dry_run)
           if dry_run
-            Munge::Io::DryRun.new
+            Munge::Io::DryRun.new(Munge::Io::Filesystem.new)
           else
             Munge::Io::Filesystem.new
           end

@@ -2,6 +2,10 @@ module Munge
   module Io
     # NoOp driver for writing files. This is used to compute dry-runs.
     class DryRun
+      def initialize(driver)
+        @driver = driver
+      end
+
       # Pretends to write, but actually does nothing
       #
       # @param _abspath [String]
@@ -10,11 +14,11 @@ module Munge
       end
 
       def exist?(path)
-        File.exist?(path)
+        @driver.exist?(path)
       end
 
       def read(path)
-        File.read(path)
+        @driver.read(path)
       end
     end
   end
