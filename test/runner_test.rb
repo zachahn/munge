@@ -42,7 +42,7 @@ class RunnerTest < TestCase
       items: [new_item, new_item],
       router: dummy_router,
       processor: dummy_processor,
-      writer: Munge::Io::Noop.new,
+      io: Munge::Io::Noop.new,
       reporter: Munge::Reporter.new(formatter: new_formatter, verbosity: :all),
       destination: "anywhere"
     )

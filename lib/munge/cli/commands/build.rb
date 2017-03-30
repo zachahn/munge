@@ -18,7 +18,7 @@ module Munge
               items: app.vomit(:items),
               router: app.vomit(:router),
               processor: app.vomit(:processor),
-              writer: writer(dry_run),
+              io: io(dry_run),
               reporter: Munge::Reporter.new(formatter: formatter(reporter), verbosity: verbosity.to_sym),
               destination: destination
             )
@@ -37,7 +37,7 @@ module Munge
           bootstrap.app
         end
 
-        def writer(dry_run)
+        def io(dry_run)
           if dry_run
             Munge::Io::DryRun.new(Munge::Io::Filesystem.new)
           else

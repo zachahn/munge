@@ -1,12 +1,12 @@
 module Munge
   class Runner
-    def initialize(items:, router:, processor:, writer:, reporter:, destination:)
+    def initialize(items:, router:, processor:, io:, reporter:, destination:)
       @items = items
       @router = router
       @processor = processor
-      @writer = writer
+      @io = io
       @reporter = reporter
-      @write_manager = Munge::WriteManager.new(driver: writer)
+      @write_manager = Munge::WriteManager.new(driver: io)
       @destination = destination
       @written_items = []
     end
@@ -35,7 +35,7 @@ module Munge
 
       case write_status
       when :new, :changed
-        @writer.write(abspath, content)
+        @io.write(abspath, content)
         @written_items.push(route)
       when :double_write_error
         raise Errors::DoubleWriteError, item.route
