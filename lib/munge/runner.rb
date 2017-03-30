@@ -6,9 +6,9 @@ module Munge
       @processor = processor
       @io = io
       @reporter = reporter
-      @write_manager = Munge::WriteManager.new(driver: io)
       @destination = destination
       @written_items = []
+      @written_paths = []
     end
 
     def write
@@ -31,7 +31,7 @@ module Munge
       route = @router.route(item)
       content = @processor.transform(item)
 
-      write_status = @write_manager.status(abspath, content)
+      write_status = status(abspath, content)
 
       case write_status
       when :new, :changed
@@ -42,6 +42,24 @@ module Munge
       end
 
       @reporter.call(item, relpath, write_status)
+    end
+
+    def status(path, content)
+      if @written_paths.include?(path)
+        return :double_write_error
+      end
+
+      @written_paths.push(path)
+
+      if !@io.exist?(path)
+        return :new
+      end
+
+      if @io.read(path) == content
+        return :identical
+      end
+
+      :changed
     end
   end
 end

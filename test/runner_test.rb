@@ -2,54 +2,50 @@ require "test_helper"
 
 class RunnerTest < TestCase
   test "#write with new file" do
-    r = new_runner
-    r.instance_variable_set(:@write_manager, dummy_write_manager)
+    dummy_io = QuickDummy.new(**io_exist_false, **io_write_noop)
+    r = new_runner(dummy_io)
 
     out, _err = capture_io { r.write }
 
-    assert_equal("new /about\nnew /about\n", out)
+    assert_equal("new /about\n", out)
   end
 
   test "#write with updated file" do
-    r = new_runner
-    r.instance_variable_set(:@write_manager, dummy_write_manager_changed)
+    dummy_io = QuickDummy.new(**io_exist_true, **io_read_diff, **io_write_noop)
+    r = new_runner(dummy_io)
 
     out, _err = capture_io { r.write }
 
-    assert_equal("changed /about\nchanged /about\n", out)
+    assert_equal("changed /about\n", out)
   end
 
   test "#write with identical file" do
-    r = new_runner
-    r.instance_variable_set(:@write_manager, dummy_write_manager_identical)
+    dummy_io = QuickDummy.new(**io_exist_true, **io_read_same, **io_write_noop)
+    r = new_runner(dummy_io)
 
     out, _err = capture_io { r.write }
 
-    assert_equal("identical /about\nidentical /about\n", out)
+    assert_equal("identical /about\n", out)
   end
 
   test "#write with double write error" do
-    r = new_runner
-    r.instance_variable_set(:@write_manager, dummy_write_manager_double_write_error)
+    dummy_io = QuickDummy.new(**io_exist_true, **io_read_diff, **io_write_noop)
+    r = new_runner(dummy_io, [new_item, new_item])
 
-    assert_raises { r.write }
+    assert_raises(Munge::Errors::DoubleWriteError) { capture_io { r.write } }
   end
 
   private
 
-  def new_runner
+  def new_runner(io = Munge::Io::Noop.new, items = [new_item])
     Munge::Runner.new(
-      items: [new_item, new_item],
+      items: items,
       router: dummy_router,
       processor: dummy_processor,
-      io: Munge::Io::Noop.new,
+      io: io,
       reporter: Munge::Reporter.new(formatter: new_formatter, verbosity: :all),
       destination: "anywhere"
     )
-  end
-
-  def new_item
-    OpenStruct.new(route: "/about", content: "I am the best")
   end
 
   def dummy_router
@@ -65,28 +61,28 @@ class RunnerTest < TestCase
     )
   end
 
-  def dummy_write_manager
-    QuickDummy.new(
-      status: -> (_, _) { :new }
-    )
+  def io_exist_true
+    { exist?: -> (*) { true } }
   end
 
-  def dummy_write_manager_changed
-    QuickDummy.new(
-      status: -> (_, _) { :changed }
-    )
+  def io_exist_false
+    { exist?: -> (*) { false } }
   end
 
-  def dummy_write_manager_identical
-    QuickDummy.new(
-      status: -> (_, _) { :identical }
-    )
+  def io_read_diff
+    { read: -> (*) { "cool" } }
   end
 
-  def dummy_write_manager_double_write_error
-    QuickDummy.new(
-      status: -> (_, _) { :double_write_error }
-    )
+  def io_read_same
+    { read: -> (*) { "I am the best" } }
+  end
+
+  def io_write_noop
+    { write: -> (*) {} }
+  end
+
+  def new_item
+    OpenStruct.new(route: "/about", content: "I am the best")
   end
 
   def new_formatter
