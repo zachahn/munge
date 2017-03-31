@@ -18,8 +18,8 @@ module Munge
               items: app.vomit(:items),
               router: app.vomit(:router),
               processor: app.vomit(:processor),
-              io: io(dry_run),
-              reporter: Munge::Reporter.new(formatter: formatter(reporter), verbosity: verbosity.to_sym),
+              io: new_io(dry_run),
+              reporter: Munge::Reporter.new(formatter: new_formatter(reporter), verbosity: verbosity.to_sym),
               destination: destination
             )
         end
@@ -37,7 +37,7 @@ module Munge
           bootstrap.app
         end
 
-        def io(dry_run)
+        def new_io(dry_run)
           if dry_run
             Munge::Io::DryRun.new(Munge::Io::Filesystem.new)
           else
@@ -45,7 +45,7 @@ module Munge
           end
         end
 
-        def formatter(class_name)
+        def new_formatter(class_name)
           Munge::Formatters.const_get(class_name).new
         end
       end
