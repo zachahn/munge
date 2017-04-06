@@ -43,19 +43,6 @@ class SystemCollectionTest < TestCase
     assert_equal({}, item[:frontmatter])
   end
 
-  test "#build silently ignores extraneous params" do
-    items = new_collection(new_item_factory)
-    item =
-      items.build(
-        relpath: "foo/bar.jpg",
-        content: "binary content lol",
-        frontmatter: {},
-        unused: "param"
-      )
-
-    assert_nil(item[:unused])
-  end
-
   test "#push adds an item into collection" do
     items = new_collection(new_item_factory)
     item_params = {

@@ -23,7 +23,7 @@ module Munge
       # @param frontmatter [Hash]
       # @param stat [File::Stat]
       def build(**args)
-        @item_factory.build(**prune_args(args))
+        @item_factory.build(**args)
       end
 
       # @see System::ItemFactory#parse
@@ -31,7 +31,7 @@ module Munge
       # @param content [String]
       # @param stat [File::Stat]
       def parse(**args)
-        @item_factory.parse(**prune_args(args))
+        @item_factory.parse(**args)
       end
 
       # @yield [Item]
@@ -68,12 +68,6 @@ module Munge
         @items.freeze
 
         super
-      end
-
-      private
-
-      def prune_args(args)
-        args.select { |k, _| %i(relpath content frontmatter stat).include?(k) }
       end
     end
   end
