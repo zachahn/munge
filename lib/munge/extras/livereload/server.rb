@@ -10,13 +10,15 @@ module Munge
         end
 
         def notify_reload(changed_files)
-          @sockets.each do |socket|
+          @sockets.select! do |socket|
             begin
               changed_files.each do |file|
                 socket << @messaging.reload(file)
               end
+
+              true
             rescue Reel::SocketError
-              print_error("error pushing livereload notification to browser")
+              false
             end
           end
         end
