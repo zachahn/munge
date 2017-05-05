@@ -16,22 +16,23 @@ class ApplicationTest < TestCase
     expected_args = { relpath: "relpath", content: "new content", frontmatter: { cool: "frontmatter" } }
 
     system = OpenStruct.new
-    system.items = Minitest::Mock.new
-    system.items.expect(:build, "built item", [expected_args])
+    system.item_factory = Minitest::Mock.new
+    system.item_factory.expect(:build, "built item", [expected_args])
 
     application = Munge::Application.new(system)
 
     application.build_virtual_item("relpath", "new content", cool: "frontmatter")
 
-    system.items.verify
+    system.item_factory.verify
   end
 
   test "#create" do
     expected_args = { relpath: "relpath", content: "new content", frontmatter: { cool: "frontmatter" } }
 
     system = OpenStruct.new
+    system.item_factory = Minitest::Mock.new
+    system.item_factory.expect(:build, "built item", [expected_args])
     system.items = Minitest::Mock.new
-    system.items.expect(:build, "built item", [expected_args])
     system.items.expect(:push, nil, ["built item"])
 
     application = Munge::Application.new(system)
@@ -41,15 +42,20 @@ class ApplicationTest < TestCase
     assert_equal("built item", item[0])
 
     system.items.verify
+    system.item_factory.verify
   end
 
   test "#create returns Enumerable" do
     system = OpenStruct.new
+    system.item_factory =
+      QuickDummy.new(
+        build: -> (_) { "item" }
+      )
     system.items =
       QuickDummy.new(
-        build: -> (_) { "item" },
         push: -> (_) {}
       )
+
     application = Munge::Application.new(system)
 
     enum_item =

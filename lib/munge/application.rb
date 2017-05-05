@@ -25,7 +25,7 @@ module Munge
     #
     # @return [Item]
     def build_virtual_item(relpath, content, **frontmatter)
-      @system.items.build(relpath: relpath, content: content, frontmatter: frontmatter)
+      @system.item_factory.build(relpath: relpath, content: content, frontmatter: frontmatter)
     end
 
     # Creates an Item and inserts it into the registry of Items.
