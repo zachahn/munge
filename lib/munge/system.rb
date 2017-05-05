@@ -5,20 +5,22 @@ module Munge
       @config = config
     end
 
+    def item_factory
+      @item_factory ||=
+        ItemFactory.new(
+          text_extensions: @config[:items_text_extensions],
+          ignore_extensions: @config[:items_ignore_extensions]
+        )
+    end
+
     def items
       return @items if @items
 
       source_path = File.expand_path(@config[:source_path], @root_path)
 
-      source_item_factory =
-        ItemFactory.new(
-          text_extensions: @config[:items_text_extensions],
-          ignore_extensions: @config[:items_ignore_extensions]
-        )
-
       @items =
         Collection.new(
-          item_factory: source_item_factory,
+          item_factory: item_factory,
           items: Readers::Filesystem.new(source_path)
         )
     end
@@ -28,15 +30,9 @@ module Munge
 
       layouts_path = File.expand_path(@config[:layouts_path], @root_path)
 
-      layouts_item_factory =
-        ItemFactory.new(
-          text_extensions: @config[:layouts_text_extensions],
-          ignore_extensions: %w(.+)
-        )
-
       @layouts ||=
         Collection.new(
-          item_factory: layouts_item_factory,
+          item_factory: item_factory,
           items: Readers::Filesystem.new(layouts_path)
         )
     end
