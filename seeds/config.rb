@@ -12,7 +12,6 @@ config.data_path = "data.yml"
 # Determines `item.text?` and `item.binary?` for items and layouts
 # This can be useful avoid applying a transformation to an image
 config.items_text_extensions = yml["text_extensions"] + yml["bintext_extensions"]
-config.layouts_text_extensions = yml["text_extensions"] + yml["bintext_extensions"]
 
 # Specify which extensions shouldn't be included as a part of `item.id`
 config.items_ignore_extensions = yml["dynamic_extensions"]

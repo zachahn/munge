@@ -15,17 +15,17 @@ blog_index_items = blog_public_items[0..7]
 
 blog_items
   .select(&:text?)
-  .each { |item| item.layout = "blog_show" }
+  .each { |item| item.layout = "blog_show.html" }
   .each(&transform)
 
 app.create("blog-index.html.erb", "", posts: blog_index_items)
   .each { |item| item.route = "blog" }
-  .each { |item| item.layout = "blog_index" }
+  .each { |item| item.layout = "blog_index.html" }
   .each(&transform)
 
 app.create("blog-archive.html.erb", "", posts: blog_public_items)
   .each { |item| item.route = "blog/archives" }
-  .each { |item| item.layout = "blog_archives" }
+  .each { |item| item.layout = "blog_archives.html" }
   .each(&transform)
 
 # Home page rules
@@ -33,7 +33,7 @@ app.nonrouted
   .select { |item| item.relpath?("home") }
   .select(&:text?)
   .each { |item| item.route = "#{item.basepath.sub(%r{^home/}, "")}" }
-  .each { |item| item.layout = "default" }
+  .each { |item| item.layout = "default.html" }
   .each(&transform)
 
 # Asset route helpers
