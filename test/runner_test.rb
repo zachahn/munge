@@ -44,7 +44,8 @@ class RunnerTest < TestCase
       processor: dummy_processor,
       io: io,
       reporter: Munge::Reporter.new(formatter: new_formatter, verbosity: :all),
-      destination: "anywhere"
+      destination: "anywhere",
+      manager: Munge::WriteManager::OnlyNeeded.new(io)
     )
   end
 

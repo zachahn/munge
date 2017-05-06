@@ -13,14 +13,17 @@ module Munge
           app = application(bootloader)
           destination = File.expand_path(build_root || config[:output_path], destination_root)
 
+          io = new_io(dry_run)
+
           @runner =
             Munge::Runner.new(
               items: app.vomit(:items),
               router: app.vomit(:router),
               processor: app.vomit(:processor),
-              io: new_io(dry_run),
+              io: io,
               reporter: Munge::Reporter.new(formatter: new_formatter(reporter), verbosity: verbosity.to_sym),
-              destination: destination
+              destination: destination,
+              manager: Munge::WriteManager::OnlyNeeded.new(io)
             )
         end
 
