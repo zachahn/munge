@@ -18,15 +18,15 @@ class SystemReaderFilesystemTest < TestCase
     assert_kind_of(Enumerable, fsreader.each)
   end
 
-  test "yields itemlike hash" do
+  test "yields an item" do
     File.write(File.join(@test_directory, "index.html.erb"), "asdf")
 
     fsreader = new_filesystem_reader
-    mapped = fsreader.map { |filehash| filehash }
+    item = fsreader.each.to_a.first
 
-    assert_equal("index.html.erb", mapped.first[:relpath])
-    assert_equal("asdf", mapped.first[:content])
-    assert_instance_of(FakeFS::File::Stat, mapped.first[:stat])
+    assert_equal("index.html.erb", item.relpath)
+    assert_equal("asdf", item.content)
+    assert_instance_of(FakeFS::File::Stat, item.stat)
   end
 
   test "doesn't yield directories" do
@@ -39,7 +39,14 @@ class SystemReaderFilesystemTest < TestCase
 
   private
 
+  def new_item_factory
+    Munge::System::ItemFactory.new(
+      text_extensions: %w[html],
+      ignore_extensions: []
+    )
+  end
+
   def new_filesystem_reader
-    Munge::System::Readers::Filesystem.new(@test_directory)
+    Munge::System::Readers::Filesystem.new(@test_directory, new_item_factory)
   end
 end

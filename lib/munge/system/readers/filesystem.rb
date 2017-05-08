@@ -6,8 +6,9 @@ module Munge
         include Enumerable
 
         # @param source_path [String]
-        def initialize(source_path)
+        def initialize(source_path, item_factory)
           @source_path = source_path
+          @item_factory = item_factory
         end
 
         # @yield [Item]
@@ -20,13 +21,14 @@ module Munge
               .select { |path| File.file?(path) }
 
           filepaths.each do |abspath|
-            filehash = Hash[
-              relpath: compute_relpath(abspath),
-              content: compute_content(abspath),
-              stat: compute_stat(abspath)
-            ]
+            item =
+              @item_factory.parse(
+                relpath: compute_relpath(abspath),
+                content: compute_content(abspath),
+                stat: compute_stat(abspath)
+              )
 
-            yield filehash
+            yield item
           end
         end
 

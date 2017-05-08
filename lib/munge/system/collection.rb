@@ -6,32 +6,11 @@ module Munge
 
       # @param [System::ItemFactory] item_factory
       # @param [Array<Hash>] items
-      def initialize(item_factory:,
-                     items:)
-        @item_factory = item_factory
-
+      def initialize(items:)
         @items =
           items
-            .map { |item| parse(**item) }
             .map { |item| [item.id, item] }
             .to_h
-      end
-
-      # @see System::ItemFactory#build
-      # @param relpath [String]
-      # @param content [String]
-      # @param frontmatter [Hash]
-      # @param stat [File::Stat]
-      def build(**args)
-        @item_factory.build(**args)
-      end
-
-      # @see System::ItemFactory#parse
-      # @param relpath [String]
-      # @param content [String]
-      # @param stat [File::Stat]
-      def parse(**args)
-        @item_factory.parse(**args)
       end
 
       # @yield [Item]

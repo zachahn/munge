@@ -20,8 +20,7 @@ module Munge
 
       @items =
         Collection.new(
-          item_factory: item_factory,
-          items: Readers::Filesystem.new(source_path)
+          items: Readers::Filesystem.new(source_path, item_factory)
         )
     end
 
@@ -32,8 +31,7 @@ module Munge
 
       @layouts ||=
         Collection.new(
-          item_factory: item_factory,
-          items: Readers::Filesystem.new(layouts_path)
+          items: Readers::Filesystem.new(layouts_path, item_factory)
         )
     end
 
