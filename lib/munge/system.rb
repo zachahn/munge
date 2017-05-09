@@ -21,7 +21,7 @@ module Munge
 
       @items =
         Collection.new(
-          items: Readers::Filesystem.new(vfs, item_factory)
+          items: Reader.new(vfs, item_factory)
         )
     end
 
@@ -33,7 +33,7 @@ module Munge
 
       @layouts ||=
         Collection.new(
-          items: Readers::Filesystem.new(vfs, item_factory)
+          items: Reader.new(vfs, item_factory)
         )
     end
 
