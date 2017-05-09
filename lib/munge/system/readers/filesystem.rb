@@ -9,6 +9,7 @@ module Munge
         def initialize(source_path, item_factory)
           @source_path = source_path
           @item_factory = item_factory
+          @vfs = Vfs::Filesystem.new(source_path)
         end
 
         # @yield [Item]
@@ -16,37 +17,18 @@ module Munge
         def each
           return enum_for(:each) unless block_given?
 
-          filepaths =
-            Dir.glob(File.join(@source_path, "**", "*"))
-              .select { |path| File.file?(path) }
+          filepaths = @vfs.tree
 
-          filepaths.each do |abspath|
+          filepaths.each do |relpath|
             item =
               @item_factory.parse(
-                relpath: compute_relpath(abspath),
-                content: compute_content(abspath),
-                stat: compute_stat(abspath)
+                relpath: relpath,
+                content: @vfs.read(relpath),
+                stat: @vfs.stat(relpath)
               )
 
             yield item
           end
-        end
-
-        private
-
-        def compute_stat(abspath)
-          File.stat(abspath)
-        end
-
-        def compute_relpath(abspath)
-          folder = Pathname.new(@source_path)
-          file = Pathname.new(abspath)
-
-          file.relative_path_from(folder).to_s
-        end
-
-        def compute_content(abspath)
-          File.read(abspath)
         end
       end
     end
