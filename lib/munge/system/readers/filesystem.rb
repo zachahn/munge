@@ -6,10 +6,9 @@ module Munge
         include Enumerable
 
         # @param source_path [String]
-        def initialize(source_path, item_factory)
-          @source_path = source_path
+        def initialize(vfs, item_factory)
+          @vfs = vfs
           @item_factory = item_factory
-          @vfs = Vfs::Filesystem.new(source_path)
         end
 
         # @yield [Item]

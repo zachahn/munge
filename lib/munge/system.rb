@@ -17,10 +17,11 @@ module Munge
       return @items if @items
 
       source_path = File.expand_path(@config[:source_path], @root_path)
+      vfs = Vfs::Filesystem.new(source_path)
 
       @items =
         Collection.new(
-          items: Readers::Filesystem.new(source_path, item_factory)
+          items: Readers::Filesystem.new(vfs, item_factory)
         )
     end
 
@@ -28,10 +29,11 @@ module Munge
       return @layouts if @layouts
 
       layouts_path = File.expand_path(@config[:layouts_path], @root_path)
+      vfs = Vfs::Filesystem.new(layouts_path)
 
       @layouts ||=
         Collection.new(
-          items: Readers::Filesystem.new(layouts_path, item_factory)
+          items: Readers::Filesystem.new(vfs, item_factory)
         )
     end
 

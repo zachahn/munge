@@ -46,7 +46,11 @@ class SystemReaderFilesystemTest < TestCase
     )
   end
 
+  def new_vfs_filesystem
+    Munge::Vfs::Filesystem.new(@test_directory)
+  end
+
   def new_filesystem_reader
-    Munge::System::Readers::Filesystem.new(@test_directory, new_item_factory)
+    Munge::System::Readers::Filesystem.new(new_vfs_filesystem, new_item_factory)
   end
 end
