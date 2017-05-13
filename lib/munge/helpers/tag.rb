@@ -17,23 +17,19 @@ module Munge
           content = nil
         end
 
-        options_str =
+        html_attributes =
           if options.any?
             " " + options.map { |k, v| %(#{k}="#{h(v)}") }.join(" ")
-          else
-            ""
           end
 
-        content_str =
+        inner_html =
           if content
             content
           elsif block_given?
             capture(&block)
-          else
-            ""
           end
 
-        "<#{name}#{options_str}>#{content_str}</#{name}>"
+        "<#{name}#{html_attributes}>#{inner_html}</#{name}>"
       end
 
       def h(string)

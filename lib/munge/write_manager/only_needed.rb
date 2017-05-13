@@ -8,12 +8,12 @@ module Munge
 
       attr_reader :written_routes
 
-      def on_new(route, relpath, content)
+      def on_new(_route, relpath, content)
         @vfs.write(relpath, content)
         @written_routes.push(relpath)
       end
 
-      def on_changed(route, relpath, content)
+      def on_changed(_route, relpath, content)
         @vfs.write(relpath, content)
         @written_routes.push(relpath)
       end

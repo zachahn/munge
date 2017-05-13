@@ -2,18 +2,48 @@ require "test_helper"
 
 class GoSassAssetUrlsTest < TestCase
   test "#font_url" do
-    output = render(%(@font-face { font-family: 'cool'; src: font-url('cool.eot') format('embedded-opentype'); }))
-    assert_equal(%(@font-face { font-family: 'cool'; src: url("routed/path/woah.eot") format("embedded-opentype"); }\n), output)
+    input = %(
+      @font-face {
+        font-family: 'cool';
+        src: font-url('cool.eot') format('embedded-opentype');
+      }
+    )
+
+    expected =
+      %(@font-face { font-family: 'cool'; ) +
+      %(src: url("routed/path/woah.eot") ) +
+      %(format("embedded-opentype"); }\n)
+
+    assert_equal(expected, render(input))
   end
 
   test "#font_url with ?" do
-    output = render(%(@font-face { font-family: 'cool'; src: font-url('cool.eot?#iefix') format('embedded-opentype'); }))
-    assert_equal(%(@font-face { font-family: 'cool'; src: url("routed/path/woah.eot?#iefix") format("embedded-opentype"); }\n), output)
+    input = %(
+      @font-face {
+        font-family: 'cool';
+        src: font-url('cool.eot?#iefix') format('embedded-opentype');
+      }
+    )
+
+    expected =
+      %(@font-face { font-family: 'cool'; ) +
+      %(src: url("routed/path/woah.eot?#iefix") ) +
+      %(format("embedded-opentype"); }\n)
+
+    assert_equal(expected, render(input))
   end
 
   test "#image_url" do
-    output = render(%(div { background-image: image-url("cool.jpg") }))
-    assert_equal(%(div { background-image: url("routed/path/wow.jpg"); }\n), output)
+    input = %(
+      div {
+        background-image: image-url("cool.jpg")
+      }
+    )
+
+    expected =
+      %(div { background-image: url("routed/path/wow.jpg"); }\n)
+
+    assert_equal(expected, render(input))
   end
 
   private

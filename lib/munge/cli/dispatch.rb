@@ -8,9 +8,20 @@ module Munge
       end
 
       desc "build", "Build site"
-      method_option :reporter, desc: "Set reporting formatter", default: "Default", type: :string
-      method_option :dry_run, desc: "Run without writing files", default: false, type: :boolean
-      method_option :verbosity, aliases: "-v", desc: "Preferred amount of output", enum: %w(all written silent), default: "written", type: :string
+      method_option :reporter,
+        desc: "Set reporting formatter",
+        default: "Default",
+        type: :string
+      method_option :dry_run,
+        desc: "Run without writing files",
+        default: false,
+        type: :boolean
+      method_option :verbosity,
+        aliases: "-v",
+        desc: "Preferred amount of output",
+        enum: %w(all written silent),
+        default: "written",
+        type: :string
       def build
         production!
 
@@ -18,8 +29,16 @@ module Munge
       end
 
       desc "view", "View built files"
-      method_option :port, aliases: "-p", desc: "Set port", default: 7000, type: :numeric
-      method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
+      method_option :port,
+        aliases: "-p",
+        desc: "Set port",
+        default: 7000,
+        type: :numeric
+      method_option :host,
+        aliases: "-h",
+        desc: "Set host",
+        default: "0.0.0.0",
+        type: :string
       def view
         production!
 
@@ -27,9 +46,20 @@ module Munge
       end
 
       desc "server", "Run the development server"
-      method_option :livereload, desc: "Reload browser on update", default: Gem.loaded_specs.key?("reel"), type: :boolean
-      method_option :port, aliases: "-p", desc: "Set port", default: 7000, type: :numeric
-      method_option :host, aliases: "-h", desc: "Set host", default: "0.0.0.0", type: :string
+      method_option :livereload,
+        desc: "Reload browser on update",
+        default: Gem.loaded_specs.key?("reel"),
+        type: :boolean
+      method_option :port,
+        aliases: "-p",
+        desc: "Set port",
+        default: 7000,
+        type: :numeric
+      method_option :host,
+        aliases: "-h",
+        desc: "Set host",
+        default: "0.0.0.0",
+        type: :string
       def server
         development!
 
@@ -37,16 +67,29 @@ module Munge
       end
 
       desc "clean", "Remove old built files (generally unnecessary)"
-      method_option :reporter, desc: "Set reporting formatter", default: "Default", type: :string
-      method_option :dry_run, desc: "Run without writing files", default: false, type: :boolean
-      method_option :verbosity, aliases: "-v", desc: "Preferred amount of output", enum: %w(all written silent), default: "written", type: :string
+      method_option :reporter,
+        desc: "Set reporting formatter",
+        default: "Default",
+        type: :string
+      method_option :dry_run,
+        desc: "Run without writing files",
+        default: false,
+        type: :boolean
+      method_option :verbosity,
+        aliases: "-v",
+        desc: "Preferred amount of output",
+        enum: %w(all written silent),
+        default: "written",
+        type: :string
       def clean
         production!
 
         Commands::Clean.new(bootloader, **symbolized_options, build_root: ENV["BUILD_ROOT"]).call
       end
 
-      desc "update", "Use with caution: override local configs with pristine version (useful after bumping version in Gemfile)"
+      desc "update",
+        "Use with caution: override local configs with pristine version " \
+        "(useful after bumping version in Gemfile)"
       def update
         development!
 
