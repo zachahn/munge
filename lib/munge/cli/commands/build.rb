@@ -13,17 +13,16 @@ module Munge
           app = application(bootloader)
           destination = File.expand_path(build_root || config[:output_path], destination_root)
 
-          io = new_io(dry_run)
+          vfs = new_vfs(dry_run, destination)
 
           @runner =
             Munge::Runner.new(
               items: app.vomit(:items),
               router: app.vomit(:router),
               processor: app.vomit(:processor),
-              io: io,
               reporter: Munge::Reporter.new(formatter: new_formatter(reporter), verbosity: verbosity.to_sym),
-              destination: destination,
-              manager: Munge::WriteManager::OnlyNeeded.new(io)
+              manager: Munge::WriteManager::OnlyNeeded.new(vfs),
+              vfs: vfs
             )
         end
 
@@ -40,11 +39,13 @@ module Munge
           bootstrap.app
         end
 
-        def new_io(dry_run)
+        def new_vfs(dry_run, destination)
+          fs = Munge::Vfs::Filesystem.new(destination)
+
           if dry_run
-            Munge::Io::DryRun.new(Munge::Io::Filesystem.new)
+            Munge::Vfs::DryRun.new(fs)
           else
-            Munge::Io::Filesystem.new
+            fs
           end
         end
 

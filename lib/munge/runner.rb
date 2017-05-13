@@ -1,14 +1,13 @@
 module Munge
   class Runner
-    def initialize(items:, router:, processor:, io:, reporter:, destination:, manager:)
+    def initialize(items:, router:, processor:, reporter:, manager:, vfs:)
       @items = items
       @router = router
       @processor = processor
-      @io = io
       @reporter = reporter
-      @destination = destination
       @manager = manager
       @written_paths = []
+      @vfs = vfs
     end
 
     def write
@@ -27,19 +26,18 @@ module Munge
 
     def render_and_write(item)
       relpath = @router.filepath(item)
-      abspath = File.join(@destination, relpath)
       route = @router.route(item)
       content = @processor.transform(item)
 
-      write_status = status(abspath, content)
+      write_status = status(relpath, content)
 
       case write_status
       when :new
-        @manager.on_new(route, abspath, content)
+        @manager.on_new(route, relpath, content)
       when :changed
-        @manager.on_changed(route, abspath, content)
+        @manager.on_changed(route, relpath, content)
       when :identical
-        @manager.on_identical(route, abspath, content)
+        @manager.on_identical(route, relpath, content)
       when :double_write_error
         raise Errors::DoubleWriteError, item.route
       end
@@ -54,11 +52,11 @@ module Munge
 
       @written_paths.push(path)
 
-      if !@io.exist?(path)
+      if !@vfs.exist?(path)
         return :new
       end
 
-      if @io.read(path) == content
+      if @vfs.read(path) == content
         return :identical
       end
 

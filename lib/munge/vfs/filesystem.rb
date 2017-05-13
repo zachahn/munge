@@ -5,8 +5,18 @@ module Munge
         @root = root
       end
 
+      def write(relpath, contents)
+        FileUtils.mkdir_p(File.dirname(File.join(@root, relpath)))
+
+        File.write(File.join(@root, relpath), contents)
+      end
+
       def read(relpath)
         File.read(File.join(@root, relpath))
+      end
+
+      def exist?(relpath)
+        File.exist?(File.join(@root, relpath))
       end
 
       def stat(relpath)

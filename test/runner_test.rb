@@ -2,8 +2,8 @@ require "test_helper"
 
 class RunnerTest < TestCase
   test "#write with new file" do
-    dummy_io = QuickDummy.new(**io_exist_false, **io_write_noop)
-    r = new_runner(dummy_io)
+    dummy_vfs = QuickDummy.new(**vfs_exist_false, **vfs_write_noop)
+    r = new_runner(dummy_vfs)
 
     out, _err = capture_io { r.write }
 
@@ -11,8 +11,8 @@ class RunnerTest < TestCase
   end
 
   test "#write with updated file" do
-    dummy_io = QuickDummy.new(**io_exist_true, **io_read_diff, **io_write_noop)
-    r = new_runner(dummy_io)
+    dummy_vfs = QuickDummy.new(**vfs_exist_true, **vfs_read_diff, **vfs_write_noop)
+    r = new_runner(dummy_vfs)
 
     out, _err = capture_io { r.write }
 
@@ -20,8 +20,8 @@ class RunnerTest < TestCase
   end
 
   test "#write with identical file" do
-    dummy_io = QuickDummy.new(**io_exist_true, **io_read_same, **io_write_noop)
-    r = new_runner(dummy_io)
+    dummy_vfs = QuickDummy.new(**vfs_exist_true, **vfs_read_same, **vfs_write_noop)
+    r = new_runner(dummy_vfs)
 
     out, _err = capture_io { r.write }
 
@@ -29,23 +29,22 @@ class RunnerTest < TestCase
   end
 
   test "#write with double write error" do
-    dummy_io = QuickDummy.new(**io_exist_true, **io_read_diff, **io_write_noop)
-    r = new_runner(dummy_io, [new_item, new_item])
+    dummy_vfs = QuickDummy.new(**vfs_exist_true, **vfs_read_diff, **vfs_write_noop)
+    r = new_runner(dummy_vfs, [new_item, new_item])
 
     assert_raises(Munge::Errors::DoubleWriteError) { capture_io { r.write } }
   end
 
   private
 
-  def new_runner(io = Munge::Io::Noop.new, items = [new_item])
+  def new_runner(vfs = Munge::Vfs::DryRun.new(Munge::Vfs::Filesystem.new("anything")), items = [new_item])
     Munge::Runner.new(
       items: items,
       router: dummy_router,
       processor: dummy_processor,
-      io: io,
       reporter: Munge::Reporter.new(formatter: new_formatter, verbosity: :all),
-      destination: "anywhere",
-      manager: Munge::WriteManager::OnlyNeeded.new(io)
+      manager: Munge::WriteManager::OnlyNeeded.new(vfs),
+      vfs: vfs
     )
   end
 
@@ -62,23 +61,23 @@ class RunnerTest < TestCase
     )
   end
 
-  def io_exist_true
+  def vfs_exist_true
     { exist?: -> (*) { true } }
   end
 
-  def io_exist_false
+  def vfs_exist_false
     { exist?: -> (*) { false } }
   end
 
-  def io_read_diff
+  def vfs_read_diff
     { read: -> (*) { "cool" } }
   end
 
-  def io_read_same
+  def vfs_read_same
     { read: -> (*) { "I am the best" } }
   end
 
-  def io_write_noop
+  def vfs_write_noop
     { write: -> (*) {} }
   end
 
