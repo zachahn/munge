@@ -1,3 +1,10 @@
+config = Thread.current.thread_variable_get("config")
+
+def __end__
+  contents = File.read(__FILE__)
+  contents.split(/^__END__$/, 2).last
+end
+
 yml = YAML.safe_load(__end__)
 
 # Path to content

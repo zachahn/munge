@@ -1,0 +1,10 @@
+---
+config_path: config.rb
+boot_path: boot.rb
+application_path: config/application.rb
+rules_path: rules.rb
+
+application_key: app
+system_key: system
+config_key: config
+root_path_key: root_path

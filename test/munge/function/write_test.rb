@@ -1,50 +1,53 @@
 require "test_helper"
 
-class RunnerTest < TestCase
-  test "#write with new file" do
+class FunctionWriteTest < TestCase
+  test "#call with new file" do
     dummy_vfs = QuickDummy.new(**vfs_exist_false, **vfs_write_noop)
     r = new_runner(dummy_vfs)
 
-    out, _err = capture_io { r.write }
+    out, _err = capture_io { r.call }
 
     assert_equal("new /about\n", out)
   end
 
-  test "#write with updated file" do
+  test "#call with updated file" do
     dummy_vfs = QuickDummy.new(**vfs_exist_true, **vfs_read_diff, **vfs_write_noop)
     r = new_runner(dummy_vfs)
 
-    out, _err = capture_io { r.write }
+    out, _err = capture_io { r.call }
 
     assert_equal("changed /about\n", out)
   end
 
-  test "#write with identical file" do
+  test "#call with identical file" do
     dummy_vfs = QuickDummy.new(**vfs_exist_true, **vfs_read_same, **vfs_write_noop)
     r = new_runner(dummy_vfs)
 
-    out, _err = capture_io { r.write }
+    out, _err = capture_io { r.call }
 
     assert_equal("identical /about\n", out)
   end
 
-  test "#write with double write error" do
+  test "#call with double write error" do
     dummy_vfs = QuickDummy.new(**vfs_exist_true, **vfs_read_diff, **vfs_write_noop)
     r = new_runner(dummy_vfs, [new_item, new_item])
 
-    assert_raises(Munge::Error::DoubleWriteError) { capture_io { r.write } }
+    assert_raises(Munge::Error::DoubleWriteError) { capture_io { r.call } }
   end
 
   private
 
   def new_runner(vfs = Munge::Vfs::DryRun.new(Munge::Vfs::Filesystem.new("anything")), items = [new_item])
-    Munge::Runner.new(
-      items: items,
-      router: dummy_router,
-      processor: dummy_processor,
+    system = OpenStruct.new
+    system.items = items
+    system.router = dummy_router
+    system.processor = dummy_processor
+
+    Munge::Function::Write.new(
+      system: system,
       reporter: Munge::Reporter.new(formatter: new_formatter, verbosity: :all),
       manager: Munge::WriteManager::OnlyNeeded.new(vfs),
-      vfs: vfs
+      destination: vfs
     )
   end
 

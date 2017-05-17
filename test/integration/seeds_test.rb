@@ -2,8 +2,9 @@ require "test_helper"
 
 class IntegrationSeedsTest < TestCase
   test "integration" do
-    FakeFS do
-      FakeFS::FileSystem.clone(seeds_path, fake_path)
+    Dir.mktmpdir do |tmpdir|
+      FileUtils.copy_entry(seeds_path, tmpdir)
+      @path = tmpdir
 
       @out, @err = capture_io do
         Munge::Cli::Commands::Build.new(
@@ -25,8 +26,9 @@ class IntegrationSeedsTest < TestCase
   end
 
   test "dry run doesn't write any files" do
-    FakeFS do
-      FakeFS::FileSystem.clone(seeds_path, fake_path)
+    Dir.mktmpdir do |tmpdir|
+      FileUtils.copy_entry(seeds_path, tmpdir)
+      @path = tmpdir
 
       @out, @err = capture_io do
         Munge::Cli::Commands::Build.new(

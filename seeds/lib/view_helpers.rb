@@ -1,4 +1,4 @@
-tilt_transformer = Transformer::TiltTransformer.new(system)
+tilt_transformer = Munge::Transformer::TiltTransformer.new(system)
 tilt_transformer.register(Munge::Helper::Capture)
 tilt_transformer.register(Munge::Helper::Find)
 tilt_transformer.register(Munge::Helper::Link)

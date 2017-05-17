@@ -6,7 +6,6 @@ class BootloaderTest < TestCase
       root_path: seeds_path
     )
 
-    assert_kind_of(Munge::Init, bootloader.init)
     assert_kind_of(Munge::Config, bootloader.config)
   end
 end

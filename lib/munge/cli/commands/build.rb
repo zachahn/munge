@@ -10,34 +10,29 @@ module Munge
         def initialize(bootloader, dry_run:, reporter:, verbosity:, build_root: nil)
           destination_root = bootloader.root_path
           config = bootloader.config
-          app = application(bootloader)
           destination = File.expand_path(build_root || config[:output_path], destination_root)
 
           vfs = new_vfs(dry_run, destination)
 
+          loader = Munge::Load.new(bootloader.root_path)
+
           @runner =
-            Munge::Runner.new(
-              items: app.vomit(:items),
-              router: app.vomit(:router),
-              processor: app.vomit(:processor),
-              reporter: Munge::Reporter.new(formatter: new_formatter(reporter), verbosity: verbosity.to_sym),
-              manager: Munge::WriteManager::OnlyNeeded.new(vfs),
-              vfs: vfs
-            )
+            loader.app do |_application, system|
+              Munge::Function::Write.new(
+                system: system,
+                reporter: Munge::Reporter.new(formatter: new_formatter(reporter), verbosity: verbosity.to_sym),
+                manager: Munge::WriteManager::OnlyNeeded.new(vfs),
+                destination: vfs
+              )
+            end
         end
 
         # @return [Array<String>] list of updated items routes
         def call
-          @runner.write
+          @runner.call
         end
 
         private
-
-        def application(bootloader)
-          bootstrap = bootloader.init
-
-          bootstrap.app
-        end
 
         def new_vfs(dry_run, destination)
           fs = Munge::Vfs::Filesystem.new(destination)

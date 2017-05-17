@@ -11,17 +11,6 @@ module Munge
       @config = Munge::PreInit.new(config_path).config
     end
 
-    # @return [Munge::Init]
-    def init
-      @init ||=
-        Init.new(
-          root_path: root_path,
-          config: config,
-          setup_path: setup_path,
-          rules_path: rules_path
-        )
-    end
-
     attr_reader :root_path
     attr_reader :setup_path
     attr_reader :rules_path

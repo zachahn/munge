@@ -13,16 +13,21 @@ module Munge
     def config
       config = Munge::Config.new
 
-      import_to_context(@config_path, binding)
+      thread_variable_set_helper("config", config) do
+        load @config_path
+      end
 
       config
     end
 
     private
 
-    def __end__
-      contents = File.read(@config_path)
-      contents.split(/^__END__$/, 2).last
+    def thread_variable_set_helper(key, value)
+      Thread.current.thread_variable_set(key, value)
+
+      yield
+
+      Thread.current.thread_variable_set(key, nil)
     end
   end
 end
