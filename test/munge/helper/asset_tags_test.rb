@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersAssetTagsTest < TestCase
+class HelperAssetTagsTest < TestCase
   test "#stylesheet_tag returns a tag with correct path and options" do
     tag = new_renderer.stylesheet_tag("foo", class: "id")
 
@@ -56,7 +56,7 @@ class HelpersAssetTagsTest < TestCase
         items: -> { Hash.new("item".freeze) },
         render: -> (_) { "rendered item" }
       )
-    renderer.extend(Munge::Helpers::AssetTags)
-    renderer.extend(Munge::Helpers::Tag)
+    renderer.extend(Munge::Helper::AssetTags)
+    renderer.extend(Munge::Helper::Tag)
   end
 end

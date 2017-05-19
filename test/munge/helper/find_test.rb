@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersFindTest < TestCase
+class HelperFindTest < TestCase
   test "#items" do
     item = new_renderer.items[:id]
 
@@ -24,7 +24,7 @@ class HelpersFindTest < TestCase
     system.define_singleton_method(:layouts) { layouts }
 
     renderer = tilt_scope_class.new(system, {})
-    renderer.extend(Munge::Helpers::Find)
+    renderer.extend(Munge::Helper::Find)
 
     renderer
   end

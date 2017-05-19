@@ -1,5 +1,5 @@
 module Munge
-  module Helpers
+  module Helper
     module Livereload
       def livereload_script(force: false)
         should_show = ENV["MUNGE_ENV"] == "development" && Gem.loaded_specs.key?("reel")

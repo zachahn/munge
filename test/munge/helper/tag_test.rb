@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersTagTest < TestCase
+class HelperTagTest < TestCase
   test "#empty_tag returns an empty tag" do
     tag = new_renderer.empty_tag(:foo)
 
@@ -53,8 +53,8 @@ class HelpersTagTest < TestCase
 
   def new_renderer
     renderer = Object.new
-    renderer.extend(Munge::Helpers::Tag)
-    renderer.extend(Munge::Helpers::Capture)
+    renderer.extend(Munge::Helper::Tag)
+    renderer.extend(Munge::Helper::Capture)
     renderer
   end
 end

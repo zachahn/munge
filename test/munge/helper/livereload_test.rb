@@ -16,8 +16,8 @@ class LivereloadTest < TestCase
 
   def new_renderer
     renderer = Object.new
-    renderer.extend(Munge::Helpers::Tag)
-    renderer.extend(Munge::Helpers::Livereload)
+    renderer.extend(Munge::Helper::Tag)
+    renderer.extend(Munge::Helper::Livereload)
     renderer
   end
 end

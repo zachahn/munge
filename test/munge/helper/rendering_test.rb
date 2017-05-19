@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersRenderingTest < TestCase
+class HelperRenderingTest < TestCase
   test "#render with basic erb input" do
     renderer = new_renderer(new_system)
     item = new_item("text.erb", %(<h1><%= "hi" %></h1>))
@@ -86,9 +86,9 @@ class HelpersRenderingTest < TestCase
 
   def new_renderer(system)
     renderer = tilt_scope_class.new(system, {})
-    renderer.extend(Munge::Helpers::Rendering)
-    renderer.extend(Munge::Helpers::Find)
-    renderer.extend(Munge::Helpers::Capture)
+    renderer.extend(Munge::Helper::Rendering)
+    renderer.extend(Munge::Helper::Find)
+    renderer.extend(Munge::Helper::Capture)
     renderer
   end
 

@@ -1,5 +1,5 @@
 module Munge
-  module Helpers
+  module Helper
     module Link
       def path_to(itemish)
         item =

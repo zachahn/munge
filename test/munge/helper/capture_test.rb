@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersCaptureTest < TestCase
+class HelperCaptureTest < TestCase
   test "capture" do
     helpers =
       QuickDummy.new(
@@ -11,7 +11,7 @@ class HelpersCaptureTest < TestCase
         end
       )
 
-    helpers.extend(Munge::Helpers::Capture)
+    helpers.extend(Munge::Helper::Capture)
 
     template =
       "<h1>hi</h1>\n" \

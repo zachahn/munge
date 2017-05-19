@@ -56,7 +56,7 @@ class TransformersTiltTransformerTest < TestCase
 
   def new_transformer_with_rendering
     transformer = new_transformer
-    transformer.register(Munge::Helpers::Rendering)
+    transformer.register(Munge::Helper::Rendering)
     transformer
   end
 end

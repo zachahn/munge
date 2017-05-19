@@ -1,5 +1,5 @@
 module Munge
-  module Helpers
+  module Helper
     module Tag
       def empty_tag(name, options = {})
         options_str = options.map { |k, v| %(#{k}="#{h(v)}") }.join(" ")

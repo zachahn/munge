@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersAssetPathsTest < TestCase
+class HelperAssetPathsTest < TestCase
   test "#image_path" do
     renderer = new_renderer_with_method(:images_root) { "img" }
 
@@ -46,7 +46,7 @@ class HelpersAssetPathsTest < TestCase
       items: -> { Hash.new { |_h, k| "#{k}_item" } },
       path_to: -> (root) { "path/to/#{root}" }
     )
-    renderer.extend(Munge::Helpers::AssetPaths)
+    renderer.extend(Munge::Helper::AssetPaths)
     renderer
   end
 end

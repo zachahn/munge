@@ -1,6 +1,6 @@
 require "test_helper"
 
-class HelpersLinkTest < TestCase
+class HelperLinkTest < TestCase
   test "#path_to" do
     url = new_renderer.path_to(OpenStruct.new(route: "cool"))
 
@@ -54,8 +54,8 @@ class HelpersLinkTest < TestCase
     system.define_singleton_method(:items) { Hash.new { |_hash, key| key } }
 
     renderer = tilt_scope_class.new(system, {})
-    renderer.extend(Munge::Helpers::Link)
-    renderer.extend(Munge::Helpers::Tag)
+    renderer.extend(Munge::Helper::Link)
+    renderer.extend(Munge::Helper::Tag)
     renderer
   end
 end

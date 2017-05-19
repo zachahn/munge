@@ -1,5 +1,5 @@
 module Munge
-  module Helpers
+  module Helper
     module Capture
       def capture(&block)
         if block.binding.local_variable_defined?(:_erbout)
