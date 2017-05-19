@@ -7,14 +7,14 @@ module Munge
 
       # Register tranformer
       #
-      # @see Munge::Transformers::Tilt
+      # @see Munge::Transformer::Tilt
       def register(transformer)
         register_manually(transformer.name, transformer)
       end
 
       # Register transformer manually
       #
-      # @see Munge::Transformers::Tilt
+      # @see Munge::Transformer::Tilt
       # @param name [Symbol] Snake case name
       # @param transformer [#call]
       def register_manually(name, transformer)

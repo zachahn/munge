@@ -51,6 +51,6 @@ class TestCase < Minitest::Test
   end
 
   def tilt_scope_class
-    Munge::Transformers::TiltTransformer::Scope
+    Munge::Transformer::TiltTransformer::Scope
   end
 end

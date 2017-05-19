@@ -1,5 +1,5 @@
 module Munge
-  module Transformers
+  module Transformer
     class TiltTransformer
       def initialize(system)
         @system = system

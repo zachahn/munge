@@ -1,6 +1,6 @@
 require "test_helper"
 
-class TransformersTiltTransformerTest < TestCase
+class TransformerTiltTransformerTest < TestCase
   include TransformerInterfaceTest
 
   test "auto transform" do
@@ -51,7 +51,7 @@ class TransformersTiltTransformerTest < TestCase
     fake_scope = Object.new
     fake_scope.define_singleton_method(:global_data) { Hash.new }
 
-    Munge::Transformers::TiltTransformer.new(fake_scope)
+    Munge::Transformer::TiltTransformer.new(fake_scope)
   end
 
   def new_transformer_with_rendering
