@@ -5,7 +5,7 @@ class SystemProcessorTest < TestCase
     processor = Munge::System::Processor.new
     processor.register(new_transformer_rot13)
 
-    assert_raises(Munge::Errors::DuplicateTransformerError) { processor.register(new_transformer_rot13) }
+    assert_raises(Munge::Error::DuplicateTransformerError) { processor.register(new_transformer_rot13) }
   end
 
   test "transform" do
@@ -36,7 +36,7 @@ class SystemProcessorTest < TestCase
 
     item = new_item(:dne, :rot13)
 
-    assert_raises(Munge::Errors::TransformerNotFoundError) { processor.transform(item) }
+    assert_raises(Munge::Error::TransformerNotFoundError) { processor.transform(item) }
   end
 
   private

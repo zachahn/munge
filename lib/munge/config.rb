@@ -10,7 +10,7 @@ module Munge
       if @configs.key?(sym_key)
         @configs[sym_key]
       else
-        raise Errors::ConfigKeyNotFound, sym_key
+        raise Error::ConfigKeyNotFound, sym_key
       end
     end
 
@@ -28,7 +28,7 @@ module Munge
       elsif key?(method_name)
         self[method_name]
       else
-        raise Errors::ConfigKeyNotFound, method_name
+        raise Error::ConfigKeyNotFound, method_name
       end
     end
 

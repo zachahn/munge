@@ -15,7 +15,7 @@ end
 # Core
 require "munge/version"
 require "munge/item"
-require "munge/errors"
+require "munge/error"
 require "munge/util/path"
 require "munge/util/symbol_hash"
 require "munge/util/boolean_regex"

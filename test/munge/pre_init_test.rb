@@ -6,7 +6,7 @@ class PreInitTest < TestCase
   end
 
   test "initializes with error when config file doesn't exist" do
-    assert_raises(Munge::Errors::ConfigRbNotFound) do
+    assert_raises(Munge::Error::ConfigRbNotFound) do
       Munge::PreInit.new(File.join(seeds_path, "path.dne"))
     end
   end

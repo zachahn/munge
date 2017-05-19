@@ -25,7 +25,7 @@ class ConfigTest < TestCase
     config = Munge::Config.new
     config.foo = "bar"
 
-    assert_raises(Munge::Errors::ConfigKeyNotFound) do
+    assert_raises(Munge::Error::ConfigKeyNotFound) do
       config.dne
     end
   end
@@ -46,7 +46,7 @@ class ConfigTest < TestCase
   test "#[] when not found" do
     config = Munge::Config.new(foo: "bar")
 
-    assert_raises(Munge::Errors::ConfigKeyNotFound) do
+    assert_raises(Munge::Error::ConfigKeyNotFound) do
       config["dne"]
     end
   end

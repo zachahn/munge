@@ -4,7 +4,7 @@ module Munge
 
     def initialize(config_path)
       if !File.exist?(config_path)
-        raise Munge::Errors::ConfigRbNotFound, config_path
+        raise Munge::Error::ConfigRbNotFound, config_path
       end
 
       @config_path = config_path

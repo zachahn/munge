@@ -10,7 +10,7 @@ class SystemCollectionTest < TestCase
 
   test "#[] not found" do
     items = new_collection
-    assert_raises(Munge::Errors::ItemNotFoundError) { items["id notfound.html"] }
+    assert_raises(Munge::Error::ItemNotFoundError) { items["id notfound.html"] }
   end
 
   test "#each returns enumerator" do
@@ -64,7 +64,7 @@ class SystemCollectionTest < TestCase
     )
     items.push(item1)
 
-    assert_raises(Munge::Errors::DuplicateItemError) do
+    assert_raises(Munge::Error::DuplicateItemError) do
       items.push(item2)
     end
   end

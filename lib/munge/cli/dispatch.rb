@@ -110,7 +110,7 @@ module Munge
 
       def bootloader
         Munge::Bootloader.new(root_path: current_working_directory)
-      rescue Munge::Errors::ConfigRbNotFound => e
+      rescue Munge::Error::ConfigRbNotFound => e
         puts e.message
         exit
       end

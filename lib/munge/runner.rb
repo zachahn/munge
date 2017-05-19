@@ -39,7 +39,7 @@ module Munge
       when :identical
         @manager.on_identical(route, relpath, content)
       when :double_write_error
-        raise Errors::DoubleWriteError, item.route
+        raise Error::DoubleWriteError, item.route
       end
 
       @reporter.call(item, relpath, write_status)

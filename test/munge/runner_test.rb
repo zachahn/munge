@@ -32,7 +32,7 @@ class RunnerTest < TestCase
     dummy_vfs = QuickDummy.new(**vfs_exist_true, **vfs_read_diff, **vfs_write_noop)
     r = new_runner(dummy_vfs, [new_item, new_item])
 
-    assert_raises(Munge::Errors::DoubleWriteError) { capture_io { r.write } }
+    assert_raises(Munge::Error::DoubleWriteError) { capture_io { r.write } }
   end
 
   private

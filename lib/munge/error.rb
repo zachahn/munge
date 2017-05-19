@@ -1,5 +1,5 @@
 module Munge
-  module Errors
+  module Error
     class Base < StandardError
     end
 
