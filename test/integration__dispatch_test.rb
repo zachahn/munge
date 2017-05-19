@@ -26,6 +26,7 @@ class IntegrationDispatchTest < TestCase
     build_io = capture_subprocess_io do
       Dir.chdir("sandbox/#{project_name}") do
         ENV["MUNGE_ENV"] = "production"
+        ENV["BUILD_ROOT"] = "dest"
         Munge::Cli::Dispatch.start(["build"])
       end
     end
@@ -35,6 +36,8 @@ class IntegrationDispatchTest < TestCase
 
     update_io = capture_subprocess_io do
       Dir.chdir("sandbox/#{project_name}") do
+        ENV["MUNGE_ENV"] = "production"
+        ENV["BUILD_ROOT"] = "dest"
         Munge::Cli::Dispatch.start(["update"])
       end
     end
@@ -45,10 +48,11 @@ class IntegrationDispatchTest < TestCase
     @view_server_responded = false
     _view_io = capture_subprocess_io do
       Dir.chdir("sandbox/#{project_name}") do
-        ENV["MUNGE_ENV"] = "production"
         view_port = new_port_number
         pid =
           Process.fork do
+            ENV["MUNGE_ENV"] = "production"
+            ENV["BUILD_ROOT"] = "dest"
             SimpleCov.start { command_name "munge_dispatch_view" } if ENV["COVERAGE"]
             Munge::Cli::Dispatch.start(["view", "--port", view_port.to_s])
           end
@@ -71,6 +75,7 @@ class IntegrationDispatchTest < TestCase
     _server_io = capture_subprocess_io do
       Dir.chdir("sandbox/#{project_name}") do
         ENV["MUNGE_ENV"] = "development"
+        ENV["BUILD_ROOT"] = "tmp/development-build"
         server_port = new_port_number
         pid =
           Process.fork do
@@ -100,12 +105,16 @@ class IntegrationDispatchTest < TestCase
     Dir.mktmpdir do |dir|
       capture_subprocess_io do
         Dir.chdir(dir) do
+          ENV["MUNGE_ENV"] = "production"
+          ENV["BUILD_ROOT"] = "dest"
           Munge::Cli::Dispatch.start(["init", project_name])
         end
 
         File.write(File.join(dir, project_name, "src", "home", "testing.html"), "hi!")
 
         Dir.chdir(File.join(dir, project_name)) do
+          ENV["MUNGE_ENV"] = "production"
+          ENV["BUILD_ROOT"] = "dest"
           Munge::Cli::Dispatch.start(["build"])
         end
 
@@ -116,6 +125,8 @@ class IntegrationDispatchTest < TestCase
       File.unlink(File.join(dir, project_name, "src", "home", "testing.html"))
 
       Dir.chdir(File.join(dir, project_name)) do
+        ENV["MUNGE_ENV"] = "production"
+        ENV["BUILD_ROOT"] = "dest"
         Munge::Cli::Dispatch.start(["clean"])
       end
 
