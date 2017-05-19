@@ -1,5 +1,5 @@
 module Munge
-  module Extras
+  module Extra
     module Livereload
       class Server < Reel::Server::HTTP
         def initialize(host = "127.0.0.1", port = 35729)

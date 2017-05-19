@@ -1,5 +1,5 @@
 module Munge
-  module Extras
+  module Extra
     module Livereload
       class UpdateServer
         include Celluloid

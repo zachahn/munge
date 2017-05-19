@@ -10,13 +10,13 @@ module Munge
           @livereload =
             if livereload
               if Gem.loaded_specs.key?("reel")
-                Munge::Extras::Livereload::Main.new(true)
+                Munge::Extra::Livereload::Main.new(true)
               else
                 STDERR.puts "Gem `reel` is not installed. Check that your Ruby version is compatible"
-                Munge::Extras::Livereload::Main.new(false)
+                Munge::Extra::Livereload::Main.new(false)
               end
             else
-              Munge::Extras::Livereload::Main.new(false)
+              Munge::Extra::Livereload::Main.new(false)
             end
         end
 

@@ -2,14 +2,14 @@ if Gem.loaded_specs.key?("reel")
   require "celluloid/current"
   require "reel"
 
-  require "munge/extras/livereload/update_server"
-  require "munge/extras/livereload/update_client"
-  require "munge/extras/livereload/messaging"
-  require "munge/extras/livereload/server"
+  require "munge/extra/livereload/update_server"
+  require "munge/extra/livereload/update_client"
+  require "munge/extra/livereload/messaging"
+  require "munge/extra/livereload/server"
 end
 
 module Munge
-  module Extras
+  module Extra
     module Livereload
       class Main
         def initialize(activated)

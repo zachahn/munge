@@ -57,4 +57,4 @@ require "munge/router/add_directory_index"
 require "munge/router/remove_index_basename"
 require "munge/transformer/tilt_transformer"
 
-require "munge/extras/livereload"
+require "munge/extra/livereload"
