@@ -1,5 +1,5 @@
 module Munge
-  module Formatters
+  module Formatter
     class Dots
       def initialize
         @counts = Hash.new { 0 }

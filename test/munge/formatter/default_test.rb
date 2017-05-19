@@ -1,6 +1,6 @@
 require "test_helper"
 
-class FormattersDefaultTest < TestCase
+class FormatterDefaultTest < TestCase
   include FormatterInterfaceTest
 
   test "#start output" do
@@ -54,6 +54,6 @@ class FormattersDefaultTest < TestCase
   private
 
   def formatter_class
-    Munge::Formatters::Default
+    Munge::Formatter::Default
   end
 end

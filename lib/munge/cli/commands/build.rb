@@ -50,7 +50,7 @@ module Munge
         end
 
         def new_formatter(class_name)
-          Munge::Formatters.const_get(class_name).new
+          Munge::Formatter.const_get(class_name).new
         end
       end
     end

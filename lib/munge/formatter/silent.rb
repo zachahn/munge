@@ -1,5 +1,5 @@
 module Munge
-  module Formatters
+  module Formatter
     class Silent
       def call(_item, _relpath, _write_status, _should_print)
       end

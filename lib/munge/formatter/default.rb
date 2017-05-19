@@ -1,5 +1,5 @@
 module Munge
-  module Formatters
+  module Formatter
     class Default
       def initialize
         @new_count = 0
