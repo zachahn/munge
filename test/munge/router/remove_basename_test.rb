@@ -1,6 +1,6 @@
 require "test_helper"
 
-class RoutersRemoveBasenameTest < TestCase
+class RouterRemoveBasenameTest < TestCase
   include RouterInterfaceTest
 
   test "#match? items without route without extensions" do
@@ -26,7 +26,7 @@ class RoutersRemoveBasenameTest < TestCase
 
   test "lol" do
     router =
-      Munge::Routers::RemoveBasename.new(
+      Munge::Router::RemoveBasename.new(
         extensions: %w(html htm md),
         basenames: %w(index),
         keep_explicit: false
@@ -52,7 +52,7 @@ class RoutersRemoveBasenameTest < TestCase
   private
 
   def new_router
-    Munge::Routers::RemoveBasename.new(
+    Munge::Router::RemoveBasename.new(
       extensions: %w(html htm md),
       basenames: %w(index),
       keep_explicit: true

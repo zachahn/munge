@@ -1,6 +1,6 @@
 require "test_helper"
 
-class RoutersAutoAddExtensionTest < TestCase
+class RouterAutoAddExtensionTest < TestCase
   include RouterInterfaceTest
 
   test "#match? matches gif item" do
@@ -35,6 +35,6 @@ class RoutersAutoAddExtensionTest < TestCase
   end
 
   def new_router
-    Munge::Routers::AutoAddExtension.new(keep_extensions: %w(gif))
+    Munge::Router::AutoAddExtension.new(keep_extensions: %w(gif))
   end
 end

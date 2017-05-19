@@ -1,5 +1,5 @@
 module Munge
-  module Routers
+  module Router
     class RemoveBasename
       def initialize(extensions:, basenames:, keep_explicit:)
         @extensions = extensions

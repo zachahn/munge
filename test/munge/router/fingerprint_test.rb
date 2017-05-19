@@ -1,6 +1,6 @@
 require "test_helper"
 
-class RoutersFingerprintTest < TestCase
+class RouterFingerprintTest < TestCase
   include RouterInterfaceTest
 
   test "#match? is false because frontmatter" do
@@ -69,6 +69,6 @@ class RoutersFingerprintTest < TestCase
   end
 
   def new_router
-    Munge::Routers::Fingerprint.new(extensions: %w(gif), separator: "--")
+    Munge::Router::Fingerprint.new(extensions: %w(gif), separator: "--")
   end
 end

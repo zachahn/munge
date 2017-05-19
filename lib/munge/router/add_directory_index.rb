@@ -1,5 +1,5 @@
 module Munge
-  module Routers
+  module Router
     class AddDirectoryIndex
       def initialize(extensions:, index:)
         @extensions = extensions
