@@ -15,6 +15,10 @@ module Munge
         File.read(File.join(@root, relpath))
       end
 
+      def rm(relpath)
+        File.delete(File.join(@root, relpath))
+      end
+
       def exist?(relpath)
         File.exist?(File.join(@root, relpath))
       end
