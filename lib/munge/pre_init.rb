@@ -1,7 +1,5 @@
 module Munge
   class PreInit
-    include Munge::Util::Import
-
     def initialize(config_path)
       if !File.exist?(config_path)
         raise Munge::Error::ConfigRbNotFound, config_path
