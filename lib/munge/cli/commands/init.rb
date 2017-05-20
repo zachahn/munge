@@ -32,7 +32,7 @@ module Munge
             require "bundler"
 
             ::Bundler.with_clean_env do
-              system("bundle #{command}")
+              Kernel.system("bundle #{command}")
             end
           end
         end
