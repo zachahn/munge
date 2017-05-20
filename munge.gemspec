@@ -4,22 +4,24 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "munge/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "munge"
-  spec.version       = Munge::VERSION
-  spec.authors       = ["Zach Ahn"]
-  spec.email         = ["engineering@zachahn.com"]
+  spec.name = "munge"
+  spec.version = Munge::VERSION
+  spec.authors = ["Zach Ahn"]
+  spec.email = ["engineering@zachahn.com"]
 
-  spec.summary       = "Static site generator aiming to simplify complex build rules"
-  spec.description   = "Documentation for this release is located in https://github.com/zachahn/munge/blob/v#{Munge::VERSION}/README.md"
-  spec.homepage      = "https://github.com/zachahn/munge"
-  spec.license       = "MIT"
+  spec.summary = "Static site generator aiming to simplify complex build rules"
+  spec.description =
+    "Documentation for this release is located in " \
+    "https://github.com/zachahn/munge/blob/v#{Munge::VERSION}/README.md"
+  spec.homepage = "https://github.com/zachahn/munge"
+  spec.license = "MIT"
 
-  spec.files         =
+  spec.files =
     `git ls-files -z`
       .split("\x0")
       .select { |f| f =~ %r{^(?:exe/|lib/|seeds/|munge.gemspec|README|LICENSE|Gemfile)} }
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.bindir = "exe"
+  spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
   spec.required_ruby_version = ">= 2.2.0"
