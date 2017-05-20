@@ -11,6 +11,8 @@ Gem::Specification.new do |spec|
 
   spec.summary = "Static site generator aiming to simplify complex build rules"
   spec.description =
+    "== Documentation\n" \
+    "\n" \
     "Documentation for this release is located in " \
     "https://github.com/zachahn/munge/blob/v#{Munge::VERSION}/README.md"
   spec.homepage = "https://github.com/zachahn/munge"
