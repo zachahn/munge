@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "munge"
   spec.version       = Munge::VERSION
   spec.authors       = ["Zach Ahn"]
-  spec.email         = ["zach.ahn@gmail.com"]
+  spec.email         = ["engineering@zachahn.com"]
 
   spec.summary       = "Static site generator aiming to simplify complex build rules"
   spec.description   = "Documentation for this release is located in https://github.com/zachahn/munge/blob/v#{Munge::VERSION}/README.md"
