@@ -5,6 +5,7 @@ require "yaml"
 require "cgi"
 
 require "tilt"
+require "fixer_upper"
 
 if Gem::Specification.find_all_by_name("pry-byebug").any?
   require "pry-byebug"
