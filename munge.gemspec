@@ -48,6 +48,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "rainbow", ">= 1.99.1", "< 3.0"
   spec.add_runtime_dependency "tilt", "~> 2.0"
   spec.add_runtime_dependency "sass", "~> 3.4"
+  spec.add_runtime_dependency "fixer_upper", "~> 0.5.0"
 
   if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("2.2.2")
     spec.add_runtime_dependency "reel", "~> 0.6"
