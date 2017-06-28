@@ -3,6 +3,7 @@ module Munge
     class Processor
       def initialize
         @fixer_upper = FixerUpper.new
+        @scope_modules = []
       end
 
       def register(*names, to:, with_options: {})
@@ -13,26 +14,40 @@ module Munge
         @fixer_upper.register_tilt(*names, engine: to, options: with_options)
       end
 
+      def include(mod)
+        @scope_modules.push(mod)
+      end
+
       # Transforms the given item's content
       #
       # @param item [Item]
       def transform(item)
-        engines =
-          if item.transforms.any?
-            item.transforms.reverse
-          else
-            nil
-          end
-
         renderer =
           @fixer_upper.renderer(
             filename: item.filename,
             content: item.content,
-            view_scope: Object.new,
-            engines: engines
+            view_scope: view_scope,
+            engines: engines_for(item)
           )
 
         renderer.call
+      end
+
+      private
+
+      def view_scope
+        @scope_modules.reduce(Object.new) do |scope, mod|
+          scope.extend(mod)
+          scope
+        end
+      end
+
+      def engines_for(item)
+        if item.transforms.any?
+          item.transforms.reverse
+        else
+          nil
+        end
       end
     end
   end
