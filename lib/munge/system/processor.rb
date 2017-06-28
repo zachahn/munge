@@ -2,50 +2,37 @@ module Munge
   class System
     class Processor
       def initialize
-        @registry = {}
+        @fixer_upper = FixerUpper.new
       end
 
-      # Register tranformer
-      #
-      # @see Munge::Transformer::Tilt
-      def register(transformer)
-        register_manually(transformer.name, transformer)
+      def register(*names, to:, with_options: {})
+        @fixer_upper.register(*names, engine: to)
       end
 
-      # Register transformer manually
-      #
-      # @see Munge::Transformer::Tilt
-      # @param name [Symbol] Snake case name
-      # @param transformer [#call]
-      def register_manually(name, transformer)
-        if @registry.key?(name)
-          raise Error::DuplicateTransformerError, name
-        else
-          @registry[name] = transformer
-        end
+      def register_tilt(*names, to:, with_options: {})
+        @fixer_upper.register_tilt(*names, engine: to, options: with_options)
       end
 
       # Transforms the given item's content
       #
       # @param item [Item]
       def transform(item)
-        item.transforms
-          .map { |name, args| [get_transformer(name), args] }
-          .reduce(item.content) do |content, params|
-            transformer, args = params
-
-            transformer.call(item, content, *args)
+        engines =
+          if item.transforms.any?
+            item.transforms.reverse
+          else
+            nil
           end
-      end
 
-      private
+        renderer =
+          @fixer_upper.renderer(
+            filename: item.filename,
+            content: item.content,
+            view_scope: Object.new,
+            engines: engines
+          )
 
-      def get_transformer(name)
-        if @registry.key?(name)
-          @registry[name]
-        else
-          raise Error::TransformerNotFoundError, name
-        end
+        renderer.call
       end
     end
   end

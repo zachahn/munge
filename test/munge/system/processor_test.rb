@@ -1,63 +1,54 @@
 require "test_helper"
 
 class SystemProcessorTest < TestCase
-  test "registration disallows transformers with same name" do
-    processor = Munge::System::Processor.new
-    processor.register(new_transformer_rot13)
-
-    assert_raises(Munge::Error::DuplicateTransformerError) { processor.register(new_transformer_rot13) }
-  end
-
   test "transform" do
     processor = Munge::System::Processor.new
-    processor.register(new_transformer_rot13)
+    processor.register(:capitalize, to: CapitalizeTransformer)
 
-    item = new_item(:rot13)
+    item = new_item(:capitalize)
 
     output = processor.transform(item)
 
-    assert_equal("uryyb", output)
+    assert_equal("Hello", output)
   end
 
   test "multiple transforms" do
     processor = Munge::System::Processor.new
-    processor.register(new_transformer_rot13)
-    processor.register(new_transformer_doubler)
+    processor.register(:double, to: DoublerTransformer)
+    processor.register(:capitalize, to: CapitalizeTransformer)
 
-    item = new_item(:rot13, :double)
+    item = new_item(:double, :capitalize)
 
     output = processor.transform(item)
 
-    assert_equal("uryyburyyb", output)
-  end
-
-  test "missing transformer" do
-    processor = Munge::System::Processor.new
-
-    item = new_item(:dne, :rot13)
-
-    assert_raises(Munge::Error::TransformerNotFoundError) { processor.transform(item) }
+    assert_equal("Hellohello", output)
   end
 
   private
 
-  def new_transformer_rot13
-    QuickDummy.new(
-      name: -> { :rot13 },
-      call: -> (_item, content, *) { content.tr("a-z", "n-za-m") }
-    )
+  class DoublerTransformer
+    def initialize(_filename, memo)
+      @memo = memo
+    end
+
+    def render(_view_scope, &_block)
+      @memo + @memo
+    end
   end
 
-  def new_transformer_doubler
-    QuickDummy.new(
-      name: -> { :double },
-      call: -> (_item, content, *) { content + content }
-    )
+  class CapitalizeTransformer
+    def initialize(_filename, memo)
+      @memo = memo
+    end
+
+    def render(_view_scope, &_block)
+      @memo.capitalize
+    end
   end
 
   def new_item(*transformations)
     item = OpenStruct.new
-    item.transforms = transformations.map { |t| [t.to_sym] }
+    item.transforms = transformations.map(&:to_sym)
     item.content = %(hello)
     item
   end

@@ -9,4 +9,4 @@ tilt_transformer.register(Munge::Helper::AssetTags)
 tilt_transformer.register(Munge::Helper::Livereload)
 tilt_transformer.register(AssetRoots)
 
-system.processor.register(tilt_transformer)
+system.processor.register("erb", to: Tilt::ERBTemplate)
