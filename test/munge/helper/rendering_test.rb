@@ -84,9 +84,6 @@ class HelperRenderingTest < TestCase
     system.define_singleton_method(:processor) do
       if @processor.nil?
         @processor = Munge::System::Processor.new
-        @processor.include(Munge::Helper::Rendering)
-        @processor.include(Munge::Helper::Find)
-        @processor.include(Munge::Helper::Capture)
         @processor.include(Munge::Helper::DefineModule.new(:system, system))
         @processor.register("erb", to: Tilt::ERBTemplate)
       end

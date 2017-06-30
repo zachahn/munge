@@ -34,7 +34,6 @@ class SystemProcessorTest < TestCase
     processor = Munge::System::Processor.new
     processor.register(:erb, to: Tilt::ERBTemplate)
     processor.register(:double, to: DoublerTransformer)
-    processor.include(Munge::Helper::Find)
     processor.include(Munge::Helper::DefineModule.new(:system, system))
 
     item = new_item(:erb)

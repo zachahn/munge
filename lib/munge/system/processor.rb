@@ -3,7 +3,17 @@ module Munge
     class Processor
       def initialize
         @fixer_upper = FixerUpper.new
-        @scope_modules = []
+        @scope_modules = [
+          Munge::Helper::Capture,
+          Munge::Helper::Find,
+          Munge::Helper::Link,
+          Munge::Helper::Rendering,
+          Munge::Helper::Tag,
+          Munge::Helper::AssetPaths,
+          Munge::Helper::AssetTags,
+          Munge::Helper::Livereload,
+          Munge::Helper::Data,
+        ]
       end
 
       def register(*names, to:, with_options: {})
