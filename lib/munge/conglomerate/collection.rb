@@ -1,10 +1,10 @@
 module Munge
-  class System
+  class Conglomerate
     # This class is effectively an Array of Items
     class Collection
       include Enumerable
 
-      # @param [System::ItemFactory] item_factory
+      # @param [Conglomerate::ItemFactory] item_factory
       # @param [Array<Hash>] items
       def initialize(items:)
         @items =

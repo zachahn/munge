@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SystemCollectionTest < TestCase
+class ConglomerateCollectionTest < TestCase
   test "hashlike access" do
     items = new_collection
     item = items["id doge.html"]
@@ -87,7 +87,7 @@ class SystemCollectionTest < TestCase
   private
 
   def new_collection
-    Munge::System::Collection.new(
+    Munge::Conglomerate::Collection.new(
       items: [
         OpenStruct.new(id: "id lol.html", content: "cool", frontmatter: { super: "cool" }),
         OpenStruct.new(id: "id doge.html", content: "", frontmatter: { super: "cool" })

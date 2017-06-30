@@ -1,5 +1,5 @@
 module Munge
-  class System
+  class Conglomerate
     class Router
       class Itemish
         extend Forwardable

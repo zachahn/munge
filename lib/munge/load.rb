@@ -12,7 +12,7 @@ module Munge
       Dir.chdir(@root_path) do
         config_load
 
-        system = Munge::System.new(@root_path.to_s, @config)
+        system = Munge::Conglomerate.new(@root_path.to_s, @config)
         application = Munge::Application.new(system)
 
         thread_variable_set_helper(@boot_config["system_key"], system) do

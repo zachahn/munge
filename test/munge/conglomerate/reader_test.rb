@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SystemReaderTest < TestCase
+class ConglomerateReaderTest < TestCase
   def setup
     FakeFS.activate!
     @test_directory = "/#{SecureRandom.hex(10)}"
@@ -40,7 +40,7 @@ class SystemReaderTest < TestCase
   private
 
   def new_item_factory
-    Munge::System::ItemFactory.new(
+    Munge::Conglomerate::ItemFactory.new(
       text_extensions: %w[html],
       ignore_extensions: []
     )
@@ -51,6 +51,6 @@ class SystemReaderTest < TestCase
   end
 
   def new_filesystem_reader
-    Munge::System::Reader.new(new_vfs_filesystem, new_item_factory)
+    Munge::Conglomerate::Reader.new(new_vfs_filesystem, new_item_factory)
   end
 end

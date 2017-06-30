@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SystemItemFactoryTest < TestCase
+class ConglomerateItemFactoryTest < TestCase
   test "#build text item" do
     item_factory = new_item_factory
 
@@ -30,7 +30,7 @@ class SystemItemFactoryTest < TestCase
 
   test "#build text item with no extensions" do
     item_factory =
-      Munge::System::ItemFactory.new(
+      Munge::Conglomerate::ItemFactory.new(
         text_extensions: %w(txt md html),
         ignore_extensions: %w(.+)
       )
@@ -87,7 +87,7 @@ class SystemItemFactoryTest < TestCase
   private
 
   def new_item_factory
-    Munge::System::ItemFactory.new(
+    Munge::Conglomerate::ItemFactory.new(
       text_extensions: %w(txt md html),
       ignore_extensions: %w(erb)
     )

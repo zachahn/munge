@@ -1,8 +1,8 @@
 require "test_helper"
 
-class SystemItemFactoryContentParserTest < TestCase
+class ConglomerateItemFactoryContentParserTest < TestCase
   test "ContentParser reads formatter" do
-    match = Munge::System::ItemFactory::ContentParser.new(
+    match = Munge::Conglomerate::ItemFactory::ContentParser.new(
       %(---
 this: is
 yaml: frontmatter
@@ -16,7 +16,7 @@ but this is not yay
   end
 
   test "ContentParser can read when there's no frontmatter" do
-    match = Munge::System::ItemFactory::ContentParser.new(
+    match = Munge::Conglomerate::ItemFactory::ContentParser.new(
       "yay this is cool lol"
     )
 
@@ -25,7 +25,7 @@ but this is not yay
   end
 
   test "ContentParser can handle weird dashes" do
-    match = Munge::System::ItemFactory::ContentParser.new(
+    match = Munge::Conglomerate::ItemFactory::ContentParser.new(
       %(baa baa
 
 ---
@@ -41,7 +41,7 @@ have you any wool)
   end
 
   test "ContentParser ignores 'fake' frontmatter" do
-    match = Munge::System::ItemFactory::ContentParser.new(
+    match = Munge::Conglomerate::ItemFactory::ContentParser.new(
       %(---
 not frontmatter
 ---

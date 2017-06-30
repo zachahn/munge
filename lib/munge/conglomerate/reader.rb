@@ -1,5 +1,5 @@
 module Munge
-  class System
+  class Conglomerate
     # Enumerable list of {Munge::Item}s
     class Reader
       include Enumerable

@@ -6,7 +6,7 @@ class LoadTest < TestCase
 
     loader.app do |application, system|
       assert_kind_of(Munge::Application, application)
-      assert_kind_of(Munge::System, system)
+      assert_kind_of(Munge::Conglomerate, system)
     end
   end
 end

@@ -1,5 +1,5 @@
 module Munge
-  class System
+  class Conglomerate
     class Router
       def initialize(processor:)
         @registries = { route: [], filepath: [] }

@@ -1,5 +1,5 @@
 module Munge
-  class System
+  class Conglomerate
     class ItemFactory
       class ContentParser
         def self.match(string)

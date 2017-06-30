@@ -60,7 +60,7 @@ class IntegrationRouterTest < TestCase
 
     processor = QuickDummy.new(transform: -> (_item) { "transformed" })
 
-    router = Munge::System::Router.new(processor: processor)
+    router = Munge::Conglomerate::Router.new(processor: processor)
     router.register(fingerprint)
     router.register(index_basename)
     router.register(index_html)

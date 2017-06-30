@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SystemRouterTest < TestCase
+class ConglomerateRouterTest < TestCase
   test "route single router" do
     router = new_router
     item = new_item
@@ -111,7 +111,7 @@ class SystemRouterTest < TestCase
   end
 
   def new_router
-    Munge::System::Router.new(processor: new_dummy_processor)
+    Munge::Conglomerate::Router.new(processor: new_dummy_processor)
   end
 
   def new_router_rot1

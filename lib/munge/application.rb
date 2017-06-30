@@ -41,7 +41,7 @@ module Munge
       [item]
     end
 
-    # Returns parts of System
+    # Returns parts of Conglomerate
     #
     # @private
     def vomit(component_name)

@@ -1,8 +1,8 @@
 require "test_helper"
 
-class SystemProcessorTest < TestCase
+class ConglomerateProcessorTest < TestCase
   test "transform" do
-    processor = Munge::System::Processor.new(Object.new)
+    processor = Munge::Conglomerate::Processor.new(Object.new)
     processor.register(:capitalize, to: CapitalizeTransformer)
 
     item = new_item(:capitalize)
@@ -13,7 +13,7 @@ class SystemProcessorTest < TestCase
   end
 
   test "multiple transforms" do
-    processor = Munge::System::Processor.new(Object.new)
+    processor = Munge::Conglomerate::Processor.new(Object.new)
     processor.register(:double, to: DoublerTransformer)
     processor.register(:capitalize, to: CapitalizeTransformer)
 
@@ -31,7 +31,7 @@ class SystemProcessorTest < TestCase
     system = OpenStruct.new
     system.layouts = { "foo.erb" => layout }
 
-    processor = Munge::System::Processor.new(system)
+    processor = Munge::Conglomerate::Processor.new(system)
     processor.register(:erb, to: Tilt::ERBTemplate)
     processor.register(:double, to: DoublerTransformer)
     processor.include(Munge::Helper::DefineModule.new(:system, system))
@@ -45,7 +45,7 @@ class SystemProcessorTest < TestCase
   end
 
   test "#engines_for converts :use_extensions into items extensions" do
-    processor = Munge::System::Processor.new(Object.new)
+    processor = Munge::Conglomerate::Processor.new(Object.new)
 
     item = new_item(:whatsup, :use_extensions, :lol)
     item.filepath = "test.foo.bar"

@@ -1,5 +1,5 @@
 module Munge
-  class System
+  class Conglomerate
     class ItemFactory
       # @param text_extensions [Array<String>]
       # @param ignore_extensions [Array<String>] Strings are converted to regex

@@ -1,13 +1,13 @@
 require "test_helper"
 
-class SystemRouterItemishTest < TestCase
+class ConglomerateRouterItemishTest < TestCase
   test "compiled content" do
     item = OpenStruct.new
 
     processor = Minitest::Mock.new
     processor.expect(:transform, "postcompile", [item])
 
-    itemish = Munge::System::Router::Itemish.new(item, processor)
+    itemish = Munge::Conglomerate::Router::Itemish.new(item, processor)
     itemish.compiled_content
 
     processor.verify
@@ -21,7 +21,7 @@ class SystemRouterItemishTest < TestCase
         transform: -> (_item) { "postcompile" }
       )
 
-    itemish = Munge::System::Router::Itemish.new(item, processor)
+    itemish = Munge::Conglomerate::Router::Itemish.new(item, processor)
     assert_equal({ og: :frontmatter }, itemish.frontmatter)
   end
 end

@@ -1,5 +1,5 @@
 module Munge
-  class System
+  class Conglomerate
     def initialize(root_path, config)
       @root_path = root_path
       @config = config

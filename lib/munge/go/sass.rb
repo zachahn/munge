@@ -14,9 +14,9 @@ module Munge
       Sass.load_paths << File.join(*paths)
     end
 
-    # Sets {Munge::System} for use with plugins
+    # Sets {Munge::Conglomerate} for use with plugins
     #
-    # @param system [Munge::System]
+    # @param system [Munge::Conglomerate]
     # @return [void]
     def set_sass_system!(system)
       Sass::Script::Functions.send(:define_method, :system) do

@@ -1,5 +1,5 @@
 module Munge
-  class System
+  class Conglomerate
     class Processor
       def initialize(system)
         @system = system
