@@ -103,7 +103,6 @@ class HelperRenderingTest < TestCase
     item.content = content
     item.frontmatter = {}
     item.relpath = path
-    item.extensions = path.split(".")[1..-1]
     item.transforms = %i[use_extensions]
     item.class = Munge::Item
     item

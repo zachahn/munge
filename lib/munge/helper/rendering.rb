@@ -1,16 +1,15 @@
 module Munge
   module Helper
     module Rendering
-      def render(item, engines: nil, data: {}, content_override: nil)
-        renderers = system.processor.engines_for(item, engines)
+      def render(item, engines: :use_extensions, data: {}, content_override: nil)
         mdata = merged_data(item.frontmatter, data, self_item: item)
 
         renderer =
-          system.processor.fixer_upper.renderer(
+          system.processor.private_renderer(
             filename: item.relpath,
             content: content_override || item.content,
             view_scope: current_view_scope,
-            engines: renderers
+            engines: [engines].flatten.compact
           )
 
         renderer.call
@@ -18,32 +17,21 @@ module Munge
 
       def layout(item_or_string, data: {}, &block)
         layout_item = resolve_layout(item_or_string)
-        renderers = system.processor.engines_for(layout_item)
-        mdata = merged_data(layout_item.frontmatter, data, self_layout: layout_item)
-        layout_path = "(layout) #{layout_item.relpath}"
-
-        render_string(layout_item.content, data: mdata, engines: renderers, template_name: layout_path, &block)
-      end
-
-      def render_string(content, data: {}, engines: [], template_name: nil, &block)
-        inner =
-          if block_given?
-            capture(&block)
-          end
 
         inner_as_block =
           if block_given?
+            inner = capture(&block)
             -> { inner }
           else
             nil
           end
 
         renderer =
-          system.processor.fixer_upper.renderer(
-            filename: template_name,
-            content: content,
+          system.processor.private_renderer(
+            filename: "(layout) #{layout_item.relpath}",
+            content: layout_item.content,
             view_scope: current_view_scope,
-            engines: engines,
+            engines: %i[use_extensions],
             block: inner_as_block
           )
 

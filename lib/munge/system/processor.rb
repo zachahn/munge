@@ -49,7 +49,7 @@ module Munge
       def transform_item(item, view_scope)
         renderer =
           @fixer_upper.renderer(
-            filename: item.filename,
+            filename: item.relpath,
             content: item.content,
             view_scope: view_scope,
             engines: engines_for(item)
@@ -61,7 +61,7 @@ module Munge
       def transform_layout(layout_item, view_scope, &block)
         renderer =
           @fixer_upper.renderer(
-            filename: "(layout) #{layout_item.filename}",
+            filename: "(layout) #{layout_item.relpath}",
             content: layout_item.content,
             view_scope: view_scope,
             engines: engines_for(layout_item),
@@ -73,7 +73,15 @@ module Munge
 
       # everything below should be considered private API
 
-      attr_reader :fixer_upper
+      def private_renderer(filename:, content:, view_scope:, engines:, block: nil)
+        @fixer_upper.renderer(
+          filename: filename,
+          content: content,
+          view_scope: view_scope,
+          engines: resolved_engines(engines, resolve_extensions(filename)),
+          block: block
+        )
+      end
 
       def new_view_scope
         scope =
@@ -110,6 +118,11 @@ module Munge
             engine
           end
         end
+      end
+
+      def resolve_extensions(filename)
+        basename = File.basename(filename)
+        basename.split(".")[1..-1]
       end
     end
   end
