@@ -53,10 +53,13 @@ module Munge
     end
 
     def global_data
-      return @global_data if @global_data
+      if @global_data.nil?
+        data_path = File.expand_path(@config[:data_path], @root_path)
+        loaded_file = YAML.load_file(data_path) || {}
+        @global_data = Munge::Util::SymbolHash.deep_convert(loaded_file)
+      end
 
-      data_path = File.expand_path(@config[:data_path], @root_path)
-      @global_data = YAML.load_file(data_path) || {}
+      @global_data
     end
 
     attr_reader :config
