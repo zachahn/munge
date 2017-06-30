@@ -49,12 +49,12 @@ class GoSassAssetUrlsTest < TestCase
   private
 
   def render(text)
-    system =
+    conglomerate =
       QuickDummy.new(
         items: -> { { "/fonts/cool.eot" => "woah.eot", "/images/cool.jpg" => "wow.jpg" } },
         router: -> { QuickDummy.new(route: -> (path) { "routed/path/#{path}" }) }
       )
-    Munge::Go.set_sass_system!(system)
+    Munge::Go.set_sass_conglomerate!(conglomerate)
 
     Sass::Script::Functions.send(:define_method, :fonts_root) { "/fonts" }
     Sass::Script::Functions.send(:define_method, :images_root) { "/images" }

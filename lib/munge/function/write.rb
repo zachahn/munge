@@ -1,10 +1,10 @@
 module Munge
   module Function
     class Write
-      def initialize(system:, reporter:, manager:, destination:)
-        @items = system.items
-        @router = system.router
-        @processor = system.processor
+      def initialize(conglomerate:, reporter:, manager:, destination:)
+        @items = conglomerate.items
+        @router = conglomerate.router
+        @processor = conglomerate.processor
         @reporter = reporter
         @manager = manager
         @vfs = destination

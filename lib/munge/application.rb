@@ -2,13 +2,13 @@ module Munge
   # This class is one of the main interfaces users would interact with. This
   # provides methods to create and iterate through items.
   class Application
-    def initialize(system)
-      @system = system
+    def initialize(conglomerate)
+      @conglomerate = conglomerate
     end
 
     # @return [Array<Item>]
     def items
-      @system.items
+      @conglomerate.items
     end
 
     # @return [Array<Item>]
@@ -25,7 +25,7 @@ module Munge
     #
     # @return [Item]
     def build_virtual_item(relpath, content, **frontmatter)
-      @system.item_factory.build(relpath: relpath, content: content, frontmatter: frontmatter)
+      @conglomerate.item_factory.build(relpath: relpath, content: content, frontmatter: frontmatter)
     end
 
     # Creates an Item and inserts it into the registry of Items.
@@ -37,7 +37,7 @@ module Munge
     # @return [Array<Item>]
     def create(*args)
       item = build_virtual_item(*args)
-      @system.items.push(item)
+      @conglomerate.items.push(item)
       [item]
     end
 
@@ -45,7 +45,7 @@ module Munge
     #
     # @private
     def vomit(component_name)
-      @system.public_send(component_name)
+      @conglomerate.public_send(component_name)
     end
   end
 end

@@ -68,4 +68,4 @@ html_pages =
     .select { |item| item.extensions.include?("html") }
     .sort_by(&:route)
 
-system.global_data[:sitemap_pages] = html_pages
+conglomerate.global_data[:sitemap_pages] = html_pages

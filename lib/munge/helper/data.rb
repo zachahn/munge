@@ -3,7 +3,7 @@ module Munge
     module Data
       def globals
         @data_helper_globals ||=
-          Munge::Util::SymbolHash.deep_convert(system.global_data)
+          Munge::Util::SymbolHash.deep_convert(conglomerate.global_data)
       end
     end
   end

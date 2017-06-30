@@ -1,8 +1,8 @@
 module Munge
   class Conglomerate
     class Processor
-      def initialize(system)
-        @system = system
+      def initialize(conglomerate)
+        @conglomerate = conglomerate
 
         @fixer_upper = FixerUpper.new
         @scope_modules = [
@@ -36,10 +36,10 @@ module Munge
       def transform(item)
         view_scope = new_view_scope
         view_scope.extend(Munge::Helper::DefineModule.new(:instance, item.frontmatter))
-        view_scope.extend(Munge::Helper::DefineModule.new(:system, @system))
+        view_scope.extend(Munge::Helper::DefineModule.new(:conglomerate, @conglomerate))
 
         if item.layout
-          layout_item = @system.layouts[item.layout]
+          layout_item = @conglomerate.layouts[item.layout]
 
           transform_layout(layout_item, view_scope) do
             transform_item(item, view_scope)

@@ -5,7 +5,7 @@ module Munge
         mdata = merged_data(item.frontmatter, data, self_item: item)
 
         renderer =
-          system.processor.private_renderer(
+          conglomerate.processor.private_renderer(
             filename: item.relpath,
             content: content_override || item.content,
             view_scope: current_view_scope,
@@ -27,7 +27,7 @@ module Munge
           end
 
         renderer =
-          system.processor.private_renderer(
+          conglomerate.processor.private_renderer(
             filename: "(layout) #{layout_item.relpath}",
             content: layout_item.content,
             view_scope: current_view_scope,
@@ -48,7 +48,7 @@ module Munge
 
       def merged_data(*data)
         hash_with_string_and_symbol_keys =
-          data.reduce(system.global_data) do |merged, datum|
+          data.reduce(conglomerate.global_data) do |merged, datum|
             merged.merge(datum)
           end
 
@@ -57,7 +57,7 @@ module Munge
 
       def resolve_layout(item_or_string)
         if item_or_string.is_a?(String)
-          system.layouts[item_or_string]
+          conglomerate.layouts[item_or_string]
         else
           item_or_string
         end

@@ -38,13 +38,13 @@ class FunctionWriteTest < TestCase
   private
 
   def new_runner(vfs = Munge::Vfs::DryRun.new(Munge::Vfs::Filesystem.new("anything")), items = [new_item])
-    system = OpenStruct.new
-    system.items = items
-    system.router = dummy_router
-    system.processor = dummy_processor
+    conglomerate = OpenStruct.new
+    conglomerate.items = items
+    conglomerate.router = dummy_router
+    conglomerate.processor = dummy_processor
 
     Munge::Function::Write.new(
-      system: system,
+      conglomerate: conglomerate,
       reporter: Munge::Reporter.new(formatter: new_formatter, verbosity: :all),
       manager: Munge::WriteManager::OnlyNeeded.new(vfs),
       destination: vfs

@@ -19,13 +19,13 @@ class HelperFindTest < TestCase
     items = { id: "an item" }
     layouts = { id: "a layout" }
 
-    system = Object.new
-    system.define_singleton_method(:items) { items }
-    system.define_singleton_method(:layouts) { layouts }
+    conglomerate = Object.new
+    conglomerate.define_singleton_method(:items) { items }
+    conglomerate.define_singleton_method(:layouts) { layouts }
 
     renderer = Object.new
     renderer.extend(Munge::Helper::Find)
-    renderer.extend(Munge::Helper::DefineModule.new(:system, system))
+    renderer.extend(Munge::Helper::DefineModule.new(:conglomerate, conglomerate))
 
     renderer
   end

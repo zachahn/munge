@@ -28,13 +28,13 @@ class ConglomerateProcessorTest < TestCase
     layout = new_item(:erb)
     layout.content = "<%= yield %>!"
 
-    system = OpenStruct.new
-    system.layouts = { "foo.erb" => layout }
+    conglomerate = OpenStruct.new
+    conglomerate.layouts = { "foo.erb" => layout }
 
-    processor = Munge::Conglomerate::Processor.new(system)
+    processor = Munge::Conglomerate::Processor.new(conglomerate)
     processor.register(:erb, to: Tilt::ERBTemplate)
     processor.register(:double, to: DoublerTransformer)
-    processor.include(Munge::Helper::DefineModule.new(:system, system))
+    processor.include(Munge::Helper::DefineModule.new(:conglomerate, conglomerate))
 
     item = new_item(:erb)
     item.layout = "foo.erb"

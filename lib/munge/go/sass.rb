@@ -16,11 +16,11 @@ module Munge
 
     # Sets {Munge::Conglomerate} for use with plugins
     #
-    # @param system [Munge::Conglomerate]
+    # @param conglomerate [Munge::Conglomerate]
     # @return [void]
-    def set_sass_system!(system)
-      Sass::Script::Functions.send(:define_method, :system) do
-        system
+    def set_sass_conglomerate!(conglomerate)
+      Sass::Script::Functions.send(:define_method, :conglomerate) do
+        conglomerate
       end
     end
 

@@ -12,17 +12,17 @@ module Munge
       Dir.chdir(@root_path) do
         config_load
 
-        system = Munge::Conglomerate.new(@root_path.to_s, @config)
-        application = Munge::Application.new(system)
+        conglomerate = Munge::Conglomerate.new(@root_path.to_s, @config)
+        application = Munge::Application.new(conglomerate)
 
-        thread_variable_set_helper(@boot_config["system_key"], system) do
+        thread_variable_set_helper(@boot_config["conglomerate_key"], conglomerate) do
           thread_variable_set_helper(@boot_config["application_key"], application) do
             thread_variable_set_helper(@boot_config["config_key"], @config) do
               thread_variable_set_helper(@boot_config["root_path_key"], @root_path) do
                 load_from_boot_config_key("boot_path")
                 load_from_boot_config_key("rules_path")
 
-                yield application, system
+                yield application, conglomerate
               end
             end
           end

@@ -1,4 +1,4 @@
-system.processor.include(AssetRoots)
+conglomerate.processor.include(AssetRoots)
 
-system.processor.register("erb", to: Tilt::ERBTemplate)
-system.processor.register("scss", to: Tilt::ScssTemplate)
+conglomerate.processor.register("erb", to: Tilt::ERBTemplate)
+conglomerate.processor.register("scss", to: Tilt::ScssTemplate)

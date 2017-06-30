@@ -2,11 +2,11 @@ module Munge
   module Helper
     module Find
       def items
-        system.items
+        conglomerate.items
       end
 
       def layouts
-        system.layouts
+        conglomerate.layouts
       end
     end
   end

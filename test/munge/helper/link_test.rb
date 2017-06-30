@@ -49,14 +49,14 @@ class HelperLinkTest < TestCase
       end
     end
 
-    system = Object.new
-    system.define_singleton_method(:router) { dummy_router }
-    system.define_singleton_method(:items) { Hash.new { |_hash, key| key } }
+    conglomerate = Object.new
+    conglomerate.define_singleton_method(:router) { dummy_router }
+    conglomerate.define_singleton_method(:items) { Hash.new { |_hash, key| key } }
 
     renderer = Object.new
     renderer.extend(Munge::Helper::Link)
     renderer.extend(Munge::Helper::Tag)
-    renderer.extend(Munge::Helper::DefineModule.new(:system, system))
+    renderer.extend(Munge::Helper::DefineModule.new(:conglomerate, conglomerate))
     renderer
   end
 end

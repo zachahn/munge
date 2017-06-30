@@ -2,8 +2,8 @@ def app
   Thread.current.thread_variable_get("app")
 end
 
-def system
-  Thread.current.thread_variable_get("system")
+def conglomerate
+  Thread.current.thread_variable_get("conglomerate")
 end
 
 def config

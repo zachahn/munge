@@ -14,9 +14,9 @@ module Munge
           loader = Munge::Load.new(bootloader.root_path)
 
           @runner =
-            loader.app do |_application, system|
+            loader.app do |_application, conglomerate|
               Munge::Function::Write.new(
-                system: system,
+                conglomerate: conglomerate,
                 reporter: Munge::Reporter.new(formatter: formatter("Silent"), verbosity: :silent),
                 manager: Munge::WriteManager::All.new(memory),
                 destination: memory

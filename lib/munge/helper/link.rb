@@ -4,12 +4,12 @@ module Munge
       def path_to(itemish)
         item =
           if itemish.is_a?(String)
-            system.items[itemish]
+            conglomerate.items[itemish]
           else
             itemish
           end
 
-        system.router.route(item)
+        conglomerate.router.route(item)
       end
 
       def link_to(itemish, text = nil, opts = {})

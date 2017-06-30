@@ -2,61 +2,61 @@ require "test_helper"
 
 class ApplicationTest < TestCase
   test "#items" do
-    system = Minitest::Mock.new
-    system.expect(:items, nil, [])
+    conglomerate = Minitest::Mock.new
+    conglomerate.expect(:items, nil, [])
 
-    application = Munge::Application.new(system)
+    application = Munge::Application.new(conglomerate)
 
     application.items
 
-    system.verify
+    conglomerate.verify
   end
 
   test "#build_virtual_item" do
     expected_args = { relpath: "relpath", content: "new content", frontmatter: { cool: "frontmatter" } }
 
-    system = OpenStruct.new
-    system.item_factory = Minitest::Mock.new
-    system.item_factory.expect(:build, "built item", [expected_args])
+    conglomerate = OpenStruct.new
+    conglomerate.item_factory = Minitest::Mock.new
+    conglomerate.item_factory.expect(:build, "built item", [expected_args])
 
-    application = Munge::Application.new(system)
+    application = Munge::Application.new(conglomerate)
 
     application.build_virtual_item("relpath", "new content", cool: "frontmatter")
 
-    system.item_factory.verify
+    conglomerate.item_factory.verify
   end
 
   test "#create" do
     expected_args = { relpath: "relpath", content: "new content", frontmatter: { cool: "frontmatter" } }
 
-    system = OpenStruct.new
-    system.item_factory = Minitest::Mock.new
-    system.item_factory.expect(:build, "built item", [expected_args])
-    system.items = Minitest::Mock.new
-    system.items.expect(:push, nil, ["built item"])
+    conglomerate = OpenStruct.new
+    conglomerate.item_factory = Minitest::Mock.new
+    conglomerate.item_factory.expect(:build, "built item", [expected_args])
+    conglomerate.items = Minitest::Mock.new
+    conglomerate.items.expect(:push, nil, ["built item"])
 
-    application = Munge::Application.new(system)
+    application = Munge::Application.new(conglomerate)
 
     item = application.create("relpath", "new content", cool: "frontmatter")
 
     assert_equal("built item", item[0])
 
-    system.items.verify
-    system.item_factory.verify
+    conglomerate.items.verify
+    conglomerate.item_factory.verify
   end
 
   test "#create returns Enumerable" do
-    system = OpenStruct.new
-    system.item_factory =
+    conglomerate = OpenStruct.new
+    conglomerate.item_factory =
       QuickDummy.new(
         build: -> (_) { "item" }
       )
-    system.items =
+    conglomerate.items =
       QuickDummy.new(
         push: -> (_) {}
       )
 
-    application = Munge::Application.new(system)
+    application = Munge::Application.new(conglomerate)
 
     enum_item =
       application
@@ -71,8 +71,8 @@ class ApplicationTest < TestCase
     yes_item = OpenStruct.new(route: "yes")
     nil_item = OpenStruct.new(route: nil)
     false_item = OpenStruct.new(route: false)
-    system = OpenStruct.new(items: [yes_item, nil_item, false_item])
-    application = Munge::Application.new(system)
+    conglomerate = OpenStruct.new(items: [yes_item, nil_item, false_item])
+    application = Munge::Application.new(conglomerate)
 
     assert_includes(application.routed.map(&:route), "yes")
     refute_includes(application.routed.map(&:route), nil)
