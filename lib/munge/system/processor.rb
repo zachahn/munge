@@ -1,7 +1,9 @@
 module Munge
   class System
     class Processor
-      def initialize
+      def initialize(system)
+        @system = system
+
         @fixer_upper = FixerUpper.new
         @scope_modules = [
           Munge::Helper::Capture,
@@ -34,9 +36,10 @@ module Munge
       def transform(item)
         view_scope = new_view_scope
         view_scope.extend(Munge::Helper::DefineModule.new(:instance, item.frontmatter))
+        view_scope.extend(Munge::Helper::DefineModule.new(:system, @system))
 
         if item.layout
-          layout_item = view_scope.layouts[item.layout]
+          layout_item = @system.layouts[item.layout]
 
           transform_layout(layout_item, view_scope) do
             transform_item(item, view_scope)

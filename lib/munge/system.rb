@@ -42,7 +42,7 @@ module Munge
     end
 
     def processor
-      @processor ||= Processor.new
+      @processor ||= Processor.new(self)
     end
 
     def router
