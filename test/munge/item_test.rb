@@ -121,13 +121,12 @@ class ItemTest < TestCase
   test "transformations" do
     item = new_item
     item.transform
-    assert_equal([[:tilt, []]], item.transforms)
+    assert_equal(%i[use_extensions], item.transforms)
 
     item = new_item
-    item.transform(:Asdf, "gh", j: "kl")
-    item.transform(:qwer, "ty", "uiop")
-    assert_equal([:Asdf, ["gh", j: "kl"]], item.transforms[0])
-    assert_equal([:qwer, %w(ty uiop)], item.transforms[1])
+    item.transform(:foo)
+    item.transform(:bar)
+    assert_equal(%i[foo bar], item.transforms)
   end
 
   test "#layout=" do

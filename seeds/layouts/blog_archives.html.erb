@@ -1,6 +1,6 @@
 <% layout("blog.html") do %>
   <ul>
-    <% posts.each do |post| %>
+    <% instance[:posts].each do |post| %>
       <li><a href="<%= path_to(post) %>"><%= post.basename %></a></li>
     <% end %>
   </ul>

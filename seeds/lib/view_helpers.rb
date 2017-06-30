@@ -1,3 +1,4 @@
+system.processor.include(Munge::Helper::DefineModule.new(:system, system))
 system.processor.include(Munge::Helper::Capture)
 system.processor.include(Munge::Helper::Find)
 system.processor.include(Munge::Helper::Link)
@@ -6,6 +7,8 @@ system.processor.include(Munge::Helper::Tag)
 system.processor.include(Munge::Helper::AssetPaths)
 system.processor.include(Munge::Helper::AssetTags)
 system.processor.include(Munge::Helper::Livereload)
+system.processor.include(Munge::Helper::Data)
 system.processor.include(AssetRoots)
 
 system.processor.register("erb", to: Tilt::ERBTemplate)
+system.processor.register("scss", to: Tilt::ScssTemplate)

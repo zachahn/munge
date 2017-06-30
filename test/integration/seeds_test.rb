@@ -6,7 +6,7 @@ class IntegrationSeedsTest < TestCase
       FileUtils.copy_entry(seeds_path, tmpdir)
       @path = tmpdir
 
-      @out, @err = capture_io do
+      out, err = capture_io do
         Munge::Cli::Commands::Build.new(
           bootloader,
           reporter: "Default",

@@ -24,6 +24,37 @@ class SystemProcessorTest < TestCase
     assert_equal("Hellohello", output)
   end
 
+  test "#transform renders the layout" do
+    layout = new_item(:erb)
+    layout.content = "<%= yield %>!"
+
+    system = OpenStruct.new
+    system.layouts = { "foo.erb" => layout }
+
+    processor = Munge::System::Processor.new
+    processor.register(:erb, to: Tilt::ERBTemplate)
+    processor.register(:double, to: DoublerTransformer)
+    processor.include(Munge::Helper::Find)
+    processor.include(Munge::Helper::DefineModule.new(:system, system))
+
+    item = new_item(:erb)
+    item.layout = "foo.erb"
+
+    output = processor.transform(item)
+
+    assert_equal("hello!", output)
+  end
+
+  test "#engines_for converts :use_extensions into items extensions" do
+    processor = Munge::System::Processor.new
+
+    item = new_item(:whatsup, :use_extensions, :lol)
+    item.filepath = "test.foo.bar"
+    item.extensions = ["foo", "bar"]
+
+    assert_equal([:whatsup, "bar", "foo", :lol], processor.engines_for(item))
+  end
+
   private
 
   class DoublerTransformer

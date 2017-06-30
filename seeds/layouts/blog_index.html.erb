@@ -1,5 +1,5 @@
 <% layout("blog.html") do %>
-  <% posts.each do |post| %>
+  <% instance[:posts].each do |post| %>
     <%= render(post) %>
     <%= link_to(post, "Permalink") %>
   <% end %>

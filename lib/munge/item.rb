@@ -11,7 +11,7 @@ module Munge
       @relpath = relpath
       @id = id
       @content = content
-      @frontmatter = frontmatter
+      @frontmatter = Munge::Util::SymbolHash.deep_convert(frontmatter)
       @stat = stat
 
       @route = nil
@@ -118,10 +118,9 @@ module Munge
 
     # @param transformer [Symbol] name of transformer to apply onto item when
     #   building
-    # @param *args
     # @return [void]
-    def transform(transformer = :tilt, *args)
-      @transforms.push([transformer, args])
+    def transform(transformer = :use_extensions)
+      @transforms.push(transformer)
     end
 
     # Deep freeze. Freezes all instance variables as well as itself.

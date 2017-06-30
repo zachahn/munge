@@ -81,15 +81,24 @@ class HelperRenderingTest < TestCase
   def new_system
     system = Object.new
     system.define_singleton_method(:global_data) { {} }
+    system.define_singleton_method(:processor) do
+      if @processor.nil?
+        @processor = Munge::System::Processor.new
+        @processor.include(Munge::Helper::Rendering)
+        @processor.include(Munge::Helper::Find)
+        @processor.include(Munge::Helper::Capture)
+        @processor.include(Munge::Helper::DefineModule.new(:system, system))
+        @processor.register("erb", to: Tilt::ERBTemplate)
+      end
+
+      @processor
+    end
+
     system
   end
 
   def new_renderer(system)
-    renderer = tilt_scope_class.new(system, {})
-    renderer.extend(Munge::Helper::Rendering)
-    renderer.extend(Munge::Helper::Find)
-    renderer.extend(Munge::Helper::Capture)
-    renderer
+    system.processor.new_view_scope
   end
 
   def new_item(path, content)
@@ -97,6 +106,8 @@ class HelperRenderingTest < TestCase
     item.content = content
     item.frontmatter = {}
     item.relpath = path
+    item.extensions = path.split(".")[1..-1]
+    item.transforms = %i[use_extensions]
     item.class = Munge::Item
     item
   end

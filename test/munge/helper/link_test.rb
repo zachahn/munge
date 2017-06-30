@@ -53,9 +53,10 @@ class HelperLinkTest < TestCase
     system.define_singleton_method(:router) { dummy_router }
     system.define_singleton_method(:items) { Hash.new { |_hash, key| key } }
 
-    renderer = tilt_scope_class.new(system, {})
+    renderer = Object.new
     renderer.extend(Munge::Helper::Link)
     renderer.extend(Munge::Helper::Tag)
+    renderer.extend(Munge::Helper::DefineModule.new(:system, system))
     renderer
   end
 end

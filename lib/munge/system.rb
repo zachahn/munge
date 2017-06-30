@@ -26,15 +26,19 @@ module Munge
     end
 
     def layouts
-      return @layouts if @layouts
+      if @layouts.nil?
+        layouts_path = File.expand_path(@config[:layouts_path], @root_path)
+        vfs = Vfs::Filesystem.new(layouts_path)
 
-      layouts_path = File.expand_path(@config[:layouts_path], @root_path)
-      vfs = Vfs::Filesystem.new(layouts_path)
+        @layouts =
+          Collection.new(
+            items: Reader.new(vfs, item_factory)
+          )
 
-      @layouts ||=
-        Collection.new(
-          items: Reader.new(vfs, item_factory)
-        )
+        @layouts.each(&:transform)
+      end
+
+      @layouts
     end
 
     def processor

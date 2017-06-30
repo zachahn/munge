@@ -2,17 +2,23 @@ module Munge
   module Helper
     module Rendering
       def render(item, engines: nil, data: {}, content_override: nil)
-        content = content_override || item.content
-        renderers = tilt_renderer_list(item, engines)
+        renderers = system.processor.engines_for(item, engines)
         mdata = merged_data(item.frontmatter, data, self_item: item)
-        item_path = item.relpath
 
-        render_string(content, data: mdata, engines: renderers, template_name: item_path)
+        renderer =
+          system.processor.fixer_upper.renderer(
+            filename: item.relpath,
+            content: content_override || item.content,
+            view_scope: current_view_scope,
+            engines: renderers
+          )
+
+        renderer.call
       end
 
       def layout(item_or_string, data: {}, &block)
         layout_item = resolve_layout(item_or_string)
-        renderers = tilt_renderer_list(layout_item, nil)
+        renderers = system.processor.engines_for(layout_item)
         mdata = merged_data(layout_item.frontmatter, data, self_layout: layout_item)
         layout_path = "(layout) #{layout_item.relpath}"
 
@@ -25,33 +31,29 @@ module Munge
             capture(&block)
           end
 
-        output =
-          engines
-            .reduce(content) do |memoized_content, engine|
-              options = tilt_options[engine]
-              template = engine.new(template_name, options) { memoized_content }
+        inner_as_block =
+          if block_given?
+            -> { inner }
+          else
+            nil
+          end
 
-              template.render(self, data) { inner }
-            end
+        renderer =
+          system.processor.fixer_upper.renderer(
+            filename: template_name,
+            content: content,
+            view_scope: current_view_scope,
+            engines: engines,
+            block: inner_as_block
+          )
+
+        output = renderer.call
 
         if block_given?
           append_to_erbout(block.binding, output)
         end
 
         output
-      end
-
-      def render_with_layout(item, content_engines: nil, data: {}, content_override: nil)
-        inner = render(item, engines: content_engines, data: data, content_override: content_override)
-        mdata = merged_data(item.frontmatter, data, self_item: item)
-
-        if item.layout
-          layout(item.layout, data: mdata) do
-            inner
-          end
-        else
-          inner
-        end
       end
 
       private
@@ -71,29 +73,6 @@ module Munge
         else
           item_or_string
         end
-      end
-
-      def tilt_renderer_list(item, preferred_engine)
-        if preferred_engine
-          tilt_renderers_from_preferred(preferred_engine)
-        else
-          tilt_renderers_from_path(item.relpath)
-        end
-      end
-
-      def tilt_renderers_from_path(path)
-        ::Tilt.templates_for(path)
-      end
-
-      def tilt_renderers_from_preferred(preferred_engines)
-        preferred =
-          if preferred_engines.is_a?(Array)
-            preferred_engines.flatten.join(".")
-          else
-            preferred_engines
-          end
-
-        ::Tilt.templates_for(preferred)
       end
     end
   end

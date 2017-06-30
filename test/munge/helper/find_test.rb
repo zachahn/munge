@@ -23,8 +23,9 @@ class HelperFindTest < TestCase
     system.define_singleton_method(:items) { items }
     system.define_singleton_method(:layouts) { layouts }
 
-    renderer = tilt_scope_class.new(system, {})
+    renderer = Object.new
     renderer.extend(Munge::Helper::Find)
+    renderer.extend(Munge::Helper::DefineModule.new(:system, system))
 
     renderer
   end
