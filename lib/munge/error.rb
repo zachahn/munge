@@ -41,30 +41,6 @@ module Munge
       end
     end
 
-    class DuplicateTransformerError < Base
-      include ErrorWithIdentifier
-
-      def message
-        "already registered transformer `#{@identifier}`"
-      end
-    end
-
-    class TransformerNotFoundError < Base
-      include ErrorWithIdentifier
-
-      def message
-        "transformer `#{@identifier}` is not installed"
-      end
-    end
-
-    class InvalidRouterError < Base
-      include ErrorWithIdentifier
-
-      def message
-        "invalid router with type #{@identifier}"
-      end
-    end
-
     class ConfigRbNotFound < Base
       include ErrorWithIdentifier
 

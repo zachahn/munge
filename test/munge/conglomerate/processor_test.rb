@@ -3,7 +3,7 @@ require "test_helper"
 class ConglomerateProcessorTest < TestCase
   test "transform" do
     processor = Munge::Conglomerate::Processor.new(new_conglomerate)
-    processor.register(:capitalize, to: CapitalizeTransformer)
+    processor.register(:capitalize, to: CapitalizeEngine)
 
     item = new_item(:capitalize)
 
@@ -14,8 +14,8 @@ class ConglomerateProcessorTest < TestCase
 
   test "multiple transforms" do
     processor = Munge::Conglomerate::Processor.new(new_conglomerate)
-    processor.register(:double, to: DoublerTransformer)
-    processor.register(:capitalize, to: CapitalizeTransformer)
+    processor.register(:double, to: EchoEngine)
+    processor.register(:capitalize, to: CapitalizeEngine)
 
     item = new_item(:double, :capitalize)
 
@@ -33,7 +33,7 @@ class ConglomerateProcessorTest < TestCase
 
     processor = Munge::Conglomerate::Processor.new(conglomerate)
     processor.register(:erb, to: Tilt::ERBTemplate)
-    processor.register(:double, to: DoublerTransformer)
+    processor.register(:double, to: EchoEngine)
 
     item = new_item(:erb)
     item.layout = "foo.erb"
@@ -55,7 +55,7 @@ class ConglomerateProcessorTest < TestCase
 
   private
 
-  class DoublerTransformer
+  class EchoEngine
     def initialize(_filename, memo)
       @memo = memo
     end
@@ -65,7 +65,7 @@ class ConglomerateProcessorTest < TestCase
     end
   end
 
-  class CapitalizeTransformer
+  class CapitalizeEngine
     def initialize(_filename, memo)
       @memo = memo
     end

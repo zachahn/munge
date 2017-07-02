@@ -116,11 +116,11 @@ module Munge
       @layout = remove_surrounding_slashes(new_layout)
     end
 
-    # @param transformer [Symbol] name of transformer to apply onto item when
+    # @param engine [Symbol] name of template engine to apply onto item when
     #   building
     # @return [void]
-    def transform(transformer = :use_extensions)
-      @transforms.push(transformer)
+    def transform(engine = :use_extensions)
+      @transforms.push(engine)
     end
 
     # Deep freeze. Freezes all instance variables as well as itself.
