@@ -7,15 +7,12 @@ module Munge
         inner_view_scope.instance_variable_set(:@data_stack, data_stack.dup)
         inner_view_scope.data_stack.push(merged_data)
 
-        renderer =
-          conglomerate.processor.private_renderer(
-            filename: item.relpath,
-            content: content_override || item.content,
-            view_scope: inner_view_scope,
-            engines: [engines].flatten.compact
-          )
-
-        renderer.call
+        conglomerate.processor.private_transform(
+          filename: item.relpath,
+          content: content_override || item.content,
+          view_scope: inner_view_scope,
+          engines: [engines].flatten.compact
+        )
       end
 
       def layout(item_or_string, data: {}, &block)
@@ -34,16 +31,14 @@ module Munge
             nil
           end
 
-        renderer =
-          conglomerate.processor.private_renderer(
+        output =
+          conglomerate.processor.private_transform(
             filename: "(layout) #{layout_item.relpath}",
             content: layout_item.content,
             view_scope: current_view_scope.clone,
             engines: %i[use_extensions],
             block: inner_as_block
           )
-
-        output = renderer.call
 
         if block_given?
           append_to_erbout(block.binding, output)

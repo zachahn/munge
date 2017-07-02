@@ -76,14 +76,17 @@ module Munge
 
       # everything below should be considered private API
 
-      def private_renderer(filename:, content:, view_scope:, engines:, block: nil)
-        @fixer_upper.renderer(
-          filename: filename,
-          content: content,
-          view_scope: view_scope,
-          engines: resolved_engines(engines, resolve_extensions(filename)),
-          block: block
-        )
+      def private_transform(filename:, content:, view_scope:, engines:, block: nil)
+        renderer =
+          @fixer_upper.renderer(
+            filename: filename,
+            content: content,
+            view_scope: view_scope,
+            engines: resolved_engines(engines, resolve_extensions(filename)),
+            block: block
+          )
+
+        renderer.call
       end
 
       def new_view_scope
