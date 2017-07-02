@@ -55,6 +55,26 @@ class HelperRenderingTest < TestCase
     assert_equal(%(<h1><%= "hi" %></h1>), output)
   end
 
+  test "#render works with locals" do
+    conglomerate = new_conglomerate
+    renderer = new_renderer(conglomerate)
+
+    first = new_item("first.erb", %(<%= render(items["second.erb"], data: { number: "dul" }) %> <%= frontmatter[:number] %>))
+    first.frontmatter[:number] = "hana"
+    second = new_item("second.erb", %(<%= render(items["third.erb"], data: { number: "set" }) %> <%= frontmatter[:number] %>))
+    third = new_item("third.erb", %(<%= frontmatter[:number] %>))
+
+    conglomerate.define_singleton_method(:items) do
+      {
+        first.id => first,
+        second.id => second,
+        third.id => third
+      }
+    end
+
+    assert_equal("set dul hana", renderer.render(first))
+  end
+
   test "#layout nested in #render (#render #layout #render)" do
     conglomerate = new_conglomerate
     renderer = new_renderer(conglomerate)
@@ -84,7 +104,6 @@ class HelperRenderingTest < TestCase
     conglomerate.define_singleton_method(:processor) do
       if @processor.nil?
         @processor = Munge::Conglomerate::Processor.new(conglomerate)
-        @processor.include(Munge::Helper::DefineModule.new(:conglomerate, conglomerate))
         @processor.register("erb", to: Tilt::ERBTemplate)
       end
 
@@ -105,6 +124,7 @@ class HelperRenderingTest < TestCase
     item.relpath = path
     item.transforms = %i[use_extensions]
     item.class = Munge::Item
+    item.id = path
     item
   end
 end

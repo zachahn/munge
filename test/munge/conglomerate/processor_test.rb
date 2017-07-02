@@ -2,7 +2,7 @@ require "test_helper"
 
 class ConglomerateProcessorTest < TestCase
   test "transform" do
-    processor = Munge::Conglomerate::Processor.new(Object.new)
+    processor = Munge::Conglomerate::Processor.new(new_conglomerate)
     processor.register(:capitalize, to: CapitalizeTransformer)
 
     item = new_item(:capitalize)
@@ -13,7 +13,7 @@ class ConglomerateProcessorTest < TestCase
   end
 
   test "multiple transforms" do
-    processor = Munge::Conglomerate::Processor.new(Object.new)
+    processor = Munge::Conglomerate::Processor.new(new_conglomerate)
     processor.register(:double, to: DoublerTransformer)
     processor.register(:capitalize, to: CapitalizeTransformer)
 
@@ -34,7 +34,6 @@ class ConglomerateProcessorTest < TestCase
     processor = Munge::Conglomerate::Processor.new(conglomerate)
     processor.register(:erb, to: Tilt::ERBTemplate)
     processor.register(:double, to: DoublerTransformer)
-    processor.include(Munge::Helper::DefineModule.new(:conglomerate, conglomerate))
 
     item = new_item(:erb)
     item.layout = "foo.erb"
@@ -81,5 +80,12 @@ class ConglomerateProcessorTest < TestCase
     item.transforms = transformations.map(&:to_sym)
     item.content = %(hello)
     item
+  end
+
+  def new_conglomerate
+    conglomerate = OpenStruct.new
+    conglomerate.global_data = {}
+
+    conglomerate
   end
 end

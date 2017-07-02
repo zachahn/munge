@@ -35,8 +35,8 @@ module Munge
       # @param item [Item]
       def transform(item)
         view_scope = new_view_scope
-        view_scope.extend(Munge::Helper::DefineModule.new(:instance, item.frontmatter))
-        view_scope.extend(Munge::Helper::DefineModule.new(:conglomerate, @conglomerate))
+
+        view_scope.data_stack.push(item.frontmatter)
 
         if item.layout
           layout_item = @conglomerate.layouts[item.layout]
@@ -93,7 +93,10 @@ module Munge
             scope
           end
 
+        scope.extend(Munge::Helper::DefineModule.new(:conglomerate, @conglomerate))
         scope.extend(Munge::Helper::DefineModule.new(:current_view_scope, scope))
+
+        scope.data_stack.push(@conglomerate.global_data)
 
         scope
       end

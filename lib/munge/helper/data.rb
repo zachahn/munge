@@ -1,9 +1,20 @@
 module Munge
   module Helper
     module Data
+      def data_stack
+        @data_stack ||= []
+      end
+
       def globals
-        @data_helper_globals ||=
-          Munge::Util::SymbolHash.deep_convert(conglomerate.global_data)
+        data_stack[0]
+      end
+
+      def instance
+        data_stack[1]
+      end
+
+      def frontmatter
+        data_stack.last
       end
     end
   end
