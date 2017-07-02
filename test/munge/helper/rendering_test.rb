@@ -9,14 +9,6 @@ class HelperRenderingTest < TestCase
     assert_equal("<h1>hi</h1>", output)
   end
 
-  test "#render with content_override" do
-    renderer = new_renderer(new_conglomerate)
-    item = new_item("text.erb", %(<h1><%= "hi" %></h1>))
-    output = renderer.render(item, content_override: "test")
-
-    assert_equal("test", output)
-  end
-
   test "#render with engine override" do
     renderer = new_renderer(new_conglomerate)
     item = new_item("text.erb", %(<h1><%= "hi" %></h1>))

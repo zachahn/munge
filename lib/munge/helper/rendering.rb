@@ -1,7 +1,7 @@
 module Munge
   module Helper
     module Rendering
-      def render(item, engines: :use_extensions, data: {}, content_override: nil)
+      def render(item, engines: :use_extensions, data: {})
         merged_data = item.frontmatter.merge(data)
         inner_view_scope = current_view_scope.clone
         inner_view_scope.instance_variable_set(:@data_stack, data_stack.dup)
@@ -9,7 +9,7 @@ module Munge
 
         conglomerate.processor.private_transform(
           filename: item.relpath,
-          content: content_override || item.content,
+          content: item.content,
           view_scope: inner_view_scope,
           engines: [engines].flatten.compact
         )
