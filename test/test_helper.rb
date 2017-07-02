@@ -43,6 +43,8 @@ require_relative "interfaces/formatter_interface_test"
 require_relative "interfaces/router_interface_test"
 require_relative "interfaces/transformer_interface_test"
 
+Rainbow.enabled = true
+
 class TestCase < Minitest::Test
   extend Declarative
 
