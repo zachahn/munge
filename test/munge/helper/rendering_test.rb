@@ -114,7 +114,7 @@ class HelperRenderingTest < TestCase
   end
 
   def new_renderer(conglomerate)
-    conglomerate.processor.new_view_scope
+    conglomerate.processor.send(:new_view_scope)
   end
 
   def new_item(path, content)

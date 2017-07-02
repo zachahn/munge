@@ -89,6 +89,19 @@ module Munge
         renderer.call
       end
 
+      def engines_for(item, engine_overrides = [])
+        transforms = resolved_engines(item.transforms, item.extensions)
+        overrides = resolved_engines(engine_overrides, item.extensions)
+
+        if overrides.empty?
+          transforms
+        else
+          overrides
+        end
+      end
+
+      private
+
       def new_view_scope
         scope =
           @scope_modules.reduce(Object.new) do |scope, mod|
@@ -103,19 +116,6 @@ module Munge
 
         scope
       end
-
-      def engines_for(item, engine_overrides = [])
-        transforms = resolved_engines(item.transforms, item.extensions)
-        overrides = resolved_engines(engine_overrides, item.extensions)
-
-        if overrides.empty?
-          transforms
-        else
-          overrides
-        end
-      end
-
-      private
 
       def resolved_engines(engines, extensions)
         safe_engines = [engines].flatten.compact
